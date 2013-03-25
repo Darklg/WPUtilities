@@ -1,5 +1,11 @@
 .htaccess
 wp-config.php
+wp-admin/
+wp-includes/
+wp-content/languages/
+wp-content/themes/twentyten/
+wp-content/themes/twentyeleven/
+wp-content/themes/twentytwelve/
 wp-content/uploads/
 wp-content/blogs.dir/
 wp-content/upgrade/
@@ -12,3 +18,10 @@ wp-content/cache/
 wp-content/backups/
 sitemap.xml
 sitemap.xml.gz
+/*.php
+/index.php
+/license.txt
+/readme.html
+wp-content/index.php
+wp-content/plugins/index.php
+wp-content/themes/index.php

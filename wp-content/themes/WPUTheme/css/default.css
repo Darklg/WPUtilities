@@ -1,0 +1,224 @@
+@charset "UTF-8";
+
+/*
+Name: Default
+URL: http://github.com/Darklg/CSSCommon
+Version: 2.0
+License: MIT
+*/
+
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,
+a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,
+small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,
+form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,
+audio,canvas,datagrid,datalist,details,dialog,figure,footer,header,
+menu,nav,section,video,abbr,eventsource,mark,meter,time,progress,output,bb {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font: inherit;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent no-repeat top left;
+}
+article,aside,audio,canvas,datagrid,datalist,details,dialog,figure,
+figcaption,footer,header,hgroup,menu,nav,section,video {display:block;}
+abbr,eventsource,mark,meter,time,progress,output,bb {display:inline;}
+ol,ul{list-style:none}
+blockquote,q{quotes:none}
+blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}
+a,ins{text-decoration:none}
+del{text-decoration:line-through}
+strong{font-weight:bold}
+em{font-style:italic}
+/* tables still need 'cellspacing="0"' in the markup */
+table{border-collapse:collapse;border-spacing:0;width:100%}
+nav ul {list-style:none}
+input,select {vertical-align:middle}
+input[type="radio"] {vertical-align: text-bottom}
+input[type="checkbox"] {vertical-align: bottom}
+input[type="radio"],input[type="checkbox"] {margin:0}
+.lt_ie8 input[type="checkbox"] {vertical-align:baseline}
+.lt_ie7 input {vertical-align:text-bottom}
+input:focus {outline:0}
+input:-webkit-autofill {background-color:#ccc!important}
+video,img,object {max-width:100%;height:auto}
+iframe{border:0}
+/* Bug with Firefox and buttons */
+button::-moz-focus-inner {border:0;padding:0;margin:0}
+
+
+/* ----------------------------------------------------------
+   Règlages de base
+   ------------------------------------------------------- */
+
+html {
+    height: 100%;
+}
+
+body {
+    position: relative;
+    min-height: 100%;
+}
+
+.lt_ie7 body {
+    height: 100%;
+}
+
+/* Prevents sub and sup affecting line-height in all browsers | gist.github.com/413930 */
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline;}
+sup{top:-0.5em;}
+sub{bottom:-0.25em;}
+
+/* bicubic resizing for non-native sized IMG | code.flickr.com/blog/2008/11/12/on-ui-quality-the-little-things-client-side-image-resizing/ */
+.lt_ie8 img { -ms-interpolation-mode: bicubic; }
+/* Aligne les images inline sur le texte */
+img,input[type=image]{vertical-align:bottom;}
+/* Curseur adéquat pour les boutons */
+input[type="submit"],input[type="image"],button{cursor:pointer;}
+
+/* ----------------------------------------------------------
+   Typo
+   ------------------------------------------------------- */
+
+body {
+    font: 62.5%/1 sans-serif;
+    color: #212121;
+}
+
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4,
+h5, .h5 {
+    font-weight: bold;
+    display: block;
+}
+
+h1, .h1 {
+    font-size: 25px;
+    line-height: 40px;
+}
+
+h2, .h2 {
+    margin: 10px 0 5px 0;
+    font-size: 20px;
+    line-height: 30px;
+}
+
+h3, .h3 {
+    margin: 5px 0;
+    font-size: 15px;
+    line-height: 20px;
+}
+
+h4, .h4 {
+    margin: 5px 0;
+    font-size: 13px;
+    line-height: 18px;
+}
+
+h1:first-child, .h1:first-child,
+h2:first-child, .h2:first-child,
+h3:first-child, .h3:first-child,
+h4:first-child, .h4:first-child,
+h5:first-child, .h5:first-child {
+    margin-top: 0;
+}
+
+p,
+li {
+    font-size: 12px;
+    line-height: 16px;
+}
+
+/* ----------------------------------------------------------
+   Structure
+   ------------------------------------------------------- */
+
+.le-content ul,
+p {
+    margin-bottom: 12px;
+}
+
+.le-content ul ul {
+    margin-bottom: 0;
+    padding-left: 12px;
+}
+
+.le-content ul:last-child,
+p:last-child {
+    margin-bottom: 0;
+}
+
+.le-content li {
+    list-style: inside disc;
+}
+
+table {
+    width: 100%;
+}
+
+/* ----------------------------------------------------------
+   Liens
+   ------------------------------------------------------- */
+
+a {
+    color: #69C;
+}
+
+a:hover {
+    color: #C96;
+}
+
+.aimginv {
+    opacity: 0.70;
+    filter: alpha(opacity=70);
+}
+
+/* L'opacité à .99 permet d'éviter un effet disgracieux sur chrome */
+.aimginv:hover,
+.aimg {
+    opacity: 0.99;
+    filter: alpha(opacity=99);
+}
+
+.aimg:hover,
+a:hover img {
+    opacity: 0.80;
+    filter: alpha(opacity=80);
+}
+
+/* ----------------------------------------------------------
+   Transitions
+   ------------------------------------------------------- */
+
+.trans-col,
+a {
+    -webkit-transition: color 0.3s ease;
+    -moz-transition: color 0.3s ease;
+    -ms-transition: color 0.3s ease;
+    -o-transition: color 0.3s ease;
+    transition: color 0.3s ease;
+}
+
+.aimg,
+.aimginv,
+.trans-opa,
+a img {
+    -webkit-transition: opacity 0.3s ease;
+    -moz-transition: opacity 0.3s ease;
+    -ms-transition: opacity 0.3s ease;
+    -o-transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease;
+}
+
+.cssc-button,
+.trans-all {
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}

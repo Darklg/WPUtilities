@@ -7,7 +7,7 @@ if ( !is_admin() ) {
 function wputh_add_stylesheets() {
     // Base values
     $css_dir = TEMPLATEPATH . '/css/';
-    $css_url = get_template_directory_uri() . '/css/';
+    $css_url = THEME_URL . '/css/';
     // Retrieving CSS files
     $css_files = glob( $css_dir . '*.css' );
     // Ordering by name

@@ -1,5 +1,10 @@
 <?php
 
+/* Configuration
+   ----------------------- */
+
+include TEMPLATEPATH . '/inc/configuration/post-types.php';
+
 /* Medias
    ----------------------- */
 

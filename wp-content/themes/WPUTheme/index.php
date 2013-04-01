@@ -1,6 +1,7 @@
 <?php
 get_header();
 
+echo '<div class="main">';
 if ( have_posts() ) {
     while ( have_posts() ) {
         the_post();
@@ -8,5 +9,6 @@ if ( have_posts() ) {
     }
 }
 wp_reset_query();
+echo '</div>';
 
 get_footer();

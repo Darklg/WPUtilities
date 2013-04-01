@@ -6,7 +6,7 @@
     <?php wp_head(); ?>
 </head>
 <body>
-<header>
+<header class="main-header">
     <?php include TEMPLATEPATH . '/tpl/header/title.php'; ?>
     <?php include TEMPLATEPATH . '/tpl/header/searchform.php'; ?>
 </header>

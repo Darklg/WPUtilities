@@ -1,0 +1,28 @@
+@charset "UTF-8";
+
+/*
+Name: Base
+URL: http://github.com/Darklg/CSSCommon
+Version: 1.2.3
+License: MIT
+*/
+
+/* ----------------------------------------------------------
+   Layout
+   ------------------------------------------------------- */
+
+.main-header,
+.main {
+    width: auto;
+    margin: 0 auto;
+    max-width: 940px;
+    text-align: left;
+}
+
+/* ----------------------------------------------------------
+   Header
+   ------------------------------------------------------- */
+
+.main-header {
+    margin-bottom: 20px;
+}

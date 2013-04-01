@@ -3,6 +3,7 @@
 /* Configuration
    ----------------------- */
 
+include TEMPLATEPATH . '/inc/configuration/taxonomies.php';
 include TEMPLATEPATH . '/inc/configuration/post-types.php';
 
 /* Medias

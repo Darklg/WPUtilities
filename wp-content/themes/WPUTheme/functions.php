@@ -11,6 +11,11 @@ include TEMPLATEPATH . '/inc/configuration/post-types.php';
 
 include TEMPLATEPATH . '/inc/medias/styles.php';
 
+/* Theme
+   ----------------------- */
+
+include TEMPLATEPATH . '/inc/theme/support.php';
+
 /* Parameters
    ----------------------- */
 

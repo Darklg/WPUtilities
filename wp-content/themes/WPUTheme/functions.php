@@ -3,7 +3,7 @@
 /* Medias
    ----------------------- */
 
-include TEMPLATEPATH . '/inc/params/styles.php';
+include TEMPLATEPATH . '/inc/medias/styles.php';
 
 /* Parameters
    ----------------------- */

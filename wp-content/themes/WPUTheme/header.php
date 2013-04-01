@@ -7,5 +7,6 @@
 </head>
 <body>
 <header>
-    <h1><a href="<?php echo site_url(); ?>"><?php bloginfo('name'); ?></a></h1>
+    <?php include TEMPLATEPATH . '/tpl/header/title.php'; ?>
+    <?php include TEMPLATEPATH . '/tpl/header/searchform.php'; ?>
 </header>

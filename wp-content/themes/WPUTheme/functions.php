@@ -10,6 +10,7 @@ define( "THEME_URL", get_template_directory_uri() );
 
 include TEMPLATEPATH . '/inc/configuration/taxonomies.php';
 include TEMPLATEPATH . '/inc/configuration/post-types.php';
+include TEMPLATEPATH . '/inc/configuration/sidebars.php';
 
 /* Medias
    ----------------------- */

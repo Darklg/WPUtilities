@@ -14,5 +14,5 @@ else {
 }
 wp_reset_query();
 echo '</div>';
-
+get_sidebar();
 get_footer();

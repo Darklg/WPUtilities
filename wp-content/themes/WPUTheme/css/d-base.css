@@ -11,9 +11,10 @@ License: MIT
    Layout
    ------------------------------------------------------- */
 
-.main-footer,
 .main-header,
-.main {
+.main,
+.main-sidebar,
+.main-footer {
     width: auto;
     margin: 0 auto 20px;
     padding: 0 10px;

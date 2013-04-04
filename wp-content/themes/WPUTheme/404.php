@@ -8,4 +8,5 @@ get_header();
 </article>
 </div>
 <?php
+get_sidebar();
 get_footer();

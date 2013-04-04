@@ -83,8 +83,8 @@ input[type="submit"],input[type="image"],button{cursor:pointer;}
    ------------------------------------------------------- */
 
 body {
-    font: 62.5%/1 sans-serif;
-    color: #212121;
+    font: 12px/1.5 sans-serif;
+    color: #333;
 }
 
 h1, .h1,

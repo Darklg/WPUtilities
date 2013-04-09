@@ -1,3 +1,3 @@
-<?php if(!defined('TEMPLATEPATH')){
-    exit('Error');
+<?php if ( !defined( 'TEMPLATEPATH' ) ) {
+    exit( 'Error' );
 }

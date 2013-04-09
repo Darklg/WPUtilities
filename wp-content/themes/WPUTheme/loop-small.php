@@ -1,5 +1,5 @@
 <?php
-include dirname(__FILE__).'/z-protect.php';
+include dirname( __FILE__ ) . '/z-protect.php';
 ?><article class="loop-small">
     <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
     <aside class="lpsm-metas">

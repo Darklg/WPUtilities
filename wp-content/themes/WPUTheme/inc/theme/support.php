@@ -1,5 +1,5 @@
 <?php
-include dirname(__FILE__).'/../../z-protect.php';
+include dirname( __FILE__ ) . '/../../z-protect.php';
 
 // Supporting thumbnails
 add_theme_support( 'post-thumbnails' );

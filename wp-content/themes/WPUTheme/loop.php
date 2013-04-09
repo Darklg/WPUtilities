@@ -1,5 +1,5 @@
 <?php
-include dirname(__FILE__).'/z-protect.php';
+include dirname( __FILE__ ) . '/z-protect.php';
 ?><article class="loop">
     <h2><?php the_title(); ?></h2>
     <aside class="lp-metas">

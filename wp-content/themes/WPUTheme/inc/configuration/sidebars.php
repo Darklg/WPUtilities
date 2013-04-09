@@ -1,4 +1,5 @@
 <?php
+include dirname(__FILE__).'/../../z-protect.php';
 register_sidebar( array(
         'name' => __( 'Default Sidebar' ),
         'id' => 'wputh-sidebar',

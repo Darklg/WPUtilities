@@ -1,4 +1,5 @@
 <?php
+include dirname(__FILE__).'/../../z-protect.php';
 
 add_action( 'init', 'wputh_add_post_types' );
 

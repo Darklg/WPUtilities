@@ -1,4 +1,5 @@
 <?php
+include dirname(__FILE__).'/../../z-protect.php';
 
 if ( !is_admin() ) {
     add_action( 'wp_enqueue_scripts', 'wputh_add_stylesheets' );

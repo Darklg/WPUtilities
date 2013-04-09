@@ -6,7 +6,7 @@ add_action( 'init', 'wputh_add_post_types' );
 function wputh_add_post_types() {
     $post_types = array(
         'task' => array(
-            'name' => __('Task')
+            'name' => __('Task', 'wputh')
         )
     );
 

@@ -23,6 +23,14 @@ include TEMPLATEPATH . '/inc/medias/styles.php';
 
 include TEMPLATEPATH . '/inc/theme/support.php';
 
+/* Langs
+   ----------------------- */
+
+add_action( 'after_setup_theme', 'wputh_setup' );
+function wputh_setup() {
+    load_theme_textdomain( 'wputh', get_template_directory() . '/inc/lang' );
+}
+
 /* Parameters
    ----------------------- */
 

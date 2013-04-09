@@ -6,7 +6,7 @@ add_action( 'init', 'wputh_add_taxonomies' );
 function wputh_add_taxonomies() {
     $taxonomies = array(
         'importance' => array(
-            'name' => __( 'Importance' )
+            'name' => __( 'Importance', 'wputh' )
         )
     );
 

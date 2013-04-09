@@ -3,7 +3,7 @@ include dirname( __FILE__ ) . '/z-protect.php';
 get_header();
 
 echo '<div class="main">';
-echo '<h2>'.sprintf( __( 'Search results for “%s”' ), get_search_query() ).'</h2>';
+echo '<h2>'.sprintf( __( 'Search results for “%s”', 'wputh' ), get_search_query() ).'</h2>';
 if ( have_posts() ) {
     while ( have_posts() ) {
         the_post();
@@ -11,7 +11,7 @@ if ( have_posts() ) {
     }
 }
 else {
-    echo '<p>'.__('Sorry, no search results for this query.').'</p>';
+    echo '<p>'.__( 'Sorry, no search results for this query.', 'wputh' ).'</p>';
 }
 wp_reset_query();
 echo '</div>';

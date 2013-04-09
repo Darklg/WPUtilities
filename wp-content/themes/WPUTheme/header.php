@@ -5,7 +5,7 @@
 <!--[if gt IE 9]><html <?php language_attributes(); ?> class="is_ie10"><![endif]-->
 <!--[if !IE]><!--> <html <?php language_attributes(); ?>><!--<![endif]-->
 <head><?php include TEMPLATEPATH . '/tpl/header/head.php'; ?></head>
-<body <body <?php body_class(); ?>>
+<body <?php body_class(); ?>>
 <header class="main-header">
     <?php include TEMPLATEPATH . '/tpl/header/title.php'; ?>
     <?php include TEMPLATEPATH . '/tpl/header/searchform.php'; ?>

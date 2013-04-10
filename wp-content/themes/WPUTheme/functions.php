@@ -17,6 +17,7 @@ include TEMPLATEPATH . '/inc/configuration/sidebars.php';
    ----------------------- */
 
 include TEMPLATEPATH . '/inc/medias/styles.php';
+include TEMPLATEPATH . '/inc/medias/scripts.php';
 
 /* Theme
    ----------------------- */

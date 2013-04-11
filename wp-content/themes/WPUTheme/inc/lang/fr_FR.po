@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2013-04-09 22:52+0100\n"
+"POT-Creation-Date: 2013-04-11 19:11+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Kevin <kevin@rocher.me>\n"
 "Language-Team: \n"
@@ -22,13 +22,29 @@ msgstr "Erreur 404"
 msgid "Sorry, but this page doesn’t exists."
 msgstr "Désolé, mais cette page n'existe pas."
 
-#: ../.././loop-small.php:6 ../.././loop.php:6
+#: ../.././archive.php:5
+msgid "Archive"
+msgstr "Archive"
+
+#: ../.././archive.php:7
+msgid "Tag:"
+msgstr "Tag :"
+
+#: ../.././archive.php:10
+msgid "Category:"
+msgstr "Catégorie :"
+
+#: ../.././loop-small.php:8 ../.././loop.php:8
 msgid "F j, Y"
 msgstr "j F Y"
 
-#: ../.././loop-small.php:8 ../.././loop.php:8
+#: ../.././loop-small.php:10 ../.././loop.php:10
 msgid "By"
 msgstr "Par"
+
+#: ../.././loop.php:14
+msgid "Tags:"
+msgstr "Tags :"
 
 #: ../.././search.php:6
 #, php-format

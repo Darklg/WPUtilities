@@ -4,7 +4,7 @@ get_header();
 the_post();
 ?>
 <div class="main">
-    <?php get_template_part('loop'); ?>
+    <?php get_template_part( 'loop' ); ?>
 </div>
 <?php
 get_sidebar();

@@ -1,7 +1,7 @@
 <?php
 include dirname( __FILE__ ) . '/z-protect.php';
 ?><article class="loop">
-    <h2><?php the_title(); ?></h2>
+    <h1><?php the_title(); ?></h1>
     <aside class="lp-metas">
         <?php the_category( ', ' ); ?>
         •

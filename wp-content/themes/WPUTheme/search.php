@@ -3,7 +3,7 @@ include dirname( __FILE__ ) . '/z-protect.php';
 get_header();
 
 echo '<div class="main">';
-echo '<h2>'.sprintf( __( 'Search results for “%s”', 'wputh' ), get_search_query() ).'</h2>';
+echo '<h1>'.sprintf( __( 'Search results for “%s”', 'wputh' ), get_search_query() ).'</h1>';
 if ( have_posts() ) {
     while ( have_posts() ) {
         the_post();

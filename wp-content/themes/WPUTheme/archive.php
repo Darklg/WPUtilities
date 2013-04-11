@@ -18,6 +18,7 @@ if ( have_posts() ) {
         get_template_part( 'loop', 'small' );
     }
 }
+include TEMPLATEPATH . '/tpl/paginate.php';
 wp_reset_query();
 echo '</div>';
 get_sidebar();

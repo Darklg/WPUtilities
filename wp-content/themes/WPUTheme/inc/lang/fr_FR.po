@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2013-04-12 22:42+0100\n"
+"POT-Creation-Date: 2013-04-12 22:51+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Kevin <kevin@rocher.me>\n"
 "Language-Team: \n"
@@ -38,7 +38,27 @@ msgstr "Catégorie :"
 msgid "Author:"
 msgstr "Auteur :"
 
-#: ../.././loop-small.php:8 ../.././loop.php:8
+#: ../.././archive.php:17
+msgid "Year:"
+msgstr "Année :"
+
+#: ../.././archive.php:17
+msgid "Y"
+msgstr "Y"
+
+#: ../.././archive.php:20
+msgid "Month:"
+msgstr "Mois :"
+
+#: ../.././archive.php:20
+msgid "F Y"
+msgstr "F Y"
+
+#: ../.././archive.php:23
+msgid "Day:"
+msgstr "Jour :"
+
+#: ../.././archive.php:23 ../.././loop-small.php:8 ../.././loop.php:8
 msgid "F j, Y"
 msgstr "j F Y"
 

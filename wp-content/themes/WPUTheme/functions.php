@@ -23,6 +23,7 @@ include TEMPLATEPATH . '/inc/medias/scripts.php';
    ----------------------- */
 
 include TEMPLATEPATH . '/inc/theme/support.php';
+include TEMPLATEPATH . '/inc/theme/utilities.php';
 
 /* Langs
    ----------------------- */

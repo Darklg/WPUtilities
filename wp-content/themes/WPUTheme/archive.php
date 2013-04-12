@@ -4,7 +4,7 @@ get_header();
 
 $shown_title = __( 'Archive', 'wputh' );
 if ( is_tag() ) {
-    $shown_title = __( 'Tag:', 'wputh' ) . ' ' . single_cat_title( "", false );
+    $shown_title = __( 'Tag:', 'wputh' ) . ' ' . single_tag_title( "", false );
 }
 if ( is_category() ) {
     $shown_title = __( 'Category:', 'wputh' ) . ' ' . single_cat_title( "", false );

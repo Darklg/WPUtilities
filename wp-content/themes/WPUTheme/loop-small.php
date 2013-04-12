@@ -7,7 +7,7 @@ include dirname( __FILE__ ) . '/z-protect.php';
         •
         <time class="lpsm-time" datetime="<?php echo get_the_time( DATE_W3C ); ?>"><?php echo get_the_time( __( 'F j, Y', 'wputh' ) ); ?></time>
         •
-        <?php echo __( 'By', 'wputh' ); ?> <?php echo get_the_author_link(); ?>
+        <?php echo __( 'By', 'wputh' ); ?> <?php the_author_posts_link(); ?>
     </aside>
     <?php the_excerpt(); ?>
 </article>

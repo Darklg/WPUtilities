@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2013-04-11 19:11+0100\n"
+"POT-Creation-Date: 2013-04-12 22:42+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Kevin <kevin@rocher.me>\n"
 "Language-Team: \n"
@@ -34,6 +34,10 @@ msgstr "Tag :"
 msgid "Category:"
 msgstr "Catégorie :"
 
+#: ../.././archive.php:14
+msgid "Author:"
+msgstr "Auteur :"
+
 #: ../.././loop-small.php:8 ../.././loop.php:8
 msgid "F j, Y"
 msgstr "j F Y"
@@ -51,10 +55,6 @@ msgstr "Tags :"
 msgid "Search results for “%s”"
 msgstr "Résultats de recherche pour \"%s\""
 
-#: ../.././search.php:14
-msgid "Sorry, no search results for this query."
-msgstr "Désolé, il n'y a aucun résultat pour cette requête."
-
 #: ../.././inc/configuration/post-types.php:9
 msgid "Task"
 msgstr "Tâche"
@@ -70,6 +70,10 @@ msgstr "Sidebar du thème par défaut"
 #: ../.././inc/configuration/taxonomies.php:9
 msgid "Importance"
 msgstr "Importance"
+
+#: ../.././inc/theme/utilities.php:31
+msgid "Sorry, no search results for this query."
+msgstr "Désolé, il n'y a aucun résultat pour cette requête."
 
 #: ../.././tpl/header/searchform.php:5
 msgid "Search for:"

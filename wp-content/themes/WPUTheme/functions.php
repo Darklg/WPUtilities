@@ -13,6 +13,11 @@ include TEMPLATEPATH . '/inc/configuration/taxonomies.php';
 include TEMPLATEPATH . '/inc/configuration/post-types.php';
 include TEMPLATEPATH . '/inc/configuration/sidebars.php';
 
+/* Plugins Configuration
+   ----------------------- */
+
+include TEMPLATEPATH . '/inc/plugins/wpu-options.php';
+
 /* Medias
    ----------------------- */
 

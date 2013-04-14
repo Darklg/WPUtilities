@@ -1,0 +1,36 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2013-04-15 00:17+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Kevin <kevin@rocher.me>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: ../.\n"
+
+#: .././wpuoptions.php:58
+msgid "No fields for the moment"
+msgstr "Aucun champ pour le moment"
+
+#: .././wpuoptions.php:70
+msgid "Error in the form."
+msgstr "Erreur dans le formulaire."
+
+#: .././wpuoptions.php:82
+#, php-format
+msgid "The field \"%s\" has been updated."
+msgstr "Le champ \"%s\" a été mis à jour."
+
+#: .././wpuoptions.php:87
+msgid "Success!"
+msgstr "Succès !"
+
+#: .././wpuoptions.php:98
+msgid "Update"
+msgstr "Mettre à jour"

@@ -15,6 +15,7 @@ class WPUOptions {
 
     function __construct() {
         if ( is_admin() ) {
+            load_plugin_textdomain( 'wpuoptions', false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
             $this->set_options();
             $this->admin_hooks();
         }
@@ -54,7 +55,7 @@ class WPUOptions {
             $content .= $this->admin_form( $fields );
         }
         else {
-            $content .= '<p>' . __( 'No fields for the moment' ) . '</p>';
+            $content .= '<p>' . __( 'No fields for the moment', 'wpuoptions' ) . '</p>';
         }
         $content .= '</div>';
         echo $content;
@@ -66,7 +67,7 @@ class WPUOptions {
             return;
         }
         if ( !wp_verify_nonce( $_POST['wpuoptions-noncefield'], 'wpuoptions-nonceaction' ) ) {
-            $content .= '<p>' . __( "Error in the form." ) . '</p>';
+            $content .= '<p>' . __( "Error in the form.", 'wpuoptions' ) . '</p>';
         }
         else {
             $updated_options = array();
@@ -78,12 +79,12 @@ class WPUOptions {
                     $new_option = stripslashes( $_POST[$idf] );
                     if ( $old_option != $new_option ) {
                         update_option( $id, $new_option );
-                        $updated_options[] = sprintf( __( 'The field "%s" has been updated.' ), $field['label'] );
+                        $updated_options[] = sprintf( __( 'The field "%s" has been updated.', 'wpuoptions' ), $field['label'] );
                     }
                 }
             }
             if ( !empty( $updated_options ) ) {
-                $content .= '<p><strong>' . __( 'Success!' ) . '</strong><br />' . implode( '<br />', $updated_options ) . '</p>';
+                $content .= '<p><strong>' . __( 'Success!', 'wpuoptions' ) . '</strong><br />' . implode( '<br />', $updated_options ) . '</p>';
             }
         }
         return $content;
@@ -94,7 +95,7 @@ class WPUOptions {
         foreach ( $fields as $id => $field ) {
             $content .= $this->admin_field( $id, $field );
         }
-        $content .= '<li><input class="button-primary" name="plugin_ok" value="' . __( 'Update' ) . '" type="submit" /></li></ul>';
+        $content .= '<li><input class="button-primary" name="plugin_ok" value="' . __( 'Update', 'wpuoptions' ) . '" type="submit" /></li></ul>';
         $content .= wp_nonce_field( 'wpuoptions-nonceaction', 'wpuoptions-noncefield', 1, 0 );
         $content .= '</form>';
         return $content;

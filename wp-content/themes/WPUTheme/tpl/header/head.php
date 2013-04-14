@@ -2,6 +2,7 @@
 include dirname( __FILE__ ) . '/../../z-protect.php';
 ?><meta charset="<?php bloginfo( 'charset' ); ?>" />
 <title><?php bloginfo('name'); ?> <?php wp_title(); ?></title>
+<?php include TEMPLATEPATH . '/tpl/header/head/metas.php'; ?>
 <?php wp_head(); ?>
 <meta name="viewport" content="width=device-width" />
 <!--[if lt IE 9]>

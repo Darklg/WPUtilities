@@ -6,12 +6,19 @@ include dirname( __FILE__ ) . '/z-protect.php';
 
 define( "THEME_URL", get_template_directory_uri() );
 
+/* Theme
+   ----------------------- */
+
+include TEMPLATEPATH . '/inc/theme/support.php';
+include TEMPLATEPATH . '/inc/theme/utilities.php';
+
 /* Configuration
    ----------------------- */
 
 include TEMPLATEPATH . '/inc/configuration/taxonomies.php';
 include TEMPLATEPATH . '/inc/configuration/post-types.php';
 include TEMPLATEPATH . '/inc/configuration/sidebars.php';
+include TEMPLATEPATH . '/inc/configuration/thumbnails.php';
 
 /* Plugins Configuration
    ----------------------- */
@@ -23,12 +30,6 @@ include TEMPLATEPATH . '/inc/plugins/wpu-options.php';
 
 include TEMPLATEPATH . '/inc/medias/styles.php';
 include TEMPLATEPATH . '/inc/medias/scripts.php';
-
-/* Theme
-   ----------------------- */
-
-include TEMPLATEPATH . '/inc/theme/support.php';
-include TEMPLATEPATH . '/inc/theme/utilities.php';
 
 /* Langs
    ----------------------- */

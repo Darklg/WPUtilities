@@ -71,20 +71,36 @@ class WPUOptions {
         }
         else {
             $updated_options = array();
+            $errors = array();
             foreach ( $fields as $id => $field ) {
                 $idf = $this->get_field_id( $id );
                 if ( isset( $_POST[$idf] ) ) {
-                    $field = $this->get_correct_field( $id, $field );
+                    $field = $this->get_field_datas( $id, $field );
                     $old_option = get_option( $id );
-                    $new_option = stripslashes( $_POST[$idf] );
-                    if ( $old_option != $new_option ) {
-                        update_option( $id, $new_option );
-                        $updated_options[] = sprintf( __( 'The field "%s" has been updated.', 'wpuoptions' ), $field['label'] );
+                    $new_option = trim( stripslashes( $_POST[$idf] ) );
+
+                    $test_field = $this->test_field_value( $field, $new_option );
+
+                    // Field is required and have been emptied
+                    if ( $new_option == '' && isset( $field['required'] ) ) {
+                        $errors[] = sprintf( __( 'The field "%s" must not be empty', 'wpuoptions' ), $field['label'] );
+                    }
+                    // If test is ok OR the field is not required
+                    elseif ( $test_field || ( $new_option == '' && !isset( $field['required'] ) ) ) {
+                        if ( $old_option != $new_option ) {
+                            update_option( $id, $new_option );
+                            $updated_options[] = sprintf( __( 'The field "%s" has been updated.', 'wpuoptions' ), $field['label'] );
+                        }
+                    } else {
+                        $errors[] = sprintf( __( 'The field "%s" has not been updated, because it’s not valid.', 'wpuoptions' ), $field['label'] );
                     }
                 }
             }
             if ( !empty( $updated_options ) ) {
                 $content .= '<p><strong>' . __( 'Success!', 'wpuoptions' ) . '</strong><br />' . implode( '<br />', $updated_options ) . '</p>';
+            }
+            if ( !empty( $errors ) ) {
+                $content .= '<p><strong>' . __( 'Fail!', 'wpuoptions' ) . '</strong><br />' . implode( '<br />', $errors ) . '</p>';
             }
         }
         return $content;
@@ -103,9 +119,7 @@ class WPUOptions {
 
     private function admin_field( $id, $field = array() ) {
         $idf = $this->get_field_id( $id );
-
-
-        $field = $this->get_correct_field( $id, $field );
+        $field = $this->get_field_datas( $id, $field );
         $content = '<li>';
         $content .= '<label for="' . $idf . '">' . $field['label'] . ' : </label><br />';
         switch ( $field['type'] ) {
@@ -119,11 +133,13 @@ class WPUOptions {
         return $content;
     }
 
-    private function get_correct_field( $id, $field ) {
+    /* Getting all datas for a field, with default values for undefined params  */
+    private function get_field_datas( $id, $field ) {
 
         $default_values = array(
             'label' => $id,
-            'type' => 'text'
+            'type' => 'text',
+            'test' => ''
         );
         foreach ( $default_values as $name => $value ) {
             if ( empty( $field[$name] ) || !isset( $field[$name] ) ) {
@@ -132,6 +148,20 @@ class WPUOptions {
         }
 
         return $field;
+    }
+
+    private function test_field_value( $field, $value ) {
+        $return = true;
+        switch ( $field['test'] ) {
+        case 'email':
+            if ( filter_var( $value, FILTER_VALIDATE_EMAIL ) === false ) {
+                $return = false;
+            }
+            break;
+        default:
+        }
+
+        return $return;
     }
 
     private function get_field_id( $id ) {

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2013-04-15 00:17+0100\n"
+"POT-Creation-Date: 2013-04-23 23:24+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Kevin <kevin@rocher.me>\n"
 "Language-Team: \n"
@@ -22,15 +22,29 @@ msgstr "Aucun champ pour le moment"
 msgid "Error in the form."
 msgstr "Erreur dans le formulaire."
 
-#: .././wpuoptions.php:82
+#: .././wpuoptions.php:86
+#, php-format
+msgid "The field \"%s\" must not be empty"
+msgstr "Le champ \"%s\" ne doit pas être vide."
+
+#: .././wpuoptions.php:92
 #, php-format
 msgid "The field \"%s\" has been updated."
 msgstr "Le champ \"%s\" a été mis à jour."
 
-#: .././wpuoptions.php:87
+#: .././wpuoptions.php:95
+#, php-format
+msgid "The field \"%s\" has not been updated, because it’s not valid."
+msgstr "Le champ \"%s\" n’a pas été mis à jour, car il est invalide."
+
+#: .././wpuoptions.php:100
 msgid "Success!"
 msgstr "Succès !"
 
-#: .././wpuoptions.php:98
+#: .././wpuoptions.php:103
+msgid "Fail!"
+msgstr "Echec !"
+
+#: .././wpuoptions.php:114
 msgid "Update"
 msgstr "Mettre à jour"

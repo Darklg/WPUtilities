@@ -12,6 +12,12 @@ define( "THEME_URL", get_template_directory_uri() );
 include TEMPLATEPATH . '/inc/theme/support.php';
 include TEMPLATEPATH . '/inc/theme/utilities.php';
 
+/* Protection
+   ----------------------- */
+
+include TEMPLATEPATH . '/inc/protection/front.php';
+include TEMPLATEPATH . '/inc/protection/back.php';
+
 /* Configuration
    ----------------------- */
 

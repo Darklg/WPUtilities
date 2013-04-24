@@ -5,7 +5,7 @@
    ------------------------------------------------------- */
 
 function get_the_loop( $params = array() ) {
-    global $post;
+    global $post, $wp_query, $wpdb;
 
     /* Get params */
     $default_params = array(

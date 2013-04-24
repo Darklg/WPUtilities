@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2013-04-12 22:51+0100\n"
+"POT-Creation-Date: 2013-04-24 23:21+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Kevin <kevin@rocher.me>\n"
 "Language-Team: \n"
@@ -70,10 +70,23 @@ msgstr "Par"
 msgid "Tags:"
 msgstr "Tags :"
 
+#: ../.././search.php:4
+msgid "<strong>no</strong> search results"
+msgstr "<strong>aucun</strong> résultat de recherche"
+
 #: ../.././search.php:6
+msgid "<strong>1</strong> search result"
+msgstr "<strong>1</strong> résultat de recherche"
+
+#: ../.././search.php:9
 #, php-format
-msgid "Search results for “%s”"
-msgstr "Résultats de recherche pour \"%s\""
+msgid "<strong>%s</strong> search result"
+msgstr "<strong>%s</strong> résultats de recherche"
+
+#: ../.././search.php:17
+#, php-format
+msgid "%s for “%s”"
+msgstr "%s pour \"%s\""
 
 #: ../.././inc/configuration/post-types.php:9
 msgid "Task"
@@ -91,6 +104,18 @@ msgstr "Sidebar du thème par défaut"
 msgid "Importance"
 msgstr "Importance"
 
+#: ../.././inc/plugins/wpu-options.php:10
+msgid "Phone"
+msgstr "Téléphone"
+
+#: ../.././inc/plugins/wpu-options.php:13
+msgid "Email address"
+msgstr "Adresse email"
+
+#: ../.././inc/plugins/wpu-options.php:17
+msgid "Address"
+msgstr "Adresse"
+
 #: ../.././inc/theme/utilities.php:31
 msgid "Sorry, no search results for this query."
 msgstr "Désolé, il n'y a aucun résultat pour cette requête."
@@ -98,3 +123,6 @@ msgstr "Désolé, il n'y a aucun résultat pour cette requête."
 #: ../.././tpl/header/searchform.php:5
 msgid "Search for:"
 msgstr "Rechercher :"
+
+#~ msgid "1 search result"
+#~ msgstr "1 résultat de recherche"

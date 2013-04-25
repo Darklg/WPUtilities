@@ -13,3 +13,13 @@ function add_copyright_feed( $content ) {
     }
     return $content;
 }
+
+/* ----------------------------------------------------------
+  Prevent bad formed link
+---------------------------------------------------------- */
+
+add_action( 'the_content', 'wputh_bad_formed_links' );
+function wputh_bad_formed_links( $content ) {
+    $content = str_replace( 'href="www.', 'href="http://www.', $content );
+    return $content;
+}

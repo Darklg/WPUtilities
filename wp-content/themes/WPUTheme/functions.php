@@ -16,7 +16,6 @@ include TEMPLATEPATH . '/inc/theme/utilities.php';
    ----------------------- */
 
 include TEMPLATEPATH . '/inc/protection/front.php';
-include TEMPLATEPATH . '/inc/protection/back.php';
 
 /* Configuration
    ----------------------- */

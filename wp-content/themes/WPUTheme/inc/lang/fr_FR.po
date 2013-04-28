@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2013-04-24 23:21+0100\n"
+"POT-Creation-Date: 2013-04-28 12:27+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Kevin <kevin@rocher.me>\n"
 "Language-Team: \n"
@@ -58,9 +58,19 @@ msgstr "F Y"
 msgid "Day:"
 msgstr "Jour :"
 
-#: ../.././archive.php:23 ../.././loop-small.php:8 ../.././loop.php:8
+#: ../.././archive.php:23 ../.././loop-comment.php:6 ../.././loop-small.php:8
+#: ../.././loop.php:8
 msgid "F j, Y"
 msgstr "j F Y"
+
+#: ../.././comments.php:4
+msgid "This post requires a password to read the comments"
+msgstr ""
+"Cet article demande un mot de passe afin de pouvoir lire les commentaires"
+
+#: ../.././comments.php:58
+msgid "Trackbacks"
+msgstr "Trackbacks"
 
 #: ../.././loop-small.php:10 ../.././loop.php:10
 msgid "By"
@@ -83,7 +93,7 @@ msgstr "<strong>1</strong> résultat de recherche"
 msgid "<strong>%s</strong> search result"
 msgstr "<strong>%s</strong> résultats de recherche"
 
-#: ../.././search.php:17
+#: ../.././search.php:15
 #, php-format
 msgid "%s for “%s”"
 msgstr "%s pour \"%s\""
@@ -104,21 +114,38 @@ msgstr "Sidebar du thème par défaut"
 msgid "Importance"
 msgstr "Importance"
 
-#: ../.././inc/plugins/wpu-options.php:10
+#: ../.././inc/plugins/wpu-options.php:11
 msgid "Phone"
 msgstr "Téléphone"
 
-#: ../.././inc/plugins/wpu-options.php:13
+#: ../.././inc/plugins/wpu-options.php:14
 msgid "Email address"
 msgstr "Adresse email"
 
-#: ../.././inc/plugins/wpu-options.php:17
+#: ../.././inc/plugins/wpu-options.php:18
 msgid "Address"
 msgstr "Adresse"
 
 #: ../.././inc/theme/utilities.php:31
 msgid "Sorry, no search results for this query."
 msgstr "Désolé, il n'y a aucun résultat pour cette requête."
+
+#: ../.././inc/theme/utilities.php:48
+msgid "<strong>no</strong> comments"
+msgstr "<strong>aucun</strong> commentaire"
+
+#: ../.././inc/theme/utilities.php:51
+msgid "<strong>1</strong> comment"
+msgstr "<strong>1</strong> commentaire"
+
+#: ../.././inc/theme/utilities.php:54
+#, php-format
+msgid "<strong>%s</strong> comments"
+msgstr "<strong>%s</strong> commentaires"
+
+#: ../.././inc/theme/utilities.php:57
+msgid "Comments are closed"
+msgstr "Les commentaires sont fermés"
 
 #: ../.././tpl/header/searchform.php:5
 msgid "Search for:"

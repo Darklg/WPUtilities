@@ -54,3 +54,11 @@ if ( count( $comments ) > 0 ) {
 /* Comments form */
 
 /* Trackbacks */
+if ( count( $trackbacks ) > 0 ) {
+    echo '<h3>' . __( 'Trackbacks', 'wputh' ) . '</h3>';
+    echo '<ul class="list-trackbacks">';
+    foreach ( $trackbacks as $trackback ) {
+        echo '<li><a href="' . $trackback->comment_author_url . '" target="_blank" rel="external">' . strip_tags( $trackback->comment_content ) . '</a></li>';
+    }
+    echo '</ul>';
+}

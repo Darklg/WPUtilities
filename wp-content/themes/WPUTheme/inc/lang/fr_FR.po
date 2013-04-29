@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2013-04-28 12:27+0100\n"
+"POT-Creation-Date: 2013-04-29 21:05+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Kevin <kevin@rocher.me>\n"
 "Language-Team: \n"
@@ -58,7 +58,7 @@ msgstr "F Y"
 msgid "Day:"
 msgstr "Jour :"
 
-#: ../.././archive.php:23 ../.././loop-comment.php:6 ../.././loop-small.php:8
+#: ../.././archive.php:23 ../.././loop-comment.php:9 ../.././loop-small.php:8
 #: ../.././loop.php:8
 msgid "F j, Y"
 msgstr "j F Y"
@@ -68,7 +68,7 @@ msgid "This post requires a password to read the comments"
 msgstr ""
 "Cet article demande un mot de passe afin de pouvoir lire les commentaires"
 
-#: ../.././comments.php:58
+#: ../.././comments.php:34
 msgid "Trackbacks"
 msgstr "Trackbacks"
 
@@ -146,6 +146,45 @@ msgstr "<strong>%s</strong> commentaires"
 #: ../.././inc/theme/utilities.php:57
 msgid "Comments are closed"
 msgstr "Les commentaires sont fermés"
+
+#: ../.././tpl/comments/form.php:13
+#, php-format
+msgid "You must be <a href=\"%s\">logged in</a> to post a comment"
+msgstr ""
+"Vous devez être <a href=\"%s\">connecté(e)</a> pour ajouter un commentaire"
+
+#: ../.././tpl/comments/form.php:19
+msgid "Leave a reply"
+msgstr "Ajouter un commentaire"
+
+#: ../.././tpl/comments/form.php:24
+#, php-format
+msgid "Logged in as <strong>%s</strong>."
+msgstr "Connecté comme <strong>%s</strong>."
+
+#: ../.././tpl/comments/form.php:25
+msgid "Log out of this account"
+msgstr "Se déconnecter de ce compte"
+
+#: ../.././tpl/comments/form.php:31
+msgid "Your name"
+msgstr "Votre nom"
+
+#: ../.././tpl/comments/form.php:35
+msgid "Your mail"
+msgstr "Votre adresse mail"
+
+#: ../.././tpl/comments/form.php:43
+msgid "Your website"
+msgstr "Votre site"
+
+#: ../.././tpl/comments/form.php:50
+msgid "Your comment"
+msgstr "Votre commentaire"
+
+#: ../.././tpl/comments/form.php:59
+msgid "Submit"
+msgstr "Envoyer"
 
 #: ../.././tpl/header/searchform.php:5
 msgid "Search for:"

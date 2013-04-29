@@ -1,0 +1,360 @@
+@charset "UTF-8";
+
+/*
+Name: Forms
+URL: http://github.com/Darklg/CSSCommon
+Version: 1.6.4
+License: MIT
+*/
+
+.cssc-form {
+    clear: both;
+}
+
+.cssc-form .box {
+    vertical-align: baseline;
+}
+
+.cssc-form:after,
+.form-append:after,
+.cssc-form .box:after {
+    content: " ";
+    display: block;
+    visibility: hidden;
+    clear: both;
+    height: 0;
+}
+
+/* Labels */
+
+.float-form .box {
+    position: relative;
+    padding-left: 130px;
+}
+
+.cssc-form .fake-label,
+.cssc-form label {
+    display: block;
+    padding-top: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 16px;
+    cursor: pointer;
+}
+
+.float-form .box .fake-label,
+.float-form .box label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 120px;
+    padding-right: 10px;
+    text-align: right;
+}
+
+.float-form .box .long-label {
+    top: -4px;
+    padding-top: 0;
+}
+
+.block-form .box .fake-label,
+.block-form .box label {
+    padding-top: 0;
+}
+
+.block-form .radio-box label,
+.block-form .checked-box label,
+.float-form .radio-box label,
+.float-form .checked-box label {
+    display: inline-block;
+    position: static;
+    width: auto;
+    padding: 5px 0 0 0;
+    font-weight: normal;
+    line-height: inherit;
+}
+
+/* Champs */
+
+textarea {
+    max-width: 100%;
+    overflow: auto;
+    resize: vertical;
+}
+
+input[type="submit"],
+input[type="image"],
+button {
+    cursor: pointer;
+}
+
+.cssc-form input[type=radio],
+.cssc-form input[type=checkbox] {
+    width: 12px;
+    height: 12px;
+    margin: 0;
+    vertical-align: middle;
+}
+
+/* Reset des éléments */
+
+.inputreset,
+.inputbase,
+.cssc-form textarea,
+.cssc-form .fake-input,
+.cssc-form input[type=text],
+.cssc-form input[type=url],
+.cssc-form input[type=email],
+.cssc-form input[type=password] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-family: inherit;
+    vertical-align: middle;
+    outline: 0;
+}
+
+.cssc-form .fake-input {
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
+}
+
+.cssc-form .fake-input,
+.cssc-form [disabled] {
+    cursor: not-allowed;
+}
+
+/* Fix pour IE<8 */
+
+.lt_ie8 .inputbase,
+.lt_ie8 .inputreset,
+.lt_ie8 .cssc-form textarea,
+.lt_ie8 .cssc-form .fake-input,
+.lt_ie8 .cssc-form input[type=text],
+.lt_ie8 .cssc-form input[type=email],
+.lt_ie8 .cssc-form input[type=password] {
+    width: 90%;
+}
+
+/* Champs multiples */
+
+.cssc-form .multibox-box input[type=text],
+.cssc-form .multibox-box input[type=url],
+.cssc-form .multibox-box input[type=email],
+.cssc-form .multibox-box input[type=password] {
+    width: 65px;
+}
+
+.cssc-form .multibox-box input.halfling {
+    width: 45px;
+}
+
+/* Aide */
+
+.cssc-form small {
+    display: block;
+    font-size: 11px;
+    line-height: 16px;
+    color: #676767;
+}
+
+/* Deux blocs */
+
+.cssc-form .twoboxes {
+    overflow: hidden;
+}
+
+.cssc-form .twoboxes li.box {
+    float: left;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 50%;
+}
+
+.lt_ie8 .cssc-form .twoboxes li.box {
+    width: 43%;
+}
+
+.cssc-form .twoboxes li.box:first-child {
+    padding-right: 10px;
+}
+
+.cssc-form .twoboxes li.box + li.box {
+    padding-left: 10px;
+}
+
+.float-form .twoboxes li.box + li.box {
+    padding-left: 140px;
+}
+
+/* Style de la démo
+   ----------------------- */
+
+.cssc-form {
+    padding: 10px 0;
+    max-width: 100%;
+}
+
+/* Fieldset */
+
+.cssc-form fieldset {
+    padding: 10px 0;
+    border-top: 1px solid #CCC;
+}
+
+.cssc-form fieldset:last-child {
+    border-bottom: 1px solid #CCC;
+}
+
+.cssc-form legend {
+    padding-right: 5px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Box */
+
+.cssc-form .box {
+    padding-bottom: 10px;
+}
+
+.float-form .box {
+    min-height: 25px;
+}
+
+/* Labels */
+
+.block-form .box .fake-label,
+.block-form .box label {
+    line-height: 25px;
+}
+
+/* Champs */
+
+.inputbase,
+.cssc-form textarea,
+.cssc-form .fake-input,
+.cssc-form input[type=text],
+.cssc-form input[type=url],
+.cssc-form input[type=email],
+.cssc-form input[type=password] {
+    height: 25px;
+    padding: 0 5px;
+    border: 1px solid #999;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    font-size: 12px;
+    color: #333;
+    background: #fafafa;
+    -webkit-background-clip: padding-box;
+    -webkit-box-shadow: inset 1px 1px 1px #ccc;
+    -moz-box-shadow: inset 1px 1px 1px #ccc;
+    box-shadow: inset 1px 1px 1px #ccc;
+}
+
+.cssc-form .fake-input,
+.lt_ie9 .cssc-form input[type=text],
+.lt_ie9 .cssc-form input[type=url],
+.lt_ie9 .cssc-form input[type=email],
+.lt_ie9 .cssc-form input[type=password] {
+    line-height: 25px;
+}
+
+.cssc-form textarea {
+    height: 80px;
+    padding: 5px;
+}
+
+.cssc-form textarea:focus,
+.cssc-form input[type=text]:focus,
+.cssc-form input[type=url]:focus,
+.cssc-form input[type=email]:focus,
+.cssc-form input[type=password]:focus {
+    border-color: #333;
+    color: #000;
+    background-color: #fff;
+    -webkit-box-shadow: inset 1px 1px 1px #dedede,0 0 2px rgba(0,0,0,0.3);
+    -moz-box-shadow: inset 1px 1px 1px #dedede,0 0 2px rgba(0,0,0,0.3);
+    box-shadow: inset 1px 1px 1px #dedede,0 0 2px rgba(0,0,0,0.3);
+}
+
+/* Couleurs de placeholder : ne pas fusionner les sélecteurs ! */
+
+.cssc-form [disabled],
+.cssc-form .fake-input {
+    color: #A0A0A0;
+}
+
+::-webkit-input-placeholder {
+    color: #A0A0A0;
+}
+
+:-moz-placeholder {
+    color: #A0A0A0;
+}
+
+:-ms-input-placeholder {
+    color: #A0A0A0;
+}
+
+/* Validation messages forms */
+
+::-webkit-validation-bubble-message,
+::-webkit-validation-bubble-arrow {
+    border-color: rgba(0,0,0,.2);
+    color: #333;
+    background: rgba(255,255,255,.95);
+    box-shadow: none;
+}
+
+::-webkit-validation-bubble-text-block {
+    font: 13px/1.4 sans-serif;
+}
+
+/* ----------------------------------------------------------
+   Structures particulières
+   ------------------------------------------------------- */
+
+/* Formulaire collé
+   ----------------------- */
+
+.form-append > * {
+    float: left;
+    width: auto;
+}
+
+.lt_ie8 .form-append > * {
+    max-width: 200px;
+}
+
+/* Style de la démo*/
+
+.form-append {
+    min-height: 25px;
+}
+
+.form-append-demo input {
+    -webkit-border-top-right-radius: 0;
+    -webkit-border-bottom-right-radius: 0;
+    -moz-border-radius-topright: 0;
+    -moz-border-radius-bottomright: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.form-append-demo button {
+    border-left: 0;
+    -webkit-border-top-left-radius: 0;
+    -webkit-border-bottom-left-radius: 0;
+    -moz-border-radius-topleft: 0;
+    -moz-border-radius-bottomleft: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}

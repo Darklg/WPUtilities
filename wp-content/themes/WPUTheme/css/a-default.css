@@ -3,9 +3,12 @@
 /*
 Name: Default
 URL: http://github.com/Darklg/CSSCommon
-Version: 2.0
+Version: 2.4.3
 License: MIT
 */
+
+/* Reset
+   ----------------------- */
 
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,
 a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,
@@ -22,35 +25,171 @@ menu,nav,section,video,abbr,eventsource,mark,meter,time,progress,output,bb {
     vertical-align: baseline;
     background: transparent no-repeat top left;
 }
+
+ol,
+ul {
+    list-style: none;
+}
+
+blockquote,
+q {
+    quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+    content: '';
+}
+
+a,
+ins {
+    text-decoration: none;
+}
+
+/* Normalize
+   ----------------------- */
+
+/* HTML5 Default behavior */
+
 article,aside,audio,canvas,datagrid,datalist,details,dialog,figure,
 figcaption,footer,header,hgroup,menu,nav,section,video {display:block;}
-abbr,eventsource,mark,meter,time,progress,output,bb {display:inline;}
-ol,ul{list-style:none}
-blockquote,q{quotes:none}
-blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}
-a,ins{text-decoration:none}
-del{text-decoration:line-through}
-strong{font-weight:bold}
-em{font-style:italic}
-/* tables still need 'cellspacing="0"' in the markup */
-table{border-collapse:collapse;border-spacing:0;width:100%}
-nav ul {list-style:none}
-input,select {vertical-align:middle}
-input[type="radio"] {vertical-align: text-bottom}
-input[type="checkbox"] {vertical-align: bottom}
-input[type="radio"],input[type="checkbox"] {margin:0}
-.lt_ie8 input[type="checkbox"] {vertical-align:baseline}
-.lt_ie7 input {vertical-align:text-bottom}
-input:focus {outline:0}
-input:-webkit-autofill {background-color:#ccc!important}
-video,img,object {max-width:100%;height:auto}
-iframe{border:0}
-/* Bug with Firefox and buttons */
-button::-moz-focus-inner {border:0;padding:0;margin:0}
 
+abbr,eventsource,mark,meter,time,progress,output,bb {display:inline;}
+
+del {
+    text-decoration: line-through;
+}
+
+strong {
+    font-weight: bold;
+}
+
+em {
+    font-style: italic;
+}
+
+/* tables still need 'cellspacing="0"' in the markup */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+nav ul {
+    list-style: none;
+}
+
+/* Forms
+   ----------------------- */
+
+input,
+button,
+select {
+    vertical-align: middle;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+    margin: 0;
+    vertical-align: text-bottom;
+}
+
+.lt_ie8 input[type="checkbox"] {
+    vertical-align: baseline;
+}
+
+input:focus {
+    outline: 0;
+}
+
+input:-webkit-autofill {
+    background-color: #ccc!important;
+}
+
+/* Number & Search resets */
+
+input[type=number],
+input[type=search] {
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    width: 0;
+    height: 0;
+}
+
+input[type=search]::-webkit-search-decoration,
+input[type=search]::-webkit-search-cancel-button,
+input[type=search]::-webkit-search-results-button,
+input[type=search]::-webkit-search-results-decoration {
+    -webkit-appearance: none;
+}
+
+/* Bug with Firefox and buttons */
+
+input[type="submit"]::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner,
+button::-moz-focus-inner {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+/* Better cursor for buttons */
+
+input[type="submit"],
+input[type="image"],
+button {
+    cursor: pointer;
+}
+
+/* Medias
+   ----------------------- */
+
+video,
+img,
+object {
+    height: auto;
+    max-width: 100%;
+}
+
+iframe {
+    border: 0;
+}
+
+/* Bugfix for Google Maps */
+
+.gmnoprint img {
+    max-width: none;
+}
+
+/* bicubic resizing for non-native sized IMG | code.flickr.com/blog/2008/11/12/on-ui-quality-the-little-things-client-side-image-resizing/ */
+
+.lt_ie8 img {
+    -ms-interpolation-mode: bicubic;
+}
+
+/* Inline images are aligned on text */
+
+img,
+input[type=image] {
+    vertical-align: bottom;
+}
 
 /* ----------------------------------------------------------
-   Règlages de base
+   Base config
    ------------------------------------------------------- */
 
 html {
@@ -62,29 +201,41 @@ body {
     min-height: 100%;
 }
 
-.lt_ie7 body {
+.lt_ie8 body {
     height: 100%;
 }
 
 /* Prevents sub and sup affecting line-height in all browsers | gist.github.com/413930 */
-sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline;}
-sup{top:-0.5em;}
-sub{bottom:-0.25em;}
 
-/* bicubic resizing for non-native sized IMG | code.flickr.com/blog/2008/11/12/on-ui-quality-the-little-things-client-side-image-resizing/ */
-.lt_ie8 img { -ms-interpolation-mode: bicubic; }
-/* Aligne les images inline sur le texte */
-img,input[type=image]{vertical-align:bottom;}
-/* Curseur adéquat pour les boutons */
-input[type="submit"],input[type="image"],button{cursor:pointer;}
+sub,
+sup {
+    position: relative;
+    font-size: 75%;
+    line-height: 0;
+    vertical-align: baseline;
+}
+
+sup {
+    top: -0.5em;
+}
+
+sub {
+    bottom: -0.25em;
+}
+
+/* Address styling not present in IE 8/9. | necolas.github.io/normalize.css/ */
+
+[hidden] {
+    display: none;
+}
 
 /* ----------------------------------------------------------
    Typo
    ------------------------------------------------------- */
 
 body {
-    font: 12px/1.5 sans-serif;
-    color: #333;
+    font: 62.5%/1 sans-serif;
+    color: #212121;
 }
 
 h1, .h1,
@@ -92,82 +243,114 @@ h2, .h2,
 h3, .h3,
 h4, .h4,
 h5, .h5 {
-    font-weight: bold;
     display: block;
+    font-weight: bold;
+    line-height: 1.3;
 }
 
 h1, .h1 {
     font-size: 25px;
-    line-height: 40px;
 }
 
 h2, .h2 {
-    margin: 10px 0 5px 0;
+    margin-bottom: 10px;
     font-size: 20px;
-    line-height: 30px;
 }
 
 h3, .h3 {
-    margin: 5px 0;
+    margin-bottom: 5px;
     font-size: 15px;
-    line-height: 20px;
 }
 
 h4, .h4 {
-    margin: 5px 0;
     font-size: 13px;
-    line-height: 18px;
-}
-
-h1:first-child, .h1:first-child,
-h2:first-child, .h2:first-child,
-h3:first-child, .h3:first-child,
-h4:first-child, .h4:first-child,
-h5:first-child, .h5:first-child {
-    margin-top: 0;
 }
 
 p,
 li {
     font-size: 12px;
-    line-height: 16px;
+    line-height: 1.3;
 }
 
-/* ----------------------------------------------------------
-   Structure
-   ------------------------------------------------------- */
+/* Elements
+   ----------------------- */
 
-.le-content ul,
-p {
-    margin-bottom: 12px;
+abbr[title],
+acronym[title] {
+    border-bottom: 1px dashed #ccc;
+    border-color: rgba(0,0,0,.2);
+    cursor: help;
 }
+
+blockquote {
+    padding: 5px 0 5px 10px;
+    border-left: 5px solid #DDD;
+    border-color: rgba(0,0,0,.1);
+    font-size: 12px;
+}
+
+blockquote p {
+    margin-bottom: 5px;
+}
+
+hr {
+    clear: both;
+    border: 1px solid #333;
+    border-width: 1px 0 0;
+}
+
+/* Content
+   ----------------------- */
 
 .le-content ul ul {
     margin-bottom: 0;
     padding-left: 12px;
 }
 
-.le-content ul:last-child,
-p:last-child {
-    margin-bottom: 0;
-}
-
 .le-content li {
     list-style: inside disc;
 }
 
-table {
-    width: 100%;
+/* Content blocks
+   ----------------------- */
+
+.le-content ul,
+blockquote,
+p,
+.cssc-block {
+    margin-bottom: 16px;
+}
+
+.le-content ul:last-child,
+blockquote:last-child,
+p:last-child,
+.cssc-block:last-child {
+    margin-bottom: 0;
 }
 
 /* ----------------------------------------------------------
-   Liens
+  Selection style
+---------------------------------------------------------- */
+
+::-moz-selection {
+    color: #000;
+    background: rgba(51,102,153,.3);
+}
+
+::selection {
+    color: #000;
+    background: rgba(51,102,153,.3);
+}
+
+/* ----------------------------------------------------------
+   Links
    ------------------------------------------------------- */
 
 a {
     color: #69C;
 }
 
+a:focus,
 a:hover {
     color: #C96;
 }
@@ -177,7 +360,9 @@ a:hover {
     filter: alpha(opacity=70);
 }
 
-/* L'opacité à .99 permet d'éviter un effet disgracieux sur chrome */
+/* .99 Opacity avoids a nasty effect on Webkit */
+
+a img,
 .aimginv:hover,
 .aimg {
     opacity: 0.99;
@@ -194,31 +379,39 @@ a:hover img {
    Transitions
    ------------------------------------------------------- */
 
-.trans-col,
-a {
+a,
+.trans-col {
     -webkit-transition: color 0.3s ease;
     -moz-transition: color 0.3s ease;
-    -ms-transition: color 0.3s ease;
     -o-transition: color 0.3s ease;
     transition: color 0.3s ease;
 }
 
+a img,
 .aimg,
 .aimginv,
-.trans-opa,
-a img {
+.trans-opa {
     -webkit-transition: opacity 0.3s ease;
     -moz-transition: opacity 0.3s ease;
-    -ms-transition: opacity 0.3s ease;
     -o-transition: opacity 0.3s ease;
     transition: opacity 0.3s ease;
 }
 
-.cssc-button,
 .trans-all {
     -webkit-transition: all 0.3s ease;
     -moz-transition: all 0.3s ease;
-    -ms-transition: all 0.3s ease;
     -o-transition: all 0.3s ease;
     transition: all 0.3s ease;
+}
+
+input,
+button,
+textarea,
+.cssc-pagination a,
+.cssc-button,
+.trans-button {
+    -webkit-transition: border 0.3s ease,background 0.3s ease,color 0.3s ease;
+    -moz-transition: border 0.3s ease,background 0.3s ease,color 0.3s ease;
+    -o-transition: border 0.3s ease,background 0.3s ease,color 0.3s ease;
+    transition: border 0.3s ease,background 0.3s ease,color 0.3s ease;
 }

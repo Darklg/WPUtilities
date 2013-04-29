@@ -1,11 +1,12 @@
 @charset "UTF-8";
 
-/*
-Name: Base
-URL: http://github.com/Darklg/CSSCommon
-Version: 1.2.3
-License: MIT
-*/
+/* ----------------------------------------------------------
+  Typo
+---------------------------------------------------------- */
+
+body {
+    font: 12px/1.3 sans-serif;
+}
 
 /* ----------------------------------------------------------
    Layout
@@ -73,7 +74,7 @@ License: MIT
    ------------------------------------------------------- */
 
 .main-footer {
-    padding-top: 20px;
+    padding: 20px 0;
     border-top: 1px solid #f0f0f0;
     color: #aaa;
 }

@@ -1,0 +1,118 @@
+@charset "UTF-8";
+
+/*
+Name: Boutons par défaut
+URL: http://github.com/Darklg/CSSCommon
+Version: 1.4.2
+License: MIT
+*/
+
+/* --------------------------
+    Base du bouton
+   ----------------------- */
+
+.cssc-button {
+    display: inline-block;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    white-space: nowrap;
+    vertical-align: middle;
+    -webkit-background-clip: padding-box;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: -moz-none;
+    user-select: none;
+    -webkit-user-drag: none;
+    -moz-user-drag: -moz-none;
+    user-drag: none;
+    *zoom: 1;
+    *display: inline;
+    -webkit-appearance: ;
+}
+
+.cssc-button:before,
+.cssc-button:after {
+    vertical-align: 0;
+}
+
+.cssc-button:before {
+    margin-right: 5px;
+}
+
+.cssc-button:after {
+    margin-left: 5px;
+}
+
+/* --------------------------
+    Thème basique du bouton
+   ----------------------- */
+
+.cssc-button {
+    height: 25px;
+    padding: 0 8px;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    text-shadow: 1px 1px 0 rgba(255,255,255,0.5);
+    font: 12px/25px sans-serif;
+    color: #333;
+    background: #d0d0d0 no-repeat 0 0;
+    background-image: -moz-linear-gradient(top,#f0f0f0,#d0d0d0);
+    background-image: -o-linear-gradient(top,#f0f0f0,#d0d0d0);
+    background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0,#f0f0f0),color-stop(1,#d0d0d0));
+    background-image: -webkit-linear-gradient(#f0f0f0,#d0d0d0);
+    background-image: linear-gradient(#f0f0f0,#d0d0d0);
+}
+
+.cssc-button:focus,
+.cssc-button:hover {
+    border-color: #bbb;
+    color: #000;
+    background-position: 0 -12px;
+}
+
+.cssc-button:active {
+    border-color: #aaa;
+    background-position: 0 -25px;
+}
+
+/* Tailles de boutons
+   ----------------------- */
+
+.le-medium-button {
+    height: 30px;
+    padding: 0 10px;
+    font-size: 13px;
+    line-height: 30px;
+}
+
+.le-big-button {
+    height: 35px;
+    padding: 0 15px;
+    font-size: 14px;
+    line-height: 35px;
+}
+
+/* Bouton icône avant
+   ----------------------- */
+
+.btn-phone:before {
+    content: '☎';
+}
+
+.btn-eject:before {
+    content: '⏏';
+}
+
+.btn-go:after {
+    content: '▶';
+}
+
+.btn-img:before {
+    content: url(../images/12x10-blue.gif);
+}

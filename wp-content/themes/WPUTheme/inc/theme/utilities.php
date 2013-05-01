@@ -75,3 +75,27 @@ function wputh_get_comments_title( $comments = array(), $zero = false, $one = fa
 
     return $return;
 }
+
+/* ----------------------------------------------------------
+  Comments functions
+---------------------------------------------------------- */
+
+function wputh_get_comment_author_name_link( $comment ) {
+    $return = '';
+    $comment_author_url = '';
+    if ( !empty( $comment->comment_author_url ) ) {
+        $comment_author_url = $comment->comment_author_url;
+    }
+    if ( empty( $comment_author_url ) && $comment->user_id != 0 ) {
+        $user_info = get_user_by( 'id', $comment->user_id );
+        $comment_author_url = $user_info->user_url;
+    }
+
+    $return = $comment->comment_author;
+
+    if ( !empty( $comment_author_url ) ) {
+        $return = '<a href="' . $comment_author_url . '" target="_blank">' . $return . '</a>';
+    }
+
+    return '<strong class="comment_author_url">' . $return . '</strong>';
+}

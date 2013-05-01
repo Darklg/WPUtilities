@@ -29,6 +29,7 @@ include TEMPLATEPATH . '/inc/configuration/thumbnails.php';
    ----------------------- */
 
 include TEMPLATEPATH . '/inc/plugins/wpu-options.php';
+include TEMPLATEPATH . '/inc/plugins/wputh_thumbnails.php';
 
 /* Medias
    ----------------------- */

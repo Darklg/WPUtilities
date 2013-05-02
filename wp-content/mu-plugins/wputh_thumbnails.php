@@ -34,7 +34,7 @@ function wputh_apply_thumbnails_sizes() {
   Getting a thumbnail URL
 ---------------------------------------------------------- */
 
-function wputh_get_thumbnail( $size, $post_id = false ) {
+function wputh_get_thumbnail( $size = 'thumbnail', $post_id = false ) {
     global $post;
 
     $thumbnail_url = get_template_directory_uri() . '/images/thumbnails/' . $size . '.jpg';

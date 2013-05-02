@@ -27,6 +27,10 @@ if ( is_single() ) {
         'property' => 'og:url',
         'content' => get_permalink()
     );
+    $metas['og_image'] = array(
+        'property' => 'og:image',
+        'content' => wputh_get_thumbnail()
+    );
 }
 
 foreach ( $metas as $values ) {

@@ -122,12 +122,19 @@ class WPUOptions {
         $field = $this->get_field_datas( $id, $field );
         $content = '<li>';
         $content .= '<label for="' . $idf . '">' . $field['label'] . ' : </label><br />';
+        $idname = ' id="' . $idf . '" name="' . $idf . '" ';
         switch ( $field['type'] ) {
         case 'textarea':
-            $content .= '<textarea id="' . $idf . '" name="' . $idf . '" rows="5" cols="30">' . get_option( $id ) . '</textarea>';
+            $content .= '<textarea ' . $idname . ' rows="5" cols="30">' . get_option( $id ) . '</textarea>';
+            break;
+        case 'email':
+            $content .= '<input type="email" ' . $idname . ' value="' . get_option( $id ) . '" />';
+            break;
+        case 'url':
+            $content .= '<input type="url" ' . $idname . ' value="' . get_option( $id ) . '" />';
             break;
         default :
-            $content .= '<input type="text" id="' . $idf . '" name="' . $idf . '" value="' . get_option( $id ) . '" />';
+            $content .= '<input type="text" ' . $idname . ' value="' . get_option( $id ) . '" />';
         }
         $content .= '</li>';
         return $content;
@@ -155,6 +162,11 @@ class WPUOptions {
         switch ( $field['test'] ) {
         case 'email':
             if ( filter_var( $value, FILTER_VALIDATE_EMAIL ) === false ) {
+                $return = false;
+            }
+            break;
+        case 'url':
+            if ( filter_var( $value, FILTER_VALIDATE_URL ) === false ) {
                 $return = false;
             }
             break;

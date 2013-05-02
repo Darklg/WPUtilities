@@ -12,6 +12,7 @@ function set_wputh_options_fields( $options ) {
     );
     $options['wpu_opt_email'] = array(
         'label' => __( 'Email address' ),
+        'type' => 'email',
         'test' => 'email'
     );
     $options['wpu_opt_address'] = array(

@@ -1,0 +1,41 @@
+@charset "UTF-8";
+
+/* ----------------------------------------------------------
+  Gallery template
+---------------------------------------------------------- */
+
+.gallery-list a {
+    display: block;
+    position: relative;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+}
+
+.gallery-list strong {
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 5px;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 18px;
+    color: #fff;
+    opacity: 0.0;
+    background: -moz-linear-gradient(top,rgba(0,0,0,0.65) 0,rgba(0,0,0,0) 100%);
+    background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,rgba(0,0,0,0.65) ),color-stop(100%,rgba(0,0,0,0) ));
+    background: -webkit-linear-gradient(top,rgba(0,0,0,0.65) 0,rgba(0,0,0,0) 100%);
+    background: -o-linear-gradient(top,rgba(0,0,0,0.65) 0,rgba(0,0,0,0) 100%);
+    background: -ms-linear-gradient(top,rgba(0,0,0,0.65) 0,rgba(0,0,0,0) 100%);
+    background: linear-gradient(to bottom,rgba(0,0,0,0.65) 0,rgba(0,0,0,0) 100%);
+    filter: alpha(opacity=0);
+}
+
+.gallery-list a:hover strong {
+    opacity: 0.99;
+    filter: alpha(opacity=99);
+}

@@ -33,6 +33,26 @@ if ( is_single() ) {
     );
 }
 
+if ( is_home() ) {
+    $meta_description = get_bloginfo( 'description' );
+    $metas['description'] = array(
+        'name' => 'description',
+        'content' => substr( $meta_description, 0, 200 ) . ' ...'
+    );
+    $metas['og_title'] = array(
+        'property' => 'og:title',
+        'content' => get_bloginfo( 'name' )
+    );
+    $metas['og_url'] = array(
+        'property' => 'og:url',
+        'content' => site_url()
+    );
+    $metas['og_image'] = array(
+        'property' => 'og:image',
+        'content' => get_template_directory_uri() . '/screenshot.png'
+    );
+}
+
 foreach ( $metas as $values ) {
     echo '<meta';
     foreach ( $values as $name => $value ) {

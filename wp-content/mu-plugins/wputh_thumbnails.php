@@ -20,7 +20,7 @@ function wputh_apply_thumbnails_sizes() {
         'height' => 0,
         'crop' => 0
     );
-    $sizes = apply_filters( 'wputh_thumbnails_sizes' );
+    $sizes = apply_filters( 'wputh_thumbnails_sizes', array() );
     if ( empty( $sizes ) ) {
         $sizes = array();
     }

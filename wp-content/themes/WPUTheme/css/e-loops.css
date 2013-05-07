@@ -1,0 +1,45 @@
+@charset "UTF-8";
+
+/* ----------------------------------------------------------
+   Loops
+   ------------------------------------------------------- */
+
+/* Loop single
+   ----------------------- */
+
+.lp-metas {
+    margin-bottom: 10px;
+    color: #999;
+}
+
+/* Loop small
+   ----------------------- */
+
+.loop-small + .loop-small {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dotted #f0f0f0;
+}
+
+.lpsm-metas {
+    margin-bottom: 7px;
+    font-size: 11px;
+    color: #999;
+}
+
+/* Comments
+   ----------------------- */
+
+.list-comments {
+    margin-bottom: 20px;
+}
+
+.list-comments .comment + .comment {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.comment-metas {
+    margin-bottom: 5px;
+}

@@ -13,8 +13,7 @@ body {
    ------------------------------------------------------- */
 
 .main-header,
-.main,
-.main-sidebar,
+.main-container,
 .main-footer {
     width: auto;
     margin: 0 auto 20px;
@@ -34,6 +33,44 @@ body {
 }
 
 /* ----------------------------------------------------------
+  Main Container
+---------------------------------------------------------- */
+
+.main-container {
+    overflow: auto;
+}
+
+.main,
+.main-sidebar {
+    float: left;
+}
+
+.main {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 61.8033988%;
+    padding-right: 20px;
+}
+
+.main-sidebar {
+    width: 38.1966011%;
+}
+
+@media(max-width:700px) {
+    .main,
+    .main-sidebar {
+        float: none;
+        width: 100%;
+    }
+
+    .main {
+        padding-right: 0;
+        margin-bottom:20px;
+    }
+}
+
+/* ----------------------------------------------------------
    Content
    ------------------------------------------------------- */
 
@@ -43,55 +80,11 @@ body {
 }
 
 /* ----------------------------------------------------------
-   Loops
-   ------------------------------------------------------- */
-
-/* Loop single
-   ----------------------- */
-
-.lp-metas {
-    margin-bottom: 10px;
-    color: #999;
-}
-
-/* Loop small
-   ----------------------- */
-
-.loop-small + .loop-small {
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px dotted #f0f0f0;
-}
-
-.lpsm-metas {
-    margin-bottom: 7px;
-    font-size: 11px;
-    color: #999;
-}
-
-/* Comments
-   ----------------------- */
-
-.list-comments {
-    margin-bottom:20px;
-}
-
-.list-comments .comment + .comment {
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px solid #f0f0f0;
-}
-
-.comment-metas {
-    margin-bottom: 5px;
-}
-
-/* ----------------------------------------------------------
    Footer
    ------------------------------------------------------- */
 
 .main-footer {
-    padding: 20px 0;
+    padding: 20px;
     border-top: 1px solid #f0f0f0;
     color: #aaa;
 }

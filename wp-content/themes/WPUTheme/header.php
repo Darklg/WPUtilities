@@ -12,3 +12,4 @@ include dirname( __FILE__ ) . '/z-protect.php';
     <?php include TEMPLATEPATH . '/tpl/header/title.php'; ?>
     <?php include TEMPLATEPATH . '/tpl/header/searchform.php'; ?>
 </header>
+<div class="main-container">

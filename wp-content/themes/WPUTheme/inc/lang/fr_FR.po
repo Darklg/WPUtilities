@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2013-04-29 21:05+0100\n"
+"POT-Creation-Date: 2013-05-08 23:54+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Kevin <kevin@rocher.me>\n"
 "Language-Team: \n"
@@ -58,7 +58,8 @@ msgstr "F Y"
 msgid "Day:"
 msgstr "Jour :"
 
-#: ../.././archive.php:23 ../.././loop-comment.php:9 ../.././loop-small.php:8
+#: ../.././archive.php:23 ../.././loop-comment.php:12
+#: ../.././loop-small-thumbnail.php:15 ../.././loop-small.php:8
 #: ../.././loop.php:8
 msgid "F j, Y"
 msgstr "j F Y"
@@ -72,7 +73,8 @@ msgstr ""
 msgid "Trackbacks"
 msgstr "Trackbacks"
 
-#: ../.././loop-small.php:10 ../.././loop.php:10
+#: ../.././loop-small-thumbnail.php:18 ../.././loop-small.php:10
+#: ../.././loop.php:10
 msgid "By"
 msgstr "Par"
 
@@ -122,7 +124,7 @@ msgstr "Téléphone"
 msgid "Email address"
 msgstr "Adresse email"
 
-#: ../.././inc/plugins/wpu-options.php:18
+#: ../.././inc/plugins/wpu-options.php:19
 msgid "Address"
 msgstr "Adresse"
 
@@ -146,6 +148,10 @@ msgstr "<strong>%s</strong> commentaires"
 #: ../.././inc/theme/utilities.php:57
 msgid "Comments are closed"
 msgstr "Les commentaires sont fermés"
+
+#: ../.././page-templates/page-downloads.php:27
+msgid "Size:"
+msgstr "Poids :"
 
 #: ../.././tpl/comments/form.php:13
 #, php-format

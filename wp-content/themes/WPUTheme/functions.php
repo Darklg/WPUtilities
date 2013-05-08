@@ -23,6 +23,7 @@ include TEMPLATEPATH . '/inc/protection/front.php';
 include TEMPLATEPATH . '/inc/configuration/taxonomies.php';
 include TEMPLATEPATH . '/inc/configuration/post-types.php';
 include TEMPLATEPATH . '/inc/configuration/sidebars.php';
+include TEMPLATEPATH . '/inc/configuration/menus.php';
 include TEMPLATEPATH . '/inc/configuration/thumbnails.php';
 
 /* Plugins Configuration

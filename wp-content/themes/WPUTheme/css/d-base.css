@@ -32,6 +32,22 @@ body {
     border-bottom: 1px solid #f0f0f0;
 }
 
+#searchform {
+    margin-bottom: 10px;
+}
+
+.main-menu a,
+.main-menu li {
+    display: inline-block;
+    line-height: 20px;
+    *display: inline;
+    *zoom: 1;
+}
+
+.main-menu li {
+    margin-right: 10px;
+}
+
 /* ----------------------------------------------------------
   Main Container
 ---------------------------------------------------------- */
@@ -65,8 +81,8 @@ body {
     }
 
     .main {
+        margin-bottom: 20px;
         padding-right: 0;
-        margin-bottom:20px;
     }
 }
 

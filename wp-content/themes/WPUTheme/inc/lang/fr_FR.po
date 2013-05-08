@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2013-05-08 23:54+0100\n"
+"POT-Creation-Date: 2013-05-09 00:09+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Kevin <kevin@rocher.me>\n"
 "Language-Team: \n"
@@ -100,6 +100,10 @@ msgstr "<strong>%s</strong> résultats de recherche"
 msgid "%s for “%s”"
 msgstr "%s pour \"%s\""
 
+#: ../.././inc/configuration/menus.php:3
+msgid "Main menu"
+msgstr "Menu principal"
+
 #: ../.././inc/configuration/post-types.php:9
 msgid "Task"
 msgstr "Tâche"
@@ -149,7 +153,7 @@ msgstr "<strong>%s</strong> commentaires"
 msgid "Comments are closed"
 msgstr "Les commentaires sont fermés"
 
-#: ../.././page-templates/page-downloads.php:27
+#: ../.././page-templates/page-downloads.php:29
 msgid "Size:"
 msgstr "Poids :"
 

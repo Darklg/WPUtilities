@@ -1,5 +1,10 @@
 <?php
 include dirname( __FILE__ ) . '/z-protect.php';
+$menu_args = array(
+    'depth' => 1,
+    'theme_location' => 'main',
+    'menu_class' => 'main-menu'
+);
 ?><!DOCTYPE HTML>
 <!--[if lt IE 8 ]><html <?php language_attributes(); ?> class="is_ie7 lt_ie8 lt_ie9 lt_ie10"><![endif]-->
 <!--[if IE 8 ]><html <?php language_attributes(); ?> class="is_ie8 lt_ie9 lt_ie10"><![endif]-->
@@ -11,5 +16,6 @@ include dirname( __FILE__ ) . '/z-protect.php';
 <header class="main-header">
     <?php include TEMPLATEPATH . '/tpl/header/title.php'; ?>
     <?php include TEMPLATEPATH . '/tpl/header/searchform.php'; ?>
+    <?php wp_nav_menu( $menu_args ); ?>
 </header>
 <div class="main-container">

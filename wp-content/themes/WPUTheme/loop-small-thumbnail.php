@@ -4,7 +4,7 @@ include dirname( __FILE__ ) . '/z-protect.php';
 <article class="loop-small">
     <div class="bmedia">
         <div>
-            <img src="<?php echo wputh_get_thumbnail('loop-small-thumbnail'); ?>" alt="<?php echo the_title_attribute(); ?>" />
+            <img class="loop-small-thumbnail-img" src="<?php echo wputh_get_thumbnail('loop-small-thumbnail'); ?>" alt="<?php echo the_title_attribute(); ?>" />
         </div>
         <div class="bm-cont">
             <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>

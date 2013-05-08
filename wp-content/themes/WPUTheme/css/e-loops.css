@@ -27,6 +27,11 @@
     color: #999;
 }
 
+.loop-small-thumbnail-img {
+    width: 100px;
+    height: auto;
+}
+
 /* Comments
    ----------------------- */
 

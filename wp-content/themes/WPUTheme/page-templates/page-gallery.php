@@ -14,6 +14,7 @@ $attachments = get_posts( array(
         'post_type' => 'attachment',
         'numberposts' => -1,
         'post_status' =>'any',
+        'post_mime_type' => 'image',
         'post_parent' => $post->ID )
 );
 if ( !empty( $attachments ) ) {

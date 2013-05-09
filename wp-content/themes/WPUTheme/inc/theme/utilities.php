@@ -41,9 +41,12 @@ function get_the_loop( $params = array() ) {
   Comments title
 ---------------------------------------------------------- */
 
-function wputh_get_comments_title( $comments = array(), $zero = false, $one = false, $more = false, $closed = false ) {
+function wputh_get_comments_title( $count_comments, $zero = false, $one = false, $more = false, $closed = false ) {
     global $post;
     $return = '';
+    if ( is_array( $count_comments ) ) {
+        $count_comments = count( $count_comments );
+    }
     if ( $zero === false ) {
         $zero = __( '<strong>no</strong> comments', 'wputh' );
     }
@@ -60,7 +63,6 @@ function wputh_get_comments_title( $comments = array(), $zero = false, $one = fa
         $return = $closed;
     }
     else {
-        $count_comments = count( $comments );
         switch ( $count_comments ) {
         case 0:
             $return = $zero;

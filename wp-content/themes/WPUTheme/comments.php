@@ -12,7 +12,7 @@ include TEMPLATEPATH . '/tpl/comments/datas.php';
 /* Comment section title */
 
 echo '<header>';
-echo '<h3>' . wputh_get_comments_title( $comments ) . '</h3>';
+echo '<h3>' . wputh_get_comments_title( count( $comments ) ) . '</h3>';
 if ( count( $comments ) > 0 && comments_open() ) {
     // We don’t show the link if there are no comments between the title & the comment form
     // echo '<a href="#form-comments">' . __( 'Add yours', 'wputh' ) . '</a>';

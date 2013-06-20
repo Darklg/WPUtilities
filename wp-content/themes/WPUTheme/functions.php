@@ -25,6 +25,7 @@ include TEMPLATEPATH . '/inc/configuration/post-types.php';
 include TEMPLATEPATH . '/inc/configuration/sidebars.php';
 include TEMPLATEPATH . '/inc/configuration/menus.php';
 include TEMPLATEPATH . '/inc/configuration/thumbnails.php';
+include TEMPLATEPATH . '/inc/configuration/shortcodes.php';
 
 /* Plugins Configuration
    ----------------------- */

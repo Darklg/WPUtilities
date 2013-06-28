@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2013-05-09 00:09+0100\n"
+"POT-Creation-Date: 2013-06-28 00:13-0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Kevin <kevin@rocher.me>\n"
 "Language-Team: \n"
@@ -59,7 +59,7 @@ msgid "Day:"
 msgstr "Jour :"
 
 #: ../.././archive.php:23 ../.././loop-comment.php:12
-#: ../.././loop-small-thumbnail.php:15 ../.././loop-small.php:8
+#: ../.././loop-small-thumbnail.php:16 ../.././loop-small.php:10
 #: ../.././loop.php:8
 msgid "F j, Y"
 msgstr "j F Y"
@@ -73,7 +73,7 @@ msgstr ""
 msgid "Trackbacks"
 msgstr "Trackbacks"
 
-#: ../.././loop-small-thumbnail.php:18 ../.././loop-small.php:10
+#: ../.././loop-small-thumbnail.php:12 ../.././loop-small.php:6
 #: ../.././loop.php:10
 msgid "By"
 msgstr "Par"
@@ -136,22 +136,61 @@ msgstr "Adresse"
 msgid "Sorry, no search results for this query."
 msgstr "Désolé, il n'y a aucun résultat pour cette requête."
 
-#: ../.././inc/theme/utilities.php:48
+#: ../.././inc/theme/utilities.php:51
 msgid "<strong>no</strong> comments"
 msgstr "<strong>aucun</strong> commentaire"
 
-#: ../.././inc/theme/utilities.php:51
+#: ../.././inc/theme/utilities.php:54
 msgid "<strong>1</strong> comment"
 msgstr "<strong>1</strong> commentaire"
 
-#: ../.././inc/theme/utilities.php:54
+#: ../.././inc/theme/utilities.php:57
 #, php-format
 msgid "<strong>%s</strong> comments"
 msgstr "<strong>%s</strong> commentaires"
 
-#: ../.././inc/theme/utilities.php:57
+#: ../.././inc/theme/utilities.php:60
 msgid "Comments are closed"
 msgstr "Les commentaires sont fermés"
+
+#: ../.././page-templates/page-contact.php:8
+msgid "Name"
+msgstr "Nom"
+
+#: ../.././page-templates/page-contact.php:12
+msgid "Email"
+msgstr "E-mail"
+
+#: ../.././page-templates/page-contact.php:17
+msgid "Message"
+msgstr "Message"
+
+#: ../.././page-templates/page-contact.php:64
+#, php-format
+msgid "The field \"%s\" is not correct"
+msgstr "Le champ \"%s\" n'est pas correct"
+
+#: ../.././page-templates/page-contact.php:71
+#, php-format
+msgid "The field \"%s\" is required"
+msgstr "Le champ \"%s\" est obligatoire"
+
+#: ../.././page-templates/page-contact.php:82
+msgid "Thank you for your message!"
+msgstr "Merci pour votre message !"
+
+#: ../.././page-templates/page-contact.php:87
+msgid "Message from your contact form"
+msgstr "Message depuis votre formulaire de contact"
+
+#: ../.././page-templates/page-contact.php:97
+msgid "Error:"
+msgstr "Erreur :"
+
+#: ../.././page-templates/page-contact.php:125
+#: ../.././tpl/comments/form.php:59
+msgid "Submit"
+msgstr "Envoyer"
 
 #: ../.././page-templates/page-downloads.php:29
 msgid "Size:"
@@ -191,10 +230,6 @@ msgstr "Votre site"
 #: ../.././tpl/comments/form.php:50
 msgid "Your comment"
 msgstr "Votre commentaire"
-
-#: ../.././tpl/comments/form.php:59
-msgid "Submit"
-msgstr "Envoyer"
 
 #: ../.././tpl/header/searchform.php:5
 msgid "Search for:"

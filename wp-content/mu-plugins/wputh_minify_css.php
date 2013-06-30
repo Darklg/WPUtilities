@@ -9,7 +9,7 @@ function wputh_minify_css() {
     new wputhMinifyCSS();
 }
 
-if ( WP_DEBUG ) {
+if ( !WP_DEBUG ) {
     add_action( 'wp_head', 'wputh_minify_css', 1 );
 }
 

@@ -2,14 +2,14 @@
 /*
 Plugin Name: WP Utilities Minify CSS
 Description: Minify and concatenate CSS
-Version: 0.2
+Version: 0.3
 */
 
 function wputh_minify_css() {
     new wputhMinifyCSS();
 }
 
-if ( !WP_DEBUG ) {
+if ( !WP_DEBUG || isset($_GET['regenerate_css']) ) {
     add_action( 'wp_head', 'wputh_minify_css', 1 );
 }
 
@@ -68,7 +68,7 @@ class wputhMinifyCSS {
 
     private function generate_cache( $work_queue, $cache_file ) {
         $return = false;
-        $hash_cache = $this->generate_hash( $work_queue );
+        $hash_cache = $this->generate_hash( $work_queue, $cache_file );
         $cache_folder = dirname( $cache_file );
 
         // - update hash
@@ -77,10 +77,12 @@ class wputhMinifyCSS {
         // - regenerate cache file
         $cache_content = '';
         foreach ( $work_queue as $file ) {
-            $cache_content .= file_get_contents( $file[0] );
+            $css = trim(file_get_contents( $file[0] ));
+            $css = $this->compress_css( $css );
+            $css = $this->convert_url_base64( $css, $file[0] );
+            $cache_content .= $css;
         }
 
-        $cache_content = $this->compress_css( $cache_content );
 
         if ( $this->verify_folder( $cache_folder ) ) {
             $return = ( file_put_contents( $cache_file, $cache_content ) !== false );
@@ -107,6 +109,29 @@ class wputhMinifyCSS {
         return $css;
     }
 
+    private function convert_url_base64($css, $file){
+        $dir_file = dirname($file) . '/';
+        preg_match_all('/url\((.*)\)/',$css, $matches);
+        if(!empty($matches[1])){
+            foreach($matches[1] as $match){
+                $match = str_replace(array('"',"'"), '',$match);
+                $base64 = $this->convert_file_base64($dir_file.$match);
+                if(!empty($base64)){
+                    $css = str_replace($match, $base64, $css);
+                }
+            }
+        }
+        return $css;
+    }
+
+    private function convert_file_base64($file){
+        $base64 = '';
+        if(file_exists($file) && filesize($file) < 1000){
+            $base64 = 'data:'.mime_content_type($file).';base64,'.base64_encode(file_get_contents($file));
+        }
+        return $base64;
+    }
+
     private function should_regenerate($hash_cache, $cache_path){
         return
             0 != 0
@@ -118,7 +143,7 @@ class wputhMinifyCSS {
     private function generate_hash( $work_queue,$cache_path ) {
         $return = '';
         if ( !isset( $this->hash_cache ) ) {
-            $this->hash_cache = md5( json_encode( $work_queue ).'0.2' );
+            $this->hash_cache = md5( json_encode( $work_queue ).'0.3' );
         }
         if(file_exists($cache_path)){
             $this->hash_cache .= '-'.filemtime($cache_path);

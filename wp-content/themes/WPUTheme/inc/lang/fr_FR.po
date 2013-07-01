@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2013-06-28 00:13-0000\n"
+"POT-Creation-Date: 2013-07-01 10:44-0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Kevin <kevin@rocher.me>\n"
 "Language-Team: \n"
@@ -165,29 +165,30 @@ msgstr "E-mail"
 msgid "Message"
 msgstr "Message"
 
-#: ../.././page-templates/page-contact.php:64
+#: ../.././page-templates/page-contact.php:66
 #, php-format
 msgid "The field \"%s\" is not correct"
 msgstr "Le champ \"%s\" n'est pas correct"
 
-#: ../.././page-templates/page-contact.php:71
+#: ../.././page-templates/page-contact.php:73
 #, php-format
 msgid "The field \"%s\" is required"
 msgstr "Le champ \"%s\" est obligatoire"
 
-#: ../.././page-templates/page-contact.php:82
+#: ../.././page-templates/page-contact.php:80
 msgid "Thank you for your message!"
 msgstr "Merci pour votre message !"
 
-#: ../.././page-templates/page-contact.php:87
+#: ../.././page-templates/page-contact.php:83
+#: ../.././page-templates/page-contact.php:92
 msgid "Message from your contact form"
 msgstr "Message depuis votre formulaire de contact"
 
-#: ../.././page-templates/page-contact.php:97
+#: ../.././page-templates/page-contact.php:98
 msgid "Error:"
 msgstr "Erreur :"
 
-#: ../.././page-templates/page-contact.php:125
+#: ../.././page-templates/page-contact.php:126
 #: ../.././tpl/comments/form.php:59
 msgid "Submit"
 msgstr "Envoyer"
@@ -195,6 +196,18 @@ msgstr "Envoyer"
 #: ../.././page-templates/page-downloads.php:29
 msgid "Size:"
 msgstr "Poids :"
+
+#: ../.././page-templates/page-sitemap.php:13
+msgid "Home page"
+msgstr "Accueil"
+
+#: ../.././page-templates/page-sitemap.php:74
+msgid "Pages"
+msgstr "Pages"
+
+#: ../.././page-templates/page-sitemap.php:79
+msgid "Posts"
+msgstr "Articles"
 
 #: ../.././tpl/comments/form.php:13
 #, php-format

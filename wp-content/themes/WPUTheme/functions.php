@@ -33,11 +33,11 @@ include TEMPLATEPATH . '/inc/configuration/shortcodes.php';
 include TEMPLATEPATH . '/inc/plugins/wpu-options.php';
 include TEMPLATEPATH . '/inc/plugins/wputh_thumbnails.php';
 
-/* Medias
+/* Assets
    ----------------------- */
 
-include TEMPLATEPATH . '/inc/medias/styles.php';
-include TEMPLATEPATH . '/inc/medias/scripts.php';
+include TEMPLATEPATH . '/inc/assets/styles.php';
+include TEMPLATEPATH . '/inc/assets/scripts.php';
 
 /* Langs
    ----------------------- */

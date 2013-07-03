@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Utilities Minify HTML
 Description: Minify HTML
-Version: 0.1
+Version: 0.1.1
 */
 
-if ( WP_DEBUG ) {
+if ( !WP_DEBUG ) {
     add_action( 'init', 'wputh_minify_html' );
 }
 

@@ -2,14 +2,14 @@
 /*
 Plugin Name: WP Utilities Cache HTML
 Description: Simple cache for HTML
-Version: 0.1
+Version: 0.1.1
 */
 
 add_action( 'init', 'wputh_cache_html' );
 function wputh_cache_html() {
 
     $use_cache = true;
-    if ( isset( $_SERVER['REQUEST_URI'] ) && !is_admin() && empty( $_POST ) ) {
+    if ( !isset( $_SERVER['REQUEST_URI'] ) || is_admin() || !empty( $_POST ) ) {
         $use_cache = false;
     }
 

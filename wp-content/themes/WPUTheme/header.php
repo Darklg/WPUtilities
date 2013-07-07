@@ -20,6 +20,8 @@ if(!isset($_POST['ajax'])){
     <?php wp_nav_menu( $menu_args ); ?>
 </header>
 <div class="main-container">
-<?php } else { ?>
-<script>var page_title = '<?php echo addslashes(trim(wp_title('', false))); ?>';</script>
-<?php }
+<?php } ?>
+<script>
+var wputh_page_title = "<?php echo addslashes(trim(get_bloginfo('name') . ' ' . wp_title(' ', false))); ?>";
+var wputh_pagination_kind = '<?php echo PAGINATION_KIND; ?>';
+</script>

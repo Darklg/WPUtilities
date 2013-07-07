@@ -5,6 +5,7 @@ $menu_args = array(
     'theme_location' => 'main',
     'menu_class' => 'main-menu'
 );
+if(!isset($_POST['ajax'])){
 ?><!DOCTYPE HTML>
 <!--[if lt IE 8 ]><html <?php language_attributes(); ?> class="is_ie7 lt_ie8 lt_ie9 lt_ie10"><![endif]-->
 <!--[if IE 8 ]><html <?php language_attributes(); ?> class="is_ie8 lt_ie9 lt_ie10"><![endif]-->
@@ -19,3 +20,6 @@ $menu_args = array(
     <?php wp_nav_menu( $menu_args ); ?>
 </header>
 <div class="main-container">
+<?php } else { ?>
+<script>var page_title = '<?php echo addslashes(trim(wp_title('', false))); ?>';</script>
+<?php }

@@ -21,10 +21,12 @@ function get_the_loop( $params = array() ) {
     /* Start the loop */
     ob_start();
     if ( have_posts() ) {
+        echo '<div class="list-loops">';
         while ( have_posts() ) {
             the_post();
             get_template_part( $parameters['loop'] );
         }
+        echo '</div>';
         include TEMPLATEPATH . '/tpl/paginate.php';
     }
     else {

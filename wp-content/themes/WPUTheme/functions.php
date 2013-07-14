@@ -33,6 +33,7 @@ include TEMPLATEPATH . '/inc/configuration/shortcodes.php';
 
 include TEMPLATEPATH . '/inc/plugins/wpu-options.php';
 include TEMPLATEPATH . '/inc/plugins/wputh_thumbnails.php';
+include TEMPLATEPATH . '/inc/plugins/wputh-post-metas.php';
 
 /* Assets
    ----------------------- */

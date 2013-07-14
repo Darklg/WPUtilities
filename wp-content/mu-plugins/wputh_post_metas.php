@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WP Post Metas
-Description: Post metas
+Description: Simple admin for post metas
 Version: 0.1
 */
 

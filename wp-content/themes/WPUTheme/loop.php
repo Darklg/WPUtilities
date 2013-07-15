@@ -9,7 +9,7 @@ include dirname( __FILE__ ) . '/z-protect.php';
         •
         <?php echo __( 'By', 'wputh' ); ?> <?php echo get_the_author_link(); ?>
     </aside>
-    <?php the_content(); ?>
+    <div class="cssc-content cssc-block"><?php the_content(); ?></div>
     <footer>
         <?php the_tags( '<p><strong>' . __( 'Tags:', 'wputh' ) . '</strong> ', ', ', '</p>' ); ?>
     </footer>

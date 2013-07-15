@@ -6,7 +6,7 @@ the_post();
 <div class="main">
 <article>
     <h1><?php the_title(); ?></h1>
-    <?php the_content(); ?>
+    <div class="cssc-content cssc-block"><?php the_content(); ?></div>
 </article>
 </div>
 <?php

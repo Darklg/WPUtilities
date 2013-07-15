@@ -11,7 +11,7 @@ $id = $comment->comment_ID ;
                 <?php echo wputh_get_comment_author_name_link($comment); ?> —
                 <time><?php echo comment_date(  __( 'F j, Y', 'wputh' ), $id ); ?></time>
             </aside>
-            <div class="comment-content">
+            <div class="comment-content cssc-content">
                 <?php echo get_comment_text( $id ); ?>
             </div>
         </div>

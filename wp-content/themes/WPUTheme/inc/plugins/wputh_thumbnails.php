@@ -1,7 +1,7 @@
 <?php
 
 add_action( 'init', 'wputh_thumbnails_sizes_filter', 10, 3  );
-function wputh_thumbnails_sizes_filter($sizes) {
+function wputh_thumbnails_sizes_filter( $sizes ) {
     add_filter( 'wputh_thumbnails_sizes', 'wputh_set_thumbnails_sizes', 10, 3 );
     return $sizes;
 }

@@ -10,7 +10,7 @@ define( 'PAGINATION_KIND', 'load-more'); // load-more || numbers || default
 /* Theme
    ----------------------- */
 
-include TEMPLATEPATH . '/inc/theme/support.php';
+include TEMPLATEPATH . '/inc/theme/params.php';
 include TEMPLATEPATH . '/inc/theme/utilities.php';
 
 /* Protection

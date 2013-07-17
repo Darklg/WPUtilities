@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Post Metas
 Description: Simple admin for post metas
-Version: 0.1
+Version: 0.2
 */
 
 /* Based on | http://codex.wordpress.org/Function_Reference/add_meta_box */
@@ -35,19 +35,38 @@ function wputh_post_metas_box_content( $post, $details ) {
 
     $fields = apply_filters( 'wputh_post_metas_fields', array() );
     wp_nonce_field( plugin_basename( __FILE__ ), 'wputh_post_metas_noncename' );
-
+    echo '<table>';
     foreach ( $fields as $id => $field ) {
         if ( isset( $field['box'] ) && 'wputh_box_'.$field['box'] == $details['id'] ) {
             if ( !isset( $field['name'] ) || empty( $field['name'] ) ) {
                 $field['name'] = 'Field name';
             }
+            if ( !isset( $field['type'] ) || empty( $field['type'] ) ) {
+                $field['type'] = 'text';
+            }
             $value = get_post_meta( $post->ID, $id, true );
-            echo '<div>';
-            echo '<label for="el_id_'.$id.'">'.$field['name'].'</label> ';
-            echo '<input type="text" id="el_id_'.$id.'" name="'.$id.'" value="'.esc_attr( $value ).'" size="25" />';
-            echo '</div>';
+            $idname = 'id="el_id_'.$id.'" name="'.$id.'"';
+            echo '<tr>';
+            echo '<td valign="top" style="width: 150px;"><label for="el_id_'.$id.'">'.$field['name'].' :</label></td>';
+            echo '<td valign="top" style="width: 450px;">';
+            switch ( $field['type'] ) {
+            case 'email':
+                echo '<input type="email" '.$idname.' value="'.esc_attr( $value ).'" />';
+                break;
+            case 'textarea':
+                echo '<textarea rows="3" cols="50" '.$idname.'>'.esc_attr( $value ).'</textarea>';
+                break;
+            case 'url':
+                echo '<input type="url" '.$idname.' value="'.esc_attr( $value ).'" />';
+                break;
+            default :
+                echo '<input type="text" '.$idname.' value="'.esc_attr( $value ).'" />';
+            }
+            echo '</td>';
+            echo '</tr>';
         }
     }
+    echo '</table>';
 }
 
 

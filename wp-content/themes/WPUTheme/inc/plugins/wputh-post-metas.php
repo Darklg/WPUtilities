@@ -14,7 +14,7 @@ add_filter( 'wputh_post_metas_boxes', 'set_wputh_post_metas_boxes', 10, 3 );
 function set_wputh_post_metas_boxes( $boxes ) {
     // $boxes['box_address'] = array(
     //     'name' => 'Box name',
-    //     'type' => array()
+    //     'post_type' => array('post', 'page')
     // );
     return $boxes;
 }

@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Post Metas
 Description: Simple admin for post metas
-Version: 0.2
+Version: 0.2.1
 */
 
 /* Based on | http://codex.wordpress.org/Function_Reference/add_meta_box */
@@ -17,7 +17,7 @@ function wputh_post_metas_add_custom_box() {
         $box = wputh_post_metas_control_box_datas( $box );
         $boxfields = wputh_post_metas_fields_from_box( $id, $fields );
         if ( !empty( $boxfields ) ) {
-            foreach ( $box['type'] as $type ) {
+            foreach ( $box['post_type'] as $type ) {
                 add_meta_box(
                     'wputh_box_'.$id,
                     $box['name'],
@@ -96,7 +96,7 @@ function wputh_post_metas_save_postdata( $post_id ) {
     foreach ( $boxes as $id => $box ) {
         $box = wputh_post_metas_control_box_datas( $box );
         // If box corresponds to this post type
-        if ( in_array( $_POST['post_type'], $box['type'] ) ) {
+        if ( in_array( $_POST['post_type'], $box['post_type'] ) ) {
             $boxfields = wputh_post_metas_fields_from_box( $id, $fields );
             foreach ( $boxfields as $field_id => $field ) {
                 $mydata = sanitize_text_field( $_POST[$field_id] );
@@ -118,8 +118,8 @@ function wputh_post_metas_control_box_datas( $box ) {
     if ( !is_array( $box ) ) {
         $box = array();
     }
-    if ( !isset( $box['type'] ) || empty( $box['type'] ) || !is_array( $box['type'] ) ) {
-        $box['type'] = array( 'post' );
+    if ( !isset( $box['post_type'] ) || empty( $box['post_type'] ) || !is_array( $box['post_type'] ) ) {
+        $box['post_type'] = array( 'post' );
     }
     if ( !isset( $box['name'] ) || empty( $box['name'] ) ) {
         $box['name'] = 'Box name';

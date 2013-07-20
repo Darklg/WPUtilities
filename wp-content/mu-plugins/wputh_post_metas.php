@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Post Metas
 Description: Simple admin for post metas
-Version: 0.3
+Version: 0.4
 */
 
 /* Based on | http://codex.wordpress.org/Function_Reference/add_meta_box */
@@ -18,12 +18,14 @@ function wputh_post_metas_add_custom_box() {
         $boxfields = wputh_post_metas_fields_from_box( $id, $fields );
         if ( !empty( $boxfields ) ) {
             foreach ( $box['post_type'] as $type ) {
-                add_meta_box(
-                    'wputh_box_'.$id,
-                    $box['name'],
-                    'wputh_post_metas_box_content',
-                    $type
-                );
+                if ( current_user_can( $box['capability'] ) ) {
+                    add_meta_box(
+                        'wputh_box_'.$id,
+                        $box['name'],
+                        'wputh_post_metas_box_content',
+                        $type
+                    );
+                }
             }
         }
     }
@@ -48,6 +50,14 @@ function wputh_post_metas_box_content( $post, $details ) {
             switch ( $field['type'] ) {
             case 'email':
                 echo '<input type="email" '.$idname.' value="'.esc_attr( $value ).'" />';
+                break;
+            case 'select':
+                echo '<select '.$idname.'>';
+                echo '<option value="" disabled selected style="display:none;">'.__( 'Select a value', 'wputh' ).'</option>';
+                foreach ( $field['datas'] as $key => $var ) {
+                    echo '<option value="'.$key.'" '.( (string) $key === (string) $value ? 'selected="selected"':'' ).'>'.$var.'</option>';
+                }
+                echo '</select>';
                 break;
             case 'textarea':
                 echo '<textarea rows="3" cols="50" '.$idname.'>'. $value .'</textarea>';
@@ -92,8 +102,8 @@ function wputh_post_metas_save_postdata( $post_id ) {
 
     foreach ( $boxes as $id => $box ) {
         $box = wputh_post_metas_control_box_datas( $box );
-        // If box corresponds to this post type
-        if ( in_array( $_POST['post_type'], $box['post_type'] ) ) {
+        // If box corresponds to this post type & current user has level to edit
+        if ( in_array( $_POST['post_type'], $box['post_type'] ) && current_user_can( $box['capability'] ) ) {
             $boxfields = wputh_post_metas_fields_from_box( $id, $fields );
             foreach ( $boxfields as $field_id => $field ) {
                 $field_value = wputh_check_field_value( $field_id, $field );
@@ -114,16 +124,21 @@ function wputh_post_metas_save_postdata( $post_id ) {
 -------------------------- */
 
 function wputh_post_metas_control_box_datas( $box ) {
+    $default_box = array(
+        'name' => 'Box',
+        'capability' => 'delete_others_posts', // Default level : editor
+        'post_type' => array( 'post' )
+    );
+    $new_box = array();
     if ( !is_array( $box ) ) {
         $box = array();
     }
-    if ( !isset( $box['post_type'] ) || empty( $box['post_type'] ) || !is_array( $box['post_type'] ) ) {
-        $box['post_type'] = array( 'post' );
+    $new_box = array_merge( $default_box, $box );
+    if ( !is_array( $new_box['post_type'] ) ) {
+        $new_box['post_type'] = $default_box['post_type'];
     }
-    if ( !isset( $box['name'] ) || empty( $box['name'] ) ) {
-        $box['name'] = 'Box name';
-    }
-    return $box;
+
+    return $new_box;
 }
 
 /* Control field datas
@@ -134,12 +149,17 @@ function wputh_post_metas_control_fields_datas( $fields ) {
         'box' => '',
         'name' => 'Field Name',
         'type' => 'text',
+        'datas' => array()
     );
 
     $new_fields = array();
 
     foreach ( $fields as $id => $field ) {
         $new_fields[$id] = array_merge( $default_field, $field );
+        // if incomplete "select" : defaults to txt
+        if ( $new_fields[$id]['type'] == 'select' && empty( $new_fields[$id]['datas'] ) ) {
+            $new_fields[$id]['type'] = 'text';
+        }
     }
 
     return $new_fields;
@@ -173,6 +193,9 @@ function wputh_check_field_value( $id, $field ) {
     switch ( $field['type'] ) {
     case 'email':
         $return = ( filter_var( $value, FILTER_VALIDATE_EMAIL ) === false ) ? false : $value;
+        break;
+    case 'select':
+        $return = array_key_exists( $value, $field['datas'] ) ? $value : false;
         break;
     case 'textarea':
         $return = strip_tags( $value );

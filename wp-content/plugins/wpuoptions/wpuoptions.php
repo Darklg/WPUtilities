@@ -4,7 +4,7 @@ Plugin Name: WPU Options
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Options admin
 Author: Darklg
-Version: 1
+Version: 1.1
 Author URI: http://darklg.me
 */
 
@@ -12,6 +12,12 @@ Author URI: http://darklg.me
 class WPUOptions {
 
     private $options = array();
+
+    private $default_box = array(
+        'default' => array(
+            'name' => ''
+        )
+    );
 
     function __construct() {
         if ( is_admin() ) {
@@ -48,11 +54,12 @@ class WPUOptions {
 
     function admin_settings() {
         $fields = apply_filters( 'wpu_options_fields', array() );
+        $boxes = apply_filters( 'wpu_options_boxes', $this->default_box );
         $content = '<div class="wrap">';
         $content .= '<h2>' . $this->options['plugin_name'] . '</h2>';
         if ( !empty( $fields ) ) {
             $content .= $this->admin_update( $fields );
-            $content .= $this->admin_form( $fields );
+            $content .= $this->admin_form( $fields, $boxes );
         }
         else {
             $content .= '<p>' . __( 'No fields for the moment', 'wpuoptions' ) . '</p>';
@@ -106,12 +113,25 @@ class WPUOptions {
         return $content;
     }
 
-    private function admin_form( $fields = array() ) {
-        $content = '<form action="" method="post"><ul>';
-        foreach ( $fields as $id => $field ) {
-            $content .= $this->admin_field( $id, $field );
+    private function admin_form( $fields = array(), $boxes = array() ) {
+        $base_content = '<form action="" method="post">';
+        $content = $base_content;
+        foreach($boxes as $idbox => $box){
+            $content_tmp = '';
+            foreach ( $fields as $id => $field ) {
+                if((isset($field['box']) && $field['box'] == $idbox) || ($idbox == 'default' && !isset($field['box']))){
+                    $content_tmp .= $this->admin_field( $id, $field );
+                }
+            }
+            if(!empty($content_tmp)){
+                // Adding box name if available
+                if(!empty($box['name'])){
+                    $content .= '<h3>'.$box['name'].'</h3>';
+                }
+                $content .= '<ul>'.$content_tmp.'</ul>';
+            }
         }
-        $content .= '<li><input class="button-primary" name="plugin_ok" value="' . __( 'Update', 'wpuoptions' ) . '" type="submit" /></li></ul>';
+        $content .= '<ul><li><input class="button-primary" name="plugin_ok" value="' . __( 'Update', 'wpuoptions' ) . '" type="submit" /></li></ul>';
         $content .= wp_nonce_field( 'wpuoptions-nonceaction', 'wpuoptions-noncefield', 1, 0 );
         $content .= '</form>';
         return $content;
@@ -144,6 +164,7 @@ class WPUOptions {
     private function get_field_datas( $id, $field ) {
 
         $default_values = array(
+            'box' => 'default',
             'label' => $id,
             'type' => 'text',
             'test' => ''

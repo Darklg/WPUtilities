@@ -4,7 +4,7 @@ Plugin Name: WPU Options
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Options admin
 Author: Darklg
-Version: 1.1
+Version: 1.2
 Author URI: http://darklg.me
 */
 
@@ -114,7 +114,7 @@ class WPUOptions {
     }
 
     private function admin_form( $fields = array(), $boxes = array() ) {
-        $base_content = '<form action="" method="post">';
+        $base_content = '<form action="" method="post" class="wpu-options-form">';
         $content = $base_content;
         foreach($boxes as $idbox => $box){
             $content_tmp = '';
@@ -143,18 +143,31 @@ class WPUOptions {
         $content = '<li>';
         $content .= '<label for="' . $idf . '">' . $field['label'] . ' : </label><br />';
         $idname = ' id="' . $idf . '" name="' . $idf . '" ';
+        $value = get_option( $id );
         switch ( $field['type'] ) {
-        case 'textarea':
-            $content .= '<textarea ' . $idname . ' rows="5" cols="30">' . get_option( $id ) . '</textarea>';
+        case 'editor':
+            ob_start();
+            wp_editor( $value, $idf );
+            $content .= ob_get_clean();
             break;
         case 'email':
-            $content .= '<input type="email" ' . $idname . ' value="' . get_option( $id ) . '" />';
+            $content .= '<input type="email" ' . $idname . ' value="' . $value . '" />';
+            break;
+        case 'page':
+            $content .= wp_dropdown_pages( array(
+                    'name' => $idf,
+                    'selected' => $value,
+                    'echo' => 0,
+                ) );
+            break;
+        case 'textarea':
+            $content .= '<textarea ' . $idname . ' rows="5" cols="30">' . $value . '</textarea>';
             break;
         case 'url':
-            $content .= '<input type="url" ' . $idname . ' value="' . get_option( $id ) . '" />';
+            $content .= '<input type="url" ' . $idname . ' value="' . $value . '" />';
             break;
         default :
-            $content .= '<input type="text" ' . $idname . ' value="' . get_option( $id ) . '" />';
+            $content .= '<input type="text" ' . $idname . ' value="' . $value . '" />';
         }
         $content .= '</li>';
         return $content;
@@ -186,6 +199,11 @@ class WPUOptions {
                 $return = false;
             }
             break;
+        case 'page':
+            if ( !ctype_digit( $value ) ) {
+                $return = false;
+            }
+            break;
         case 'url':
             if ( filter_var( $value, FILTER_VALIDATE_URL ) === false ) {
                 $return = false;
@@ -193,7 +211,6 @@ class WPUOptions {
             break;
         default:
         }
-
         return $return;
     }
 

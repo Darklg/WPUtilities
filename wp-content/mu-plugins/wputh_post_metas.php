@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Post Metas
 Description: Simple admin for post metas
-Version: 0.4
+Version: 0.4.1
 */
 
 /* Based on | http://codex.wordpress.org/Function_Reference/add_meta_box */
@@ -61,6 +61,9 @@ function wputh_post_metas_box_content( $post, $details ) {
                 break;
             case 'textarea':
                 echo '<textarea rows="3" cols="50" '.$idname.'>'. $value .'</textarea>';
+                break;
+            case 'editor':
+                wp_editor( $value, $id );
                 break;
             case 'url':
                 echo '<input type="url" '.$idname.' value="'.esc_attr( $value ).'" />';
@@ -199,6 +202,9 @@ function wputh_check_field_value( $id, $field ) {
         break;
     case 'textarea':
         $return = strip_tags( $value );
+        break;
+    case 'editor':
+        $return = trim( $value );
         break;
     case 'url':
         $return = ( filter_var( $value, FILTER_VALIDATE_URL ) === false ) ? false : $value;

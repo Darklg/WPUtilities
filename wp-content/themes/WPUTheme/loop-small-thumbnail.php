@@ -1,7 +1,7 @@
 <?php
 include dirname( __FILE__ ) . '/z-protect.php';
 ?>
-<article class="loop-small">
+<article <?php post_class('loop-small'); ?>>
     <div class="bmedia">
         <div>
             <img class="loop-small-thumbnail-img" src="<?php echo wputh_get_thumbnail('loop-small-thumbnail'); ?>" alt="<?php echo the_title_attribute(); ?>" />

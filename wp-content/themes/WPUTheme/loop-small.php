@@ -1,6 +1,6 @@
 <?php
 include dirname( __FILE__ ) . '/z-protect.php';
-?><article class="loop-small">
+?><article <?php post_class('loop-small'); ?>>
     <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
     <aside class="lpsm-metas">
         <?php echo __( 'By', 'wputh' ); ?>

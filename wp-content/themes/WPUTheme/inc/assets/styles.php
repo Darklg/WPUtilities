@@ -6,8 +6,8 @@ if ( !is_admin() ) {
 }
 
 // Base values
-define( 'WPU_CSS_DIR', TEMPLATEPATH . '/css/' );
-define( 'WPU_CSS_URL', THEME_URL . '/css/' );
+define( 'WPU_CSS_DIR', get_template_directory() . '/css/' );
+define( 'WPU_CSS_URL', get_template_directory_uri() . '/css/' );
 
 function wputh_add_stylesheets() {
     $css_files = parse_path( WPU_CSS_DIR );

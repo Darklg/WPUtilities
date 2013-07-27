@@ -2,8 +2,9 @@
 if(!isset($_POST['ajax'])){ ?>
 </div>
 <footer class="main-footer">
-    <small>© <?php echo date('Y'); ?> — <?php bloginfo('name'); ?></small>
+    <small>&copy; <?php echo date('Y'); ?> - <?php bloginfo('name'); ?></small>
 </footer>
+<?php wp_footer(); ?>
 </body>
 </html>
 <?php }

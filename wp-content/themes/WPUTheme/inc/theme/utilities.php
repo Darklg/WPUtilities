@@ -27,7 +27,7 @@ function get_the_loop( $params = array() ) {
             get_template_part( $parameters['loop'] );
         }
         echo '</div>';
-        include TEMPLATEPATH . '/tpl/paginate.php';
+        include get_template_directory() . '/tpl/paginate.php';
     }
     else {
         echo '<p>' . __( 'Sorry, no search results for this query.', 'wputh' ) . '</p>';

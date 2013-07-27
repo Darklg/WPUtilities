@@ -26,7 +26,7 @@ if ( is_day() ) {
 echo '<div class="main">';
 echo '<h1>'.$shown_title.'</h1>';
 if ( is_year() || is_month() || is_day()) {
-    include TEMPLATEPATH . '/tpl/archive/dates-navigation.php';
+    include get_template_directory() . '/tpl/archive/dates-navigation.php';
 }
 echo get_the_loop();
 echo '</div>';

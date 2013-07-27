@@ -5,7 +5,7 @@ include dirname( __FILE__ ) . '/z-protect.php';
     <aside class="lpsm-metas">
         <?php echo __( 'By', 'wputh' ); ?>
         <?php the_author_posts_link(); ?>
-        •
+        &bull;
         <time class="lpsm-time" datetime="<?php echo get_the_time( DATE_W3C ); ?>">
             <?php echo get_the_time( __( 'F j, Y', 'wputh' ) ); ?>
         </time>
@@ -13,7 +13,7 @@ include dirname( __FILE__ ) . '/z-protect.php';
     <?php the_excerpt(); ?>
     <footer class="lpsm-metas">
         <?php the_category(', '); ?>
-        •
+        &bull;
         <?php echo wputh_get_comments_title( $post->comment_count ); ?>
     </footer>
 </article>

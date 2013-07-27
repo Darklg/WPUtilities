@@ -7,7 +7,7 @@ if ( post_password_required() ) {
 
 /* Obtaining datas */
 
-include TEMPLATEPATH . '/tpl/comments/datas.php';
+include get_template_directory() . '/tpl/comments/datas.php';
 
 /* Comment section title */
 
@@ -27,7 +27,7 @@ if ( count( $comments ) > 0 ) {
 }
 
 /* Comments form */
-include TEMPLATEPATH . '/tpl/comments/form.php';
+include get_template_directory() . '/tpl/comments/form.php';
 
 /* Trackbacks */
 if ( count( $trackbacks ) > 0 ) {

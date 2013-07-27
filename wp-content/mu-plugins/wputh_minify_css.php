@@ -21,7 +21,7 @@ class wputhMinifyCSS {
 
         // Setting vars
 
-        $cache_base_dir = TEMPLATEPATH;
+        $cache_base_dir = get_template_directory();
         $cache_base_url = get_template_directory_uri();
         $cache_folder = '/wputh-minify-cache/';
         $cache_file = 'cache.css';

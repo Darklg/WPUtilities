@@ -6,7 +6,7 @@ the_post();
 <div class="main">
     <?php get_template_part( 'loop' ); ?>
     <?php comments_template(); ?>
-    <?php include TEMPLATEPATH . '/tpl/single/pagination-single.php'; ?>
+    <?php include get_template_directory() . '/tpl/single/pagination-single.php'; ?>
 </div>
 <?php
 get_sidebar();

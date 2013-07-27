@@ -11,7 +11,7 @@ the_post();
     $att_image = wp_get_attachment_image_src( $post->id, "medium" ); ?>
     <p><img src="<?php echo $att_image[0];?>" alt="<?php $post->post_excerpt; ?>" /></p>
     <?php else : ?>
-    <a href="<?php echo wp_get_attachment_url( $post->ID ) ?>" title="<?php echo wp_specialchars( get_the_title( $post->ID ), 1 ) ?>" rel="attachment">
+    <a href="<?php echo wp_get_attachment_url( $post->ID ) ?>" title="<?php echo esc_html( get_the_title( $post->ID ), 1 ) ?>" rel="attachment">
         <?php echo basename( $post->guid ) ?>
     </a>
     <?php endif; ?>

@@ -12,7 +12,7 @@ if ( $number_results > 1 ) {
 get_header();
 
 echo '<div class="main">';
-echo '<h1>'.sprintf( __( '%s for “%s”', 'wputh' ), $search_results, get_search_query() ).'</h1>';
+echo '<h1>'.sprintf( __( '%s for &ldquo;%s&rdquo;', 'wputh' ), $search_results, get_search_query() ).'</h1>';
 echo get_the_loop();
 echo '</div>';
 get_sidebar();

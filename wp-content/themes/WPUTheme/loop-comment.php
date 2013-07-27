@@ -8,7 +8,7 @@ $id = $comment->comment_ID ;
         <div><?php echo get_avatar( $comment, 32 ) ?></div>
         <div class="bm-cont">
             <aside class="comment-metas">
-                <?php echo wputh_get_comment_author_name_link($comment); ?> —
+                <?php echo wputh_get_comment_author_name_link($comment); ?> -
                 <time><?php echo comment_date(  __( 'F j, Y', 'wputh' ), $id ); ?></time>
             </aside>
             <div class="comment-content cssc-content">

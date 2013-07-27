@@ -2,12 +2,12 @@
 
 global $current_user;
 
-// Don’t continue if comments are closed
+// Don't continue if comments are closed
 if ( !comments_open() ) {
     return;
 }
 
-// Don’t continue if registration is needed
+// Don't continue if registration is needed
 if ( get_option( 'comment_registration' ) && !is_user_logged_in() ) {
     $logURL = site_url() . '/wp-login.php?redirect_to=' . urlencode( get_permalink() );
     echo '<p>' . sprintf( __( 'You must be <a href="%s">logged in</a> to post a comment', 'wputh' ), $logURL ) . '</p>';
@@ -22,7 +22,7 @@ if ( get_option( 'comment_registration' ) && !is_user_logged_in() ) {
         <?php if ( is_user_logged_in() ) { get_currentuserinfo(); ?>
         <li class="box">
             <?php echo sprintf( __( 'Logged in as <strong>%s</strong>.', 'wputh' ), $current_user->display_name ); ?>
-            <a title="<?php echo __( 'Log out of this account', 'wputh' ); ?>" href="<?php echo wp_logout_url( get_permalink() ); ?>">Log out »</a>
+            <a title="<?php echo __( 'Log out of this account', 'wputh' ); ?>" href="<?php echo wp_logout_url( get_permalink() ); ?>">Log out &raquo;</a>
         </li>
         <?php } else { ?>
         <li>

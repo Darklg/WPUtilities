@@ -1,14 +1,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2013-07-01 10:44-0000\n"
+"POT-Creation-Date: 2013-07-28 01:16+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Kevin <kevin@rocher.me>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 1.5.7\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-KeywordsList: __;_e\n"
@@ -19,7 +19,7 @@ msgid "404 Error"
 msgstr "Erreur 404"
 
 #: ../.././404.php:8
-msgid "Sorry, but this page doesn’t exists."
+msgid "Sorry, but this page doesn&rsquo;t exists."
 msgstr "Désolé, mais cette page n'existe pas."
 
 #: ../.././archive.php:5
@@ -97,8 +97,8 @@ msgstr "<strong>%s</strong> résultats de recherche"
 
 #: ../.././search.php:15
 #, php-format
-msgid "%s for “%s”"
-msgstr "%s pour \"%s\""
+msgid "%s for &ldquo;%s&rdquo;"
+msgstr "%s pour &ldquo;%s&rdquo;"
 
 #: ../.././inc/configuration/menus.php:3
 msgid "Main menu"
@@ -120,36 +120,36 @@ msgstr "Sidebar du thème par défaut"
 msgid "Importance"
 msgstr "Importance"
 
-#: ../.././inc/plugins/wpu-options.php:11
+#: ../.././inc/plugins/wpu-options.php:23
 msgid "Phone"
 msgstr "Téléphone"
 
-#: ../.././inc/plugins/wpu-options.php:14
+#: ../.././inc/plugins/wpu-options.php:26
 msgid "Email address"
 msgstr "Adresse email"
 
-#: ../.././inc/plugins/wpu-options.php:19
+#: ../.././inc/plugins/wpu-options.php:32
 msgid "Address"
 msgstr "Adresse"
 
-#: ../.././inc/theme/utilities.php:31
+#: ../.././inc/theme/utilities.php:33
 msgid "Sorry, no search results for this query."
 msgstr "Désolé, il n'y a aucun résultat pour cette requête."
 
-#: ../.././inc/theme/utilities.php:51
+#: ../.././inc/theme/utilities.php:53
 msgid "<strong>no</strong> comments"
 msgstr "<strong>aucun</strong> commentaire"
 
-#: ../.././inc/theme/utilities.php:54
+#: ../.././inc/theme/utilities.php:56
 msgid "<strong>1</strong> comment"
 msgstr "<strong>1</strong> commentaire"
 
-#: ../.././inc/theme/utilities.php:57
+#: ../.././inc/theme/utilities.php:59
 #, php-format
 msgid "<strong>%s</strong> comments"
 msgstr "<strong>%s</strong> commentaires"
 
-#: ../.././inc/theme/utilities.php:60
+#: ../.././inc/theme/utilities.php:62
 msgid "Comments are closed"
 msgstr "Les commentaires sont fermés"
 
@@ -209,6 +209,10 @@ msgstr "Pages"
 msgid "Posts"
 msgstr "Articles"
 
+#: ../.././tpl/paginate.php:26
+msgid "Next page"
+msgstr "Page suivante"
+
 #: ../.././tpl/comments/form.php:13
 #, php-format
 msgid "You must be <a href=\"%s\">logged in</a> to post a comment"
@@ -247,6 +251,9 @@ msgstr "Votre commentaire"
 #: ../.././tpl/header/searchform.php:5
 msgid "Search for:"
 msgstr "Rechercher :"
+
+#~ msgid "%s for “%s”"
+#~ msgstr "%s pour \"%s\""
 
 #~ msgid "1 search result"
 #~ msgstr "1 résultat de recherche"

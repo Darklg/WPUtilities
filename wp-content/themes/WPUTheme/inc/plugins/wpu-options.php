@@ -1,4 +1,5 @@
 <?php
+
 include dirname( __FILE__ ) . '/../../z-protect.php';
 
 /* ----------------------------------------------------------
@@ -6,25 +7,29 @@ include dirname( __FILE__ ) . '/../../z-protect.php';
    ------------------------------------------------------- */
 
 add_filter( 'wpu_options_boxes', 'set_wpu_options_boxes', 10, 3 );
-function set_wpu_options_boxes( $boxes ){
+
+function set_wpu_options_boxes( $boxes ) {
     $boxes['virtual_contacts'] = array(
         'name' => 'Virtual contacts'
     );
     return $boxes;
 }
+
+
 add_filter( 'wpu_options_fields', 'set_wputh_options_fields', 10, 3 );
+
 function set_wputh_options_fields( $options ) {
     $options['wpu_opt_phone'] = array(
-        'label' => __( 'Phone' )
+        'label' => __( 'Phone', 'wputh' )
     );
     $options['wpu_opt_email'] = array(
-        'label' => __( 'Email address' ),
+        'label' => __( 'Email address', 'wputh' ),
         'box' => 'virtual_contacts',
         'type' => 'email',
         'test' => 'email'
     );
     $options['wpu_opt_address'] = array(
-        'label' => __( 'Address' ),
+        'label' => __( 'Address', 'wputh' ),
         'type' => 'textarea'
     );
     return $options;

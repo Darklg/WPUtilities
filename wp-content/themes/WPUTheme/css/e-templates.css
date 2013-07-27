@@ -27,7 +27,7 @@
     color: #fff;
     opacity: 0.0;
     background: -moz-linear-gradient(top,rgba(0,0,0,0.65) 0,rgba(0,0,0,0) 100%);
-    background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,rgba(0,0,0,0.65) ),color-stop(100%,rgba(0,0,0,0) ));
+    background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,rgba(0,0,0,0.65) ), color-stop(100%,rgba(0,0,0,0) ) );
     background: -webkit-linear-gradient(top,rgba(0,0,0,0.65) 0,rgba(0,0,0,0) 100%);
     background: -o-linear-gradient(top,rgba(0,0,0,0.65) 0,rgba(0,0,0,0) 100%);
     background: -ms-linear-gradient(top,rgba(0,0,0,0.65) 0,rgba(0,0,0,0) 100%);
@@ -38,4 +38,32 @@
 .gallery-list a:hover strong {
     opacity: 0.99;
     filter: alpha(opacity=99);
+}
+
+/* ----------------------------------------------------------
+  Archive
+---------------------------------------------------------- */
+
+.archive-years--year {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #e0e0e0;
+}
+
+.archive-years--title a {
+    color: #333;
+}
+
+.archive-months {
+    display: block;
+    overflow: hidden;
+}
+
+.archive-months li {
+    float: left;
+    width: 25%;
+}
+
+.archive-months .current {
+    font-weight: bold;
 }

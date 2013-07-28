@@ -91,6 +91,15 @@ body {
    Content
    ------------------------------------------------------- */
 
+article .cssc-content {
+    min-height: 1px;
+}
+
+.wp-caption {
+    margin-bottom: 10px;
+    max-width: 100%;
+}
+
 .main-pagination {
     margin: 20px 0;
     text-align: center;

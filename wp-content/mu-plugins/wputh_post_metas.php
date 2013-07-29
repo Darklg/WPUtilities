@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Post Metas
 Description: Simple admin for post metas
-Version: 0.4.1
+Version: 0.4.2
 */
 
 /* Based on | http://codex.wordpress.org/Function_Reference/add_meta_box */
@@ -87,9 +87,10 @@ function wputh_post_metas_save_postdata( $post_id ) {
     $boxes = apply_filters( 'wputh_post_metas_boxes', array() );
     $fields = apply_filters( 'wputh_post_metas_fields', array() );
     $fields = wputh_post_metas_control_fields_datas( $fields );
+    $post_type = isset($_POST['post_type']) ? $_POST['post_type'] : 'post';
 
     // First we need to check if the current user is authorised to do this action.
-    if ( 'page' == $_POST['post_type'] ) {
+    if ( 'page' == $post_type ) {
         if ( ! current_user_can( 'edit_page', $post_id ) )
             return;
     } else {
@@ -106,7 +107,7 @@ function wputh_post_metas_save_postdata( $post_id ) {
     foreach ( $boxes as $id => $box ) {
         $box = wputh_post_metas_control_box_datas( $box );
         // If box corresponds to this post type & current user has level to edit
-        if ( in_array( $_POST['post_type'], $box['post_type'] ) && current_user_can( $box['capability'] ) ) {
+        if ( in_array( $post_type, $box['post_type'] ) && current_user_can( $box['capability'] ) ) {
             $boxfields = wputh_post_metas_fields_from_box( $id, $fields );
             foreach ( $boxfields as $field_id => $field ) {
                 $field_value = wputh_check_field_value( $field_id, $field );

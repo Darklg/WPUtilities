@@ -13,11 +13,11 @@ function wputh_add_taxonomies() {
     foreach ( $taxonomies as $slug => $taxo ) {
         register_taxonomy(
             $slug,
-            'post',
+            (isset($taxo['post_type']) ? $taxo['post_type'] : 'post'),
             array(
                 'label' => $taxo['name'],
                 'rewrite' => array( 'slug' => $slug ),
-                'hierarchical' => true
+                'hierarchical' => (isset($taxo['hierarchical']) ? $taxo['hierarchical'] : true)
             )
         );
     }

@@ -93,6 +93,7 @@ body {
 
 article .cssc-content {
     min-height: 1px;
+    overflow: hidden;
 }
 
 .wp-caption {

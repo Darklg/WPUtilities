@@ -6,6 +6,12 @@ function wputh_add_javascripts() {
         'mootools' => array(
             'uri' => '/js/lib/mootools-core-1.4.5-full-nocompat-yc.js'
         ),
+        'mootools-more' => array(
+            'uri' => '/js/lib/mootools-more-1.4.0.1.js'
+        ),
+        'dk-smooth-scroll' => array(
+            'uri' => '/js/classes/dk-smooth-scroll.js'
+        ),
         'events' => array(
             'uri' => '/js/events.js'
         )

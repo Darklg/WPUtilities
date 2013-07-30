@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Post Metas
 Description: Simple admin for post metas
-Version: 0.4.2
+Version: 0.5
 */
 
 /* Based on | http://codex.wordpress.org/Function_Reference/add_meta_box */
@@ -48,6 +48,25 @@ function wputh_post_metas_box_content( $post, $details ) {
             echo '<td valign="top" style="width: 150px;"><label for="el_id_'.$id.'">'.$field['name'].' :</label></td>';
             echo '<td valign="top" style="width: 450px;">';
             switch ( $field['type'] ) {
+            case 'attachment':
+                $args = array(
+                    'post_type' => 'attachment',
+                    'posts_per_page' => -1,
+                    'post_status' =>'any',
+                    'post_parent' => $post->ID
+                );
+                $attachments = get_posts($args);
+                if ($attachments) {
+                    echo '<select '.$idname.'>';
+                    foreach ( $attachments as $attachment ) {
+                        echo '<option value="'.$attachment->ID.'" '.($attachment->ID == $value ? 'selected="selected"' : '').'>'.apply_filters( 'the_title' , $attachment->post_title ).'</option>';
+                    }
+                    echo '</select>';
+                }
+                else {
+                    echo '<span>'.__('No attachments', 'wputh').'</span>';
+                }
+                break;
             case 'email':
                 echo '<input type="email" '.$idname.' value="'.esc_attr( $value ).'" />';
                 break;
@@ -195,6 +214,9 @@ function wputh_check_field_value( $id, $field ) {
     $return = false;
     $value = $_POST[$id];
     switch ( $field['type'] ) {
+    case 'attachment':
+        $return = ctype_digit( $value ) ? $value : false;
+        break;
     case 'email':
         $return = ( filter_var( $value, FILTER_VALIDATE_EMAIL ) === false ) ? false : $value;
         break;

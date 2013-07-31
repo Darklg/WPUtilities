@@ -4,7 +4,7 @@ Plugin Name: WPU Options
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Options admin
 Author: Darklg
-Version: 1.2
+Version: 2.0
 Author URI: http://darklg.me
 */
 
@@ -77,9 +77,22 @@ class WPUOptions {
             $content .= '<p>' . __( "Error in the form.", 'wpuoptions' ) . '</p>';
         }
         else {
+            $languages = $this->get_languages();
             $updated_options = array();
             $errors = array();
-            foreach ( $fields as $id => $field ) {
+            $testfields = array();
+            foreach ($fields as $id=> $field) {
+                $testfields[$id] = $field;
+                if (isset($field['lang']) && !empty($languages)) {
+                    foreach ($languages as $lang => $name) {
+                        $newfield = $field;
+                        $newfield['label'] = '['.$lang.'] '.$newfield['label'];
+                        $testfields[$lang.'___'.$id] = $newfield;
+                    }
+                }
+            }
+
+            foreach ( $testfields as $id => $field ) {
                 $idf = $this->get_field_id( $id );
                 if ( isset( $_POST[$idf] ) ) {
                     $field = $this->get_field_datas( $id, $field );
@@ -99,7 +112,7 @@ class WPUOptions {
                             $updated_options[] = sprintf( __( 'The field "%s" has been updated.', 'wpuoptions' ), $field['label'] );
                         }
                     } else {
-                        $errors[] = sprintf( __( 'The field "%s" has not been updated, because it’s not valid.', 'wpuoptions' ), $field['label'] );
+                        $errors[] = sprintf( __( 'The field "%s" has not been updated, because it\'s not valid.', 'wpuoptions' ), $field['label'] );
                     }
                 }
             }
@@ -116,19 +129,19 @@ class WPUOptions {
     private function admin_form( $fields = array(), $boxes = array() ) {
         $base_content = '<form action="" method="post" class="wpu-options-form">';
         $content = $base_content;
-        foreach($boxes as $idbox => $box){
+        foreach ($boxes as $idbox => $box) {
             $content_tmp = '';
             foreach ( $fields as $id => $field ) {
-                if((isset($field['box']) && $field['box'] == $idbox) || ($idbox == 'default' && !isset($field['box']))){
+                if ((isset($field['box']) && $field['box'] == $idbox) || ($idbox == 'default' && !isset($field['box']))) {
                     $content_tmp .= $this->admin_field( $id, $field );
                 }
             }
-            if(!empty($content_tmp)){
+            if (!empty($content_tmp)) {
                 // Adding box name if available
-                if(!empty($box['name'])){
+                if (!empty($box['name'])) {
                     $content .= '<h3>'.$box['name'].'</h3>';
                 }
-                $content .= '<ul>'.$content_tmp.'</ul>';
+                $content .= '<table style="width: 500px;">'.$content_tmp.'</table>';
             }
         }
         $content .= '<ul><li><input class="button-primary" name="plugin_ok" value="' . __( 'Update', 'wpuoptions' ) . '" type="submit" /></li></ul>';
@@ -138,38 +151,65 @@ class WPUOptions {
     }
 
     private function admin_field( $id, $field = array() ) {
-        $idf = $this->get_field_id( $id );
-        $field = $this->get_field_datas( $id, $field );
-        $content = '<li>';
-        $content .= '<label for="' . $idf . '">' . $field['label'] . ' : </label><br />';
-        $idname = ' id="' . $idf . '" name="' . $idf . '" ';
-        $value = get_option( $id );
-        switch ( $field['type'] ) {
-        case 'editor':
-            ob_start();
-            wp_editor( $value, $idf );
-            $content .= ob_get_clean();
-            break;
-        case 'email':
-            $content .= '<input type="email" ' . $idname . ' value="' . $value . '" />';
-            break;
-        case 'page':
-            $content .= wp_dropdown_pages( array(
-                    'name' => $idf,
-                    'selected' => $value,
-                    'echo' => 0,
-                ) );
-            break;
-        case 'textarea':
-            $content .= '<textarea ' . $idname . ' rows="5" cols="30">' . $value . '</textarea>';
-            break;
-        case 'url':
-            $content .= '<input type="url" ' . $idname . ' value="' . $value . '" />';
-            break;
-        default :
-            $content .= '<input type="text" ' . $idname . ' value="' . $value . '" />';
+        $languages = $this->get_languages();
+        $fields_versions = array();
+
+        if(empty($languages) || !isset($field['lang'])){
+            $fields_versions[] = array(
+                'id' => $id,
+                'field' => $field,
+                'prefix_label' => '',
+                'prefix_opt' => '',
+            );
         }
-        $content .= '</li>';
+        else {
+            foreach($languages as $idlang => $lang){
+                $fields_versions[] = array(
+                    'id' => $id,
+                    'field' => $field,
+                    'prefix_label' => '['.$idlang.'] ',
+                    'prefix_opt' => $idlang . '___',
+                );
+            }
+        }
+        $content = '';
+        foreach($fields_versions as $field_version){
+            $idf = $this->get_field_id( $field_version['prefix_opt'] . $field_version['id'] );
+            $field = $this->get_field_datas( $field_version['id'], $field_version['field'] );
+            $idname = ' id="' . $idf . '" name="' . $idf . '" ';
+            $value = get_option( $field_version['prefix_opt'] . $field_version['id'] );
+
+            $content .= '<tr class="wpu-options-box">';
+            $content .= '<td style="width: 150px;"><label for="' . $field_version['prefix_opt'] . $idf . '">' . $field_version['prefix_label'] . $field['label'] . ' : </label></td>';
+            $content .= '<td>';
+            switch ( $field['type'] ) {
+            case 'editor':
+                ob_start();
+                wp_editor( $value, $idf );
+                $content .= ob_get_clean();
+                break;
+            case 'email':
+                $content .= '<input type="email" ' . $idname . ' value="' . $value . '" />';
+                break;
+            case 'page':
+                $content .= wp_dropdown_pages( array(
+                        'name' => $idf,
+                        'selected' => $value,
+                        'echo' => 0,
+                    ) );
+                break;
+            case 'textarea':
+                $content .= '<textarea ' . $idname . ' rows="5" cols="30">' . $value . '</textarea>';
+                break;
+            case 'url':
+                $content .= '<input type="url" ' . $idname . ' value="' . $value . '" />';
+                break;
+            default :
+                $content .= '<input type="text" ' . $idname . ' value="' . $value . '" />';
+            }
+            $content .= '</td>';
+            $content .= '</tr>';
+        }
         return $content;
     }
 
@@ -217,6 +257,32 @@ class WPUOptions {
     private function get_field_id( $id ) {
         return 'wpu_admin_id_' . $id;
     }
+
+
+    private function get_languages() {
+        global $q_config;
+        $languages = array();
+        // Obtaining from Qtranslate
+        if (isset($q_config['enabled_languages'])) {
+            foreach ($q_config['enabled_languages'] as $lang) {
+                if (!in_array($lang, $languages) && isset($q_config['language_name'][$lang])) {
+                    $languages[$lang] = $q_config['language_name'][$lang];
+                }
+            }
+        }
+        return $languages;
+    }
+
 }
 
 $WPUOptions = new WPUOptions();
+
+function wputh_l18n_get_option($name){
+    global $q_config;
+
+    if(isset($q_config['language'])){
+        $name = $q_config['language'] . '___' . $name;
+    }
+
+    return get_option($name);
+}

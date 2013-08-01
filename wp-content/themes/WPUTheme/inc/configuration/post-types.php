@@ -19,10 +19,16 @@ function wputh_add_post_types() {
         if ( !isset( $post_type['supports'] ) ) {
             $post_type['supports'] = array( 'title', 'editor', 'thumbnail' );
         }
+        // Plural
+        if ( !isset( $post_type['plural'] ) ) {
+            $post_type['plural'] = $post_type['name'];
+        }
 
         $args = array(
             'public' => true,
-            'label' => $post_type['name'],
+            'name' => $post_type['name'],
+            'singular_name' => $post_type['name'],
+            'label' => $post_type['plural'],
             'supports' => $post_type['supports']
         );
         register_post_type( $slug, $args );

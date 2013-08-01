@@ -34,7 +34,6 @@ include get_template_directory() . '/inc/configuration/shortcodes.php';
    ----------------------- */
 
 include get_template_directory() . '/inc/plugins/wpu-options.php';
-include get_template_directory() . '/inc/plugins/wputh_thumbnails.php';
 include get_template_directory() . '/inc/plugins/wputh-post-metas.php';
 
 /* Assets

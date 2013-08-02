@@ -11,3 +11,4 @@ Plugins
 * *Minify HTML* : Compress HTML pages.
 * *Cache HTML* : Cache pages in files for a faster loading.
 * *Post Metas* : Simple admin for post metas
+* *Disable Comments* : Disable all comments

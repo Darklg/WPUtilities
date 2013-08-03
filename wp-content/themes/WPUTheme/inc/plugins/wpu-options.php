@@ -19,18 +19,14 @@ function set_wpu_options_boxes( $boxes ) {
 add_filter( 'wpu_options_fields', 'set_wputh_options_fields', 10, 3 );
 
 function set_wputh_options_fields( $options ) {
-    $options['wpu_opt_phone'] = array(
-        'label' => __( 'Phone', 'wputh' )
+    $options['wputh_ua_analytics'] = array(
+        'label' => __( 'Analytics code', 'wputh' )
     );
     $options['wpu_opt_email'] = array(
         'label' => __( 'Email address', 'wputh' ),
         'box' => 'virtual_contacts',
         'type' => 'email',
         'test' => 'email'
-    );
-    $options['wpu_opt_address'] = array(
-        'label' => __( 'Address', 'wputh' ),
-        'type' => 'textarea'
     );
     return $options;
 }

@@ -2,9 +2,12 @@
 if(!isset($_POST['ajax'])){ ?>
 </div>
 <footer class="main-footer">
-    <?php include get_template_directory() . '/tpl/footer/copyright.php'; ?>
+<?php
+include get_template_directory() . '/tpl/footer/copyright.php';
+include get_template_directory() . '/tpl/footer/analytics.php';
+wp_footer();
+?>
 </footer>
-<?php wp_footer(); ?>
 </body>
 </html>
 <?php }

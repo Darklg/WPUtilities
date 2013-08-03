@@ -4,7 +4,7 @@
 
 $get_comments = get_comments( array(
         'post_id' => get_the_ID(),
-        'comment_approved' => 1,
+        'status' => 'approve',
         'order' => 'ASC',
     ) );
 

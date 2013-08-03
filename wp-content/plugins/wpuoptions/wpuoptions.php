@@ -4,7 +4,7 @@ Plugin Name: WPU Options
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Options admin
 Author: Darklg
-Version: 2.0
+Version: 2.0.1
 Author URI: http://darklg.me
 */
 
@@ -30,7 +30,7 @@ class WPUOptions {
     private function set_options() {
         $this->options = array(
             'plugin_name' => 'WPU Options',
-            'plugin_userlevel' => 'manage_options',
+            'plugin_userlevel' => 'manage_categories',
             'plugin_menutype' => 'index.php',
             'plugin_pageslug' => 'wpuoptions-settings',
             'plugin_dir' => str_replace( ABSPATH, ( site_url() . '/' ), dirname( __FILE__ ) ),

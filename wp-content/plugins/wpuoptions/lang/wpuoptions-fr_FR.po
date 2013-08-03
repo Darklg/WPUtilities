@@ -1,50 +1,50 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2013-04-23 23:24+0100\n"
+"POT-Creation-Date: 2013-08-03 23:26+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Kevin <kevin@rocher.me>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 1.5.7\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-SearchPath-0: ../.\n"
 
-#: .././wpuoptions.php:58
+#: .././wpuoptions.php:65
 msgid "No fields for the moment"
 msgstr "Aucun champ pour le moment"
 
-#: .././wpuoptions.php:70
+#: .././wpuoptions.php:77
 msgid "Error in the form."
 msgstr "Erreur dans le formulaire."
 
-#: .././wpuoptions.php:86
+#: .././wpuoptions.php:106
 #, php-format
 msgid "The field \"%s\" must not be empty"
 msgstr "Le champ \"%s\" ne doit pas être vide."
 
-#: .././wpuoptions.php:92
+#: .././wpuoptions.php:112
 #, php-format
 msgid "The field \"%s\" has been updated."
 msgstr "Le champ \"%s\" a été mis à jour."
 
-#: .././wpuoptions.php:95
+#: .././wpuoptions.php:115
 #, php-format
-msgid "The field \"%s\" has not been updated, because it’s not valid."
+msgid "The field \"%s\" has not been updated, because it's not valid."
 msgstr "Le champ \"%s\" n’a pas été mis à jour, car il est invalide."
 
-#: .././wpuoptions.php:100
+#: .././wpuoptions.php:120
 msgid "Success!"
 msgstr "Succès !"
 
-#: .././wpuoptions.php:103
+#: .././wpuoptions.php:123
 msgid "Fail!"
 msgstr "Echec !"
 
-#: .././wpuoptions.php:114
+#: .././wpuoptions.php:147
 msgid "Update"
 msgstr "Mettre à jour"

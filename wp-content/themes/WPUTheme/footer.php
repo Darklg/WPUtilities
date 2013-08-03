@@ -2,7 +2,7 @@
 if(!isset($_POST['ajax'])){ ?>
 </div>
 <footer class="main-footer">
-    <small>&copy; <?php echo date('Y'); ?> - <?php bloginfo('name'); ?></small>
+    <?php include get_template_directory() . '/tpl/footer/copyright.php'; ?>
 </footer>
 <?php wp_footer(); ?>
 </body>

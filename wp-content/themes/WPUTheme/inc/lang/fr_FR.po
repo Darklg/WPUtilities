@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2013-07-28 01:16+0100\n"
+"POT-Creation-Date: 2013-08-03 23:20+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Kevin <kevin@rocher.me>\n"
 "Language-Team: \n"
@@ -209,7 +209,7 @@ msgstr "Pages"
 msgid "Posts"
 msgstr "Articles"
 
-#: ../.././tpl/paginate.php:26
+#: ../.././tpl/paginate.php:28
 msgid "Next page"
 msgstr "Page suivante"
 
@@ -247,6 +247,11 @@ msgstr "Votre site"
 #: ../.././tpl/comments/form.php:50
 msgid "Your comment"
 msgstr "Votre commentaire"
+
+#: ../.././tpl/footer/copyright.php:2
+#, php-format
+msgid "A %s site using %s"
+msgstr "Un site %s utilisant %s"
 
 #: ../.././tpl/header/searchform.php:5
 msgid "Search for:"

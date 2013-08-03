@@ -1,6 +1,8 @@
 <?php
 global $wp_query, $wputh_query, $paged;
 
+$next_page = '';
+
 // Getting a real number for paged
 $pagedd = max( 1, $paged );
 

@@ -1,8 +1,11 @@
 <?php
 /*
-Plugin Name: WP Utilities disable comments
+Plugin Name: WPU disable comments
+Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Disable all comments
 Version: 0.1
+Author: Darklg
+Author URI: http://darklg.me
 */
 
 // Thx to : http://wordpress.stackexchange.com/a/17936

@@ -2,12 +2,11 @@
 /*
 Plugin Name: WPU Options
 Plugin URI: http://github.com/Darklg/WPUtilities
-Description: Options admin
+Description: Friendly interface for website options
 Author: Darklg
 Version: 2.0.1
 Author URI: http://darklg.me
 */
-
 
 class WPUOptions {
 

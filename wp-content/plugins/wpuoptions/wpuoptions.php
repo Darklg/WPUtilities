@@ -4,7 +4,7 @@ Plugin Name: WPU Options
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Friendly interface for website options
 Author: Darklg
-Version: 2.0.1
+Version: 2.1
 Author URI: http://darklg.me
 */
 
@@ -153,7 +153,7 @@ class WPUOptions {
         $languages = $this->get_languages();
         $fields_versions = array();
 
-        if(empty($languages) || !isset($field['lang'])){
+        if (empty($languages) || !isset($field['lang'])) {
             $fields_versions[] = array(
                 'id' => $id,
                 'field' => $field,
@@ -162,7 +162,7 @@ class WPUOptions {
             );
         }
         else {
-            foreach($languages as $idlang => $lang){
+            foreach ($languages as $idlang => $lang) {
                 $fields_versions[] = array(
                     'id' => $id,
                     'field' => $field,
@@ -172,7 +172,7 @@ class WPUOptions {
             }
         }
         $content = '';
-        foreach($fields_versions as $field_version){
+        foreach ($fields_versions as $field_version) {
             $idf = $this->get_field_id( $field_version['prefix_opt'] . $field_version['id'] );
             $field = $this->get_field_datas( $field_version['id'], $field_version['field'] );
             $idname = ' id="' . $idf . '" name="' . $idf . '" ';
@@ -197,6 +197,13 @@ class WPUOptions {
                         'echo' => 0,
                     ) );
                 break;
+            case 'select':
+                $content .= '<select ' . $idname . '"><option value="" disabled selected style="display:none;">'.__('Select a value', 'wputh').'</option>';
+                foreach ($field['datas'] as $key => $var) {
+                    $content .= '<option value="'.$key.'" '.($key == $value ? 'selected="selected"' : '').'>'.$var.'</option>';
+                }
+                $content .= '</select>';
+                break;
             case 'textarea':
                 $content .= '<textarea ' . $idname . ' rows="5" cols="30">' . $value . '</textarea>';
                 break;
@@ -219,7 +226,8 @@ class WPUOptions {
             'box' => 'default',
             'label' => $id,
             'type' => 'text',
-            'test' => ''
+            'test' => '',
+            'datas' => array(__('No', 'wputh'), __('Yes', 'wputh'))
         );
         foreach ( $default_values as $name => $value ) {
             if ( empty( $field[$name] ) || !isset( $field[$name] ) ) {
@@ -240,6 +248,11 @@ class WPUOptions {
             break;
         case 'page':
             if ( !ctype_digit( $value ) ) {
+                $return = false;
+            }
+            break;
+        case 'select' :
+            if ( !array_key_exists($value, $field['datas'])) {
                 $return = false;
             }
             break;
@@ -276,10 +289,10 @@ class WPUOptions {
 
 $WPUOptions = new WPUOptions();
 
-function wputh_l18n_get_option($name){
+function wputh_l18n_get_option($name) {
     global $q_config;
 
-    if(isset($q_config['language'])){
+    if (isset($q_config['language'])) {
         $name = $q_config['language'] . '___' . $name;
     }
 

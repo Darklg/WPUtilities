@@ -4,7 +4,7 @@ Plugin Name: WPU Options
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Friendly interface for website options
 Author: Darklg
-Version: 2.1
+Version: 2.1.1
 Author URI: http://darklg.me
 */
 
@@ -18,6 +18,10 @@ class WPUOptions {
         )
     );
 
+
+    /**
+     * Init plugin
+     */
     function __construct() {
         if ( is_admin() ) {
             load_plugin_textdomain( 'wpuoptions', false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
@@ -26,6 +30,10 @@ class WPUOptions {
         }
     }
 
+
+    /**
+     * Set Options
+     */
     private function set_options() {
         $this->options = array(
             'plugin_name' => 'WPU Options',
@@ -37,10 +45,17 @@ class WPUOptions {
         );
     }
 
+
+    /**
+     * Set admin hooks
+     */
     private function admin_hooks() {
         add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
     }
 
+    /**
+     * Set admin menu
+     */
     function admin_menu() {
         add_submenu_page(
             $this->options['plugin_menutype'], $this->options['plugin_name'] . ' Settings',
@@ -51,6 +66,10 @@ class WPUOptions {
         );
     }
 
+
+    /**
+     * Set admin page
+     */
     function admin_settings() {
         $fields = apply_filters( 'wpu_options_fields', array() );
         $boxes = apply_filters( 'wpu_options_boxes', $this->default_box );
@@ -67,6 +86,13 @@ class WPUOptions {
         echo $content;
     }
 
+
+    /**
+     * Save new values
+     *
+     * @param unknown $fields (optional)
+     * @return unknown
+     */
     private function admin_update( $fields = array() ) {
         $content = '';
         if ( !isset( $_POST['plugin_ok'] ) ) {
@@ -125,6 +151,14 @@ class WPUOptions {
         return $content;
     }
 
+
+    /**
+     * Returns admin form
+     *
+     * @param unknown $fields (optional)
+     * @param unknown $boxes  (optional)
+     * @return unknown
+     */
     private function admin_form( $fields = array(), $boxes = array() ) {
         $base_content = '<form action="" method="post" class="wpu-options-form">';
         $content = $base_content;
@@ -149,6 +183,14 @@ class WPUOptions {
         return $content;
     }
 
+
+    /**
+     * Return an admin field
+     *
+     * @param unknown $id
+     * @param unknown $field (optional)
+     * @return unknown
+     */
     private function admin_field( $id, $field = array() ) {
         $languages = $this->get_languages();
         $fields_versions = array();
@@ -176,7 +218,7 @@ class WPUOptions {
             $idf = $this->get_field_id( $field_version['prefix_opt'] . $field_version['id'] );
             $field = $this->get_field_datas( $field_version['id'], $field_version['field'] );
             $idname = ' id="' . $idf . '" name="' . $idf . '" ';
-            $value = get_option( $field_version['prefix_opt'] . $field_version['id'] );
+            $value = htmlentities(get_option( $field_version['prefix_opt'] . $field_version['id'] ));
 
             $content .= '<tr class="wpu-options-box">';
             $content .= '<td style="width: 150px;"><label for="' . $field_version['prefix_opt'] . $idf . '">' . $field_version['prefix_label'] . $field['label'] . ' : </label></td>';
@@ -200,7 +242,7 @@ class WPUOptions {
             case 'select':
                 $content .= '<select ' . $idname . '"><option value="" disabled selected style="display:none;">'.__('Select a value', 'wputh').'</option>';
                 foreach ($field['datas'] as $key => $var) {
-                    $content .= '<option value="'.$key.'" '.($key == $value ? 'selected="selected"' : '').'>'.$var.'</option>';
+                    $content .= '<option value="'.htmlentities($key).'" '.($key == $value ? 'selected="selected"' : '').'>'.htmlentities($var).'</option>';
                 }
                 $content .= '</select>';
                 break;
@@ -219,7 +261,14 @@ class WPUOptions {
         return $content;
     }
 
-    /* Getting all datas for a field, with default values for undefined params  */
+
+    /**
+     * Getting all datas for a field, with default values for undefined params
+     *
+     * @param int     $id
+     * @param unknown $field
+     * @return unknown
+     */
     private function get_field_datas( $id, $field ) {
 
         $default_values = array(
@@ -238,6 +287,14 @@ class WPUOptions {
         return $field;
     }
 
+
+    /**
+     * Validate a field value
+     *
+     * @param string  $field
+     * @param unknown $value
+     * @return boolean
+     */
     private function test_field_value( $field, $value ) {
         $return = true;
         switch ( $field['test'] ) {
@@ -266,11 +323,23 @@ class WPUOptions {
         return $return;
     }
 
+
+    /**
+     * Optain an admin field id
+     *
+     * @param string  $id
+     * @return string
+     */
     private function get_field_id( $id ) {
         return 'wpu_admin_id_' . $id;
     }
 
 
+    /**
+     * Obtain a list of languages
+     *
+     * @return array
+     */
     private function get_languages() {
         global $q_config;
         $languages = array();
@@ -285,10 +354,19 @@ class WPUOptions {
         return $languages;
     }
 
+
 }
+
 
 $WPUOptions = new WPUOptions();
 
+
+/**
+ * Get an option value with l18n
+ *
+ * @param string  $name
+ * @return string
+ */
 function wputh_l18n_get_option($name) {
     global $q_config;
 

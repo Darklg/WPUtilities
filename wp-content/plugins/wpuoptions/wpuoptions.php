@@ -4,7 +4,7 @@ Plugin Name: WPU Options
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Friendly interface for website options
 Author: Darklg
-Version: 2.1.1
+Version: 2.1.2
 Author URI: http://darklg.me
 */
 
@@ -51,7 +51,10 @@ class WPUOptions {
      */
     private function admin_hooks() {
         add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
+        add_action('admin_bar_menu', array( &$this, 'add_toolbar_menu_items' ), 100);
+
     }
+
 
     /**
      * Set admin menu
@@ -64,6 +67,23 @@ class WPUOptions {
             $this->options['plugin_pageslug'],
             array( &$this, 'admin_settings' )
         );
+    }
+
+
+    /**
+     * Add menu items to toolbar
+     *
+     * @param unknown $admin_bar
+     */
+    function add_toolbar_menu_items($admin_bar) {
+        $admin_bar->add_menu( array(
+                'id' => 'wpu-options-menubar-link',
+                'title' => $this->options['plugin_name'] ,
+                'href' => admin_url( $this->options['plugin_menutype'] . '?page='.$this->options['plugin_pageslug'] ),
+                'meta' => array(
+                    'title' => $this->options['plugin_name'],
+                ),
+            ));
     }
 
 

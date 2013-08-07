@@ -26,6 +26,11 @@ function wputh_add_post_types() {
 
         $args = array(
             'public' => true,
+            'publicly_queryable' => true,
+            'has_archive' => true,
+            'with_front' => true,
+            'show_ui' => true,
+            'rewrite' => true,
             'name' => $post_type['name'],
             'singular_name' => $post_type['name'],
             'label' => $post_type['plural'],

@@ -4,7 +4,7 @@ Plugin Name: WPU Options
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Friendly interface for website options
 Author: Darklg
-Version: 2.1.2
+Version: 2.1.3
 Author URI: http://darklg.me
 */
 
@@ -194,7 +194,7 @@ class WPUOptions {
                 if (!empty($box['name'])) {
                     $content .= '<h3>'.$box['name'].'</h3>';
                 }
-                $content .= '<table style="width: 500px;">'.$content_tmp.'</table>';
+                $content .= '<table style="table-layout:fixed;width: 650px;">'.$content_tmp.'</table>';
             }
         }
         $content .= '<ul><li><input class="button-primary" name="plugin_ok" value="' . __( 'Update', 'wpuoptions' ) . '" type="submit" /></li></ul>';
@@ -241,7 +241,7 @@ class WPUOptions {
             $value = htmlentities(get_option( $field_version['prefix_opt'] . $field_version['id'] ));
 
             $content .= '<tr class="wpu-options-box">';
-            $content .= '<td style="width: 150px;"><label for="' . $field_version['prefix_opt'] . $idf . '">' . $field_version['prefix_label'] . $field['label'] . ' : </label></td>';
+            $content .= '<td style="vertical-align:top;width: 150px;"><label for="' . $field_version['prefix_opt'] . $idf . '">' . $field_version['prefix_label'] . $field['label'] . ' : </label></td>';
             $content .= '<td>';
             switch ( $field['type'] ) {
             case 'editor':

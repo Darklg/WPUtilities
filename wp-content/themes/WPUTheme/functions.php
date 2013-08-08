@@ -23,6 +23,7 @@ include get_template_directory() . '/inc/protection/front.php';
 /* Configuration
 -------------------------- */
 
+include get_template_directory() . '/inc/configuration/activation.php';
 include get_template_directory() . '/inc/configuration/taxonomies.php';
 include get_template_directory() . '/inc/configuration/post-types.php';
 include get_template_directory() . '/inc/configuration/sidebars.php';

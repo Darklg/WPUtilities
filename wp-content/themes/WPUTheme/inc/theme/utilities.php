@@ -103,3 +103,18 @@ function wputh_get_comment_author_name_link( $comment ) {
 
     return '<strong class="comment_author_url">' . $return . '</strong>';
 }
+
+
+/* ----------------------------------------------------------
+  Get Thumbnail URL
+---------------------------------------------------------- */
+
+function wputh_get_thumbnail_url($format) {
+    global $post;
+    $returnUrl = get_template_directory_uri().'/images/thumbnails/' . $format . '.jpg';
+    $image = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), $format );
+    if (isset($image[0])) {
+        $returnUrl = $image[0];
+    }
+    return $returnUrl;
+}

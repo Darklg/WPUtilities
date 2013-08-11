@@ -14,8 +14,6 @@ $metas['og_type'] = array(
 
 if ( is_single() ) {
 
-    $image = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), "medium" );
-
     // Meta description
     $meta_description = str_replace( array( "\n", "\t", '   ', '  ' ), ' ', trim( strip_tags( $post->post_content ) ) );
     $metas['description'] = array(
@@ -30,12 +28,10 @@ if ( is_single() ) {
         'property' => 'og:url',
         'content' => get_permalink()
     );
-    if(isset($image[0])){
-        $metas['og_image'] = array(
-            'property' => 'og:image',
-            'content' => $image[0]
-        );
-    }
+    $metas['og_image'] = array(
+        'property' => 'og:image',
+        'content' => wputh_get_thumbnail_url('thumbnail')
+    );
 }
 
 if ( is_home() ) {

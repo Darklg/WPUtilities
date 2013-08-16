@@ -4,7 +4,7 @@ Plugin Name: WPU Options
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Friendly interface for website options
 Author: Darklg
-Version: 2.1.4
+Version: 3.0
 Author URI: http://darklg.me
 */
 
@@ -38,7 +38,7 @@ class WPUOptions {
         $this->options = array(
             'plugin_name' => 'WPU Options',
             'plugin_userlevel' => 'manage_categories',
-            'plugin_menutype' => 'index.php',
+            'plugin_menutype' => 'admin.php',
             'plugin_pageslug' => 'wpuoptions-settings',
             'plugin_dir' => str_replace( ABSPATH, ( site_url() . '/' ), dirname( __FILE__ ) ),
             'plugin_basename' => str_replace( ABSPATH . 'wp-content/plugins/', '', __FILE__ )
@@ -51,8 +51,7 @@ class WPUOptions {
      */
     private function admin_hooks() {
         add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
-        add_action('admin_bar_menu', array( &$this, 'add_toolbar_menu_items' ), 100);
-
+        add_action( 'admin_bar_menu', array( &$this, 'add_toolbar_menu_items' ), 100);
     }
 
 
@@ -60,12 +59,22 @@ class WPUOptions {
      * Set admin menu
      */
     function admin_menu() {
-        add_submenu_page(
-            $this->options['plugin_menutype'], $this->options['plugin_name'] . ' Settings',
+        add_menu_page(
+            $this->options['plugin_name'] . ' Settings',
             $this->options['plugin_name'],
             $this->options['plugin_userlevel'],
-            $this->options['plugin_pageslug'],
-            array( &$this, 'admin_settings' )
+            __FILE__,
+            array( &$this, 'admin_settings' ),
+            '',
+            3
+        );
+        add_submenu_page(
+            __FILE__,
+            'Import / Export',
+            'Import / Export',
+            $this->options['plugin_userlevel'],
+            $this->options['plugin_pageslug'] . '-import-export',
+            array( &$this, 'admin_import_export' )
         );
     }
 
@@ -79,7 +88,7 @@ class WPUOptions {
         $admin_bar->add_menu( array(
                 'id' => 'wpu-options-menubar-link',
                 'title' => $this->options['plugin_name'] ,
-                'href' => admin_url( $this->options['plugin_menutype'] . '?page='.$this->options['plugin_pageslug'] ),
+                'href' => admin_url( $this->options['plugin_menutype'] . '?page='.$this->options['plugin_basename'] ),
                 'meta' => array(
                     'title' => $this->options['plugin_name'],
                 ),
@@ -104,6 +113,34 @@ class WPUOptions {
         }
         $content .= '</div>';
         echo $content;
+    }
+
+
+    /**
+     * Admin submenu import export
+     */
+    function admin_import_export() {
+        echo '<div class="wrap">';
+        echo '<h2>Import / Export</h2>';
+
+        if (isset($_FILES["wpu_import_options"])) {
+            $import_options = $_FILES["wpu_import_options"]['tmp_name'];
+            if (file_exists($import_options)) {
+                $import_tmp = file_get_contents($import_options);
+                $import = $this->import_options($import_tmp);
+                if ($import) {
+                    echo '<p>'.__('The file has been successfully imported.', 'wpuoptions').'</p>';
+                }
+                else {
+                    echo '<p>'.__('The file has not been imported.', 'wpuoptions').'</p>';
+                }
+            }
+        }
+        echo '<p>' . $this->generate_export_url() . '</p>';
+        echo '<hr />';
+        echo '<form action="" method="post" enctype="multipart/form-data"><div><input type="file" name="wpu_import_options" /> <button class="button" type="value">'.__('Import options file', 'wpuoptions').'</button></div></form>';
+
+        echo '</div>';
     }
 
 
@@ -180,8 +217,7 @@ class WPUOptions {
      * @return unknown
      */
     private function admin_form( $fields = array(), $boxes = array() ) {
-        $base_content = '<form action="" method="post" class="wpu-options-form">';
-        $content = $base_content;
+        $content = '<form action="" method="post" class="wpu-options-form">';
         foreach ($boxes as $idbox => $box) {
             $content_tmp = '';
             foreach ( $fields as $id => $field ) {
@@ -261,7 +297,7 @@ class WPUOptions {
                     ) );
                 break;
             case 'select':
-                $content .= '<select ' . $idname . '"><option value="" disabled selected style="display:none;">'.__('Select a value', 'wputh').'</option>';
+                $content .= '<select ' . $idname . '"><option value="" disabled selected style="display:none;">'.__('Select a value', 'wpuoptions').'</option>';
                 foreach ($field['datas'] as $key => $var) {
                     $content .= '<option value="'.htmlentities($key).'" '.($key == $value ? 'selected="selected"' : '').'>'.htmlentities($var).'</option>';
                 }
@@ -297,7 +333,7 @@ class WPUOptions {
             'label' => $id,
             'type' => 'text',
             'test' => '',
-            'datas' => array(__('No', 'wputh'), __('Yes', 'wputh'))
+            'datas' => array(__('No', 'wpuoptions'), __('Yes', 'wpuoptions'))
         );
         foreach ( $default_values as $name => $value ) {
             if ( empty( $field[$name] ) || !isset( $field[$name] ) ) {
@@ -306,6 +342,49 @@ class WPUOptions {
         }
 
         return $field;
+    }
+
+
+    /**
+     * Generate export URL
+     *
+     * @return unknown
+     */
+    private function generate_export_url() {
+        $fields = apply_filters( 'wpu_options_fields', array() );
+        $languages = $this->get_languages();
+        $options = array();
+        // Array of fields:values
+        foreach ($fields as $id => $field) {
+            $opt_field = $this->get_field_datas($id, $field);
+            // If this field has i18n
+            if (isset($opt_field['lang']) && !empty($languages)) {
+                foreach ($languages as $lang => $name) {
+                    $options[$lang.'___'.$id] = get_option($lang.'___'.$id);
+                }
+            }
+            $options[$id] = get_option($id);
+        }
+        return '<a class="button" href="data:application/json;base64,'.base64_encode(json_encode($options)).'" download="export.json">'.__('Export options', 'wpuoptions').'</a>';
+    }
+
+
+    /**
+     * Import json into options
+     *
+     * @param string  $json
+     * @return unknown
+     */
+    private function import_options($json) {
+        $return = false;
+        $options = json_decode($json);
+        if (is_object($options)) {
+            foreach ($options as $id => $value) {
+                update_option($id, $value);
+            }
+            $return = true;
+        }
+        return $return;
     }
 
 

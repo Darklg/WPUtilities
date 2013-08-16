@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2013-08-03 23:26+0100\n"
+"POT-Creation-Date: 2013-08-17 00:31+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Kevin <kevin@rocher.me>\n"
 "Language-Team: \n"
@@ -14,37 +14,65 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-SearchPath-0: ../.\n"
 
-#: .././wpuoptions.php:65
+#: .././wpuoptions.php:119
 msgid "No fields for the moment"
 msgstr "Aucun champ pour le moment"
 
-#: .././wpuoptions.php:77
+#: .././wpuoptions.php:139
+msgid "The file has been successfully imported."
+msgstr "Le fichier a été importé avec succès."
+
+#: .././wpuoptions.php:142
+msgid "The file has not been imported."
+msgstr "Le fichier n’a pas été importé."
+
+#: .././wpuoptions.php:148
+msgid "Import options file"
+msgstr "Importer le fichier d'options"
+
+#: .././wpuoptions.php:166
 msgid "Error in the form."
 msgstr "Erreur dans le formulaire."
 
-#: .././wpuoptions.php:106
+#: .././wpuoptions.php:195
 #, php-format
 msgid "The field \"%s\" must not be empty"
 msgstr "Le champ \"%s\" ne doit pas être vide."
 
-#: .././wpuoptions.php:112
+#: .././wpuoptions.php:201
 #, php-format
 msgid "The field \"%s\" has been updated."
 msgstr "Le champ \"%s\" a été mis à jour."
 
-#: .././wpuoptions.php:115
+#: .././wpuoptions.php:204
 #, php-format
 msgid "The field \"%s\" has not been updated, because it's not valid."
 msgstr "Le champ \"%s\" n’a pas été mis à jour, car il est invalide."
 
-#: .././wpuoptions.php:120
+#: .././wpuoptions.php:209
 msgid "Success!"
 msgstr "Succès !"
 
-#: .././wpuoptions.php:123
+#: .././wpuoptions.php:212
 msgid "Fail!"
 msgstr "Echec !"
 
-#: .././wpuoptions.php:147
+#: .././wpuoptions.php:243
 msgid "Update"
 msgstr "Mettre à jour"
+
+#: .././wpuoptions.php:307
+msgid "Select a value"
+msgstr "Sélectionner une valeur"
+
+#: .././wpuoptions.php:343
+msgid "No"
+msgstr "Non"
+
+#: .././wpuoptions.php:343
+msgid "Yes"
+msgstr "Oui"
+
+#: .././wpuoptions.php:375
+msgid "Export options"
+msgstr "Exporter les options"

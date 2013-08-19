@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2013-08-03 23:20+0100\n"
+"POT-Creation-Date: 2013-08-19 23:44+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Kevin <kevin@rocher.me>\n"
 "Language-Team: \n"
@@ -30,7 +30,7 @@ msgstr "Archive"
 msgid "Tag:"
 msgstr "Tag :"
 
-#: ../.././archive.php:10
+#: ../.././archive.php:10 ../.././tpl/widgets/widget_post_categories.php:25
 msgid "Category:"
 msgstr "Catégorie :"
 
@@ -121,16 +121,12 @@ msgid "Importance"
 msgstr "Importance"
 
 #: ../.././inc/plugins/wpu-options.php:23
-msgid "Phone"
-msgstr "Téléphone"
+msgid "Analytics code"
+msgstr "Code analytics"
 
 #: ../.././inc/plugins/wpu-options.php:26
 msgid "Email address"
 msgstr "Adresse email"
-
-#: ../.././inc/plugins/wpu-options.php:32
-msgid "Address"
-msgstr "Adresse"
 
 #: ../.././inc/theme/utilities.php:33
 msgid "Sorry, no search results for this query."
@@ -256,6 +252,16 @@ msgstr "Un site %s utilisant %s"
 #: ../.././tpl/header/searchform.php:5
 msgid "Search for:"
 msgstr "Rechercher :"
+
+#: ../.././tpl/widgets/widget_post_categories.php:22
+msgid "Number of posts:"
+msgstr "Nombre de posts :"
+
+#~ msgid "Phone"
+#~ msgstr "Téléphone"
+
+#~ msgid "Address"
+#~ msgstr "Adresse"
 
 #~ msgid "%s for “%s”"
 #~ msgstr "%s pour \"%s\""

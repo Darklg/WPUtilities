@@ -32,7 +32,7 @@ include get_template_directory() . '/inc/configuration/thumbnails.php';
 include get_template_directory() . '/inc/configuration/shortcodes.php';
 
 /* Plugins Configuration
-   ----------------------- */
+-------------------------- */
 
 include get_template_directory() . '/inc/plugins/wpu-options.php';
 include get_template_directory() . '/inc/plugins/wputh-post-metas.php';
@@ -42,6 +42,11 @@ include get_template_directory() . '/inc/plugins/wputh-post-metas.php';
 
 include get_template_directory() . '/inc/assets/styles.php';
 include get_template_directory() . '/inc/assets/scripts.php';
+
+/* Widgets
+-------------------------- */
+
+include get_template_directory() . '/tpl/widgets/widget_post_categories.php';
 
 /* Langs
 -------------------------- */

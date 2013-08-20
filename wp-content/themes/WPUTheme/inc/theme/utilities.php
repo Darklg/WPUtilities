@@ -1,9 +1,17 @@
 <?php
+/**
+ * Utilities
+ *
+ * @package default
+ */
 
-/* ----------------------------------------------------------
-   Get the loop : returns a main loop
-   ------------------------------------------------------- */
 
+/**
+ * Get the loop : returns a main loop
+ *
+ * @param unknown $params (optional)
+ * @return unknown
+ */
 function get_the_loop( $params = array() ) {
     global $post, $wp_query, $wpdb;
 
@@ -39,10 +47,17 @@ function get_the_loop( $params = array() ) {
     return $content;
 }
 
-/* ----------------------------------------------------------
-  Comments title
----------------------------------------------------------- */
 
+/**
+ * Get comments title
+ *
+ * @param unknown $count_comments
+ * @param unknown $zero           (optional)
+ * @param unknown $one            (optional)
+ * @param unknown $more           (optional)
+ * @param unknown $closed         (optional)
+ * @return unknown
+ */
 function wputh_get_comments_title( $count_comments, $zero = false, $one = false, $more = false, $closed = false ) {
     global $post;
     $return = '';
@@ -80,10 +95,13 @@ function wputh_get_comments_title( $count_comments, $zero = false, $one = false,
     return $return;
 }
 
-/* ----------------------------------------------------------
-  Comments functions
----------------------------------------------------------- */
 
+/**
+ * Get comment author name with link
+ *
+ * @param unknown $comment
+ * @return unknown
+ */
 function wputh_get_comment_author_name_link( $comment ) {
     $return = '';
     $comment_author_url = '';
@@ -105,10 +123,12 @@ function wputh_get_comment_author_name_link( $comment ) {
 }
 
 
-/* ----------------------------------------------------------
-  Get Thumbnail URL
----------------------------------------------------------- */
-
+/**
+ * Get Thumbnail URL
+ *
+ * @param string  $format
+ * @return string
+ */
 function wputh_get_thumbnail_url($format) {
     global $post;
     $returnUrl = get_template_directory_uri().'/images/thumbnails/' . $format . '.jpg';
@@ -117,4 +137,32 @@ function wputh_get_thumbnail_url($format) {
         $returnUrl = $image[0];
     }
     return $returnUrl;
+}
+
+
+/**
+ * Get attachments - images
+ *
+ * @param int     $postID
+ * @param string  $format (optional)
+ * @return array
+ */
+function wputh_get_attachments_images($postID, $format='medium') {
+    $images = array();
+    $attachments = get_posts(array(
+            'post_type' => 'attachment',
+            'post_mime_type' => 'image',
+            'posts_per_page' => -1,
+            'post_status' =>'any',
+            'orderby' => 'menu_order',
+            'order' => 'ASC',
+            'post_parent' => $postID
+        ) );
+    foreach ( $attachments as $attachment ) {
+        $image = wp_get_attachment_image_src( $attachment->ID , $format );
+        if (isset($image[0])) {
+            $images[] = $image;
+        }
+    }
+    return $images;
 }

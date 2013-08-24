@@ -12,6 +12,9 @@ function wputh_add_javascripts() {
         'dk-smooth-scroll' => array(
             'uri' => '/js/classes/dk-smooth-scroll.js'
         ),
+        'functions' => array(
+            'uri' => '/js/functions.js'
+        ),
         'events' => array(
             'uri' => '/js/events.js'
         )

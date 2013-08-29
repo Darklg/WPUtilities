@@ -5,7 +5,9 @@ Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Disable all comments
 Version: 0.1
 Author: Darklg
-Author URI: http://darklg.me
+Author URI: http://darklg.me/
+License: MIT License
+License URI: http://opensource.org/licenses/MIT
 */
 
 // Thx to : http://wordpress.stackexchange.com/a/17936

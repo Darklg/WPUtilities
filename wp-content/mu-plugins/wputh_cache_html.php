@@ -3,6 +3,10 @@
 Plugin Name: WP Utilities Cache HTML
 Description: Simple cache for HTML
 Version: 0.1.2
+Author: Darklg
+Author URI: http://darklg.me/
+License: MIT License
+License URI: http://opensource.org/licenses/MIT
 */
 
 add_action( 'init', 'wputh_cache_html' );

@@ -5,7 +5,9 @@ Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Simple admin for post metas
 Version: 0.6
 Author: Darklg
-Author URI: http://darklg.me
+Author URI: http://darklg.me/
+License: MIT License
+License URI: http://opensource.org/licenses/MIT
 */
 
 class WPUPostMetas {

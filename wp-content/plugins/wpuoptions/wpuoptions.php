@@ -2,10 +2,13 @@
 /*
 Plugin Name: WPU Options
 Plugin URI: http://github.com/Darklg/WPUtilities
+Version: 3.1
 Description: Friendly interface for website options
 Author: Darklg
-Version: 3.1
-Author URI: http://darklg.me
+Author: Darklg
+Author URI: http://darklg.me/
+License: MIT License
+License URI: http://opensource.org/licenses/MIT
 */
 
 class WPUOptions {

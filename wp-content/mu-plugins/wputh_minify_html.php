@@ -3,6 +3,10 @@
 Plugin Name: WP Utilities Minify HTML
 Description: Minify HTML
 Version: 0.1.1
+Author: Darklg
+Author URI: http://darklg.me/
+License: MIT License
+License URI: http://opensource.org/licenses/MIT
 */
 
 if ( !WP_DEBUG ) {

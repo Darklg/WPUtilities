@@ -3,6 +3,10 @@
 Plugin Name: WP Utilities Minify CSS
 Description: Minify and concatenate CSS
 Version: 0.3
+Author: Darklg
+Author URI: http://darklg.me/
+License: MIT License
+License URI: http://opensource.org/licenses/MIT
 */
 
 function wputh_minify_css() {

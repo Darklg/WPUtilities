@@ -3,6 +3,10 @@
 Plugin Name: WP Utilities admin protect
 Description: Restrictive options for WordPress admin
 Version: 0.1
+Author: Darklg
+Author URI: http://darklg.me/
+License: MIT License
+License URI: http://opensource.org/licenses/MIT
 */
 
 if ( !defined( 'ABSPATH' ) ) {

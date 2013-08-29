@@ -16,6 +16,8 @@ body {
 .main-header,
 .main-container,
 .main-footer {
+    z-index: 1;
+    position: relative;
     width: auto;
     margin: 0 auto 20px;
     padding: 0 10px;
@@ -33,7 +35,7 @@ body {
     border-bottom: 1px solid #f0f0f0;
 }
 
-#searchform {
+.header-search {
     margin-bottom: 10px;
 }
 
@@ -47,6 +49,15 @@ body {
 
 .main-menu li {
     margin-right: 10px;
+}
+
+@media(min-width:800px) {
+    .header-search {
+        z-index: 1;
+        position: absolute;
+        top: 25px;
+        right: 0;
+    }
 }
 
 /* ----------------------------------------------------------

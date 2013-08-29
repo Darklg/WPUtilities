@@ -1,6 +1,6 @@
 <?php
 include dirname( __FILE__ ) . '/z-protect.php';
-if(!isset($_POST['ajax'])){
+if (isset($_POST['ajax'])) return;
 ?>
 </div>
 <footer class="main-footer">
@@ -12,5 +12,3 @@ wp_footer();
 ?>
 </body>
 </html>
-<?php
-}

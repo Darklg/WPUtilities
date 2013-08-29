@@ -13,13 +13,15 @@ if(!isset($_POST['ajax'])){
 <!--[if gt IE 9]><html <?php language_attributes(); ?> class="is_ie10"><![endif]-->
 <!--[if !IE]><!--> <html <?php language_attributes(); ?>><!--<![endif]-->
 <head><?php include get_template_directory() . '/tpl/header/head.php'; ?></head>
-<body <?php body_class(); ?>>
-<header class="main-header">
+<body <?php body_class('cssc-is-responsive'); ?>>
+<header class="main-header centered-container">
+    <div>
     <?php include get_template_directory() . '/tpl/header/title.php'; ?>
     <?php include get_template_directory() . '/tpl/header/searchform.php'; ?>
     <?php wp_nav_menu( $menu_args ); ?>
+    </div>
 </header>
-<div class="main-container">
+<div class="main-container centered-container"><div class="main-container--inner">
 <?php } ?>
 <script>
 var wputh_page_title = "<?php echo addslashes(trim(get_bloginfo('name') . ' ' . wp_title(' ', false))); ?>";

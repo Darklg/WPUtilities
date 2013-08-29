@@ -5,4 +5,5 @@ window.addEvent('domready', function() {
     $$('[href^=#]').each(function(el) {
         new dkSmoothScroll(el);
     });
+    search_form_check();
 });

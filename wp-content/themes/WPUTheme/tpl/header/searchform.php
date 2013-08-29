@@ -1,9 +1,9 @@
 <?php
 include dirname( __FILE__ ) . '/../../z-protect.php';
-?><form role="search" method="get" id="searchform" action="<?php echo site_url(); ?>">
+?><form role="search" method="get" id="header-search" class="header-search" action="<?php echo site_url(); ?>">
     <div>
-        <label class="screen-reader-text" for="s"><?php echo __( 'Search for:', 'wputh' ); ?></label>
-        <input type="text" value="" name="s" id="s" />
-        <input type="submit" id="searchsubmit" value="Search" />
+        <label class="suppression-element" for="header-search__input"><?php echo __( 'Search for:', 'wputh' ); ?></label>
+        <input type="text" value="" name="s" id="header-search__input" />
+        <input type="submit" id="header-search__submit" value="Search" />
     </div>
 </form>

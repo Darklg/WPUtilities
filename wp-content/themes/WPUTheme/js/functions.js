@@ -1,8 +1,6 @@
-
 /* ----------------------------------------------------------
   Load more
 ---------------------------------------------------------- */
-
 
 var wputh_ajax_load_more = function() {
     if (wputh_pagination_kind != 'load-more') {
@@ -62,4 +60,20 @@ var wputh_ajax_load_more = function() {
             }
         }).send();
     });
+};
+
+/* ----------------------------------------------------------
+  Search form
+---------------------------------------------------------- */
+
+var search_form_check = function() {
+    var el_search_form = $('header-search');
+    if (el_search_form) {
+        el_search_form.addEvent('submit', function(e) {
+            var input = $('header-search__input');
+            if (!input || input.get('value').trim() === '') {
+                e.preventDefault();
+            }
+        });
+    }
 };

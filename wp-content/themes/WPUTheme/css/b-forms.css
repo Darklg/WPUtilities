@@ -3,7 +3,7 @@
 /*
 Name: Forms
 URL: http://github.com/Darklg/CSSCommon
-Version: 1.6.4
+Version: 1.9.1
 License: MIT
 */
 
@@ -12,6 +12,8 @@ License: MIT
 }
 
 .cssc-form .box {
+    z-index: 1;
+    position: relative;
     vertical-align: baseline;
 }
 
@@ -27,51 +29,29 @@ License: MIT
 
 /* Labels */
 
-.float-form .box {
-    position: relative;
-    padding-left: 130px;
-}
-
 .cssc-form .fake-label,
 .cssc-form label {
     display: block;
-    padding-top: 4px;
-    font-size: 12px;
-    font-weight: bold;
-    line-height: 16px;
-    cursor: pointer;
+    line-height: inherit;
 }
 
-.float-form .box .fake-label,
-.float-form .box label {
+.float-form .fake-label,
+.float-form label {
     position: absolute;
     top: 0;
     left: 0;
-    width: 120px;
-    padding-right: 10px;
     text-align: right;
 }
 
-.float-form .box .long-label {
-    top: -4px;
-    padding-top: 0;
-}
-
-.block-form .box .fake-label,
-.block-form .box label {
-    padding-top: 0;
-}
-
-.block-form .radio-box label,
-.block-form .checked-box label,
-.float-form .radio-box label,
-.float-form .checked-box label {
+.cssc-form .radio-box label,
+.cssc-form .checked-box label {
     display: inline-block;
     position: static;
     width: auto;
-    padding: 5px 0 0 0;
+    padding: 0;
     font-weight: normal;
     line-height: inherit;
+    vertical-align: baseline;
 }
 
 /* Champs */
@@ -93,7 +73,7 @@ button {
     width: 12px;
     height: 12px;
     margin: 0;
-    vertical-align: middle;
+    vertical-align: baseline;
 }
 
 /* Reset des éléments */
@@ -106,6 +86,7 @@ button {
 .cssc-form input[type=url],
 .cssc-form input[type=email],
 .cssc-form input[type=password] {
+    -webkit-appearance: none;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -141,26 +122,18 @@ button {
     width: 90%;
 }
 
-/* Champs multiples */
+/* Submit box */
 
-.cssc-form .multibox-box input[type=text],
-.cssc-form .multibox-box input[type=url],
-.cssc-form .multibox-box input[type=email],
-.cssc-form .multibox-box input[type=password] {
-    width: 65px;
+.cssc-form .submit-box {
+    z-index: 1;
+    position: relative;
 }
 
-.cssc-form .multibox-box input.halfling {
-    width: 45px;
-}
-
-/* Aide */
-
-.cssc-form small {
-    display: block;
-    font-size: 11px;
-    line-height: 16px;
-    color: #676767;
+.cssc-form .submit-box button {
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 /* Deux blocs */
@@ -193,26 +166,63 @@ button {
     padding-left: 140px;
 }
 
-/* Style de la démo
-   ----------------------- */
+/* Aide
+-------------------------- */
+
+.cssc-form small {
+    display: block;
+}
+
+.cssc-form.block-form .side-small {
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+/* ----------------------------------------------------------
+  Structures particulières
+---------------------------------------------------------- */
+
+/* Formulaire collé
+   ----------------------- */
+
+.form-append {
+    overflow: auto;
+}
+
+.form-append > * {
+    float: left;
+    width: auto;
+}
+
+.lt_ie8 .form-append > * {
+    max-width: 200px;
+}
+
+/* ----------------------------------------------------------
+  Thème du formulaire
+---------------------------------------------------------- */
 
 .cssc-form {
-    padding: 10px 0;
+    margin-bottom: 20px;
     max-width: 100%;
 }
 
 /* Fieldset */
 
 .cssc-form fieldset {
-    padding: 10px 0;
-    border-top: 1px solid #CCC;
+    margin-bottom: 15px;
+    border-top: 1px solid #e0e0e0;
 }
 
 .cssc-form fieldset:last-child {
-    border-bottom: 1px solid #CCC;
+    border-bottom: 1px solid #e0e0e0;
 }
 
 .cssc-form legend {
+    display: block;
+    margin-bottom: 10px;
     padding-right: 5px;
     font-size: 14px;
     font-weight: bold;
@@ -221,17 +231,67 @@ button {
 /* Box */
 
 .cssc-form .box {
-    padding-bottom: 10px;
+    margin-bottom: 10px;
+    line-height: 25px;
 }
 
 .float-form .box {
     min-height: 25px;
 }
 
+/* Champs multiples */
+
+.cssc-form .multibox-box input[type=text],
+.cssc-form .multibox-box input[type=url],
+.cssc-form .multibox-box input[type=email],
+.cssc-form .multibox-box input[type=password] {
+    width: 65px;
+}
+
+.cssc-form .multibox-box input.halfling {
+    width: 45px;
+}
+
 /* Labels */
 
-.block-form .box .fake-label,
-.block-form .box label {
+.float-form .box {
+    padding-left: 130px;
+}
+
+.float-form .fake-label,
+.float-form label {
+    width: 120px;
+    padding-right: 10px;
+}
+
+.cssc-form .fake-label,
+.cssc-form label {
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.float-form .box .long-label {
+    top: -1px;
+    line-height: 13px;
+}
+
+.cssc-form .fake-label em,
+.cssc-form label em {
+    font-style: normal;
+    font-weight: bold;
+    color: #369;
+}
+
+/* Aide */
+
+.cssc-form small {
+    font-size: 11px;
+    line-height: 16px;
+    color: #676767;
+}
+
+.cssc-form.block-form .side-small {
     line-height: 25px;
 }
 
@@ -253,10 +313,6 @@ button {
     font-size: 12px;
     color: #333;
     background: #fafafa;
-    -webkit-background-clip: padding-box;
-    -webkit-box-shadow: inset 1px 1px 1px #ccc;
-    -moz-box-shadow: inset 1px 1px 1px #ccc;
-    box-shadow: inset 1px 1px 1px #ccc;
 }
 
 .cssc-form .fake-input,
@@ -268,8 +324,8 @@ button {
 }
 
 .cssc-form textarea {
-    height: 80px;
     padding: 5px;
+    min-height: 80px;
 }
 
 .cssc-form textarea:focus,
@@ -280,16 +336,20 @@ button {
     border-color: #333;
     color: #000;
     background-color: #fff;
-    -webkit-box-shadow: inset 1px 1px 1px #dedede,0 0 2px rgba(0,0,0,0.3);
-    -moz-box-shadow: inset 1px 1px 1px #dedede,0 0 2px rgba(0,0,0,0.3);
-    box-shadow: inset 1px 1px 1px #dedede,0 0 2px rgba(0,0,0,0.3);
+}
+
+/* Errors */
+
+.cssc-form input[type=url]:invalid,
+.cssc-form input[type=email]:invalid {
+    border-color: #C33;
 }
 
 /* Couleurs de placeholder : ne pas fusionner les sélecteurs ! */
 
 .cssc-form [disabled],
 .cssc-form .fake-input {
-    color: #A0A0A0;
+    color: #B0B0B0;
 }
 
 ::-webkit-input-placeholder {
@@ -319,22 +379,8 @@ button {
 }
 
 /* ----------------------------------------------------------
-   Structures particulières
-   ------------------------------------------------------- */
-
-/* Formulaire collé
-   ----------------------- */
-
-.form-append > * {
-    float: left;
-    width: auto;
-}
-
-.lt_ie8 .form-append > * {
-    max-width: 200px;
-}
-
-/* Style de la démo*/
+  Style demo CSSLisible
+---------------------------------------------------------- */
 
 .form-append {
     min-height: 25px;

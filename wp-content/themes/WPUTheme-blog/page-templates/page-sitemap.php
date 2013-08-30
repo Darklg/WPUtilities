@@ -1,11 +1,11 @@
 <?php
 /* Template Name: Sitemap */
-include dirname( __FILE__ ) . '/../z-protect.php';
+include dirname( __FILE__ ) . '/../../WPUTheme/z-protect.php';
 include get_template_directory() . '/tpl/sitemap/header-action.php';
 get_header();
 the_post();
 ?>
-<div class="main-content">
+<div class="main">
 <article>
     <h1><?php the_title(); ?></h1>
     <div class="le-content">
@@ -33,4 +33,5 @@ wp_reset_postdata();
 </article>
 </div>
 <?php
+get_sidebar();
 get_footer();

@@ -1,10 +1,10 @@
 <?php
-include dirname( __FILE__ ) . '/z-protect.php';
+include dirname( __FILE__ ) . '/../WPUTheme/z-protect.php';
 get_header();
 the_post();
 include get_template_directory() . '/tpl/attachment/header-action.php';
 ?>
-<div class="main-content">
+<div class="main">
 <article class="loop">
     <h1><?php the_title(); ?></h1>
     <div>
@@ -20,4 +20,5 @@ include get_template_directory() . '/tpl/attachment/header-action.php';
 </article>
 </div>
 <?php
+get_sidebar();
 get_footer();

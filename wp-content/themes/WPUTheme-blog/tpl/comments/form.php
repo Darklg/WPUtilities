@@ -1,4 +1,5 @@
-<?php include dirname( __FILE__ ) . '/../../z-protect.php';
+<?php
+include dirname( __FILE__ ) . '/../../../WPUTheme/z-protect.php';
 
 global $current_user;
 

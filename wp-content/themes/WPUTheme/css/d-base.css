@@ -57,36 +57,6 @@ body {
     overflow: auto;
 }
 
-.main,
-.main-sidebar {
-    float: left;
-}
-
-.main {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 61.8033988%;
-    padding-right: 20px;
-}
-
-.main-sidebar {
-    width: 38.1966011%;
-}
-
-@media(max-width:700px) {
-    .main,
-    .main-sidebar {
-        float: none;
-        width: 100%;
-    }
-
-    .main {
-        margin-bottom: 20px;
-        padding-right: 0;
-    }
-}
-
 /* ----------------------------------------------------------
   Content
 ---------------------------------------------------------- */

@@ -1,4 +1,5 @@
-<?php include dirname( __FILE__ ) . '/../../z-protect.php';
+<?php
+include dirname( __FILE__ ) . '/../../../WPUTheme/z-protect.php';
 
 /* Retrieving comments */
 
@@ -16,7 +17,7 @@ $trackbacks = array();
 function wputh_loop_comment( $comments, $parent = 0, $comment_depth = 0 ) {
     foreach ( $comments as $comment ) {
         if ( $comment->comment_parent == $parent ) {
-            include get_template_directory() . '/loop-comment.php';
+            include get_stylesheet_directory() . '/loop-comment.php';
             wputh_loop_comment( $comments, $comment->comment_ID, $comment_depth+1 );
         }
     }

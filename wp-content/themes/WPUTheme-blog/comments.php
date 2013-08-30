@@ -1,13 +1,12 @@
-<?php include dirname( __FILE__ ) . '/z-protect.php';
-
+<?php
+include dirname( __FILE__ ) . '/../WPUTheme/z-protect.php';
 if ( post_password_required() ) {
     echo '<p>' . __( 'This post requires a password to read the comments', 'wputh' ) . '</p>';
     return;
 }
 
 /* Obtaining datas */
-
-include get_template_directory() . '/tpl/comments/datas.php';
+include get_stylesheet_directory() . '/tpl/comments/datas.php';
 
 /* Comment section title */
 
@@ -27,7 +26,7 @@ if ( count( $comments ) > 0 ) {
 }
 
 /* Comments form */
-include get_template_directory() . '/tpl/comments/form.php';
+include get_stylesheet_directory() . '/tpl/comments/form.php';
 
 /* Trackbacks */
 if ( count( $trackbacks ) > 0 ) {

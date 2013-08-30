@@ -5,7 +5,7 @@ include get_template_directory() . '/tpl/contact/header-action.php';
 get_header();
 the_post();
 ?>
-<div class="main-content">
+<div class="main">
 <article>
     <h1><?php the_title(); ?></h1>
     <?php the_content(); ?>
@@ -13,4 +13,5 @@ the_post();
 </article>
 </div>
 <?php
+get_sidebar();
 get_footer();

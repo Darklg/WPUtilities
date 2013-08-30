@@ -1,9 +1,9 @@
 <?php
-include dirname( __FILE__ ) . '/z-protect.php';
+include dirname( __FILE__ ) . '/../WPUTheme/z-protect.php';
 get_header();
 the_post();
 ?>
-<div class="main-content">
+<div class="main">
 <article <?php post_class(); ?>>
     <h1><?php the_title(); ?></h1>
     <div class="cssc-content cssc-block">
@@ -16,6 +16,8 @@ the_post();
 ?>
     </div>
 </article>
+
 </div>
 <?php
+get_sidebar();
 get_footer();

@@ -32,23 +32,6 @@
     height: auto;
 }
 
-/* Comments
-   ----------------------- */
-
-.list-comments {
-    margin-bottom: 20px;
-}
-
-.list-comments .comment + .comment {
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px solid #f0f0f0;
-}
-
-.comment-metas {
-    margin-bottom: 5px;
-}
-
 /* ----------------------------------------------------------
   Shortcodes
 ---------------------------------------------------------- */

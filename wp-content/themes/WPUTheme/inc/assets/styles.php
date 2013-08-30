@@ -12,7 +12,7 @@ define( 'WPU_CSS_URL', get_template_directory_uri() . '/css/' );
 function wputh_add_stylesheets() {
     $css_files = parse_path( WPU_CSS_DIR );
     foreach ( $css_files as $file ) {
-        wpu_add_css_file( $file );
+        wpu_add_css_file( $file, WPU_CSS_DIR, WPU_CSS_URL );
     }
 }
 
@@ -39,10 +39,10 @@ function parse_path( $dir ) {
 }
 
 
-function wpu_add_css_file( $file ) {
+function wpu_add_css_file( $file, $dir, $url) {
     // Adding a file to the WordPress stylesheet queue
-    $css_file_url = str_replace( WPU_CSS_DIR, WPU_CSS_URL, $file );
-    $css_file_slug = 'wputh' . strtolower( str_replace( array( WPU_CSS_DIR, '.css' ), '', $file ) );
+    $css_file_url = str_replace( $dir, $url, $file );
+    $css_file_slug = 'wputh'. ((WPU_CSS_DIR != $dir) ? 'child' : '') . strtolower( str_replace( array( $dir, '.css' ), '', $file ) );
     wp_register_style( $css_file_slug, $css_file_url, NULL, '2.0' );
     wp_enqueue_style( $css_file_slug );
 }

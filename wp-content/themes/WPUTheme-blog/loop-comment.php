@@ -1,5 +1,5 @@
 <?php
-include dirname( __FILE__ ) . '/z-protect.php';
+include dirname( __FILE__ ) . '/../WPUTheme/z-protect.php';
 $id = $comment->comment_ID ;
 ?>
 

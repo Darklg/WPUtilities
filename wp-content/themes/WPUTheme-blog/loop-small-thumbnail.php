@@ -1,5 +1,5 @@
 <?php
-include dirname( __FILE__ ) . '/z-protect.php';
+include dirname( __FILE__ ) . '/../WPUTheme/z-protect.php';
 ?>
 <article <?php post_class('loop-small'); ?>>
     <div class="bmedia">
@@ -11,6 +11,8 @@ include dirname( __FILE__ ) . '/z-protect.php';
             <?php the_excerpt(); ?>
             <footer class="lpsm-metas">
                 <?php the_category(', '); ?>
+                &bull;
+                <?php echo wputh_get_comments_title( $post->comment_count ); ?>
             </footer>
         </div>
     </div>

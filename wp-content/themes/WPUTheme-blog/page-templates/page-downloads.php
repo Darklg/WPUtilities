@@ -1,6 +1,6 @@
 <?php
 /* Template Name: Downloads */
-include dirname( __FILE__ ) . '/../z-protect.php';
+include dirname( __FILE__ ) . '/../../WPUTheme/z-protect.php';
 
 get_header();
 the_post();
@@ -13,7 +13,7 @@ $attachments = get_posts( array(
 );
 ?>
 
-<div class="main-content">
+<div class="main">
 <article>
     <h1><?php the_title(); ?></h1>
 <?php
@@ -35,4 +35,5 @@ if ( !empty( $attachments ) ) {
 </article>
 </div>
 <?php
+get_sidebar();
 get_footer();

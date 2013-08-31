@@ -6,7 +6,9 @@ add_action( 'init', 'wputh_add_post_types' );
 function wputh_add_post_types() {
     $post_types = array(
         'task' => array(
-            'name' => __( 'Task', 'wputh' )
+            'name' => __( 'task', 'wputh' ),
+            'plural' => __( 'tasks', 'wputh' ),
+            'female' => 1
         )
     );
 
@@ -23,6 +25,12 @@ function wputh_add_post_types() {
         if ( !isset( $post_type['plural'] ) ) {
             $post_type['plural'] = $post_type['name'];
         }
+        // Female
+        $context = 'female';
+        if ( !isset( $post_type['female'] ) || $post_type['female'] != 1) {
+            $post_type['female'] = 0;
+            $context = 'male';
+        }
 
         $args = array(
             'public' => true,
@@ -32,10 +40,34 @@ function wputh_add_post_types() {
             'show_ui' => true,
             'rewrite' => true,
             'name' => $post_type['name'],
-            'singular_name' => $post_type['name'],
-            'label' => $post_type['plural'],
-            'supports' => $post_type['supports']
+            'supports' => $post_type['supports'],
+            'labels' => array(
+                'name' => ucfirst($post_type['plural']),
+                'singular_name' => ucfirst($post_type['name']),
+                'add_new' => __('Add New', 'wputh'),
+                'add_new_item' => sprintf(_x('Add New %s', 'male', 'wputh'), $post_type['name']),
+                'edit_item' => sprintf(_x('Edit %s', 'male', 'wputh'), $post_type['name']),
+                'new_item' => sprintf(_x('New %s', 'male', 'wputh'), $post_type['name']),
+                'all_items' => sprintf(_x('All %s', 'male', 'wputh'), $post_type['plural']),
+                'view_item' => sprintf(_x('View %s', 'male', 'wputh'), $post_type['name']),
+                'search_items' => sprintf(_x('Search %s', 'male', 'wputh'), $post_type['name']),
+                'not_found' => sprintf(_x('No %s found', 'male', 'wputh'), $post_type['name']),
+                'not_found_in_trash' => sprintf(_x('No %s found in Trash', 'male', 'wputh'), $post_type['name']),
+                'parent_item_colon' => '',
+                'menu_name' => ucfirst($post_type['plural'])
+            )
         );
+
+        if ($context == 'female') {
+            $args['labels']['add_new_item'] = sprintf(_x('Add New %s', 'female', 'wputh'), $post_type['name']);
+            $args['labels']['edit_item'] = sprintf(_x('Edit %s', 'female', 'wputh'), $post_type['name']);
+            $args['labels']['new_item'] = sprintf(_x('New %s', 'female', 'wputh'), $post_type['name']);
+            $args['labels']['all_items'] = sprintf(_x('All %s', 'female', 'wputh'), $post_type['plural']);
+            $args['labels']['view_item'] =sprintf(_x('View %s', 'female', 'wputh'), $post_type['name']);
+            $args['labels']['search_items'] = sprintf(_x('Search %s', 'female', 'wputh'), $post_type['name']);
+            $args['labels']['not_found'] = sprintf(_x('No %s found', 'female', 'wputh'), $post_type['name']);
+            $args['labels']['not_found_in_trash'] = sprintf(_x('No %s found in Trash', 'female', 'wputh'), $post_type['name']);
+        }
         register_post_type( $slug, $args );
     }
 }

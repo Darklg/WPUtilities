@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2013-08-19 23:44+0100\n"
+"POT-Creation-Date: 2013-09-01 01:20+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Kevin <kevin@rocher.me>\n"
 "Language-Team: \n"
@@ -11,7 +11,7 @@ msgstr ""
 "X-Generator: Poedit 1.5.7\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: .\n"
-"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c;_n:1,2\n"
 "X-Poedit-SearchPath-0: ../../.\n"
 
 #: ../.././404.php:7
@@ -22,59 +22,12 @@ msgstr "Erreur 404"
 msgid "Sorry, but this page doesn&rsquo;t exists."
 msgstr "Désolé, mais cette page n'existe pas."
 
-#: ../.././archive.php:5
-msgid "Archive"
-msgstr "Archive"
-
-#: ../.././archive.php:7
-msgid "Tag:"
-msgstr "Tag :"
-
-#: ../.././archive.php:10 ../.././tpl/widgets/widget_post_categories.php:25
-msgid "Category:"
-msgstr "Catégorie :"
-
-#: ../.././archive.php:14
-msgid "Author:"
-msgstr "Auteur :"
-
-#: ../.././archive.php:17
-msgid "Year:"
-msgstr "Année :"
-
-#: ../.././archive.php:17
-msgid "Y"
-msgstr "Y"
-
-#: ../.././archive.php:20
-msgid "Month:"
-msgstr "Mois :"
-
-#: ../.././archive.php:20
-msgid "F Y"
-msgstr "F Y"
-
-#: ../.././archive.php:23
-msgid "Day:"
-msgstr "Jour :"
-
-#: ../.././archive.php:23 ../.././loop-comment.php:12
-#: ../.././loop-small-thumbnail.php:16 ../.././loop-small.php:10
-#: ../.././loop.php:8
+#: ../.././loop.php:8 ../.././tpl/archive/title.php:20
+#: ../.././tpl/loops/header-loop-small.php:8
 msgid "F j, Y"
 msgstr "j F Y"
 
-#: ../.././comments.php:4
-msgid "This post requires a password to read the comments"
-msgstr ""
-"Cet article demande un mot de passe afin de pouvoir lire les commentaires"
-
-#: ../.././comments.php:34
-msgid "Trackbacks"
-msgstr "Trackbacks"
-
-#: ../.././loop-small-thumbnail.php:12 ../.././loop-small.php:6
-#: ../.././loop.php:10
+#: ../.././loop.php:10 ../.././tpl/loops/header-loop-small.php:4
 msgid "By"
 msgstr "Par"
 
@@ -82,20 +35,7 @@ msgstr "Par"
 msgid "Tags:"
 msgstr "Tags :"
 
-#: ../.././search.php:4
-msgid "<strong>no</strong> search results"
-msgstr "<strong>aucun</strong> résultat de recherche"
-
-#: ../.././search.php:6
-msgid "<strong>1</strong> search result"
-msgstr "<strong>1</strong> résultat de recherche"
-
-#: ../.././search.php:9
-#, php-format
-msgid "<strong>%s</strong> search result"
-msgstr "<strong>%s</strong> résultats de recherche"
-
-#: ../.././search.php:15
+#: ../.././search.php:7
 #, php-format
 msgid "%s for &ldquo;%s&rdquo;"
 msgstr "%s pour &ldquo;%s&rdquo;"
@@ -104,9 +44,113 @@ msgstr "%s pour &ldquo;%s&rdquo;"
 msgid "Main menu"
 msgstr "Menu principal"
 
-#: ../.././inc/configuration/post-types.php:9
-msgid "Task"
-msgstr "Tâche"
+#: ../.././inc/configuration/post-types.php:20
+msgid "task"
+msgstr "tâche"
+
+#: ../.././inc/configuration/post-types.php:21
+msgid "tasks"
+msgstr "tâches"
+
+#: ../.././inc/configuration/post-types.php:58
+msgid "Add New"
+msgstr "Ajouter"
+
+#: ../.././inc/configuration/post-types.php:59
+#, php-format
+msgctxt "male"
+msgid "Add New %s"
+msgstr "Ajouter un %s"
+
+#: ../.././inc/configuration/post-types.php:60
+#, php-format
+msgctxt "male"
+msgid "Edit %s"
+msgstr "Modifier ce %s"
+
+#: ../.././inc/configuration/post-types.php:61
+#, php-format
+msgctxt "male"
+msgid "New %s"
+msgstr "Nouveau %s"
+
+#: ../.././inc/configuration/post-types.php:62
+#, php-format
+msgctxt "male"
+msgid "All %s"
+msgstr "Tous les %s"
+
+#: ../.././inc/configuration/post-types.php:63
+#, php-format
+msgctxt "male"
+msgid "View %s"
+msgstr "Voir cet %s"
+
+#: ../.././inc/configuration/post-types.php:64
+#, php-format
+msgctxt "male"
+msgid "Search %s"
+msgstr "Rechercher un %s"
+
+#: ../.././inc/configuration/post-types.php:65
+#, php-format
+msgctxt "male"
+msgid "No %s found"
+msgstr "Aucun %s trouvé"
+
+#: ../.././inc/configuration/post-types.php:66
+#, php-format
+msgctxt "male"
+msgid "No %s found in Trash"
+msgstr "Aucun %s trouvé dans la corbeille"
+
+#: ../.././inc/configuration/post-types.php:74
+#, php-format
+msgctxt "female"
+msgid "Add New %s"
+msgstr "Ajouter une %s"
+
+#: ../.././inc/configuration/post-types.php:75
+#, php-format
+msgctxt "female"
+msgid "Edit %s"
+msgstr "Modifier cette %s"
+
+#: ../.././inc/configuration/post-types.php:76
+#, php-format
+msgctxt "female"
+msgid "New %s"
+msgstr "Nouvelle %s"
+
+#: ../.././inc/configuration/post-types.php:77
+#, php-format
+msgctxt "female"
+msgid "All %s"
+msgstr "Toutes les %s"
+
+#: ../.././inc/configuration/post-types.php:78
+#, php-format
+msgctxt "female"
+msgid "View %s"
+msgstr "Voir cette %s"
+
+#: ../.././inc/configuration/post-types.php:79
+#, php-format
+msgctxt "female"
+msgid "Search %s"
+msgstr "Rechercher une %s"
+
+#: ../.././inc/configuration/post-types.php:80
+#, php-format
+msgctxt "female"
+msgid "No %s found"
+msgstr "Aucune %s trouvée"
+
+#: ../.././inc/configuration/post-types.php:81
+#, php-format
+msgctxt "female"
+msgid "No %s found in Trash"
+msgstr "Aucune %s trouvée dans la corbeille"
 
 #: ../.././inc/configuration/sidebars.php:4
 msgid "Default Sidebar"
@@ -128,80 +172,36 @@ msgstr "Code analytics"
 msgid "Email address"
 msgstr "Adresse email"
 
-#: ../.././inc/theme/utilities.php:33
+#: ../.././inc/theme/utilities.php:41
 msgid "Sorry, no search results for this query."
 msgstr "Désolé, il n'y a aucun résultat pour cette requête."
 
-#: ../.././inc/theme/utilities.php:53
+#: ../.././inc/theme/utilities.php:68
 msgid "<strong>no</strong> comments"
 msgstr "<strong>aucun</strong> commentaire"
 
-#: ../.././inc/theme/utilities.php:56
+#: ../.././inc/theme/utilities.php:71
 msgid "<strong>1</strong> comment"
 msgstr "<strong>1</strong> commentaire"
 
-#: ../.././inc/theme/utilities.php:59
+#: ../.././inc/theme/utilities.php:74
 #, php-format
 msgid "<strong>%s</strong> comments"
 msgstr "<strong>%s</strong> commentaires"
 
-#: ../.././inc/theme/utilities.php:62
+#: ../.././inc/theme/utilities.php:77
 msgid "Comments are closed"
 msgstr "Les commentaires sont fermés"
-
-#: ../.././page-templates/page-contact.php:8
-msgid "Name"
-msgstr "Nom"
-
-#: ../.././page-templates/page-contact.php:12
-msgid "Email"
-msgstr "E-mail"
-
-#: ../.././page-templates/page-contact.php:17
-msgid "Message"
-msgstr "Message"
-
-#: ../.././page-templates/page-contact.php:66
-#, php-format
-msgid "The field \"%s\" is not correct"
-msgstr "Le champ \"%s\" n'est pas correct"
-
-#: ../.././page-templates/page-contact.php:73
-#, php-format
-msgid "The field \"%s\" is required"
-msgstr "Le champ \"%s\" est obligatoire"
-
-#: ../.././page-templates/page-contact.php:80
-msgid "Thank you for your message!"
-msgstr "Merci pour votre message !"
-
-#: ../.././page-templates/page-contact.php:83
-#: ../.././page-templates/page-contact.php:92
-msgid "Message from your contact form"
-msgstr "Message depuis votre formulaire de contact"
-
-#: ../.././page-templates/page-contact.php:98
-msgid "Error:"
-msgstr "Erreur :"
-
-#: ../.././page-templates/page-contact.php:126
-#: ../.././tpl/comments/form.php:59
-msgid "Submit"
-msgstr "Envoyer"
 
 #: ../.././page-templates/page-downloads.php:29
 msgid "Size:"
 msgstr "Poids :"
 
-#: ../.././page-templates/page-sitemap.php:13
-msgid "Home page"
-msgstr "Accueil"
-
-#: ../.././page-templates/page-sitemap.php:74
+#: ../.././page-templates/page-sitemap.php:16
 msgid "Pages"
 msgstr "Pages"
 
-#: ../.././page-templates/page-sitemap.php:79
+#: ../.././page-templates/page-sitemap.php:21
 msgid "Posts"
 msgstr "Articles"
 
@@ -209,40 +209,81 @@ msgstr "Articles"
 msgid "Next page"
 msgstr "Page suivante"
 
-#: ../.././tpl/comments/form.php:13
+#: ../.././tpl/archive/title.php:2
+msgid "Archive"
+msgstr "Archive"
+
+#: ../.././tpl/archive/title.php:4
+msgid "Tag:"
+msgstr "Tag :"
+
+#: ../.././tpl/archive/title.php:7
+#: ../.././tpl/widgets/widget_post_categories.php:25
+msgid "Category:"
+msgstr "Catégorie :"
+
+#: ../.././tpl/archive/title.php:11
+msgid "Author:"
+msgstr "Auteur :"
+
+#: ../.././tpl/archive/title.php:14
+msgid "Year:"
+msgstr "Année :"
+
+#: ../.././tpl/archive/title.php:14
+msgid "Y"
+msgstr "Y"
+
+#: ../.././tpl/archive/title.php:17
+msgid "Month:"
+msgstr "Mois :"
+
+#: ../.././tpl/archive/title.php:17
+msgid "F Y"
+msgstr "F Y"
+
+#: ../.././tpl/archive/title.php:20
+msgid "Day:"
+msgstr "Jour :"
+
+#: ../.././tpl/contact/header-action.php:6
+msgid "Name"
+msgstr "Nom"
+
+#: ../.././tpl/contact/header-action.php:10
+msgid "Email"
+msgstr "E-mail"
+
+#: ../.././tpl/contact/header-action.php:15
+msgid "Message"
+msgstr "Message"
+
+#: ../.././tpl/contact/header-action.php:64
 #, php-format
-msgid "You must be <a href=\"%s\">logged in</a> to post a comment"
-msgstr ""
-"Vous devez être <a href=\"%s\">connecté(e)</a> pour ajouter un commentaire"
+msgid "The field \"%s\" is not correct"
+msgstr "Le champ \"%s\" n'est pas correct"
 
-#: ../.././tpl/comments/form.php:19
-msgid "Leave a reply"
-msgstr "Ajouter un commentaire"
-
-#: ../.././tpl/comments/form.php:24
+#: ../.././tpl/contact/header-action.php:71
 #, php-format
-msgid "Logged in as <strong>%s</strong>."
-msgstr "Connecté comme <strong>%s</strong>."
+msgid "The field \"%s\" is required"
+msgstr "Le champ \"%s\" est obligatoire"
 
-#: ../.././tpl/comments/form.php:25
-msgid "Log out of this account"
-msgstr "Se déconnecter de ce compte"
+#: ../.././tpl/contact/header-action.php:78
+msgid "Thank you for your message!"
+msgstr "Merci pour votre message !"
 
-#: ../.././tpl/comments/form.php:31
-msgid "Your name"
-msgstr "Votre nom"
+#: ../.././tpl/contact/header-action.php:81
+#: ../.././tpl/contact/header-action.php:90
+msgid "Message from your contact form"
+msgstr "Message depuis votre formulaire de contact"
 
-#: ../.././tpl/comments/form.php:35
-msgid "Your mail"
-msgstr "Votre adresse mail"
+#: ../.././tpl/contact/header-action.php:96
+msgid "Error:"
+msgstr "Erreur :"
 
-#: ../.././tpl/comments/form.php:43
-msgid "Your website"
-msgstr "Votre site"
-
-#: ../.././tpl/comments/form.php:50
-msgid "Your comment"
-msgstr "Votre commentaire"
+#: ../.././tpl/contact/header-action.php:124
+msgid "Submit"
+msgstr "Envoyer"
 
 #: ../.././tpl/footer/copyright.php:2
 #, php-format
@@ -253,9 +294,66 @@ msgstr "Un site %s utilisant %s"
 msgid "Search for:"
 msgstr "Rechercher :"
 
+#: ../.././tpl/search/header-results.php:3
+msgid "<strong>no</strong> search results"
+msgstr "<strong>aucun</strong> résultat de recherche"
+
+#: ../.././tpl/search/header-results.php:5
+msgid "<strong>1</strong> search result"
+msgstr "<strong>1</strong> résultat de recherche"
+
+#: ../.././tpl/search/header-results.php:8
+#, php-format
+msgid "<strong>%s</strong> search result"
+msgstr "<strong>%s</strong> résultats de recherche"
+
+#: ../.././tpl/sitemap/header-action.php:11
+msgid "Home page"
+msgstr "Accueil"
+
 #: ../.././tpl/widgets/widget_post_categories.php:22
 msgid "Number of posts:"
 msgstr "Nombre de posts :"
+
+#, fuzzy
+#~ msgctxt "female"
+#~ msgid "Add New"
+#~ msgstr "Ajouter"
+
+#~ msgid "Task"
+#~ msgstr "Tâche"
+
+#~ msgid "This post requires a password to read the comments"
+#~ msgstr ""
+#~ "Cet article demande un mot de passe afin de pouvoir lire les commentaires"
+
+#~ msgid "Trackbacks"
+#~ msgstr "Trackbacks"
+
+#~ msgid "You must be <a href=\"%s\">logged in</a> to post a comment"
+#~ msgstr ""
+#~ "Vous devez être <a href=\"%s\">connecté(e)</a> pour ajouter un commentaire"
+
+#~ msgid "Leave a reply"
+#~ msgstr "Ajouter un commentaire"
+
+#~ msgid "Logged in as <strong>%s</strong>."
+#~ msgstr "Connecté comme <strong>%s</strong>."
+
+#~ msgid "Log out of this account"
+#~ msgstr "Se déconnecter de ce compte"
+
+#~ msgid "Your name"
+#~ msgstr "Votre nom"
+
+#~ msgid "Your mail"
+#~ msgstr "Votre adresse mail"
+
+#~ msgid "Your website"
+#~ msgstr "Votre site"
+
+#~ msgid "Your comment"
+#~ msgstr "Votre commentaire"
 
 #~ msgid "Phone"
 #~ msgstr "Téléphone"

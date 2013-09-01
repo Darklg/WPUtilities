@@ -12,6 +12,9 @@ function set_wpu_options_boxes( $boxes ) {
     $boxes['virtual_contacts'] = array(
         'name' => 'Virtual contacts'
     );
+    $boxes['pages_id'] = array(
+        'name' => 'Pages IDs'
+    );
     return $boxes;
 }
 
@@ -27,6 +30,12 @@ function set_wputh_options_fields( $options ) {
         'box' => 'virtual_contacts',
         'type' => 'email',
         'test' => 'email'
+    );
+    // Pages IDs
+    $options['contact_page_id'] = array(
+        'label' => __( 'Contact', 'wputh' ),
+        'box' => 'pages_id',
+        'type' => 'page'
     );
     return $options;
 }

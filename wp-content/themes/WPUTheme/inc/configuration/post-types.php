@@ -58,6 +58,7 @@ function wputh_add_post_types() {
             )
         );
 
+        // I couldn't use the content of $context var inside of _x() calls because of Poedit :(
         if ($context == 'female') {
             $args['labels']['add_new_item'] = sprintf(_x('Add New %s', 'female', 'wputh'), $post_type['name']);
             $args['labels']['edit_item'] = sprintf(_x('Edit %s', 'female', 'wputh'), $post_type['name']);

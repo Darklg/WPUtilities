@@ -3,7 +3,7 @@
 Plugin Name: WPU Post Metas
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Simple admin for post metas
-Version: 0.6
+Version: 0.6.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -187,13 +187,13 @@ class WPUPostMetas {
         }
 
         $return = false;
-        $value = $_POST[$id];
+        $value = trim($_POST[$id]);
         switch ( $field['type'] ) {
         case 'attachment':
             $return = ctype_digit( $value ) ? $value : false;
             break;
         case 'email':
-            $return = ( filter_var( $value, FILTER_VALIDATE_EMAIL ) === false ) ? false : $value;
+            $return = ( filter_var( $value, FILTER_VALIDATE_EMAIL ) !== false || empty($value)) ? $value : false;
             break;
         case 'select':
             $return = array_key_exists( $value, $field['datas'] ) ? $value : false;
@@ -202,10 +202,10 @@ class WPUPostMetas {
             $return = strip_tags( $value );
             break;
         case 'editor':
-            $return = trim( $value );
+            $return = $value;
             break;
         case 'url':
-            $return = ( filter_var( $value, FILTER_VALIDATE_URL ) === false ) ? false : $value;
+            $return = ( filter_var( $value, FILTER_VALIDATE_URL ) !== false || empty($value)) ? $value : false;
             break;
         default :
             $return = sanitize_text_field( $value );

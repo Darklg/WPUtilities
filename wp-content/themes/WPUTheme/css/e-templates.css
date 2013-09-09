@@ -67,3 +67,37 @@
 .archive-months .current {
     font-weight: bold;
 }
+
+/* ----------------------------------------------------------
+  FAQ
+---------------------------------------------------------- */
+
+.faq-element__title {
+    cursor: pointer;
+}
+
+.faq-element__title:after {
+    content: '[-]';
+    margin-left: 3px;
+}
+
+.faq-element__content {
+    max-height: 1000px;
+    overflow: auto;
+    opacity: 0.99;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    filter: alpha(opacity=99);
+}
+
+.faq-element.is-hidden .faq-element__title:after {
+    content: '[+]';
+}
+
+.faq-element.is-hidden .faq-element__content {
+    max-height: 0;
+    opacity: 0.0;
+    filter: alpha(opacity=0);
+}

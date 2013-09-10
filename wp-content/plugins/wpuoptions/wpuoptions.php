@@ -2,7 +2,7 @@
 /*
 Plugin Name: WPU Options
 Plugin URI: http://github.com/Darklg/WPUtilities
-Version: 3.1
+Version: 3.2
 Description: Friendly interface for website options
 Author: Darklg
 Author: Darklg
@@ -117,7 +117,7 @@ class WPUOptions {
         $content = '<div class="wrap">';
         $content .= '<div id="icon-tools" class="icon32"></div><h2>' . $this->options['plugin_publicname'] . '</h2>';
         if ( !empty( $fields ) ) {
-            $content .= $this->admin_update( $fields );
+            $content .= $this->admin_update( $fields, $boxes );
             $content .= $this->admin_form( $fields, $boxes );
         }
         else {
@@ -153,10 +153,10 @@ class WPUOptions {
                 $import_tmp = file_get_contents($import_options);
                 $import = $this->import_options($import_tmp);
                 if ($import) {
-                    echo '<p>'.__('The file has been successfully imported.', 'wpuoptions').'</p>';
+                    echo '<div class="updated"><p>'.__('The file has been successfully imported.', 'wpuoptions').'</p></div>';
                 }
                 else {
-                    echo '<p>'.__('The file has not been imported.', 'wpuoptions').'</p>';
+                    echo '<div class="error"><p>'.__('The file has not been imported.', 'wpuoptions').'</p></div>';
                 }
             }
         }
@@ -172,7 +172,7 @@ class WPUOptions {
      * @param unknown $fields (optional)
      * @return unknown
      */
-    private function admin_update( $fields = array() ) {
+    private function admin_update( $fields = array(), $boxes = array() ) {
         $content = '';
         if ( !isset( $_POST['plugin_ok'] ) ) {
             return;
@@ -205,26 +205,31 @@ class WPUOptions {
 
                     $test_field = $this->test_field_value( $field, $new_option );
 
+                    $field_label = $field['label'];
+                    if(isset($field['box']) && isset($boxes[$field['box']]['name'])){
+                        $field_label = '<em>'.$boxes[$field['box']]['name'].'</em> - '.$field['label'];
+                    }
+
                     // Field is required and have been emptied
                     if ( $new_option == '' && isset( $field['required'] ) ) {
-                        $errors[] = sprintf( __( 'The field "%s" must not be empty', 'wpuoptions' ), $field['label'] );
+                        $errors[] = sprintf( __( 'The field "%s" must not be empty', 'wpuoptions' ), $field_label );
                     }
                     // If test is ok OR the field is not required
                     elseif ( $test_field || ( $new_option == '' && !isset( $field['required'] ) ) ) {
                         if ( $old_option != $new_option ) {
                             update_option( $id, $new_option );
-                            $updated_options[] = sprintf( __( 'The field "%s" has been updated.', 'wpuoptions' ), $field['label'] );
+                            $updated_options[] = sprintf( __( 'The field "%s" has been updated.', 'wpuoptions' ), $field_label );
                         }
                     } else {
-                        $errors[] = sprintf( __( 'The field "%s" has not been updated, because it\'s not valid.', 'wpuoptions' ), $field['label'] );
+                        $errors[] = sprintf( __( 'The field "%s" has not been updated, because it\'s not valid.', 'wpuoptions' ), $field_label );
                     }
                 }
             }
             if ( !empty( $updated_options ) ) {
-                $content .= '<p><strong>' . __( 'Success!', 'wpuoptions' ) . '</strong><br />' . implode( '<br />', $updated_options ) . '</p>';
+                $content .= '<div class="updated"><p><strong>' . __( 'Success!', 'wpuoptions' ) . '</strong><br />' . implode( '<br />', $updated_options ) . '</p></div>';
             }
             if ( !empty( $errors ) ) {
-                $content .= '<p><strong>' . __( 'Fail!', 'wpuoptions' ) . '</strong><br />' . implode( '<br />', $errors ) . '</p>';
+                $content .= '<div class="error"><p><strong>' . __( 'Fail!', 'wpuoptions' ) . '</strong><br />' . implode( '<br />', $errors ) . '</p></div>';
             }
         }
         return $content;

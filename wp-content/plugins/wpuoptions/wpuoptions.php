@@ -5,7 +5,6 @@ Plugin URI: http://github.com/Darklg/WPUtilities
 Version: 3.2
 Description: Friendly interface for website options
 Author: Darklg
-Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
 License URI: http://opensource.org/licenses/MIT

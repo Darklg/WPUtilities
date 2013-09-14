@@ -4,7 +4,7 @@ $metas = array();
 
 $metas['og_sitename'] = array(
     'property' => 'og:site_name',
-    'content' => htmlentities( get_bloginfo( 'name' ) )
+    'content' => get_bloginfo( 'name' )
 );
 
 $metas['og_type'] = array(

@@ -25,6 +25,10 @@ function wputh_add_post_types() {
         if ( !isset( $post_type['plural'] ) ) {
             $post_type['plural'] = $post_type['name'];
         }
+        // Plural
+        if ( !isset( $post_type['taxonomies'] ) ) {
+            $post_type['taxonomies'] = array();
+        }
         // Female
         $context = 'female';
         if ( !isset( $post_type['female'] ) || $post_type['female'] != 1) {
@@ -36,6 +40,7 @@ function wputh_add_post_types() {
             'public' => true,
             'publicly_queryable' => true,
             'has_archive' => true,
+            'taxonomies' => $post_type['taxonomies'],
             'with_front' => true,
             'show_ui' => true,
             'rewrite' => true,
@@ -69,6 +74,8 @@ function wputh_add_post_types() {
             $args['labels']['not_found'] = sprintf(_x('No %s found', 'female', 'wputh'), $post_type['name']);
             $args['labels']['not_found_in_trash'] = sprintf(_x('No %s found in Trash', 'female', 'wputh'), $post_type['name']);
         }
+
+
         register_post_type( $slug, $args );
     }
 }

@@ -8,9 +8,6 @@ if (isset($_POST['ajax'])) return;
         <?php include get_template_directory() . '/tpl/footer/copyright.php'; ?>
     </div>
 </footer>
-<?php
-include get_template_directory() . '/tpl/footer/analytics.php';
-wp_footer();
-?>
+<?php wp_footer(); ?>
 </body>
 </html>

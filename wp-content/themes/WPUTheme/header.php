@@ -23,6 +23,7 @@ if(!isset($_POST['ajax'])){
 </header>
 <div class="main-container centered-container"><div class="main-container--inner">
 <?php } ?>
+<?php include get_template_directory() . '/tpl/header/breadcrumbs.php'; ?>
 <script>
 var wputh_page_title = "<?php echo addslashes(trim(get_bloginfo('name') . ' ' . wp_title(' ', false))); ?>";
 var wputh_pagination_kind = '<?php echo PAGINATION_KIND; ?>';

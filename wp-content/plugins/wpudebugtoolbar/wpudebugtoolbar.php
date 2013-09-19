@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Utilities Debug toolbar
 Description: Debug toolbar
-Version: 0.1
+Version: 0.2
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -39,9 +39,13 @@ body {
 
 add_action('shutdown', 'wputh_debug_launch_bar', 999);
 function wputh_debug_launch_bar() {
+    global $template;
     echo '<div class="wputh-debug-toolbar">';
     // Theme
     echo 'Theme : <strong>' . wp_get_theme().'</strong>';
+    echo ' <em>•</em> ';
+    // Template
+    echo 'File : <strong>' . basename($template).'</strong>';
     echo ' <em>•</em> ';
     // Current language
     echo 'Lang : <strong>' . get_bloginfo('language').'</strong>';

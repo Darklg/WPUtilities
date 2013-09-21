@@ -2,14 +2,22 @@
 /*
 Plugin Name: WP Utilities Debug toolbar
 Description: Debug toolbar
-Version: 0.2
+Version: 0.3
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
 License URI: http://opensource.org/licenses/MIT
 */
 
-add_action('wp_head', 'wputh_debug_display_style');
+if(!is_admin()){
+    add_action('wp_head', 'wputh_debug_display_style');
+    add_action('shutdown', 'wputh_debug_launch_bar', 999);
+}
+
+/* ----------------------------------------------------------
+  Style
+---------------------------------------------------------- */
+
 function wputh_debug_display_style() { ?>
 <style>
 body {
@@ -37,25 +45,28 @@ body {
 <?php
 }
 
-add_action('shutdown', 'wputh_debug_launch_bar', 999);
+/* ----------------------------------------------------------
+  Bar
+---------------------------------------------------------- */
+
 function wputh_debug_launch_bar() {
     global $template;
     echo '<div class="wputh-debug-toolbar">';
     // Theme
     echo 'Theme : <strong>' . wp_get_theme().'</strong>';
-    echo ' <em>•</em> ';
+    echo ' <em>&bull;</em> ';
     // Template
     echo 'File : <strong>' . basename($template).'</strong>';
-    echo ' <em>•</em> ';
+    echo ' <em>&bull;</em> ';
     // Current language
     echo 'Lang : <strong>' . get_bloginfo('language').'</strong>';
-    echo ' <em>•</em> ';
+    echo ' <em>&bull;</em> ';
     // Memory used
     echo 'Memory : <strong>'.round(memory_get_peak_usage()/(1024*1024), 3). '</strong> mb';
-    echo ' <em>•</em> ';
+    echo ' <em>&bull;</em> ';
     // Queries
     echo 'Queries : <strong>' .get_num_queries().'</strong>';
-    echo ' <em>•</em> ';
+    echo ' <em>&bull;</em> ';
     // Execution time
     echo 'Time : <strong>' . timer_stop(0).'</strong> sec';
     echo '</div>';

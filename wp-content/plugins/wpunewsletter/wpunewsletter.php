@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Utilities Newsletter
 Description: Newsletter
-Version: 1.0
+Version: 1.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -13,8 +13,10 @@ License URI: http://opensource.org/licenses/MIT
   Admin page & menus
 ---------------------------------------------------------- */
 
-$wpunewsletteradmin_messages = array();
+// Lang
+load_plugin_textdomain( 'wpunewsletter', false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
 
+$wpunewsletteradmin_messages = array();
 
 // Menu item
 add_action( 'admin_menu', 'wpunewsletter_menu_page' );
@@ -55,18 +57,18 @@ function wpunewsletter_page() {
         echo '<p>'.implode( '<br />', $wpunewsletteradmin_messages ).'</p>';
     }
 
-    echo '<h3>'.sprintf( __( 'Subscribers list : %s', 'wputh' ), $nb_results_total ).'</h3>';
+    echo '<h3>'.sprintf( __( 'Subscribers list : %s', 'wpunewsletter' ), $nb_results_total ).'</h3>';
 
     // If empty
     if ( $nb_results < 1 ) {
         // - Display blank slate message
-        echo '<p>'.__( 'No subscriber for now.', 'wputh' ).'</p>';
+        echo '<p>'.__( 'No subscriber for now.', 'wpunewsletter' ).'</p>';
     }
     else {
         echo '<form action="" method="post">';
         // - Display results
         echo '<table class="widefat">';
-        $cols = '<tr><th><input type="checkbox" class="wpunewsletter_element_check" name="wpunewsletter_element_check" /></th><th>'.__( 'ID', 'wputh' ).'</th><th>'.__( 'Email', 'wputh' ).'</th><th>'.__( 'Date', 'wputh' ).'</th></tr>';
+        $cols = '<tr><th><input type="checkbox" class="wpunewsletter_element_check" name="wpunewsletter_element_check" /></th><th>'.__( 'ID', 'wpunewsletter' ).'</th><th>'.__( 'Email', 'wpunewsletter' ).'</th><th>'.__( 'Date', 'wpunewsletter' ).'</th></tr>';
         echo '<thead>'.$cols.'</thead>';
         echo '<tfoot>'.$cols.'</tfoot>';
         foreach ( $results as $result ) {
@@ -79,7 +81,7 @@ function wpunewsletter_page() {
         }
         echo '</table>';
         echo wp_nonce_field( 'wpunewsletter_delete', 'wpunewsletter_delete_nonce' );
-        echo '<p><button class="button-primary">'.__( 'Delete selected lines', 'wputh' ).'</button></p>';
+        echo '<p><button class="button-primary">'.__( 'Delete selected lines', 'wpunewsletter' ).'</button></p>';
         echo '</form>';
     }
     echo '</div>';
@@ -119,7 +121,7 @@ function wpunewsletter_page_export() {
     <div id="icon-options-general" class="icon32"></div><h2 class="title">Newsletter - Export</h2>
     <form action="" method="post"><p>';
     echo wp_nonce_field( 'wpunewsletter_export', 'wpunewsletter_export_nonce' );
-    echo '<button type="submit" class="button-primary">'.__( 'Export addresses', 'wputh' ).'</button>';
+    echo '<button type="submit" class="button-primary">'.__( 'Export addresses', 'wpunewsletter' ).'</button>';
     echo '</p></form>
     </div>';
 }
@@ -180,9 +182,9 @@ class wpunewsletter_form extends WP_Widget {
         } ?>
         <form action="" method="post">
             <div>
-                <label for="wpunewsletter_email"><?php echo __( 'Email', 'wputh' ); ?></label>
+                <label for="wpunewsletter_email"><?php echo __( 'Email', 'wpunewsletter' ); ?></label>
                 <input type="email" name="wpunewsletter_email" id="wpunewsletter_email" value="" required />
-                <button type="submit" class="cssc-button"><?php echo __( 'Register', 'wputh' ); ?></button>
+                <button type="submit" class="cssc-button"><?php echo __( 'Register', 'wpunewsletter' ); ?></button>
             </div>
         </form>
         <?php echo $args['after_widget'];
@@ -199,7 +201,7 @@ function wpunewsletter_postaction() {
         // Is it already in our base ?
         $testbase = $wpdb->get_row( $wpdb->prepare( 'SELECT email FROM '.$table_name.' WHERE email = %s', $_POST['wpunewsletter_email'] ) );
         if ( isset( $testbase->email ) ) {
-            $wpunewsletter_messages[] = __( 'This mail is already registered', 'wputh' );
+            $wpunewsletter_messages[] = __( 'This mail is already registered', 'wpunewsletter' );
         }
         else {
             $insert = $wpdb->insert(
@@ -209,10 +211,10 @@ function wpunewsletter_postaction() {
                 )
             );
             if ( $insert === false ) {
-                $wpunewsletter_messages[] = __( "This mail can't be registered", 'wputh' );
+                $wpunewsletter_messages[] = __( "This mail can't be registered", 'wpunewsletter' );
             }
             else {
-                $wpunewsletter_messages[] = __( 'This mail is now registered', 'wputh' );
+                $wpunewsletter_messages[] = __( 'This mail is now registered', 'wpunewsletter' );
             }
         }
     }

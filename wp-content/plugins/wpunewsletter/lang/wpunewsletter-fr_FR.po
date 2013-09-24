@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2013-09-24 08:51+0100\n"
+"POT-Creation-Date: 2013-09-24 14:09+0100\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Kevin <kevin@rocher.me>\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,10 +51,34 @@ msgstr "S'inscrire"
 msgid "This mail is already registered"
 msgstr "Cette adresse mail est déjà inscrite"
 
-#: .././wpunewsletter.php:214
+#: .././wpunewsletter.php:216
 msgid "This mail can't be registered"
 msgstr "Cette adresse mail ne peut pas être inscrite"
 
-#: .././wpunewsletter.php:217
+#: .././wpunewsletter.php:220
 msgid "This mail is now registered"
 msgstr "Cette adresse mail est désormais inscrite"
+
+#: .././wpunewsletter.php:240
+msgid "Confirm your subscription to our newsletter"
+msgstr "Confirmez votre abonnement à notre newsletter"
+
+#: .././wpunewsletter.php:241
+msgid "Hi !"
+msgstr "Bonjour !"
+
+#: .././wpunewsletter.php:241
+msgid ""
+"Please click on the link below to confirm your subscription to our "
+"newsletter:"
+msgstr ""
+"Merci de cliquer sur le lien ci-dessous pour confirmer votre abonnement à "
+"notre newsletter :"
+
+#: .././wpunewsletter.php:252
+msgid "Your subscription couldn't be confirmed"
+msgstr "Votre abonnement n'a pas pu être confirmé"
+
+#: .././wpunewsletter.php:267
+msgid "Your subscription has been successfully confirmed"
+msgstr "Votre abonnement a été confirmé avec succès "

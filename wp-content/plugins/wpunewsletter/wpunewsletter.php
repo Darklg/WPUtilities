@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Utilities Newsletter
 Description: Newsletter
-Version: 1.1
+Version: 1.2
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -204,16 +204,19 @@ function wpunewsletter_postaction() {
             $wpunewsletter_messages[] = __( 'This mail is already registered', 'wpunewsletter' );
         }
         else {
+            $secretkey = md5( microtime() . $_POST['wpunewsletter_email'] );
             $insert = $wpdb->insert(
                 $table_name,
                 array(
                     'email' => $_POST['wpunewsletter_email'],
+                    'secretkey' => $secretkey
                 )
             );
             if ( $insert === false ) {
                 $wpunewsletter_messages[] = __( "This mail can't be registered", 'wpunewsletter' );
             }
             else {
+                wpunewsletter_confirmation_mail( $_POST['wpunewsletter_email'], $secretkey );
                 $wpunewsletter_messages[] = __( 'This mail is now registered', 'wpunewsletter' );
             }
         }
@@ -224,6 +227,51 @@ function wpunewsletter_postaction() {
             echo '<p>'.implode( '<br />', $wpunewsletter_messages ).'</p>';
         }
         die;
+    }
+}
+
+function wpunewsletter_set_html_content_type() {
+    return 'text/html';
+}
+
+function wpunewsletter_confirmation_mail( $email, $secretkey ) {
+    add_filter( 'wp_mail_content_type', 'wpunewsletter_set_html_content_type' );
+    $confirm_url = site_url().'?wpunewsletter_key='.$secretkey.'&amp;wpunewsletter_email='.$email;
+    wp_mail( $email, __( 'Confirm your subscription to our newsletter', 'wpunewsletter' ),
+        '<p>'.__( 'Hi !', 'wpunewsletter' ).'</p><p>'.__( 'Please click on the link below to confirm your subscription to our newsletter:', 'wpunewsletter' ).'<br />
+        <a href="'.$confirm_url.'">'.$confirm_url.'</a></p>'
+    );
+    remove_filter( 'wp_mail_content_type', 'wpunewsletter_set_html_content_type' );
+}
+
+add_action( 'template_redirect', 'wpunewsletter_confirm_address' );
+function wpunewsletter_confirm_address() {
+    if ( isset( $_GET['wpunewsletter_key'], $_GET['wpunewsletter_email'] ) ) {
+        global $wpdb;
+        $table_name = $wpdb->prefix."wpunewsletter_subscribers";
+        $message = __( "Your subscription couldn't be confirmed", 'wpunewsletter' );
+        $address_exists = $wpdb->get_row( $wpdb->prepare( "SELECT id FROM ".$table_name." WHERE email = %s AND secretkey = %s", $_GET['wpunewsletter_email'], $_GET['wpunewsletter_key'] ) );
+        if ( isset( $address_exists->id ) ) {
+            // Update
+            $update = $wpdb->update(
+                $table_name,
+                array(
+                    'is_valid' => '1'
+                ),
+                array( 'id' => $address_exists->id ),
+                array(
+                    '%d'
+                )
+            );
+            if ( $update !== FALSE ) {
+                $message = __( "Your subscription has been successfully confirmed", 'wpunewsletter' );
+            }
+        }
+
+        get_header();
+        echo '<p>'.$message.'</p>';
+        get_footer();
+        die();
     }
 }
 
@@ -240,6 +288,7 @@ function wpunewsletter_activate() {
     dbDelta( "CREATE TABLE ".$table_name." (
         `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
         `email` varchar(100) DEFAULT NULL,
+        `secretkey` varchar(100) DEFAULT NULL,
         `date_register` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         `is_valid` tinyint(1) unsigned DEFAULT '0' NOT NULL,
         PRIMARY KEY (`id`)

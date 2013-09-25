@@ -3,7 +3,7 @@
 Plugin Name: WPU disable comments
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Disable all comments
-Version: 0.1
+Version: 0.2
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -13,11 +13,21 @@ License URI: http://opensource.org/licenses/MIT
 // Thx to : http://wordpress.stackexchange.com/a/17936
 
 /* ----------------------------------------------------------
-  Removes from admin menu
+  Remove from main widget
+---------------------------------------------------------- */
+
+function wputh_disable_comments_css() {
+    echo "<style>#dashboard_right_now .table_discussion {display:none !important;}</style>";
+}
+add_action( 'admin_head', 'wputh_disable_comments_css' );
+
+/* ----------------------------------------------------------
+  Hide from admin menu
 ---------------------------------------------------------- */
 
 function wputh_disable_comments_admin_menus() {
     remove_menu_page( 'edit-comments.php' );
+    remove_submenu_page( 'options-general.php', 'options-discussion.php' );
 }
 
 add_action( 'admin_menu', 'wputh_disable_comments_admin_menus' );
@@ -31,7 +41,7 @@ function wputh_disable_comments_support() {
     remove_post_type_support( 'page', 'comments' );
 }
 
-add_action('init', 'wputh_disable_comments_support', 100);
+add_action( 'init', 'wputh_disable_comments_support', 100 );
 
 /* ----------------------------------------------------------
   Removes from admin bar
@@ -39,7 +49,7 @@ add_action('init', 'wputh_disable_comments_support', 100);
 
 function wputh_disable_comments_admin_bar_render() {
     global $wp_admin_bar;
-    $wp_admin_bar->remove_menu('comments');
+    $wp_admin_bar->remove_menu( 'comments' );
 }
 
 add_action( 'wp_before_admin_bar_render', 'wputh_disable_comments_admin_bar_render' );
@@ -48,7 +58,7 @@ add_action( 'wp_before_admin_bar_render', 'wputh_disable_comments_admin_bar_rend
   Send every comment to spam
 ---------------------------------------------------------- */
 
-function wputh_disable_comments_send_spam( $approved , $commentdata ){
+function wputh_disable_comments_send_spam( $approved , $commentdata ) {
     return 'spam';
 }
 

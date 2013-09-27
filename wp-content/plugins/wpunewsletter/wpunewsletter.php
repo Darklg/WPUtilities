@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Utilities Newsletter
 Description: Newsletter
-Version: 1.2
+Version: 1.3
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -115,11 +115,18 @@ function wpunewsletter_delete_postaction() {
     }
 }
 
+
 // Admin Page - Export
 function wpunewsletter_page_export() {
     echo '<div class="wrap">
     <div id="icon-options-general" class="icon32"></div><h2 class="title">Newsletter - Export</h2>
     <form action="" method="post"><p>';
+    echo '<label for="wpunewsletter_export_type">'.__( 'Addresses to export:', 'wpunewsletter' ).'</label> ';
+    echo '<select name="wpunewsletter_export_type" id="wpunewsletter_export_type">
+    <option value="validated">'.__( 'Only validated', 'wpunewsletter' ).'</option>
+    <option value="all">'.__( 'All', 'wpunewsletter' ).'</option>
+</select>';
+    echo '</p><p>';
     echo wp_nonce_field( 'wpunewsletter_export', 'wpunewsletter_export_nonce' );
     echo '<button type="submit" class="button-primary">'.__( 'Export addresses', 'wpunewsletter' ).'</button>';
     echo '</p></form>
@@ -135,7 +142,13 @@ function wpunewsletter_export_postaction() {
     // Check if export is correctly asked
     if ( isset( $_POST['wpunewsletter_export_nonce'] ) && wp_verify_nonce( $_POST['wpunewsletter_export_nonce'], 'wpunewsletter_export' ) ) {
         $handle = @fopen( 'php://output', 'w' );
-        $results = $wpdb->get_results( "SELECT * FROM ".$table_name, ARRAY_N );
+
+        $request_more = '';
+        if(isset($_POST['wpunewsletter_export_type']) && $_POST['wpunewsletter_export_type'] == 'validated'){
+            $request_more = ' WHERE is_valid = 1';
+        }
+
+        $results = $wpdb->get_results( "SELECT * FROM ".$table_name.$request_more, ARRAY_N );
 
         // Send CSV Headers
         header( "Cache-Control: must-revalidate, post-check=0, pre-check=0" );

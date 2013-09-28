@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Utilities Newsletter
 Description: Newsletter
-Version: 1.3.1
+Version: 1.3.2
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -169,6 +169,15 @@ function wpunewsletter_export_postaction() {
     }
 }
 
+// Add settings link on plugin page
+function wpunewsletter_settings_link( $links ) {
+    $settings_link = '<a href="admin.php?page=wpunewsletter">'.__( 'Subscribers', 'wpunewsletter' ).'</a>';
+    array_unshift( $links, $settings_link );
+    return $links;
+}
+
+add_filter( "plugin_action_links_".plugin_basename( __FILE__ ), 'wpunewsletter_settings_link' );
+
 /* ----------------------------------------------------------
   Widget
 ---------------------------------------------------------- */
@@ -259,7 +268,7 @@ function wpunewsletter_confirmation_mail( $email, $secretkey ) {
         '<p>'.__( 'Hi !', 'wpunewsletter' ).'</p>'.
         '<p>'.__( 'Please click on the link below to confirm your subscription to our newsletter:', 'wpunewsletter' ).'<br />
         <a href="'.$confirm_url.'">'.$confirm_url.'</a></p>'.
-        '<p>'.__( 'Thank you !', 'wputh' ).'</p>'
+        '<p>'.__( 'Thank you !', 'wpunewsletter' ).'</p>'
     );
     remove_filter( 'wp_mail_content_type', 'wpunewsletter_set_html_content_type' );
 }

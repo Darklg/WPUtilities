@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2013-09-28 09:35+0100\n"
+"POT-Creation-Date: 2013-09-28 09:41+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Kevin <kevin@rocher.me>\n"
 "Language-Team: \n"
@@ -27,7 +27,7 @@ msgstr "Aucun abonné pour le moment."
 msgid "ID"
 msgstr "ID"
 
-#: .././wpunewsletter.php:71 .././wpunewsletter.php:198
+#: .././wpunewsletter.php:71 .././wpunewsletter.php:207
 msgid "Email"
 msgstr "E-Mail"
 
@@ -55,31 +55,35 @@ msgstr "Toutes"
 msgid "Export addresses"
 msgstr "Exporter les adresses"
 
-#: .././wpunewsletter.php:200
+#: .././wpunewsletter.php:174
+msgid "Subscribers"
+msgstr "Abonnés"
+
+#: .././wpunewsletter.php:209
 msgid "Register"
 msgstr "S'inscrire"
 
-#: .././wpunewsletter.php:217
+#: .././wpunewsletter.php:226
 msgid "This mail is already registered"
 msgstr "Cette adresse mail est déjà inscrite"
 
-#: .././wpunewsletter.php:229
+#: .././wpunewsletter.php:238
 msgid "This mail can't be registered"
 msgstr "Cette adresse mail ne peut pas être inscrite"
 
-#: .././wpunewsletter.php:233
+#: .././wpunewsletter.php:242
 msgid "This mail is now registered"
 msgstr "Cette adresse mail est désormais inscrite"
 
-#: .././wpunewsletter.php:257
+#: .././wpunewsletter.php:266
 msgid "Confirm your subscription to our newsletter"
 msgstr "Confirmez votre abonnement à notre newsletter"
 
-#: .././wpunewsletter.php:259
+#: .././wpunewsletter.php:268
 msgid "Hi !"
 msgstr "Bonjour !"
 
-#: .././wpunewsletter.php:260
+#: .././wpunewsletter.php:269
 msgid ""
 "Please click on the link below to confirm your subscription to our "
 "newsletter:"
@@ -87,14 +91,14 @@ msgstr ""
 "Merci de cliquer sur le lien ci-dessous pour confirmer votre abonnement à "
 "notre newsletter :"
 
-#: .././wpunewsletter.php:262
+#: .././wpunewsletter.php:271
 msgid "Thank you !"
 msgstr "Merci !"
 
-#: .././wpunewsletter.php:272
+#: .././wpunewsletter.php:281
 msgid "Your subscription couldn't be confirmed"
 msgstr "Votre abonnement n'a pas pu être confirmé"
 
-#: .././wpunewsletter.php:287
+#: .././wpunewsletter.php:296
 msgid "Your subscription has been successfully confirmed"
 msgstr "Votre abonnement a été confirmé avec succès "

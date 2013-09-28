@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Utilities Newsletter
 Description: Newsletter
-Version: 1.3
+Version: 1.3.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -144,7 +144,7 @@ function wpunewsletter_export_postaction() {
         $handle = @fopen( 'php://output', 'w' );
 
         $request_more = '';
-        if(isset($_POST['wpunewsletter_export_type']) && $_POST['wpunewsletter_export_type'] == 'validated'){
+        if ( isset( $_POST['wpunewsletter_export_type'] ) && $_POST['wpunewsletter_export_type'] == 'validated' ) {
             $request_more = ' WHERE is_valid = 1';
         }
 
@@ -250,9 +250,16 @@ function wpunewsletter_set_html_content_type() {
 function wpunewsletter_confirmation_mail( $email, $secretkey ) {
     add_filter( 'wp_mail_content_type', 'wpunewsletter_set_html_content_type' );
     $confirm_url = site_url().'?wpunewsletter_key='.$secretkey.'&amp;wpunewsletter_email='.$email;
-    wp_mail( $email, __( 'Confirm your subscription to our newsletter', 'wpunewsletter' ),
-        '<p>'.__( 'Hi !', 'wpunewsletter' ).'</p><p>'.__( 'Please click on the link below to confirm your subscription to our newsletter:', 'wpunewsletter' ).'<br />
-        <a href="'.$confirm_url.'">'.$confirm_url.'</a></p>'
+    wp_mail(
+        // Address
+        $email,
+        // Subject
+        get_bloginfo( 'name' ) . ' - ' . __( 'Confirm your subscription to our newsletter', 'wpunewsletter' ),
+        // Content
+        '<p>'.__( 'Hi !', 'wpunewsletter' ).'</p>'.
+        '<p>'.__( 'Please click on the link below to confirm your subscription to our newsletter:', 'wpunewsletter' ).'<br />
+        <a href="'.$confirm_url.'">'.$confirm_url.'</a></p>'.
+        '<p>'.__( 'Thank you !', 'wputh' ).'</p>'
     );
     remove_filter( 'wp_mail_content_type', 'wpunewsletter_set_html_content_type' );
 }

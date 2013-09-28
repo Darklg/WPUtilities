@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2013-09-28 01:37+0100\n"
+"POT-Creation-Date: 2013-09-28 09:35+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Kevin <kevin@rocher.me>\n"
 "Language-Team: \n"
@@ -71,15 +71,15 @@ msgstr "Cette adresse mail ne peut pas être inscrite"
 msgid "This mail is now registered"
 msgstr "Cette adresse mail est désormais inscrite"
 
-#: .././wpunewsletter.php:253
+#: .././wpunewsletter.php:257
 msgid "Confirm your subscription to our newsletter"
 msgstr "Confirmez votre abonnement à notre newsletter"
 
-#: .././wpunewsletter.php:254
+#: .././wpunewsletter.php:259
 msgid "Hi !"
 msgstr "Bonjour !"
 
-#: .././wpunewsletter.php:254
+#: .././wpunewsletter.php:260
 msgid ""
 "Please click on the link below to confirm your subscription to our "
 "newsletter:"
@@ -87,10 +87,14 @@ msgstr ""
 "Merci de cliquer sur le lien ci-dessous pour confirmer votre abonnement à "
 "notre newsletter :"
 
-#: .././wpunewsletter.php:265
+#: .././wpunewsletter.php:262
+msgid "Thank you !"
+msgstr "Merci !"
+
+#: .././wpunewsletter.php:272
 msgid "Your subscription couldn't be confirmed"
 msgstr "Votre abonnement n'a pas pu être confirmé"
 
-#: .././wpunewsletter.php:280
+#: .././wpunewsletter.php:287
 msgid "Your subscription has been successfully confirmed"
 msgstr "Votre abonnement a été confirmé avec succès "

@@ -2,7 +2,7 @@
 /*
 Plugin Name: WPU Options
 Plugin URI: http://github.com/Darklg/WPUtilities
-Version: 3.2
+Version: 3.3
 Description: Friendly interface for website options
 Author: Darklg
 Author URI: http://darklg.me/
@@ -38,7 +38,7 @@ class WPUOptions {
      */
     private function set_options() {
         $this->options = array(
-            'plugin_publicname' => __('Site options', 'wpuoptions'),
+            'plugin_publicname' => __( 'Site options', 'wpuoptions' ),
             'plugin_name' => 'WPU Options',
             'plugin_userlevel' => 'manage_categories',
             'plugin_menutype' => 'admin.php',
@@ -54,7 +54,8 @@ class WPUOptions {
      */
     private function admin_hooks() {
         add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
-        add_action( 'admin_bar_menu', array( &$this, 'add_toolbar_menu_items' ), 100);
+        add_action( 'admin_bar_menu', array( &$this, 'add_toolbar_menu_items' ), 100 );
+        add_filter( "plugin_action_links_".plugin_basename( __FILE__ ), array( &$this, 'settings_link' ) );
     }
 
 
@@ -73,20 +74,29 @@ class WPUOptions {
         );
         add_submenu_page(
             __FILE__,
-            __('Import', 'wpuoptions'),
-            __('Import', 'wpuoptions'),
+            __( 'Import', 'wpuoptions' ),
+            __( 'Import', 'wpuoptions' ),
             $this->options['plugin_userlevel'],
             $this->options['plugin_pageslug'] . '-import',
             array( &$this, 'admin_import_page' )
         );
         add_submenu_page(
             __FILE__,
-            __('Export', 'wpuoptions'),
-            __('Export', 'wpuoptions'),
+            __( 'Export', 'wpuoptions' ),
+            __( 'Export', 'wpuoptions' ),
             $this->options['plugin_userlevel'],
             $this->options['plugin_pageslug'] . '-export',
             array( &$this, 'admin_export_page' )
         );
+    }
+
+    /**
+     * Settings link
+     */
+    function settings_link( $links ) {
+        $settings_link = '<a href="admin.php?page='.plugin_basename( __FILE__ ).'">'.__( 'Options', 'wpuoptions' ).'</a>';
+        array_unshift( $links, $settings_link );
+        return $links;
     }
 
 
@@ -95,7 +105,7 @@ class WPUOptions {
      *
      * @param unknown $admin_bar
      */
-    function add_toolbar_menu_items($admin_bar) {
+    function add_toolbar_menu_items( $admin_bar ) {
         $admin_bar->add_menu( array(
                 'id' => 'wpu-options-menubar-link',
                 'title' => $this->options['plugin_publicname'] ,
@@ -103,7 +113,7 @@ class WPUOptions {
                 'meta' => array(
                     'title' => $this->options['plugin_publicname'],
                 ),
-            ));
+            ) );
     }
 
 
@@ -132,8 +142,8 @@ class WPUOptions {
      */
     function admin_export_page() {
         echo '<div class="wrap">';
-        echo '<div id="icon-tools" class="icon32"></div><h2>'.__('Export', 'wpuoptions').'</h2>';
-        echo '<p>'.__('Click below to download a .json file containing all your website’s options.', 'wpuoptions').'</p>';
+        echo '<div id="icon-tools" class="icon32"></div><h2>'.__( 'Export', 'wpuoptions' ).'</h2>';
+        echo '<p>'.__( "Click below to download a .json file containing all your website's options.", 'wpuoptions' ).'</p>';
         echo '<p>' . $this->generate_export_url() . '</p>';
         echo '</div>';
     }
@@ -144,23 +154,23 @@ class WPUOptions {
      */
     function admin_import_page() {
         echo '<div class="wrap">';
-        echo '<div id="icon-tools" class="icon32"></div><h2>'.__('Import', 'wpuoptions').'</h2>';
+        echo '<div id="icon-tools" class="icon32"></div><h2>'.__( 'Import', 'wpuoptions' ).'</h2>';
 
-        if (isset($_FILES["wpu_import_options"])) {
+        if ( isset( $_FILES["wpu_import_options"] ) ) {
             $import_options = $_FILES["wpu_import_options"]['tmp_name'];
-            if (file_exists($import_options)) {
-                $import_tmp = file_get_contents($import_options);
-                $import = $this->import_options($import_tmp);
-                if ($import) {
-                    echo '<div class="updated"><p>'.__('The file has been successfully imported.', 'wpuoptions').'</p></div>';
+            if ( file_exists( $import_options ) ) {
+                $import_tmp = file_get_contents( $import_options );
+                $import = $this->import_options( $import_tmp );
+                if ( $import ) {
+                    echo '<div class="updated"><p>'.__( 'The file has been successfully imported.', 'wpuoptions' ).'</p></div>';
                 }
                 else {
-                    echo '<div class="error"><p>'.__('The file has not been imported.', 'wpuoptions').'</p></div>';
+                    echo '<div class="error"><p>'.__( 'The file has not been imported.', 'wpuoptions' ).'</p></div>';
                 }
             }
         }
-        echo '<p>'.__('Upload a .json file (generated by WPU Options) to import your website’s options.', 'wpuoptions').'</p>';
-        echo '<form action="" method="post" enctype="multipart/form-data"><div><input type="file" name="wpu_import_options" /> <button class="button button-primary" type="value">'.__('Import options file', 'wpuoptions').'</button></div></form>';
+        echo '<p>'.__( "Upload a .json file (generated by WPU Options) to import your website's options.", 'wpuoptions' ).'</p>';
+        echo '<form action="" method="post" enctype="multipart/form-data"><div><input type="file" name="wpu_import_options" /> <button class="button button-primary" type="value">'.__( 'Import options file', 'wpuoptions' ).'</button></div></form>';
         echo '</div>';
     }
 
@@ -184,10 +194,10 @@ class WPUOptions {
             $updated_options = array();
             $errors = array();
             $testfields = array();
-            foreach ($fields as $id=> $field) {
+            foreach ( $fields as $id=> $field ) {
                 $testfields[$id] = $field;
-                if (isset($field['lang']) && !empty($languages)) {
-                    foreach ($languages as $lang => $name) {
+                if ( isset( $field['lang'] ) && !empty( $languages ) ) {
+                    foreach ( $languages as $lang => $name ) {
                         $newfield = $field;
                         $newfield['label'] = '['.$lang.'] '.$newfield['label'];
                         $testfields[$lang.'___'.$id] = $newfield;
@@ -205,7 +215,7 @@ class WPUOptions {
                     $test_field = $this->test_field_value( $field, $new_option );
 
                     $field_label = $field['label'];
-                    if(isset($field['box']) && isset($boxes[$field['box']]['name'])){
+                    if ( isset( $field['box'] ) && isset( $boxes[$field['box']]['name'] ) ) {
                         $field_label = '<em>'.$boxes[$field['box']]['name'].'</em> - '.$field['label'];
                     }
 
@@ -244,16 +254,16 @@ class WPUOptions {
      */
     private function admin_form( $fields = array(), $boxes = array() ) {
         $content = '<form action="" method="post" class="wpu-options-form">';
-        foreach ($boxes as $idbox => $box) {
+        foreach ( $boxes as $idbox => $box ) {
             $content_tmp = '';
             foreach ( $fields as $id => $field ) {
-                if ((isset($field['box']) && $field['box'] == $idbox) || ($idbox == 'default' && !isset($field['box']))) {
+                if ( ( isset( $field['box'] ) && $field['box'] == $idbox ) || ( $idbox == 'default' && !isset( $field['box'] ) ) ) {
                     $content_tmp .= $this->admin_field( $id, $field );
                 }
             }
-            if (!empty($content_tmp)) {
+            if ( !empty( $content_tmp ) ) {
                 // Adding box name if available
-                if (!empty($box['name'])) {
+                if ( !empty( $box['name'] ) ) {
                     $content .= '<h3>'.$box['name'].'</h3>';
                 }
                 $content .= '<table style="table-layout:fixed;width:650px;margin-top:20px;">'.$content_tmp.'</table>';
@@ -277,7 +287,7 @@ class WPUOptions {
         $languages = $this->get_languages();
         $fields_versions = array();
 
-        if (empty($languages) || !isset($field['lang'])) {
+        if ( empty( $languages ) || !isset( $field['lang'] ) ) {
             $fields_versions[] = array(
                 'id' => $id,
                 'field' => $field,
@@ -286,7 +296,7 @@ class WPUOptions {
             );
         }
         else {
-            foreach ($languages as $idlang => $lang) {
+            foreach ( $languages as $idlang => $lang ) {
                 $fields_versions[] = array(
                     'id' => $id,
                     'field' => $field,
@@ -296,12 +306,12 @@ class WPUOptions {
             }
         }
         $content = '';
-        foreach ($fields_versions as $field_version) {
+        foreach ( $fields_versions as $field_version ) {
             $idf = $this->get_field_id( $field_version['prefix_opt'] . $field_version['id'] );
             $field = $this->get_field_datas( $field_version['id'], $field_version['field'] );
             $idname = ' id="' . $idf . '" name="' . $idf . '" ';
             $originalvalue = get_option( $field_version['prefix_opt'] . $field_version['id'] );
-            $value = htmlentities($originalvalue);
+            $value = htmlentities( $originalvalue );
 
             $content .= '<tr class="wpu-options-box">';
             $content .= '<td style="vertical-align:top;width: 150px;"><label for="' . $field_version['prefix_opt'] . $idf . '">' . $field_version['prefix_label'] . $field['label'] . ' : </label></td>';
@@ -323,9 +333,9 @@ class WPUOptions {
                     ) );
                 break;
             case 'select':
-                $content .= '<select ' . $idname . '"><option value="" disabled selected style="display:none;">'.__('Select a value', 'wpuoptions').'</option>';
-                foreach ($field['datas'] as $key => $var) {
-                    $content .= '<option value="'.htmlentities($key).'" '.($key == $value ? 'selected="selected"' : '').'>'.htmlentities($var).'</option>';
+                $content .= '<select ' . $idname . '"><option value="" disabled selected style="display:none;">'.__( 'Select a value', 'wpuoptions' ).'</option>';
+                foreach ( $field['datas'] as $key => $var ) {
+                    $content .= '<option value="'.htmlentities( $key ).'" '.( $key == $value ? 'selected="selected"' : '' ).'>'.htmlentities( $var ).'</option>';
                 }
                 $content .= '</select>';
                 break;
@@ -359,7 +369,7 @@ class WPUOptions {
             'label' => $id,
             'type' => 'text',
             'test' => '',
-            'datas' => array(__('No', 'wpuoptions'), __('Yes', 'wpuoptions'))
+            'datas' => array( __( 'No', 'wpuoptions' ), __( 'Yes', 'wpuoptions' ) )
         );
         foreach ( $default_values as $name => $value ) {
             if ( empty( $field[$name] ) || !isset( $field[$name] ) ) {
@@ -380,25 +390,25 @@ class WPUOptions {
         $fields = apply_filters( 'wpu_options_fields', array() );
         $languages = $this->get_languages();
 
-        $site_url = str_replace(array('http://', 'https://'),'', site_url());
-        $sanitized_site_url = sanitize_title_with_dashes($site_url);
-        $filename = 'export-'.date_i18n('Y-m-d-his').'-'.$sanitized_site_url.'.json';
+        $site_url = str_replace( array( 'http://', 'https://' ), '', site_url() );
+        $sanitized_site_url = sanitize_title_with_dashes( $site_url );
+        $filename = 'export-'.date_i18n( 'Y-m-d-his' ).'-'.$sanitized_site_url.'.json';
 
         $options = array();
         // Array of fields:values
-        foreach ($fields as $id => $field) {
-            $opt_field = $this->get_field_datas($id, $field);
+        foreach ( $fields as $id => $field ) {
+            $opt_field = $this->get_field_datas( $id, $field );
             // If this field has i18n
-            if (isset($opt_field['lang']) && !empty($languages)) {
-                foreach ($languages as $lang => $name) {
-                    $options[$lang.'___'.$id] = get_option($lang.'___'.$id);
+            if ( isset( $opt_field['lang'] ) && !empty( $languages ) ) {
+                foreach ( $languages as $lang => $name ) {
+                    $options[$lang.'___'.$id] = get_option( $lang.'___'.$id );
                 }
             }
-            $options[$id] = get_option($id);
+            $options[$id] = get_option( $id );
         }
-        $base64 = 'data:application/json;base64,'.base64_encode(json_encode($options));
+        $base64 = 'data:application/json;base64,'.base64_encode( json_encode( $options ) );
 
-        return '<a class="button button-primary" href="'.$base64.'" download="'.$filename.'">'.__('Export options', 'wpuoptions').'</a>';
+        return '<a class="button button-primary" href="'.$base64.'" download="'.$filename.'">'.__( 'Export options', 'wpuoptions' ).'</a>';
     }
 
 
@@ -408,12 +418,12 @@ class WPUOptions {
      * @param string  $json
      * @return unknown
      */
-    private function import_options($json) {
+    private function import_options( $json ) {
         $return = false;
-        $options = json_decode($json);
-        if (is_object($options)) {
-            foreach ($options as $id => $value) {
-                update_option($id, $value);
+        $options = json_decode( $json );
+        if ( is_object( $options ) ) {
+            foreach ( $options as $id => $value ) {
+                update_option( $id, $value );
             }
             $return = true;
         }
@@ -442,7 +452,7 @@ class WPUOptions {
             }
             break;
         case 'select' :
-            if ( !array_key_exists($value, $field['datas'])) {
+            if ( !array_key_exists( $value, $field['datas'] ) ) {
                 $return = false;
             }
             break;
@@ -477,9 +487,9 @@ class WPUOptions {
         global $q_config;
         $languages = array();
         // Obtaining from Qtranslate
-        if (isset($q_config['enabled_languages'])) {
-            foreach ($q_config['enabled_languages'] as $lang) {
-                if (!in_array($lang, $languages) && isset($q_config['language_name'][$lang])) {
+        if ( isset( $q_config['enabled_languages'] ) ) {
+            foreach ( $q_config['enabled_languages'] as $lang ) {
+                if ( !in_array( $lang, $languages ) && isset( $q_config['language_name'][$lang] ) ) {
                     $languages[$lang] = $q_config['language_name'][$lang];
                 }
             }
@@ -500,12 +510,12 @@ $WPUOptions = new WPUOptions();
  * @param string  $name
  * @return string
  */
-function wputh_l18n_get_option($name) {
+function wputh_l18n_get_option( $name ) {
     global $q_config;
 
-    if (isset($q_config['language'])) {
+    if ( isset( $q_config['language'] ) ) {
         $name = $q_config['language'] . '___' . $name;
     }
 
-    return get_option($name);
+    return get_option( $name );
 }

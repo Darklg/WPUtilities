@@ -1,12 +1,12 @@
 <?php
-
+session_start();
 include dirname( __FILE__ ) . '/z-protect.php';
 
 /* Globals
 -------------------------- */
 
 define( "THEME_URL", get_template_directory_uri() );
-define( 'PAGINATION_KIND', 'load-more'); // load-more || numbers || default
+define( 'PAGINATION_KIND', 'numbers' ); // load-more || numbers || default
 
 /* Theme
 -------------------------- */

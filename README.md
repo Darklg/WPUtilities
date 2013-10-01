@@ -10,13 +10,17 @@ WPUtilities contains a skeleton theme for WordPress. Better with our plugins & c
 
 * A WordPress Theme : WP Utilities.
 * A Child theme focused on blogging.
+* A Child theme focused on multi-users.
 
 Plugins
 ---
 
 * *Post Metas* : Simple admin for post metas.
 * *Options* : Friendly interface for website options.
-* *Disable Comments* : Disable all comments
+* *Newsletter* : Allow subscriptions to a newsletter
+* *Debug toolbar* : Display a debug toolbar for developers.
+* *Disable Comments* : Disable all comments.
+* *Disable Posts* : Disable all posts.
 
 Must-Use Plugins
 ---
@@ -25,3 +29,4 @@ Must-Use Plugins
 * *Minify CSS* : Compress & concatenate CSS files.
 * *Minify HTML* : Compress HTML pages.
 * *Cache HTML* : Cache pages in files for a faster loading.
+* *Google Analytics* : Display Google Analytics.

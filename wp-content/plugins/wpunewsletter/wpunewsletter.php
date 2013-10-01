@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Utilities Newsletter
 Description: Newsletter
-Version: 1.3.2
+Version: 1.3.3
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -298,7 +298,9 @@ function wpunewsletter_confirm_address() {
         }
 
         get_header();
+        echo apply_filters( 'wpunewsletter_display_after_header', '' );
         echo '<p>'.$message.'</p>';
+        echo apply_filters( 'wpunewsletter_display_before_footer', '' );
         get_footer();
         die();
     }

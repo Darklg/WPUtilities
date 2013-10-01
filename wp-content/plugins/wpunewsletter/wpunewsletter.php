@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WP Utilities Newsletter
-Description: Newsletter
+Description: Allow subscriptions to a newsletter.
 Version: 1.3.3
 Author: Darklg
 Author URI: http://darklg.me/

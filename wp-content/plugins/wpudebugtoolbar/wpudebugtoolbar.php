@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WP Utilities Debug toolbar
-Description: Debug toolbar
+Description: Display a debug toolbar for developers.
 Version: 0.4
 Author: Darklg
 Author URI: http://darklg.me/

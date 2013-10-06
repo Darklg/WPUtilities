@@ -20,7 +20,7 @@ var wputh_ajax_load_more = function() {
             method: 'post',
             url: self.get('href'),
             data: {
-                'ajax': '1'
+                'is_ajax': '1'
             },
             onRequest: function() {
                 self.addClass('is-clicked');

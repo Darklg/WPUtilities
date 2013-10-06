@@ -1,6 +1,6 @@
 <?php
 include dirname( __FILE__ ) . '/z-protect.php';
-if (isset($_POST['ajax'])) return;
+if (isset($_POST['is_ajax'])) return;
 ?>
 </div></div>
 <footer class="main-footer centered-container">

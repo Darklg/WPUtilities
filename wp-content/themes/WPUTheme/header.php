@@ -5,7 +5,7 @@ $menu_args = array(
     'theme_location' => 'main',
     'menu_class' => 'main-menu'
 );
-if(!isset($_POST['ajax'])){
+if(!isset($_POST['is_ajax'])){
 ?><!DOCTYPE HTML>
 <!--[if lt IE 8 ]><html <?php language_attributes(); ?> class="is_ie7 lt_ie8 lt_ie9 lt_ie10"><![endif]-->
 <!--[if IE 8 ]><html <?php language_attributes(); ?> class="is_ie8 lt_ie9 lt_ie10"><![endif]-->

@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Utilities Debug toolbar
 Description: Display a debug toolbar for developers.
-Version: 0.4
+Version: 0.4.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -11,7 +11,7 @@ License URI: http://opensource.org/licenses/MIT
 
 if ( !is_admin() ) {
     add_action( 'wp_head', 'wputh_debug_display_style' );
-    add_action( 'shutdown', 'wputh_debug_launch_bar', 999 );
+    add_action( 'wp_footer', 'wputh_debug_launch_bar', 999 );
 }
 
 /* ----------------------------------------------------------

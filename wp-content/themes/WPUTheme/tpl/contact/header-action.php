@@ -18,10 +18,6 @@ $fields = array(
     ),
 );
 
-function wpu_set_html_content_type() {
-    return 'text/html';
-}
-
 // Testing missing values
 foreach ( $fields as $id => $field ) {
     if ( !isset( $field['value'] ) ) {
@@ -86,10 +82,7 @@ if ( !empty( $_POST ) ) {
             $fields[$id]['value'] = '';
         }
 
-        add_filter( 'wp_mail_content_type', 'wpu_set_html_content_type' );
-        wp_mail( get_option( 'admin_email' ), __( 'Message from your contact form', 'wputh' ), $mail_content );
-        remove_filter( 'wp_mail_content_type', 'wpu_set_html_content_type' ); // reset content-type to to avoid conflicts -- http://core.trac.wordpress.org/ticket/23578
-
+        wputh_sendmail( get_option( 'admin_email' ), __( 'Message from your contact form', 'wputh' ), $mail_content );
 
     }
     else {

@@ -8,7 +8,7 @@ if ( isset( $_GET['mode'] ) ) {
     $mode = $_GET['mode'];
 }
 
-switch ( $_GET['mode'] ) {
+switch ( $mode ) {
 case 'ajax_content':
     the_post();
     the_content();

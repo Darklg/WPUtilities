@@ -129,11 +129,11 @@ function wputh_get_comment_author_name_link( $comment ) {
  * @param string  $format
  * @return string
  */
-function wputh_get_thumbnail_url($format) {
+function wputh_get_thumbnail_url( $format ) {
     global $post;
     $returnUrl = get_template_directory_uri().'/images/thumbnails/' . $format . '.jpg';
     $image = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), $format );
-    if (isset($image[0])) {
+    if ( isset( $image[0] ) ) {
         $returnUrl = $image[0];
     }
     return $returnUrl;
@@ -147,9 +147,9 @@ function wputh_get_thumbnail_url($format) {
  * @param string  $format (optional)
  * @return array
  */
-function wputh_get_attachments_images($postID, $format='medium') {
+function wputh_get_attachments_images( $postID, $format='medium' ) {
     $images = array();
-    $attachments = get_posts(array(
+    $attachments = get_posts( array(
             'post_type' => 'attachment',
             'post_mime_type' => 'image',
             'posts_per_page' => -1,
@@ -160,7 +160,7 @@ function wputh_get_attachments_images($postID, $format='medium') {
         ) );
     foreach ( $attachments as $attachment ) {
         $image = wp_get_attachment_image_src( $attachment->ID , $format );
-        if (isset($image[0])) {
+        if ( isset( $image[0] ) ) {
             $images[] = $image;
         }
     }

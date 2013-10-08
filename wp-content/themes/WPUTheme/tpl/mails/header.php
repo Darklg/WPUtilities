@@ -24,4 +24,4 @@ span.yshortcuts:focus {color:#000; background-color:none; border:none;}
 <table border="0" cellspacing="0" cellpadding="0" width="600" style="background-color:#fefefe;">
 <tr><td colspan="3" height="10"></td></tr>
 <tr><td width="10"></td><td width="580" align="left" style="font:13px/1.3 sans-serif;">
-<h1><?php bloginfo('name'); ?></h1>
+<h1 style="margin:0 0 20px;"><?php bloginfo('name'); ?></h1>

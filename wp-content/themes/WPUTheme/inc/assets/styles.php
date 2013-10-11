@@ -39,10 +39,18 @@ function parse_path( $dir ) {
 }
 
 
-function wpu_add_css_file( $file, $dir, $url) {
+function wpu_add_css_file( $file, $dir, $url ) {
     // Adding a file to the WordPress stylesheet queue
     $css_file_url = str_replace( $dir, $url, $file );
-    $css_file_slug = 'wputh'. ((WPU_CSS_DIR != $dir) ? 'child' : '') . strtolower( str_replace( array( $dir, '.css' ), '', $file ) );
+    $css_file_slug = 'wputh'. ( ( WPU_CSS_DIR != $dir ) ? 'child' : '' ) . strtolower( str_replace( array( $dir, '.css' ), '', $file ) );
     wp_register_style( $css_file_slug, $css_file_url, NULL, '2.0' );
     wp_enqueue_style( $css_file_slug );
+}
+
+/* Editor Stylesheet
+-------------------------- */
+
+add_action( 'init', 'wputh_add_editor_styles' );
+function wputh_add_editor_styles() {
+    add_editor_style( WPU_CSS_URL . 'c-editor.css' );
 }

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2013-09-01 01:20+0100\n"
+"POT-Creation-Date: 2013-10-14 22:31+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Kevin <kevin@rocher.me>\n"
 "Language-Team: \n"
@@ -22,7 +22,7 @@ msgstr "Erreur 404"
 msgid "Sorry, but this page doesn&rsquo;t exists."
 msgstr "Désolé, mais cette page n'existe pas."
 
-#: ../.././loop.php:8 ../.././tpl/archive/title.php:20
+#: ../.././loop.php:8 ../.././inc/theme/params.php:78
 #: ../.././tpl/loops/header-loop-small.php:8
 msgid "F j, Y"
 msgstr "j F Y"
@@ -44,109 +44,109 @@ msgstr "%s pour &ldquo;%s&rdquo;"
 msgid "Main menu"
 msgstr "Menu principal"
 
-#: ../.././inc/configuration/post-types.php:20
+#: ../.././inc/configuration/post-types.php:9
 msgid "task"
 msgstr "tâche"
 
-#: ../.././inc/configuration/post-types.php:21
+#: ../.././inc/configuration/post-types.php:10
 msgid "tasks"
 msgstr "tâches"
 
-#: ../.././inc/configuration/post-types.php:58
+#: ../.././inc/configuration/post-types.php:52
 msgid "Add New"
 msgstr "Ajouter"
 
-#: ../.././inc/configuration/post-types.php:59
+#: ../.././inc/configuration/post-types.php:53
 #, php-format
 msgctxt "male"
 msgid "Add New %s"
 msgstr "Ajouter un %s"
 
-#: ../.././inc/configuration/post-types.php:60
+#: ../.././inc/configuration/post-types.php:54
 #, php-format
 msgctxt "male"
 msgid "Edit %s"
 msgstr "Modifier ce %s"
 
-#: ../.././inc/configuration/post-types.php:61
+#: ../.././inc/configuration/post-types.php:55
 #, php-format
 msgctxt "male"
 msgid "New %s"
 msgstr "Nouveau %s"
 
-#: ../.././inc/configuration/post-types.php:62
+#: ../.././inc/configuration/post-types.php:56
 #, php-format
 msgctxt "male"
 msgid "All %s"
 msgstr "Tous les %s"
 
-#: ../.././inc/configuration/post-types.php:63
+#: ../.././inc/configuration/post-types.php:57
 #, php-format
 msgctxt "male"
 msgid "View %s"
 msgstr "Voir cet %s"
 
-#: ../.././inc/configuration/post-types.php:64
+#: ../.././inc/configuration/post-types.php:58
 #, php-format
 msgctxt "male"
 msgid "Search %s"
 msgstr "Rechercher un %s"
 
-#: ../.././inc/configuration/post-types.php:65
+#: ../.././inc/configuration/post-types.php:59
 #, php-format
 msgctxt "male"
 msgid "No %s found"
 msgstr "Aucun %s trouvé"
 
-#: ../.././inc/configuration/post-types.php:66
+#: ../.././inc/configuration/post-types.php:60
 #, php-format
 msgctxt "male"
 msgid "No %s found in Trash"
 msgstr "Aucun %s trouvé dans la corbeille"
 
-#: ../.././inc/configuration/post-types.php:74
+#: ../.././inc/configuration/post-types.php:68
 #, php-format
 msgctxt "female"
 msgid "Add New %s"
 msgstr "Ajouter une %s"
 
-#: ../.././inc/configuration/post-types.php:75
+#: ../.././inc/configuration/post-types.php:69
 #, php-format
 msgctxt "female"
 msgid "Edit %s"
 msgstr "Modifier cette %s"
 
-#: ../.././inc/configuration/post-types.php:76
+#: ../.././inc/configuration/post-types.php:70
 #, php-format
 msgctxt "female"
 msgid "New %s"
 msgstr "Nouvelle %s"
 
-#: ../.././inc/configuration/post-types.php:77
+#: ../.././inc/configuration/post-types.php:71
 #, php-format
 msgctxt "female"
 msgid "All %s"
 msgstr "Toutes les %s"
 
-#: ../.././inc/configuration/post-types.php:78
+#: ../.././inc/configuration/post-types.php:72
 #, php-format
 msgctxt "female"
 msgid "View %s"
 msgstr "Voir cette %s"
 
-#: ../.././inc/configuration/post-types.php:79
+#: ../.././inc/configuration/post-types.php:73
 #, php-format
 msgctxt "female"
 msgid "Search %s"
 msgstr "Rechercher une %s"
 
-#: ../.././inc/configuration/post-types.php:80
+#: ../.././inc/configuration/post-types.php:74
 #, php-format
 msgctxt "female"
 msgid "No %s found"
 msgstr "Aucune %s trouvée"
 
-#: ../.././inc/configuration/post-types.php:81
+#: ../.././inc/configuration/post-types.php:75
 #, php-format
 msgctxt "female"
 msgid "No %s found in Trash"
@@ -164,13 +164,54 @@ msgstr "Sidebar du thème par défaut"
 msgid "Importance"
 msgstr "Importance"
 
-#: ../.././inc/plugins/wpu-options.php:23
+#: ../.././inc/plugins/wpu-options.php:26
 msgid "Analytics code"
 msgstr "Code analytics"
 
-#: ../.././inc/plugins/wpu-options.php:26
+#: ../.././inc/plugins/wpu-options.php:29
 msgid "Email address"
 msgstr "Adresse email"
+
+#: ../.././inc/plugins/wpu-options.php:36
+msgid "Contact"
+msgstr "Contact"
+
+#: ../.././inc/theme/params.php:60
+msgid "Archive"
+msgstr "Archive"
+
+#: ../.././inc/theme/params.php:62
+msgid "Tag:"
+msgstr "Tag :"
+
+#: ../.././inc/theme/params.php:65
+#: ../.././tpl/widgets/widget_post_categories.php:25
+msgid "Category:"
+msgstr "Catégorie :"
+
+#: ../.././inc/theme/params.php:69
+msgid "Author:"
+msgstr "Auteur :"
+
+#: ../.././inc/theme/params.php:72
+msgid "Year:"
+msgstr "Année :"
+
+#: ../.././inc/theme/params.php:72
+msgid "Y"
+msgstr "Y"
+
+#: ../.././inc/theme/params.php:75
+msgid "Month:"
+msgstr "Mois :"
+
+#: ../.././inc/theme/params.php:75
+msgid "F Y"
+msgstr "F Y"
+
+#: ../.././inc/theme/params.php:78
+msgid "Day:"
+msgstr "Jour :"
 
 #: ../.././inc/theme/utilities.php:41
 msgid "Sorry, no search results for this query."
@@ -209,43 +250,6 @@ msgstr "Articles"
 msgid "Next page"
 msgstr "Page suivante"
 
-#: ../.././tpl/archive/title.php:2
-msgid "Archive"
-msgstr "Archive"
-
-#: ../.././tpl/archive/title.php:4
-msgid "Tag:"
-msgstr "Tag :"
-
-#: ../.././tpl/archive/title.php:7
-#: ../.././tpl/widgets/widget_post_categories.php:25
-msgid "Category:"
-msgstr "Catégorie :"
-
-#: ../.././tpl/archive/title.php:11
-msgid "Author:"
-msgstr "Auteur :"
-
-#: ../.././tpl/archive/title.php:14
-msgid "Year:"
-msgstr "Année :"
-
-#: ../.././tpl/archive/title.php:14
-msgid "Y"
-msgstr "Y"
-
-#: ../.././tpl/archive/title.php:17
-msgid "Month:"
-msgstr "Mois :"
-
-#: ../.././tpl/archive/title.php:17
-msgid "F Y"
-msgstr "F Y"
-
-#: ../.././tpl/archive/title.php:20
-msgid "Day:"
-msgstr "Jour :"
-
 #: ../.././tpl/contact/header-action.php:6
 msgid "Name"
 msgstr "Nom"
@@ -258,30 +262,30 @@ msgstr "E-mail"
 msgid "Message"
 msgstr "Message"
 
-#: ../.././tpl/contact/header-action.php:64
+#: ../.././tpl/contact/header-action.php:60
 #, php-format
 msgid "The field \"%s\" is not correct"
 msgstr "Le champ \"%s\" n'est pas correct"
 
-#: ../.././tpl/contact/header-action.php:71
+#: ../.././tpl/contact/header-action.php:67
 #, php-format
 msgid "The field \"%s\" is required"
 msgstr "Le champ \"%s\" est obligatoire"
 
-#: ../.././tpl/contact/header-action.php:78
+#: ../.././tpl/contact/header-action.php:74
 msgid "Thank you for your message!"
 msgstr "Merci pour votre message !"
 
-#: ../.././tpl/contact/header-action.php:81
-#: ../.././tpl/contact/header-action.php:90
+#: ../.././tpl/contact/header-action.php:77
+#: ../.././tpl/contact/header-action.php:85
 msgid "Message from your contact form"
 msgstr "Message depuis votre formulaire de contact"
 
-#: ../.././tpl/contact/header-action.php:96
+#: ../.././tpl/contact/header-action.php:89
 msgid "Error:"
 msgstr "Erreur :"
 
-#: ../.././tpl/contact/header-action.php:124
+#: ../.././tpl/contact/header-action.php:117
 msgid "Submit"
 msgstr "Envoyer"
 
@@ -289,6 +293,10 @@ msgstr "Envoyer"
 #, php-format
 msgid "A %s site using %s"
 msgstr "Un site %s utilisant %s"
+
+#: ../.././tpl/header/breadcrumbs.php:17
+msgid "Home"
+msgstr "Accueil"
 
 #: ../.././tpl/header/searchform.php:5
 msgid "Search for:"

@@ -24,6 +24,6 @@ if(!isset($_POST['is_ajax'])){
 <?php } ?>
 <?php include get_template_directory() . '/tpl/header/breadcrumbs.php'; ?>
 <script>
-var wputh_page_title = "<?php echo addslashes(trim(get_bloginfo('name') . ' ' . wp_title(' ', false))); ?>";
+var wputh_page_title = "<?php echo addslashes(trim(wp_title('-', 0))); ?>";
 var wputh_pagination_kind = '<?php echo PAGINATION_KIND; ?>';
 </script>

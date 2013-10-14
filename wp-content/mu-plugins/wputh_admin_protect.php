@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Utilities admin protect
 Description: Restrictive options for WordPress admin
-Version: 0.1
+Version: 0.2
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -43,15 +43,15 @@ if ( is_admin() ) {
         }
     }
 
+}
 
-    /* Hide Theme Editor for all users : http://www.wprecipes.com/how-to-hide-theme-editor-from-wordpress-dashboard */
-    function wpr_remove_editor_menu() {
-        remove_action( 'admin_menu', '_add_themes_utility_last', 101 );
-    }
+/* ----------------------------------------------------------
+  Constants
+---------------------------------------------------------- */
 
-    add_action( 'init', 'wputh_admin_protect' );
-    function wputh_admin_protect() {
-        add_action( 'admin_menu', 'wpr_remove_editor_menu', 1 );
-    }
-
+if ( !defined( 'DISALLOW_FILE_EDIT' ) ) {
+    define( 'DISALLOW_FILE_EDIT', true );
+}
+if ( !defined( 'DISALLOW_FILE_MODS' ) ) {
+    define( 'DISALLOW_FILE_MODS', true );
 }

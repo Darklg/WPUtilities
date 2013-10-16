@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2013-10-14 22:31+0100\n"
+"POT-Creation-Date: 2013-10-16 08:32+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Kevin <kevin@rocher.me>\n"
 "Language-Team: \n"
@@ -301,6 +301,10 @@ msgstr "Accueil"
 #: ../.././tpl/header/searchform.php:5
 msgid "Search for:"
 msgstr "Rechercher :"
+
+#: ../.././tpl/header/searchform.php:7
+msgid "Search"
+msgstr "Rechercher"
 
 #: ../.././tpl/search/header-results.php:3
 msgid "<strong>no</strong> search results"

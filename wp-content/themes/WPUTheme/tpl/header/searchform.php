@@ -4,6 +4,6 @@ include dirname( __FILE__ ) . '/../../z-protect.php';
     <div>
         <label class="suppression-element" for="header-search__input"><?php echo __( 'Search for:', 'wputh' ); ?></label>
         <input type="text" value="" name="s" id="header-search__input" />
-        <input type="submit" id="header-search__submit" value="Search" />
+        <button class="cssc-button" id="header-search__submit"><?php echo __('Search', 'wputh'); ?></button>
     </div>
 </form>

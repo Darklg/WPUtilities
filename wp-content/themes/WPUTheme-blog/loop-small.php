@@ -1,5 +1,5 @@
 <?php
-include dirname( __FILE__ ) . '/z-protect.php';
+include dirname( __FILE__ ) . '/../WPUTheme/z-protect.php';
 $has_thumb = has_post_thumbnail();
 ?><article <?php post_class( 'loop-small' ); ?>>
     <div class="<?php echo $has_thumb ? 'bmedia':''; ?>">

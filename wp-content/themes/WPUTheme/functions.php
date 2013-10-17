@@ -57,6 +57,16 @@ function wputh_setup() {
     load_theme_textdomain( 'wputh', get_template_directory() . '/inc/lang' );
 }
 
+/* Pages IDs
+-------------------------- */
+
+$pages_ids = array(
+    'ABOUT__PAGE_ID' => 'about__page_id'
+);
+
+foreach ( $pages_ids as $constant => $option ) {
+    define( $constant, get_option( $option ) );
+}
 
 /* Parameters
 -------------------------- */

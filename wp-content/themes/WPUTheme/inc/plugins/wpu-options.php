@@ -32,8 +32,8 @@ function set_wputh_options_fields( $options ) {
         'test' => 'email'
     );
     // Pages IDs
-    $options['contact_page_id'] = array(
-        'label' => __( 'Contact', 'wputh' ),
+    $options['about__page_id'] = array(
+        'label' => __( 'About', 'wputh' ),
         'box' => 'pages_id',
         'type' => 'page'
     );

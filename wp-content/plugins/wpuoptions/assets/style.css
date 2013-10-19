@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+/* ----------------------------------------------------------
+  Upload media
+---------------------------------------------------------- */
+
+.wpu-options-upload-preview {
+    display: block;
+    width: auto;
+    height: auto;
+    margin-bottom: 5px;
+    max-height: 100px;
+    max-width: 170px;
+}

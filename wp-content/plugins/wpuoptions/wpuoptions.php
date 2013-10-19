@@ -2,7 +2,7 @@
 /*
 Plugin Name: WPU Options
 Plugin URI: http://github.com/Darklg/WPUtilities
-Version: 3.3
+Version: 4.0
 Description: Friendly interface for website options
 Author: Darklg
 Author URI: http://darklg.me/
@@ -56,8 +56,9 @@ class WPUOptions {
         add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
         add_action( 'admin_bar_menu', array( &$this, 'add_toolbar_menu_items' ), 100 );
         add_filter( "plugin_action_links_".plugin_basename( __FILE__ ), array( &$this, 'settings_link' ) );
+        add_action( 'admin_enqueue_scripts', array( &$this, 'add_assets_js' ) );
+        add_action( 'admin_print_styles', array( &$this, 'add_assets_css' ) );
     }
-
 
     /**
      * Set admin menu
@@ -114,6 +115,26 @@ class WPUOptions {
                     'title' => $this->options['plugin_publicname'],
                 ),
             ) );
+    }
+
+    /**
+     * Enqueue JS
+     */
+    function add_assets_js() {
+        if ( isset( $_GET['page'] ) && $_GET['page'] == 'wpuoptions/wpuoptions.php' ) {
+            wp_enqueue_media();
+            wp_enqueue_script( 'wpuoptions_scripts', plugin_dir_url( __FILE__ ) . '/assets/events.js' );
+        }
+    }
+
+    /**
+     * Enqueue CSS
+     */
+    function add_assets_css() {
+        if ( isset( $_GET['page'] ) && $_GET['page'] == 'wpuoptions/wpuoptions.php' ) {
+            wp_register_style( 'wpuoptions_style', plugins_url( 'assets/style.css', __FILE__ ) );
+            wp_enqueue_style( 'wpuoptions_style' );
+        }
     }
 
 
@@ -324,6 +345,16 @@ class WPUOptions {
                 break;
             case 'email':
                 $content .= '<input type="email" ' . $idname . ' value="' . $value . '" />';
+                break;
+            case 'media':
+                $img = '';
+                if ( is_numeric( $value ) ) {
+                    $img = '<img src="'.wp_get_attachment_thumb_url( $value ). '" alt="" />';
+                }
+
+                $content .= '<div id="preview-'.$idf.'">'.$img.'</div>'.
+                    '<a href="#" data-for="'.$idf.'" class="button button-small wpuoptions_add_media">add media</a>'.
+                    '<input type="hidden" ' . $idname . ' value="' . $value . '" />';
                 break;
             case 'page':
                 $content .= wp_dropdown_pages( array(

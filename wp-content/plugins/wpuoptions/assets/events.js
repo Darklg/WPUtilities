@@ -1,10 +1,13 @@
 // Uploading files
-var wpuopt_file_frame;
+var wpuopt_file_frame,
+    wpuopt_datafor;
 
 jQuery(document).ready(function() {
     jQuery('.wpu-options-form').on('click', '.wpuoptions_add_media', function(event) {
         event.preventDefault();
         var $this = jQuery(this);
+
+        wpuopt_datafor = $this.data('for');
 
         // If the media frame already exists, reopen it.
         if (wpuopt_file_frame) {
@@ -26,13 +29,11 @@ jQuery(document).ready(function() {
             // We set multiple to false so only get one image from the uploader
             attachment = wpuopt_file_frame.state().get('selection').first().toJSON();
 
-            var datafor = $this.data('for');
-
             // Set attachment ID
-            jQuery('#' + datafor).attr('value', attachment.id);
+            jQuery('#' + wpuopt_datafor).attr('value', attachment.id);
 
             // Set preview image
-            jQuery('#preview-' + datafor).html('<img class="wpu-options-upload-preview" src="' + attachment.url + '" />');
+            jQuery('#preview-' + wpuopt_datafor).html('<img class="wpu-options-upload-preview" src="' + attachment.url + '" />');
 
         });
 

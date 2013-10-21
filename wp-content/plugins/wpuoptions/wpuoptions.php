@@ -2,7 +2,7 @@
 /*
 Plugin Name: WPU Options
 Plugin URI: http://github.com/Darklg/WPUtilities
-Version: 4.0.1
+Version: 4.1
 Description: Friendly interface for website options
 Author: Darklg
 Author URI: http://darklg.me/
@@ -343,9 +343,6 @@ class WPUOptions {
                 wp_editor( $originalvalue, $idf );
                 $content .= ob_get_clean();
                 break;
-            case 'email':
-                $content .= '<input type="email" ' . $idname . ' value="' . $value . '" />';
-                break;
             case 'media':
                 $img = '';
                 $btn_label = __( 'Add a picture', 'wpuoptions' );
@@ -378,8 +375,12 @@ class WPUOptions {
             case 'textarea':
                 $content .= '<textarea ' . $idname . ' rows="5" cols="30">' . $value . '</textarea>';
                 break;
+            /* Multiple cases */
+            case 'color':
+            case 'date':
+            case 'email':
             case 'url':
-                $content .= '<input type="url" ' . $idname . ' value="' . $value . '" />';
+                $content .= '<input type="'.$field['type'].'" ' . $idname . ' value="' . $value . '" />';
                 break;
             default :
                 $content .= '<input type="text" ' . $idname . ' value="' . $value . '" />';

@@ -36,3 +36,10 @@ function wputh_bad_formed_links( $content ) {
     $content = str_replace( $badform, $goodform, $content );
     return $content;
 }
+
+/* ----------------------------------------------------------
+  Prevent invalid characters in file name
+---------------------------------------------------------- */
+
+add_filter( 'sanitize_file_name', 'remove_accents' );
+add_filter( 'sanitize_file_name', 'strtolower' );

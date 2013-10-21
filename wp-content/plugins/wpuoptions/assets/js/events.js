@@ -1,8 +1,14 @@
-// Uploading files
+jQuery(document).ready(function($) {
+    wputh_options_set_media();
+});
+
+/* ----------------------------------------------------------
+  Upload files
+---------------------------------------------------------- */
 var wpuopt_file_frame,
     wpuopt_datafor;
 
-jQuery(document).ready(function() {
+var wputh_options_set_media = function() {
     jQuery('.wpu-options-form').on('click', '.wpuoptions_add_media', function(event) {
         event.preventDefault();
         var $this = jQuery(this);
@@ -40,4 +46,4 @@ jQuery(document).ready(function() {
         // Finally, open the modal
         wpuopt_file_frame.open();
     });
-});
+};

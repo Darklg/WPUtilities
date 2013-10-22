@@ -43,3 +43,22 @@ function wputh_bad_formed_links( $content ) {
 
 add_filter( 'sanitize_file_name', 'remove_accents' );
 add_filter( 'sanitize_file_name', 'strtolower' );
+
+/* ----------------------------------------------------------
+  Set media select to uploaded : http://wordpress.stackexchange.com/a/76213
+---------------------------------------------------------- */
+
+add_action( 'admin_footer-post-new.php', 'wputh_set_media_select_uploaded' );
+add_action( 'admin_footer-post.php', 'wputh_set_media_select_uploaded' );
+
+function wputh_set_media_select_uploaded() { ?><script>
+jQuery(function($) {
+    var called = 0;
+    $('#wpcontent').ajaxStop(function() {
+        if (0 === called) {
+            $('[value="uploaded"]').attr('selected', true).parent().trigger('change');
+            called = 1;
+        }
+    });
+});
+</script><?php }

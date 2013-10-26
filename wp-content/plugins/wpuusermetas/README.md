@@ -1,7 +1,7 @@
 User Metas
 =================
 
-Add extra fields to the user administration.
+Adds extra fields to the user administration.
 
 How to install :
 ---
@@ -12,7 +12,7 @@ How to install :
 How to add sections :
 ---
 
-Put the code below in your theme's functions.php file. Add sections to your convenance.
+Put the code below in your theme's functions.php file. Add new sections to your convenance.
 
     add_filter( 'wpu_usermetas_sections', 'set_wpu_usermetas_sections', 10, 3 );
     function set_wpu_usermetas_sections( $sections ) {
@@ -25,7 +25,7 @@ Put the code below in your theme's functions.php file. Add sections to your conv
 How to add fields :
 --
 
-Put the code below in your theme's functions.php file. Add sections to your convenance.
+Put the code below in your theme's functions.php file. Add new fields to your convenance.
 
     add_filter( 'wpu_usermetas_fields', 'set_wpu_usermetas_fields', 10, 3 );
     function set_wpu_usermetas_fields( $fields ) {

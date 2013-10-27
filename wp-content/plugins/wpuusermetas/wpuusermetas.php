@@ -3,7 +3,7 @@
 Plugin Name: WPU User Metas
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Simple admin for user metas
-Version: 0.1
+Version: 0.2
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -87,18 +87,38 @@ class WPUUserMetas {
             $content .= '<h3>' . $name . '</h3>';
             $content .= '<table class="form-table">';
             foreach ( $this->fields as $id_field => $field ) {
-                $content .= $this->display_field( $user, $id_field, $field['name'], $field['type'] );
+                $content .= $this->display_field( $user, $id_field, $field );
             }
             $content .= '</table>';
         }
         return $content;
     }
 
-    function display_field( $user, $id_field, $label, $type = 'text' ) {
+    function display_field( $user, $id_field, $field ) {
+        // Set vars
+        $label = $field['name'];
+        $type = $field['type'];
+        $idname = ' id="'.$id_field.'" name="'.$id_field.'" placeholder="'.$label.'" ';
+        $value = esc_attr( get_the_author_meta( $id_field, $user->ID ) );
         $content = '';
+
+        // Add a row by field
         $content .= '<tr>';
         $content .= '<th><label for="'.$id_field.'">'.$label.'</label></th>';
-        $content .= '<td><input type="text" name="'.$id_field.'" id="'.$id_field.'" placeholder="'.$label.'" value="'. esc_attr( get_the_author_meta( $id_field, $user->ID ) ) .'" /></td>';
+        $content .= '<td>';
+        switch ( $type ) {
+        case 'textarea':
+            $content .= '<textarea rows="5" cols="30" '.$idname.'>'.$value .'</textarea>';
+            break;
+        default:
+            $content .= '<input type="text" '.$idname.' value="'.$value .'" />';
+            break;
+        }
+        if ( isset( $field['description'] ) ) {
+            $content .= '<br /><span class="description">'.esc_attr( $field['description'] ).'</span>';
+        }
+
+        $content .= '</td>';
         $content .= '</tr>';
         return $content;
     }

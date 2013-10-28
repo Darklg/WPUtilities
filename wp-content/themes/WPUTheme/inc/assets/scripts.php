@@ -15,6 +15,12 @@ function wputh_add_javascripts() {
         'functions' => array(
             'uri' => '/js/functions.js'
         ),
+        'wpu-home' => array(
+            'uri' => '/js/modules/home.js'
+        ),
+        'wpu-faq' => array(
+            'uri' => '/js/modules/faq.js'
+        ),
         'events' => array(
             'uri' => '/js/events.js'
         )

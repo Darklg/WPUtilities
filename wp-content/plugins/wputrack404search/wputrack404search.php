@@ -3,20 +3,23 @@
 Plugin Name: WPU Track 404 & Search
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Logs & analyze search queries & 404 Errors
-Version: 0.2
+Version: 0.3
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
 License URI: http://opensource.org/licenses/MIT
 */
 
-class wpuTrack404Search {
+if ( !class_exists( 'wpuBasePluginUtilities' ) ) {
+    include dirname( __FILE__ ).'/inc/wpubasepluginutilities.php';
+}
+
+class wpuTrack404Search extends wpuBasePluginUtilities {
 
     function __construct() {
         global $wpdb;
         $this->base_table_name = $wpdb->prefix."wputrack404search_";
 
-        // code...
         $this->set_public_hooks();
         if ( is_admin() ) {
             $this->set_admin_hooks();
@@ -56,7 +59,9 @@ class wpuTrack404Search {
             echo '<p>No results yet</p>';
         }
         else {
-            echo $this->get_admin_table( $list_most_searched , array( 'Request', '# of times', '# of results' ) );
+            echo $this->get_admin_table( $list_most_searched , array(
+                    'columns' => array( 'Request', '# of times', '# of results' )
+                ) );
         }
         echo '<h3>Most common errors</h3>';
         $list_common_errors = $wpdb->get_results( "SELECT request, count(request) AS total FROM ".$this->base_table_name."404 GROUP BY request ORDER BY total DESC LIMIT 0, 10;" );
@@ -64,7 +69,9 @@ class wpuTrack404Search {
             echo '<p>No results yet</p>';
         }
         else {
-            echo $this->get_admin_table( $list_common_errors , array( 'Request', '# of times' ) );
+            echo $this->get_admin_table( $list_common_errors , array(
+                    'columns' => array( 'Request', '# of times' )
+                ) );
         }
         echo $this->get_wrapper_end();
     }
@@ -76,13 +83,20 @@ class wpuTrack404Search {
 
     function page_search_list() {
         global $wpdb;
-        $list = $wpdb->get_results( "SELECT id, date, request, nb_results FROM ".$this->base_table_name."search" );
+
+        $pager = $this->get_pager_limit( 20, $this->base_table_name."search" );
+        $list = $wpdb->get_results( "SELECT id, date, request, nb_results FROM ".$this->base_table_name."search ". $pager['limit'] );
+
         echo $this->get_wrapper_start( 'Search list' );
         if ( empty( $list ) ) {
             echo '<p>No results yet</p>';
         }
         else {
-            echo $this->get_admin_table( $list , array( 'id', 'Date', 'Request', '# of results' ) );
+            echo $this->get_admin_table( $list , array(
+                    'columns' => array( 'id', 'Date', 'Request', '# of results' ),
+                    'pagenum' => $pager['pagenum'],
+                    'max_pages' => $pager['max_pages']
+                ) );
         }
         echo $this->get_wrapper_end();
     }
@@ -94,14 +108,22 @@ class wpuTrack404Search {
 
     function page_errors_list() {
         global $wpdb;
-        $list = $wpdb->get_results( "SELECT id, date, request FROM ".$this->base_table_name."404" );
+
+        $pager = $this->get_pager_limit( 20, $this->base_table_name."404" );
+        $list = $wpdb->get_results( "SELECT id, date, request FROM ".$this->base_table_name."404 ". $pager['limit'] );
+
         echo $this->get_wrapper_start( '404 Errors list' );
         if ( empty( $list ) ) {
             echo '<p>No results yet</p>';
         }
         else {
-            echo $this->get_admin_table( $list , array( 'id', 'Date', 'Request' ) );
-        }        echo $this->get_wrapper_end();
+            echo $this->get_admin_table( $list , array(
+                    'columns' => array( 'id', 'Date', 'Request' ),
+                    'pagenum' => $pager['pagenum'],
+                    'max_pages' => $pager['max_pages']
+                ) );
+        }
+        echo $this->get_wrapper_end();
     }
 
 
@@ -170,37 +192,6 @@ class wpuTrack404Search {
             `request` varchar(2083) DEFAULT NULL,
             PRIMARY KEY (`id`)
         );" );
-    }
-
-
-    /* ----------------------------------------------------------
-      Utilities
-    ---------------------------------------------------------- */
-
-    function get_wrapper_start( $title ) {
-        return '<div class="wrap"><div id="icon-options-general" class="icon32"></div><h2 class="title">'.$title.'</h2><br />';
-    }
-
-    function get_wrapper_end() {
-        return '</div>';
-    }
-
-    function get_admin_table( $values, $columns = array() ) {
-        $labels = '<tr><th>' . implode( '</th><th>', $columns ).'</th></tr>';
-        $content = '<table class="widefat">';
-        $content .= '<thead>'.$labels.'</thead>';
-        $content .= '<tfoot>'.$labels.'</tfoot>';
-        $content .= '<tbody>';
-        foreach ( $values as $id => $vals ) {
-            $content .= '<tr>';
-            foreach ( $vals as $val ) {
-                $content .= '<td>'.$val.'</td>';
-            }
-            $content .= '</tr>';
-        }
-        $content .= '</tbody>';
-        $content .= '</table>';
-        return $content;
     }
 
 }

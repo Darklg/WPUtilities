@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2013-10-16 08:32+0100\n"
+"POT-Creation-Date: 2013-10-31 18:02+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Kevin <kevin@rocher.me>\n"
 "Language-Team: \n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e;_x:1,2c;_n:1,2\n"
 "X-Poedit-SearchPath-0: ../../.\n"
 
-#: ../.././404.php:7
+#: ../.././404.php:7 ../.././inc/theme/params.php:55
 msgid "404 Error"
 msgstr "Erreur 404"
 
@@ -22,7 +22,7 @@ msgstr "Erreur 404"
 msgid "Sorry, but this page doesn&rsquo;t exists."
 msgstr "Désolé, mais cette page n'existe pas."
 
-#: ../.././loop.php:8 ../.././inc/theme/params.php:78
+#: ../.././loop.php:8 ../.././inc/theme/params.php:84
 #: ../.././tpl/loops/header-loop-small.php:8
 msgid "F j, Y"
 msgstr "j F Y"
@@ -173,43 +173,48 @@ msgid "Email address"
 msgstr "Adresse email"
 
 #: ../.././inc/plugins/wpu-options.php:36
-msgid "Contact"
-msgstr "Contact"
+msgid "About"
+msgstr "A Propos"
 
-#: ../.././inc/theme/params.php:60
+#: ../.././inc/theme/params.php:52
+#, php-format
+msgid "Search results for \"%s\""
+msgstr "Résultats de recherche pour \"%s\""
+
+#: ../.././inc/theme/params.php:66
 msgid "Archive"
 msgstr "Archive"
 
-#: ../.././inc/theme/params.php:62
+#: ../.././inc/theme/params.php:68
 msgid "Tag:"
 msgstr "Tag :"
 
-#: ../.././inc/theme/params.php:65
+#: ../.././inc/theme/params.php:71
 #: ../.././tpl/widgets/widget_post_categories.php:25
 msgid "Category:"
 msgstr "Catégorie :"
 
-#: ../.././inc/theme/params.php:69
+#: ../.././inc/theme/params.php:75
 msgid "Author:"
 msgstr "Auteur :"
 
-#: ../.././inc/theme/params.php:72
+#: ../.././inc/theme/params.php:78
 msgid "Year:"
 msgstr "Année :"
 
-#: ../.././inc/theme/params.php:72
+#: ../.././inc/theme/params.php:78
 msgid "Y"
 msgstr "Y"
 
-#: ../.././inc/theme/params.php:75
+#: ../.././inc/theme/params.php:81
 msgid "Month:"
 msgstr "Mois :"
 
-#: ../.././inc/theme/params.php:75
+#: ../.././inc/theme/params.php:81
 msgid "F Y"
 msgstr "F Y"
 
-#: ../.././inc/theme/params.php:78
+#: ../.././inc/theme/params.php:84
 msgid "Day:"
 msgstr "Jour :"
 
@@ -326,6 +331,9 @@ msgstr "Accueil"
 #: ../.././tpl/widgets/widget_post_categories.php:22
 msgid "Number of posts:"
 msgstr "Nombre de posts :"
+
+#~ msgid "Contact"
+#~ msgstr "Contact"
 
 #, fuzzy
 #~ msgctxt "female"

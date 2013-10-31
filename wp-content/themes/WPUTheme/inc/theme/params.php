@@ -48,6 +48,12 @@ function wputh_wp_title( $title, $sep ) {
     if ( is_tax() ) {
         $new_title = single_cat_title( "", false );
     }
+    if ( is_search() ) {
+        $new_title = sprintf( __( 'Search results for "%s"', 'wputh' ),  get_search_query() );
+    }
+    if ( is_404() ) {
+        $new_title =  __( '404 Error', 'wputh' );
+    }
 
     // Return new title with site name at the end
     return $new_title . $spaced_sep . get_bloginfo( 'name' );

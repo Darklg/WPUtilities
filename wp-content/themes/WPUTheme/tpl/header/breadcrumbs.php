@@ -66,6 +66,20 @@ if ( !isset( $elements_ariane ) ) {
             'last' => 1
         );
     }
+
+    if ( is_404() ) {
+        $elements_ariane['404-error'] = array(
+            'name' => __( '404 Error', 'wputh' ),
+            'last' => 1
+        );
+    }
+
+    if ( is_search() ) {
+        $elements_ariane['search-results'] = array(
+            'name' => sprintf( __( 'Search results for "%s"', 'wputh' ),  get_search_query() ),
+            'last' => 1
+        );
+    }
 }
 
 if ( !empty( $elements_ariane ) ) {

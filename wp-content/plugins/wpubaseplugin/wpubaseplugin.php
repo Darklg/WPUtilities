@@ -3,25 +3,19 @@
 Plugin Name: WPU Base Plugin
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: A framework for a WordPress plugin
-Version: 0.2
+Version: 1.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
 License URI: http://opensource.org/licenses/MIT
 */
 
+// Load Base Plugin Utilities
 if ( !class_exists( 'wpuBasePluginUtilities' ) ) {
     include dirname( __FILE__ ).'/inc/wpubasepluginutilities.php';
 }
 
 class wpuBasePlugin extends wpuBasePluginUtilities {
-    function __construct() {
-        $this->set_options();
-        $this->set_public_hooks();
-        if ( is_admin() ) {
-            $this->set_admin_hooks();
-        }
-    }
 
     /* ----------------------------------------------------------
       Options
@@ -33,6 +27,24 @@ class wpuBasePlugin extends wpuBasePluginUtilities {
             'name' => 'Base Plugin',
             'level' => 'manage_options'
         );
+        load_plugin_textdomain( $this->options['id'], false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
+    }
+
+    /* ----------------------------------------------------------
+      Construct
+    ---------------------------------------------------------- */
+
+    function __construct() {
+        $this->set_options();
+        if ( $this->version < 2.0 ) {
+            // Detect outdated version of utilities
+            $error_message = htmlentities( __( 'Error: Your version of %s is outdated!', $this->options['id'] ) );
+            exit(  sprintf( $error_message , '<strong>Base Plugin Utilities</strong>' ) );
+        }
+        $this->set_public_hooks();
+        if ( is_admin() ) {
+            $this->set_admin_hooks();
+        }
     }
 
     /* ----------------------------------------------------------
@@ -45,6 +57,10 @@ class wpuBasePlugin extends wpuBasePluginUtilities {
 
     function set_admin_hooks() {
         add_action( 'admin_menu', array( &$this, 'set_admin_menu' ) );
+        if ( isset( $_GET['page'] ) && $_GET['page'] == $this->options['id'] ) {
+            add_action( 'admin_print_styles', array( &$this, 'load_assets_css' ) );
+            add_action( 'admin_enqueue_scripts', array( &$this, 'load_assets_js' ) );
+        }
     }
 
 
@@ -64,8 +80,21 @@ class wpuBasePlugin extends wpuBasePluginUtilities {
 
     function set_admin_page_main() {
         echo $this->get_wrapper_start( $this->options['name'] );
-        echo '<p>Content</p>';
+        echo '<p>'.__( 'Content', $this->options['id'] ).'</p>';
         echo $this->get_wrapper_end();
+    }
+
+    /* ----------------------------------------------------------
+      Assets
+    ---------------------------------------------------------- */
+
+    function load_assets_js() {
+        wp_enqueue_script(  $this->options['id'] . '_scripts', plugin_dir_url( __FILE__ ) . '/assets/js/script.js' );
+    }
+
+    function load_assets_css() {
+        wp_register_style( $this->options['id'] . '_style', plugins_url( 'assets/css/style.css', __FILE__ ) );
+        wp_enqueue_style( $this->options['id'] . '_style' );
     }
 
     /* ----------------------------------------------------------

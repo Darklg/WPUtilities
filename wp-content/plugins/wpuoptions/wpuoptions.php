@@ -136,8 +136,9 @@ class WPUOptions {
     function add_assets_css() {
         if ( isset( $_GET['page'] ) && $_GET['page'] == 'wpuoptions/wpuoptions.php' ) {
             wp_register_style( 'wpuoptions_style', plugins_url( 'assets/style.css', __FILE__ ) );
-            wp_register_style( 'wpuoptions_style_jqueryui', plugins_url( 'assets/jquery-ui-1.10.3.custom.min.css', __FILE__ ) );
             wp_enqueue_style( 'wpuoptions_style' );
+            wp_register_style( 'wpuoptions_style_jqueryui', plugins_url( 'assets/jquery-ui-1.10.3.custom.min.css', __FILE__ ) );
+            wp_enqueue_style( 'wpuoptions_style_jqueryui' );
         }
     }
 

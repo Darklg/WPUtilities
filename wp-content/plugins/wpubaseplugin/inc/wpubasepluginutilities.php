@@ -1,10 +1,12 @@
 <?php
 /*
 Name: WPU Base Plugin Utilities
-Version: 0.1
+Version: 1.0
 */
 
 class wpuBasePluginUtilities {
+
+    public $version = 1.0;
 
     /* ----------------------------------------------------------
       Requests
@@ -44,8 +46,8 @@ class wpuBasePluginUtilities {
             $page_links = paginate_links( array(
                     'base' => add_query_arg( 'pagenum', '%#%' ),
                     'format' => '',
-                    'prev_text' => __( '&laquo;', 'aag' ),
-                    'next_text' => __( '&raquo;', 'aag' ),
+                    'prev_text' => '&laquo;',
+                    'next_text' => '&raquo;',
                     'total' => $args['max_pages'],
                     'current' => $args['pagenum']
                 ) );

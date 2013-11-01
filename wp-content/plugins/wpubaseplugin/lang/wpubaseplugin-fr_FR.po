@@ -1,0 +1,24 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2013-11-01 17:43+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Kevin <kevin@rocher.me>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: ../.\n"
+
+#: .././wpubaseplugin.php:40
+#, php-format
+msgid "Error: Your version of %s is outdated!"
+msgstr "Erreur : Votre version de %s n'est pas à jour !"
+
+#: .././wpubaseplugin.php:82
+msgid "Content"
+msgstr "Contenu"

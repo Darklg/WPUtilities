@@ -36,7 +36,7 @@ class wpuBasePlugin extends wpuBasePluginUtilities {
 
     function __construct() {
         $this->set_options();
-        if ( $this->version < 2.0 ) {
+        if ( $this->version < 1.0 ) {
             // Detect outdated version of utilities
             $error_message = htmlentities( __( 'Error: Your version of %s is outdated!', $this->options['id'] ) );
             exit(  sprintf( $error_message , '<strong>Base Plugin Utilities</strong>' ) );

@@ -3,6 +3,11 @@ Plugins
 
 They add new features to WordPress.
 
+Framework :
+---
+
+* Base Plugin : A Framework to create your WordPress plugin.
+
 Plugins list :
 ---
 

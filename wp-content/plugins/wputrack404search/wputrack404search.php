@@ -3,27 +3,33 @@
 Plugin Name: WPU Track 404 & Search
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Logs & analyze search queries & 404 Errors
-Version: 0.3
+Version: 0.4
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
 License URI: http://opensource.org/licenses/MIT
 */
 
-if ( !class_exists( 'wpuBasePluginUtilities' ) ) {
-    include dirname( __FILE__ ).'/inc/wpubasepluginutilities.php';
-}
-
-class wpuTrack404Search extends wpuBasePluginUtilities {
+class wpuTrack404Search extends wpuTrack404SearchUtilities {
 
     function __construct() {
         global $wpdb;
         $this->base_table_name = $wpdb->prefix."wputrack404search_";
 
+        $this->set_options();
         $this->set_public_hooks();
         if ( is_admin() ) {
             $this->set_admin_hooks();
         }
+    }
+
+    function set_options() {
+        $this->options = array(
+            'id' => 'wputrack404search',
+            'level' => 'manage_options'
+        );
+        load_plugin_textdomain( $this->options['id'], false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
+        $this->options['name'] = __( 'Track 404 & Search', $this->options['id'] );
     }
 
     function set_public_hooks() {
@@ -41,9 +47,10 @@ class wpuTrack404Search extends wpuBasePluginUtilities {
 
     /* Add Admin & Menu */
     function set_menu_page() {
-        add_menu_page( 'Track 404 & Search', 'Track 404 & Search', 'manage_options', 'wputrack404search', array( &$this, 'page_top_results' ) );
-        add_submenu_page( 'wputrack404search', '404 Errors list', '404 Errors list', 'manage_options', 'wputrack404search-404', array( &$this, 'page_errors_list' ) );
-        add_submenu_page( 'wputrack404search', 'Search list', 'Search list', 'manage_options', 'wputrack404search-search', array( &$this, 'page_search_list' ) );
+
+        add_menu_page( $this->options['name'], $this->options['name'], 'manage_options', 'wputrack404search', array( &$this, 'page_top_results' ) );
+        add_submenu_page( 'wputrack404search', __( '404 Errors list', $this->options['id'] ), __( '404 Errors list',  $this->options['id'] ), 'manage_options', 'wputrack404search-404', array( &$this, 'page_errors_list' ) );
+        add_submenu_page( 'wputrack404search', __( 'Search list', $this->options['id'] ), __( 'Search list', $this->options['id'] ), 'manage_options', 'wputrack404search-search', array( &$this, 'page_search_list' ) );
     }
 
 
@@ -52,27 +59,33 @@ class wpuTrack404Search extends wpuBasePluginUtilities {
 
     function page_top_results() {
         global $wpdb;
-        echo $this->get_wrapper_start( 'Top results' );
-        echo '<h3>Most searched requests</h3>';
         $list_most_searched = $wpdb->get_results( "SELECT request, count(request), nb_results AS total FROM ".$this->base_table_name."search GROUP BY request ORDER BY total DESC LIMIT 0, 10" );
+        $list_common_errors = $wpdb->get_results( "SELECT request, count(request) AS total FROM ".$this->base_table_name."404 GROUP BY request ORDER BY total DESC LIMIT 0, 10;" );
+
+        echo $this->get_wrapper_start( $this->options['name'] . ' - ' . __( 'Top results', $this->options['id'] ) );
+
+        // Most searched requests
+        echo '<h3>'.__( 'Most searched requests', $this->options['id'] ).'</h3>';
         if ( empty( $list_most_searched ) ) {
-            echo '<p>No results yet</p>';
+            echo '<p>'.__( 'No results yet', $this->options['id'] ).'</p>';
         }
         else {
             echo $this->get_admin_table( $list_most_searched , array(
-                    'columns' => array( 'Request', '# of times', '# of results' )
+                    'columns' => array( __( 'Request', $this->options['id'] ), __( '# of times', $this->options['id'] ), __( '# of results', $this->options['id'] ) )
                 ) );
         }
-        echo '<h3>Most common errors</h3>';
-        $list_common_errors = $wpdb->get_results( "SELECT request, count(request) AS total FROM ".$this->base_table_name."404 GROUP BY request ORDER BY total DESC LIMIT 0, 10;" );
+
+        // Most common errors
+        echo '<h3>'.__( 'Most common errors', $this->options['id'] ).'</h3>';
         if ( empty( $list_common_errors ) ) {
-            echo '<p>No results yet</p>';
+            echo '<p>'.__( 'No results yet', $this->options['id'] ).'</p>';
         }
         else {
             echo $this->get_admin_table( $list_common_errors , array(
-                    'columns' => array( 'Request', '# of times' )
+                    'columns' => array( __( 'Request', $this->options['id'] ), __( '# of times', $this->options['id'] ) )
                 ) );
         }
+
         echo $this->get_wrapper_end();
     }
 
@@ -87,13 +100,13 @@ class wpuTrack404Search extends wpuBasePluginUtilities {
         $pager = $this->get_pager_limit( 20, $this->base_table_name."search" );
         $list = $wpdb->get_results( "SELECT id, date, request, nb_results FROM ".$this->base_table_name."search ". $pager['limit'] );
 
-        echo $this->get_wrapper_start( 'Search list' );
+        echo $this->get_wrapper_start( __( 'Search list', $this->options['id'] ) );
         if ( empty( $list ) ) {
-            echo '<p>No results yet</p>';
+            echo '<p>'.__( 'No results yet', $this->options['id'] ).'</p>';
         }
         else {
             echo $this->get_admin_table( $list , array(
-                    'columns' => array( 'id', 'Date', 'Request', '# of results' ),
+                    'columns' => array( 'id', __( 'Date', $this->options['id'] ), __( 'Request', $this->options['id'] ), __( '# of results', $this->options['id'] ) ),
                     'pagenum' => $pager['pagenum'],
                     'max_pages' => $pager['max_pages']
                 ) );
@@ -112,13 +125,13 @@ class wpuTrack404Search extends wpuBasePluginUtilities {
         $pager = $this->get_pager_limit( 20, $this->base_table_name."404" );
         $list = $wpdb->get_results( "SELECT id, date, request FROM ".$this->base_table_name."404 ". $pager['limit'] );
 
-        echo $this->get_wrapper_start( '404 Errors list' );
+        echo $this->get_wrapper_start( __( '404 Errors list', $this->options['id'] ) );
         if ( empty( $list ) ) {
-            echo '<p>No results yet</p>';
+            echo '<p>'.__( 'No results yet', $this->options['id'] ).'</p>';
         }
         else {
             echo $this->get_admin_table( $list , array(
-                    'columns' => array( 'id', 'Date', 'Request' ),
+                    'columns' => array( 'id', __( 'Date', $this->options['id'] ), __( 'Request', $this->options['id'] ) ),
                     'pagenum' => $pager['pagenum'],
                     'max_pages' => $pager['max_pages']
                 ) );
@@ -139,13 +152,19 @@ class wpuTrack404Search extends wpuBasePluginUtilities {
         if ( !is_search() ) {
             return;
         }
-        global $wpdb, $wp_query;
+        global $wpdb, $wp_query, $paged;
+        // Log only first page results
+        if ( $paged > 2 ) {
+            return;
+        }
+        // Retrieve number of results
         $nb_results = 0;
         if ( isset( $wp_query->found_posts ) ) {
             $nb_results = $wp_query->found_posts;
         }
-        $wpdb->insert(
-            $wpdb->prefix."wputrack404search_search",
+        // Insert in database
+        $ins = $wpdb->insert(
+            $this->base_table_name."search",
             array(
                 'request' => get_search_query(),
                 'nb_results' => $nb_results
@@ -161,9 +180,10 @@ class wpuTrack404Search extends wpuBasePluginUtilities {
         if ( !is_404() || !isset( $_SERVER['REQUEST_URI'] ) ) {
             return;
         }
+        // Insert in database
         global $wpdb;
         $wpdb->insert(
-            $wpdb->prefix."wputrack404search_404",
+            $this->base_table_name."404",
             array(
                 'request' => $_SERVER['REQUEST_URI']
             )
@@ -201,3 +221,105 @@ $wpuTrack404Search = new wpuTrack404Search();
 /* External activation hook */
 
 register_activation_hook( __FILE__, array( &$wpuTrack404Search, 'activate' ) );
+
+
+/*
+Name: WPU Base Plugin Utilities
+Version: 1.1
+*/
+class wpuTrack404SearchUtilities {
+
+    public $version = 1.1;
+
+    /* ----------------------------------------------------------
+      Requests
+    ---------------------------------------------------------- */
+
+    function get_pager_limit( $perpage, $tablename = '' ) {
+        global $wpdb;
+
+        // Ensure good format for table name
+        if ( empty( $tablename ) || !preg_match( '/^([A-Za-z0-9_-]+)$/', $tablename ) ) {
+            return array(
+                'pagenum' => 0,
+                'max_pages' => 0,
+                'limit' => '',
+            );
+        }
+
+        // Ensure good format for perpage
+        if ( empty( $perpage ) || !is_numeric( $perpage ) ) {
+            $perpage = 20;
+        }
+
+        // Get number of elements in table
+        $elements_count = $wpdb->get_var( "SELECT COUNT(*) FROM ".$tablename );
+
+        // Get max page number
+        $max_pages = ceil( $elements_count / $perpage );
+
+        // Obtain Page Number
+        $pagenum = ( isset( $_GET['pagenum'] ) && is_numeric( $_GET['pagenum'] ) ? $_GET['pagenum'] : 1 );
+        $pagenum = min( $pagenum, $max_pages );
+
+        // Set SQL limit
+        $limit = 'LIMIT ' . ( $pagenum * $perpage - $perpage ) . ', '.$perpage;
+
+        return array(
+            'pagenum' => $pagenum,
+            'max_pages' => $max_pages,
+            'limit' => $limit,
+        );
+
+    }
+
+    /* ----------------------------------------------------------
+      Display
+    ---------------------------------------------------------- */
+
+    function get_wrapper_start( $title ) {
+        return '<div class="wrap"><div id="icon-options-general" class="icon32"></div><h2 class="title">'.$title.'</h2><br />';
+    }
+
+    function get_wrapper_end() {
+        return '</div>';
+    }
+
+    function get_admin_table( $values, $args = array() ) {
+        $pagination = '';
+        if ( isset( $args['pagenum'], $args['max_pages'] ) ) {
+            $page_links = paginate_links( array(
+                    'base' => add_query_arg( 'pagenum', '%#%' ),
+                    'format' => '',
+                    'prev_text' => '&laquo;',
+                    'next_text' => '&raquo;',
+                    'total' => $args['max_pages'],
+                    'current' => $args['pagenum']
+                ) );
+
+            if ( $page_links ) {
+                $pagination = '<div class="tablenav"><div class="tablenav-pages" style="margin: 1em 0">' . $page_links . '</div></div>';
+            }
+        }
+
+        $content = '<table class="widefat">';
+        if ( isset( $args['columns'] ) && is_array( $args['columns'] ) && !empty( $args['columns'] ) ) {
+            $labels = '<tr><th>' . implode( '</th><th>', $args['columns'] ).'</th></tr>';
+            $content .= '<thead>'.$labels.'</thead>';
+            $content .= '<tfoot>'.$labels.'</tfoot>';
+        }
+        $content .= '<tbody>';
+        foreach ( $values as $id => $vals ) {
+            $content .= '<tr>';
+            foreach ( $vals as $val ) {
+                $content .= '<td>'.$val.'</td>';
+            }
+            $content .= '</tr>';
+        }
+        $content .= '</tbody>';
+        $content .= '</table>';
+        $content .= $pagination;
+
+        return $content;
+    }
+}

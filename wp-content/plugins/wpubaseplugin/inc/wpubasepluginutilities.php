@@ -1,23 +1,44 @@
 <?php
 /*
 Name: WPU Base Plugin Utilities
-Version: 1.0
+Version: 1.1
 */
-
 class wpuBasePluginUtilities {
 
-    public $version = 1.0;
+    public $version = 1.1;
 
     /* ----------------------------------------------------------
       Requests
     ---------------------------------------------------------- */
 
-    function get_pager_limit( $perpage, $table ) {
+    function get_pager_limit( $perpage, $tablename = '' ) {
         global $wpdb;
-        $elements_count = $wpdb->get_var( "SELECT COUNT(*) FROM ".$table );
+
+        // Ensure good format for table name
+        if ( empty( $tablename ) || !preg_match( '/^([A-Za-z0-9_-]+)$/', $tablename ) ) {
+            return array(
+                'pagenum' => 0,
+                'max_pages' => 0,
+                'limit' => '',
+            );
+        }
+
+        // Ensure good format for perpage
+        if ( empty( $perpage ) || !is_numeric( $perpage ) ) {
+            $perpage = 20;
+        }
+
+        // Get number of elements in table
+        $elements_count = $wpdb->get_var( "SELECT COUNT(*) FROM ".$tablename );
+
+        // Get max page number
         $max_pages = ceil( $elements_count / $perpage );
+
+        // Obtain Page Number
         $pagenum = ( isset( $_GET['pagenum'] ) && is_numeric( $_GET['pagenum'] ) ? $_GET['pagenum'] : 1 );
         $pagenum = min( $pagenum, $max_pages );
+
+        // Set SQL limit
         $limit = 'LIMIT ' . ( $pagenum * $perpage - $perpage ) . ', '.$perpage;
 
         return array(

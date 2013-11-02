@@ -3,7 +3,7 @@
 Plugin Name: WPU Base Plugin
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: A framework for a WordPress plugin
-Version: 1.0
+Version: 1.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -24,10 +24,11 @@ class wpuBasePlugin extends wpuBasePluginUtilities {
     function set_options() {
         $this->options = array(
             'id' => 'wpubaseplugin',
-            'name' => 'Base Plugin',
             'level' => 'manage_options'
         );
         load_plugin_textdomain( $this->options['id'], false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
+        // Allow translation for plugin name
+        $this->options['name'] = __( 'Base Plugin', $this->options['id'] );
     }
 
     /* ----------------------------------------------------------
@@ -102,6 +103,14 @@ class wpuBasePlugin extends wpuBasePluginUtilities {
     ---------------------------------------------------------- */
 
     function activate() {
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+        // Create or update table search
+        dbDelta( "CREATE TABLE ".$this->options['id']."_table (
+            `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+            `date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            `value` varchar(100) DEFAULT NULL,
+            PRIMARY KEY (`id`)
+        );" );
     }
 
     function deactivate() {

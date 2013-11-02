@@ -1,0 +1,62 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2013-11-02 13:28+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Kevin <kevin@rocher.me>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: ../.\n"
+
+#: .././wputrack404search.php:28
+msgid "Track 404 & Search"
+msgstr "Track 404 & Recherches"
+
+#: .././wputrack404search.php:51
+msgid "404 Errors list"
+msgstr "Liste des erreurs 404"
+
+#: .././wputrack404search.php:52 .././wputrack404search.php:96
+msgid "Search list"
+msgstr "Liste des recherches"
+
+#: .././wputrack404search.php:61
+msgid "Top results"
+msgstr "Meilleurs résultats"
+
+#: .././wputrack404search.php:62
+msgid "Most searched requests"
+msgstr "Termes les plus recherchés"
+
+#: .././wputrack404search.php:65 .././wputrack404search.php:75
+#: .././wputrack404search.php:98 .././wputrack404search.php:123
+msgid "No results yet"
+msgstr "Aucun résultat pour l'instant"
+
+#: .././wputrack404search.php:69 .././wputrack404search.php:79
+#: .././wputrack404search.php:102 .././wputrack404search.php:127
+#: .././wputrack404search.php:156 .././wputrack404search.php:174
+msgid "Request"
+msgstr "Requête"
+
+#: .././wputrack404search.php:69 .././wputrack404search.php:79
+msgid "# of times"
+msgstr "Nombre de fois"
+
+#: .././wputrack404search.php:69 .././wputrack404search.php:102
+msgid "# of results"
+msgstr "Nombre de résultats"
+
+#: .././wputrack404search.php:72
+msgid "Most common errors"
+msgstr "Erreurs les plus fréquentes"
+
+#: .././wputrack404search.php:102 .././wputrack404search.php:127
+msgid "Date"
+msgstr "Date"

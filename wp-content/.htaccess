@@ -1,0 +1,20 @@
+
+# Disable Etag
+<IfModule mod_headers.c>
+    Header unset ETag
+</IfModule>
+FileETag None
+
+# Expiration for medias
+<IfModule mod_expires.c>
+    ExpiresActive on
+    ExpiresDefault              "access plus 1 week"
+
+    ExpiresByType audio/ogg     "access plus 1 week"
+    ExpiresByType image/gif     "access plus 1 week"
+    ExpiresByType image/jpeg    "access plus 1 week"
+    ExpiresByType image/png     "access plus 1 week"
+    ExpiresByType video/mp4     "access plus 1 week"
+    ExpiresByType video/ogg     "access plus 1 week"
+    ExpiresByType video/webm    "access plus 1 week"
+</IfModule>

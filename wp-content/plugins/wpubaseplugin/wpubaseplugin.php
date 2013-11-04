@@ -3,7 +3,7 @@
 Plugin Name: WPU Base Plugin
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: A framework for a WordPress plugin
-Version: 1.2.1
+Version: 1.2.2
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -143,4 +143,3 @@ $wpuBasePlugin = new wpuBasePlugin();
 
 register_activation_hook( __FILE__, array( &$wpuBasePlugin, 'activate' ) );
 register_deactivation_hook( __FILE__, array( &$wpuBasePlugin, 'deactivate' ) );
-register_uninstall_hook( __FILE__, array( 'wpuBasePlugin', 'uninstall' ) );

@@ -14,11 +14,13 @@ How to start a new plugin with it :
  * The plugin folder name.
  * The plugin main file name.
  * Into the set_options() function.
+ * Into uninstall.php
  * The lang .po & .mo files (wpubaseplugin-fr_FR.mo -> myawesomeplugin-fr_FR.mo)
 * Change the PHP class name (use the id with camelcase if you are not inspired)
  * Into the class declaration ( class wpuBasePlugin extends wpuBasePluginUtilities -> class myAwesomePlugin extends wpuBasePluginUtilities )
  * Into the class launch ( $wpuBasePlugin = new wpuBasePlugin(); -> $myAwesomePlugin = new myAwesomePlugin(); )
  * Into the activation & deactivation calls.
+ * Into uninstall.php
 
 What can you do with it ?
 ---

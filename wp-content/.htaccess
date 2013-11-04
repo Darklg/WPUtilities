@@ -1,4 +1,3 @@
-
 # Disable Etag
 <IfModule mod_headers.c>
     Header unset ETag
@@ -24,4 +23,12 @@ FileETag None
     <IfModule mod_filter.c>
         AddOutputFilterByType DEFLATE application/atom+xml application/javascript application/json application/rss+xml application/vnd.ms-fontobject application/x-font-ttf application/x-web-app-manifest+json application/xhtml+xml application/xml font/opentype image/svg+xml image/x-icon text/css text/html text/plain text/x-component text/xml
     </IfModule>
+</IfModule>
+
+# Fonts
+<IfModule mod_mime.c>
+    AddType font/ttf .ttf
+    AddType font/eot .eot
+    AddType font/otf .otf
+    AddType font/woff .woff
 </IfModule>

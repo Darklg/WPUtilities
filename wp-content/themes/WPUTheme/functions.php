@@ -60,7 +60,8 @@ function wputh_setup() {
 -------------------------- */
 
 $pages_ids = array(
-    'ABOUT__PAGE_ID' => 'about__page_id'
+    'ABOUT__PAGE_ID' => 'about__page_id',
+    'MENTIONS__PAGE_ID' => 'mentions__page_id',
 );
 
 foreach ( $pages_ids as $constant => $option ) {

@@ -31,11 +31,9 @@ function set_wputh_options_fields( $options ) {
         'type' => 'email',
         'test' => 'email'
     );
+
     // Pages IDs
-    $options['about__page_id'] = array(
-        'label' => __( 'About', 'wputh' ),
-        'box' => 'pages_id',
-        'type' => 'page'
-    );
+    $options['about__page_id'] = array( 'label' => __( 'About', 'wputh' ), 'box' => 'pages_id', 'type' => 'page' );
+    $options['mentions__page_id'] = array( 'label' => __( 'Mentions', 'wputh' ), 'box' => 'pages_id', 'type' => 'page' );
     return $options;
 }

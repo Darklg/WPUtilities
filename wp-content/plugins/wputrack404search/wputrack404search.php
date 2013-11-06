@@ -3,7 +3,7 @@
 Plugin Name: WPU Track 404 & Search
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Logs & analyze search queries & 404 Errors
-Version: 0.4
+Version: 0.5
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -39,6 +39,7 @@ class wpuTrack404Search extends wpuTrack404SearchUtilities {
 
     function set_admin_hooks() {
         add_action( 'admin_menu', array( &$this, 'set_menu_page' ) );
+        add_action( 'admin_init', array( &$this, 'page_export_postAction' ) );
     }
 
     /* ----------------------------------------------------------
@@ -47,10 +48,10 @@ class wpuTrack404Search extends wpuTrack404SearchUtilities {
 
     /* Add Admin & Menu */
     function set_menu_page() {
-
-        add_menu_page( $this->options['name'], $this->options['name'], 'manage_options', 'wputrack404search', array( &$this, 'page_top_results' ) );
-        add_submenu_page( 'wputrack404search', __( '404 Errors list', $this->options['id'] ), __( '404 Errors list',  $this->options['id'] ), 'manage_options', 'wputrack404search-404', array( &$this, 'page_errors_list' ) );
-        add_submenu_page( 'wputrack404search', __( 'Search list', $this->options['id'] ), __( 'Search list', $this->options['id'] ), 'manage_options', 'wputrack404search-search', array( &$this, 'page_search_list' ) );
+        add_menu_page( $this->options['name'], $this->options['name'], $this->options['level'], $this->options['id'], array( &$this, 'page_top_results' ) );
+        add_submenu_page( $this->options['id'], __( '404 Errors list', $this->options['id'] ), __( '404 Errors list',  $this->options['id'] ), $this->options['level'], $this->options['id'].'-404', array( &$this, 'page_errors_list' ) );
+        add_submenu_page( $this->options['id'], __( 'Search list', $this->options['id'] ), __( 'Search list', $this->options['id'] ), $this->options['level'], $this->options['id'].'-search', array( &$this, 'page_search_list' ) );
+        add_submenu_page( $this->options['id'], __( 'Export', $this->options['id'] ), __( 'Export', $this->options['id'] ), $this->options['level'], $this->options['id'].'-export', array( &$this, 'page_export' ) );
     }
 
 
@@ -139,6 +140,30 @@ class wpuTrack404Search extends wpuTrack404SearchUtilities {
         echo $this->get_wrapper_end();
     }
 
+    /* Page Export
+    -------------------------- */
+
+    function page_export() {
+        echo $this->get_wrapper_start( __( 'Export', $this->options['id'] ) );
+        echo '<form action="" method="post">';
+        echo '<p><button type="submit" name="'.$this->options['id'].'_export" value="404">' . __( 'Export 404 errors list', $this->options['id'] ) . '</button></p>';
+        echo '<p><button type="submit" name="'.$this->options['id'].'_export" value="search">' . __( 'Export search list', $this->options['id'] ) . '</button></p>';
+        echo '</form>';
+        echo $this->get_wrapper_end();
+
+    }
+
+    function page_export_postAction() {
+
+        if ( isset( $_POST[$this->options['id'].'_export'] ) ) {
+            $val = $_POST[$this->options['id'].'_export'];
+            if ( in_array( $val, array( '404', 'search' ) ) ) {
+                global $wpdb;
+                $list = $wpdb->get_results( "SELECT * FROM ".$this->base_table_name.$val." ", ARRAY_A );
+                $this->export_array_to_csv( $list, $val );
+            }
+        }
+    }
 
     /* ----------------------------------------------------------
       Tracking Hooks
@@ -225,11 +250,11 @@ register_activation_hook( __FILE__, array( &$wpuTrack404Search, 'activate' ) );
 
 /*
 Name: WPU Base Plugin Utilities
-Version: 1.1
+Version: 1.3
 */
 class wpuTrack404SearchUtilities {
 
-    public $version = 1.1;
+    public $version = 1.3;
 
     /* ----------------------------------------------------------
       Requests
@@ -271,6 +296,23 @@ class wpuTrack404SearchUtilities {
             'limit' => $limit,
         );
 
+    }
+
+    /* ----------------------------------------------------------
+      Export
+    ---------------------------------------------------------- */
+
+    function export_array_to_csv( $array, $name ) {
+        if ( isset( $array[0] ) ) {
+            header( 'Content-Type: application/csv' );
+            header( 'Content-Disposition: attachment; filename=export-list-'.$name.'-'.date( 'y-m-d' ).'.csv' );
+            header( 'Pragma: no-cache' );
+            echo implode( ';', array_keys( $array[0] ) )."\n";
+            foreach ( $array as $line ) {
+                echo implode( ';', $line )."\n";
+            }
+            die;
+        }
     }
 
     /* ----------------------------------------------------------

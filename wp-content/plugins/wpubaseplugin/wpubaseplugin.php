@@ -3,7 +3,7 @@
 Plugin Name: WPU Base Plugin
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: A framework for a WordPress plugin
-Version: 1.2.2
+Version: 1.3
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License

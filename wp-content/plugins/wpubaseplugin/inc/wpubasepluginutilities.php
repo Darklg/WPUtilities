@@ -1,11 +1,11 @@
 <?php
 /*
 Name: WPU Base Plugin Utilities
-Version: 1.1
+Version: 1.3
 */
 class wpuBasePluginUtilities {
 
-    public $version = 1.1;
+    public $version = 1.3;
 
     /* ----------------------------------------------------------
       Requests
@@ -47,6 +47,23 @@ class wpuBasePluginUtilities {
             'limit' => $limit,
         );
 
+    }
+
+    /* ----------------------------------------------------------
+      Export
+    ---------------------------------------------------------- */
+
+    function export_array_to_csv( $array, $name ) {
+        if ( isset( $array[0] ) ) {
+            header( 'Content-Type: application/csv' );
+            header( 'Content-Disposition: attachment; filename=export-list-'.$name.'-'.date( 'y-m-d' ).'.csv' );
+            header( 'Pragma: no-cache' );
+            echo implode( ';', array_keys( $array[0] ) )."\n";
+            foreach ( $array as $line ) {
+                echo implode( ';', $line )."\n";
+            }
+            die;
+        }
     }
 
     /* ----------------------------------------------------------

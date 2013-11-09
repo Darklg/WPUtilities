@@ -13,8 +13,6 @@ define( 'PAGINATION_KIND', 'numbers' ); // load-more || numbers || default
 
 include get_template_directory() . '/inc/theme/params.php';
 include get_template_directory() . '/inc/theme/utilities.php';
-include get_template_directory() . '/inc/theme/protect.php';
-include get_template_directory() . '/inc/theme/clean.php';
 if ( ! isset( $content_width ) ) $content_width = 680;
 
 

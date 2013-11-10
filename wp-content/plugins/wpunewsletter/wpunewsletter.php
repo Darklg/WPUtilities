@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Utilities Newsletter
 Description: Allow subscriptions to a newsletter.
-Version: 1.3.3
+Version: 1.3.4
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -30,6 +30,29 @@ add_action( 'admin_enqueue_scripts', 'wpunewsletter_enqueue_js' );
 function wpunewsletter_enqueue_js( $hook ) {
     if ( isset( $_GET['page'] ) && $_GET['page'] == 'wpunewsletter' ) {
         wp_enqueue_script( 'wpunewsletter_js', plugin_dir_url( __FILE__ ) . 'assets/script.js' );
+    }
+}
+
+add_action( 'wp_dashboard_setup', 'wpunewsletter_add_dashboard_widget' );
+function wpunewsletter_add_dashboard_widget() {
+    wp_add_dashboard_widget(
+        'wpunewsletter_dashboard_widget',
+        'Newsletter - ' .__( 'Latest subscribers', 'wpunewsletter' ),
+        'wpunewsletter_content_dashboard_widget'
+    );
+}
+
+function wpunewsletter_content_dashboard_widget() {
+    global $wpdb, $wpunewsletteradmin_messages;
+    $table_name = $wpdb->prefix."wpunewsletter_subscribers";
+    $results = $wpdb->get_results( "SELECT * FROM " . $table_name . " ORDER BY id DESC LIMIT 0, 10" );
+    if ( !empty( $results ) ) {
+        foreach ( $results as $result ) {
+            echo '<p>'.$result->id.' - '.$result->email.'</p>';
+        }
+    }
+    else {
+        echo '<p>'.__( 'No subscriber for now.', 'wpunewsletter' ).'</p>';
     }
 }
 

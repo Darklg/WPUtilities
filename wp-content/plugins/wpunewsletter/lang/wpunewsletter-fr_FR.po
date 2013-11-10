@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2013-09-28 09:41+0100\n"
+"POT-Creation-Date: 2013-11-10 19:00+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Kevin <kevin@rocher.me>\n"
 "Language-Team: \n"
@@ -14,76 +14,80 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-SearchPath-0: ../.\n"
 
-#: .././wpunewsletter.php:60
+#: .././wpunewsletter.php:40
+msgid "Latest subscribers"
+msgstr "Derniers abonnés"
+
+#: .././wpunewsletter.php:55 .././wpunewsletter.php:88
+msgid "No subscriber for now."
+msgstr "Aucun abonné pour le moment."
+
+#: .././wpunewsletter.php:83
 #, php-format
 msgid "Subscribers list : %s"
 msgstr "Liste des abonnés : %s"
 
-#: .././wpunewsletter.php:65
-msgid "No subscriber for now."
-msgstr "Aucun abonné pour le moment."
-
-#: .././wpunewsletter.php:71
+#: .././wpunewsletter.php:94
 msgid "ID"
 msgstr "ID"
 
-#: .././wpunewsletter.php:71 .././wpunewsletter.php:207
+#: .././wpunewsletter.php:94 .././wpunewsletter.php:230
 msgid "Email"
 msgstr "E-Mail"
 
-#: .././wpunewsletter.php:71
+#: .././wpunewsletter.php:94
 msgid "Date"
 msgstr "Date"
 
-#: .././wpunewsletter.php:84
+#: .././wpunewsletter.php:107
 msgid "Delete selected lines"
 msgstr "Supprimer les lignes sélectionnées"
 
-#: .././wpunewsletter.php:124
+#: .././wpunewsletter.php:147
 msgid "Addresses to export:"
 msgstr "Adresses à exporter : "
 
-#: .././wpunewsletter.php:126
+#: .././wpunewsletter.php:149
 msgid "Only validated"
 msgstr "Seulement les validées"
 
-#: .././wpunewsletter.php:127
+#: .././wpunewsletter.php:150
 msgid "All"
 msgstr "Toutes"
 
-#: .././wpunewsletter.php:131
+#: .././wpunewsletter.php:154
 msgid "Export addresses"
 msgstr "Exporter les adresses"
 
-#: .././wpunewsletter.php:174
+#: .././wpunewsletter.php:197
 msgid "Subscribers"
 msgstr "Abonnés"
 
-#: .././wpunewsletter.php:209
+#: .././wpunewsletter.php:232
 msgid "Register"
 msgstr "S'inscrire"
 
-#: .././wpunewsletter.php:226
+#: .././wpunewsletter.php:249
 msgid "This mail is already registered"
 msgstr "Cette adresse mail est déjà inscrite"
 
-#: .././wpunewsletter.php:238
+#: .././wpunewsletter.php:261
 msgid "This mail can't be registered"
 msgstr "Cette adresse mail ne peut pas être inscrite"
 
-#: .././wpunewsletter.php:242
+#: .././wpunewsletter.php:265
 msgid "This mail is now registered"
 msgstr "Cette adresse mail est désormais inscrite"
 
-#: .././wpunewsletter.php:266
+#: .././wpunewsletter.php:289
 msgid "Confirm your subscription to our newsletter"
 msgstr "Confirmez votre abonnement à notre newsletter"
 
-#: .././wpunewsletter.php:268
+#: .././wpunewsletter.php:291
 msgid "Hi !"
 msgstr "Bonjour !"
 
-#: .././wpunewsletter.php:269
+#: .././wpunewsletter.php:292
 msgid ""
 "Please click on the link below to confirm your subscription to our "
 "newsletter:"
@@ -91,14 +95,14 @@ msgstr ""
 "Merci de cliquer sur le lien ci-dessous pour confirmer votre abonnement à "
 "notre newsletter :"
 
-#: .././wpunewsletter.php:271
+#: .././wpunewsletter.php:294
 msgid "Thank you !"
 msgstr "Merci !"
 
-#: .././wpunewsletter.php:281
+#: .././wpunewsletter.php:304
 msgid "Your subscription couldn't be confirmed"
 msgstr "Votre abonnement n'a pas pu être confirmé"
 
-#: .././wpunewsletter.php:296
+#: .././wpunewsletter.php:319
 msgid "Your subscription has been successfully confirmed"
 msgstr "Votre abonnement a été confirmé avec succès "

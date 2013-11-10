@@ -1,11 +1,11 @@
 <?php
 /*
 Name: WPU Base Plugin Utilities
-Version: 1.3
+Version: 1.3.1
 */
 class wpuBasePluginUtilities {
 
-    public $version = 1.3;
+    public $version = "1.3.1";
 
     /* ----------------------------------------------------------
       Requests

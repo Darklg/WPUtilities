@@ -3,7 +3,7 @@
 Plugin Name: WPU Base Plugin
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: A framework for a WordPress plugin
-Version: 1.3
+Version: 1.3.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -62,6 +62,7 @@ class wpuBasePlugin extends wpuBasePluginUtilities {
     function set_admin_hooks() {
         add_action( 'admin_menu', array( &$this, 'set_admin_menu' ) );
         add_action( 'admin_bar_menu', array( &$this, 'set_adminbar_menu' ), 100 );
+        add_action( 'wp_dashboard_setup', array( &$this, 'add_dashboard_widget' ) );
         if ( isset( $_GET['page'] ) && $_GET['page'] == $this->options['id'] ) {
             add_action( 'admin_print_styles', array( &$this, 'load_assets_css' ) );
             add_action( 'admin_enqueue_scripts', array( &$this, 'load_assets_js' ) );
@@ -98,6 +99,20 @@ class wpuBasePlugin extends wpuBasePluginUtilities {
         echo $this->get_wrapper_start( $this->options['name'] );
         echo '<p>'.__( 'Content', $this->options['id'] ).'</p>';
         echo $this->get_wrapper_end();
+    }
+
+    /* Widget Dashboard */
+
+    function add_dashboard_widget() {
+        wp_add_dashboard_widget(
+            $this->options['id'] . '_dashboard_widget',
+            $this->options['name'],
+            array( &$this, 'content_dashboard_widget' )
+        );
+    }
+
+    function content_dashboard_widget() {
+        echo '<p>Hello World !</p>';
     }
 
     /* ----------------------------------------------------------

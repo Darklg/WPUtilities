@@ -3,7 +3,7 @@
 Plugin Name: WPU Base Plugin
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: A framework for a WordPress plugin
-Version: 1.3.1
+Version: 1.4
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -27,6 +27,7 @@ class wpuBasePlugin extends wpuBasePluginUtilities {
             'id' => 'wpubaseplugin',
             'level' => 'manage_options'
         );
+        $this->messages = array();
         $this->data_table = $wpdb->prefix.$this->options['id']."_table";
         load_plugin_textdomain( $this->options['id'], false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
         // Allow translation for plugin name
@@ -64,8 +65,10 @@ class wpuBasePlugin extends wpuBasePluginUtilities {
         add_action( 'admin_bar_menu', array( &$this, 'set_adminbar_menu' ), 100 );
         add_action( 'wp_dashboard_setup', array( &$this, 'add_dashboard_widget' ) );
         if ( isset( $_GET['page'] ) && $_GET['page'] == $this->options['id'] ) {
+            add_action( 'wp_loaded', array( &$this, 'set_admin_page_main_postAction' ) );
             add_action( 'admin_print_styles', array( &$this, 'load_assets_css' ) );
             add_action( 'admin_enqueue_scripts', array( &$this, 'load_assets_js' ) );
+            add_action( 'admin_notices', array( &$this, 'admin_notices' ) );
         }
     }
 
@@ -101,6 +104,13 @@ class wpuBasePlugin extends wpuBasePluginUtilities {
         echo $this->get_wrapper_end();
     }
 
+    function set_admin_page_main_postAction() {
+        if ( empty( $_POST ) ) {
+            return;
+        }
+        $this->messages[] = 'Success !';
+    }
+
     /* Widget Dashboard */
 
     function add_dashboard_widget() {
@@ -116,8 +126,21 @@ class wpuBasePlugin extends wpuBasePluginUtilities {
     }
 
     /* ----------------------------------------------------------
-      Assets
+      Assets & Notices
     ---------------------------------------------------------- */
+
+    /* Display notices */
+    function admin_notices() {
+        $return = '';
+        if ( !empty( $this->messages ) ) {
+            foreach ( $this->messages as $message ) {
+                $return .= '<div class="updated"><p>'.$message.'</p></div>';
+            }
+        }
+        // Empty messages
+        $this->messages = array();
+        echo $return;
+    }
 
     function load_assets_js() {
         wp_enqueue_script(  $this->options['id'] . '_scripts', plugin_dir_url( __FILE__ ) . '/assets/js/script.js' );

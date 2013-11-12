@@ -2,7 +2,7 @@
 /*
 Plugin Name: WPU Options
 Plugin URI: http://github.com/Darklg/WPUtilities
-Version: 4.2
+Version: 4.3
 Description: Friendly interface for website options
 Author: Darklg
 Author URI: http://darklg.me/
@@ -380,7 +380,7 @@ class WPUOptions {
             case 'textarea':
                 $content .= '<textarea ' . $idname . ' rows="5" cols="30">' . $value . '</textarea>';
                 break;
-            /* Multiple cases */
+                /* Multiple cases */
             case 'color':
             case 'date':
             case 'email':
@@ -545,6 +545,9 @@ class WPUOptions {
 
 $WPUOptions = new WPUOptions();
 
+/* ----------------------------------------------------------
+  Utilities
+---------------------------------------------------------- */
 
 /**
  * Get an option value with l18n
@@ -560,4 +563,45 @@ function wputh_l18n_get_option( $name ) {
     }
 
     return get_option( $name );
+}
+
+
+/**
+ * Get media details
+ *
+ * @param string  $option_name
+ * @param string  $size
+ * @return string
+ */
+function wpu_options_get_media( $option_name, $size = 'thumbnail' ) {
+    $attachment_details = array(
+        'title' => '',
+        'caption' => '',
+        'alt' => '',
+        'description' => '',
+        'href' => '',
+        'src' => '',
+        'width' => 0,
+        'height' => 0
+    );
+
+    $attachment_id = get_option( $option_name );
+    $attachment = get_post( $attachment_id );
+
+    if ( isset( $attachment->post_title ) ) {
+        $attachment_details['title'] = trim( $attachment->post_title );
+        $attachment_details['caption'] = trim( $attachment->post_excerpt );
+        $attachment_details['description'] = $attachment->post_content;
+        $attachment_details['href'] = get_permalink( $attachment->ID );
+        $attachment_details['src'] = $attachment->guid;
+    }
+
+    $image = wp_get_attachment_image_src( $att_id, $size );
+    if ( isset( $image[0] ) ) {
+        $attachment_details['src'] = $image[0];
+        $attachment_details['width'] = $image[1];
+        $attachment_details['height'] = $image[2];
+    }
+
+    return $attachment_details;
 }

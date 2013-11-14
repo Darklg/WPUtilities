@@ -3,7 +3,7 @@
 Plugin Name: WPU Track 404 & Search
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Logs & analyze search queries & 404 Errors
-Version: 0.5
+Version: 0.5.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -60,7 +60,7 @@ class wpuTrack404Search extends wpuTrack404SearchUtilities {
 
     function page_top_results() {
         global $wpdb;
-        $list_most_searched = $wpdb->get_results( "SELECT request, count(request), nb_results AS total FROM ".$this->base_table_name."search GROUP BY request ORDER BY total DESC LIMIT 0, 10" );
+        $list_most_searched = $wpdb->get_results( "SELECT request, count(request) as nb_requests, nb_results AS total FROM ".$this->base_table_name."search GROUP BY request ORDER BY nb_requests DESC LIMIT 0, 10" );
         $list_common_errors = $wpdb->get_results( "SELECT request, count(request) AS total FROM ".$this->base_table_name."404 GROUP BY request ORDER BY total DESC LIMIT 0, 10;" );
 
         echo $this->get_wrapper_start( $this->options['name'] . ' - ' . __( 'Top results', $this->options['id'] ) );

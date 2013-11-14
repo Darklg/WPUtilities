@@ -2,7 +2,7 @@
 /*
 Plugin Name: Display Instagram
 Description: Display Latest Image for Instagram
-Version: 0.2
+Version: 0.3
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -13,12 +13,16 @@ function wpu_get_instagram() {
     $api_key = trim( get_option( 'wpu_get_instagram__api_key' ) );
     $user_id = trim( get_option( 'wpu_get_instagram__user_id' ) );
     $transient_id = 'json_instagram_' . $user_id;
+    $latest_id = 'latest_id_instagram_' . $user_id;
+    $att_id = 'att_id_instagram_' . $user_id;
 
     $return = array(
         'image' => '',
         'link' => '#',
         'created_time' => '0',
         'caption' => '',
+        'id' => get_option( $latest_id ),
+        'att_id' => get_option( $att_id ),
     );
 
     // Get cached JSON
@@ -30,8 +34,13 @@ function wpu_get_instagram() {
 
     // Extract and return informations
     $imginsta = json_decode( $json_instagram );
+
     if ( isset( $imginsta->data[0] ) ) {
         $details = $imginsta->data[0];
+        // Image
+        if ( isset( $imginsta->data[0]->id ) ) {
+            $return['id'] = $imginsta->data[0]->id;
+        }
         // Image
         if ( isset( $details->images->standard_resolution->url ) ) {
             $return['image'] = $details->images->standard_resolution->url;
@@ -50,8 +59,34 @@ function wpu_get_instagram() {
         }
     }
 
+    // Cache Image if necessary
+    if ( !empty( $return['image'] ) && get_option( $latest_id ) != $return['id'] ) {
+
+        $wp_upload_dir = wp_upload_dir();
+
+        // New image name
+        $filename = time() . '_' . $return['id'] . '.jpg';
+        $pathname = $wp_upload_dir['path'] . '/' . $filename;
+        $url = $wp_upload_dir['url'] . '/' . $filename;
+
+        // Download image.
+        $image = file_get_contents( $return['image'] );
+        file_put_contents( $pathname, $image );
+
+        // Insert into medias
+        $attachment = array(
+            'guid' => $url,
+            'post_mime_type' => 'image/jpeg',
+            'post_title' => preg_replace( '/\.[^.]+$/', '', basename( $filename ) ),
+            'post_content' => '',
+            'post_status' => 'inherit'
+        );
+        update_option( $latest_id, $return['id'] );
+        update_option( $att_id, wp_insert_attachment( $attachment, $pathname ) );
+    }
     return $return;
 }
+
 
 /* ----------------------------------------------------------
   Add administration with WPU Options plugin

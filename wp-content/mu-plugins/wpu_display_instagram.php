@@ -2,7 +2,7 @@
 /*
 Plugin Name: Display Instagram
 Description: Display Latest Image for Instagram
-Version: 0.3
+Version: 0.4
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -62,31 +62,33 @@ function wpu_get_instagram() {
     // Cache Image if necessary
     if ( !empty( $return['image'] ) && get_option( $latest_id ) != $return['id'] ) {
 
-        $wp_upload_dir = wp_upload_dir();
+        require_once ABSPATH . 'wp-admin/includes/media.php';
+        require_once ABSPATH . 'wp-admin/includes/file.php';
+        require_once ABSPATH . 'wp-admin/includes/image.php';
 
-        // New image name
-        $filename = time() . '_' . $return['id'] . '.jpg';
-        $pathname = $wp_upload_dir['path'] . '/' . $filename;
-        $url = $wp_upload_dir['url'] . '/' . $filename;
+        global $wpu_get_instagram_att_id;
 
-        // Download image.
-        $image = file_get_contents( $return['image'] );
-        file_put_contents( $pathname, $image );
+        add_action( 'add_attachment', 'wpu_get_instagram_catch_att_id' );
+        media_sideload_image( $return['image'], 0 );
+        remove_action( 'add_attachment', 'wpu_get_instagram_catch_att_id' );
 
-        // Insert into medias
-        $attachment = array(
-            'guid' => $url,
-            'post_mime_type' => 'image/jpeg',
-            'post_title' => preg_replace( '/\.[^.]+$/', '', basename( $filename ) ),
-            'post_content' => '',
-            'post_status' => 'inherit'
-        );
         update_option( $latest_id, $return['id'] );
-        update_option( $att_id, wp_insert_attachment( $attachment, $pathname ) );
+        update_option( $att_id, $wpu_get_instagram_att_id );
+        $return['att_id'] = $wpu_get_instagram_att_id;
+
     }
     return $return;
 }
 
+/* ----------------------------------------------------------
+  Catches the attribute id
+---------------------------------------------------------- */
+
+$wpu_get_instagram_att_id = false;
+function wpu_get_instagram_catch_att_id( $att_id ) {
+    global $wpu_get_instagram_att_id;
+    $wpu_get_instagram_att_id = $att_id;
+}
 
 /* ----------------------------------------------------------
   Add administration with WPU Options plugin

@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WPU Meta tags
-Description: Add meta tags to the theme header
+Description: Adds meta tags to the theme header
 Version: 0.1
 Author: Darklg
 Author URI: http://darklg.me/

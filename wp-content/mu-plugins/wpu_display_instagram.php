@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Display Instagram
-Description: Display Latest Image for Instagram
+Description: Displays the latest image for an Instagram account
 Version: 0.4
 Author: Darklg
 Author URI: http://darklg.me/

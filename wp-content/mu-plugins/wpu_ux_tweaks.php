@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WPU UX Tweaks
-Description: Add UX enhancement & tweaks to WordPress
+Description: Adds UX enhancement & tweaks to WordPress
 Version: 0.1
 Author: Darklg
 Author URI: http://darklg.me/

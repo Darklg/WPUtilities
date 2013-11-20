@@ -30,3 +30,4 @@ Plugins list :
 * *Cache HTML* : Cache pages in files for a faster loading.
 * *Disable Comments* : Disable all comments. Usable in mu-plugins.
 * *Disable Posts* : Disable all posts. Usable in mu-plugins.
+* *Admin protect* : Adds a basic protection to the admin.

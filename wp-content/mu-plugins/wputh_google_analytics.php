@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Google Analytics
-Description: Display Google Analytics
+Description: Adds Google Analytics script to the Footer
 Version: 0.1
 Author: Darklg
 Author URI: http://darklg.me/

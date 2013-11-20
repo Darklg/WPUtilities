@@ -6,5 +6,7 @@ Must-Use plugins
 Plugins list :
 ---
 
-* *Admin protect* : Adds a basic protection to the admin.
-* *Google Analytics* : Adds Google Analytics script
+* *Google Analytics* : Adds Google Analytics script to the Footer
+* *WPU Meta tags* : Adds meta tags to the theme header
+* *WPU UX Tweaks* : Adds UX enhancement & tweaks to WordPress
+* *Display Instagram* : Displays the latest image for an Instagram account

@@ -1,7 +1,7 @@
 Download links
 =================
 
-A Framework to create your WordPress plugin.
+A Generator for download links.
 
 How to install :
 ---

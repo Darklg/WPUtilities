@@ -3,7 +3,7 @@
 Plugin Name: WPU Download links
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: A Generator for download links
-Version: 0.1
+Version: 0.2
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -29,6 +29,9 @@ class wpuDownloadLinks {
         // Allow translation for plugin name
         $this->options['name'] = __( 'Download links', $this->options['id'] );
         $this->options['menu_name'] = __( 'Download links', $this->options['id'] );
+
+        $this->max_number_id = $this->options['id'].'__max_number';
+        $this->file_path_id = $this->options['id'].'__file_path';
     }
 
     /* ----------------------------------------------------------
@@ -66,16 +69,16 @@ class wpuDownloadLinks {
 
     function intercept_download_link() {
 
-        $max_downloads = 5;
-
         global $wpdb;
 
+        $max_downloads = get_option( $this->max_number_id );
+
         // Check for invalid code
-        if ( !isset( $_GET['wpu-id-code'] ) || !preg_match( '/^([0-9]+)-([a-z0-9]+)$/', $_GET['wpu-id-code'] ) ) {
+        if ( !isset( $_GET['wpu-dl-idcode'] ) || !preg_match( '/^([0-9]+)-([a-z0-9]+)$/', $_GET['wpu-dl-idcode'] ) ) {
             return;
         }
 
-        $code_details = explode( '-', $_GET['wpu-id-code'] );
+        $code_details = explode( '-', $_GET['wpu-dl-idcode'] );
 
         // Obtain code details
         $code = $wpdb->get_row(
@@ -137,6 +140,47 @@ class wpuDownloadLinks {
         exit();
     }
 
+    function getLinkURLByID( $id ) {
+        global $wpdb;
+
+        $url = '';
+
+        $code = $wpdb->get_row(
+            $wpdb->prepare(
+                "SELECT * FROM ".$this->data_table . " WHERE id = %s",
+                $id
+            )
+        );
+
+        if ( isset( $code->id ) ) {
+            $url = site_url() . '/?wpu-dl-idcode='.$code->id.'-'.$code->code;
+        }
+
+        return $url;
+
+    }
+
+    function generateLink( $infos ) {
+        global $wpdb;
+
+        $path = get_option( $this->file_path_id );
+
+        $wpdb->insert(
+            $this->data_table,
+            array(
+                'code' => md5( $infos.microtime( 1 ).$path ),
+                'infos' => $infos,
+                'path' => $path
+            ),
+            array(
+                '%s',
+                '%s'
+            )
+        );
+
+        return $wpdb->insert_id;
+    }
+
     /* ----------------------------------------------------------
       Admin
     ---------------------------------------------------------- */
@@ -151,8 +195,8 @@ class wpuDownloadLinks {
         );
         add_submenu_page(
             $this->options['id'],
-            'Links list',
-            'Links list',
+            __( 'Links list', $this->options['id'] ),
+            __( 'Links list', $this->options['id'] ),
             $this->options['level'],
             $this->options['id'] . '-list',
             array( &$this, 'set_admin_page_list' )
@@ -174,11 +218,20 @@ class wpuDownloadLinks {
     function set_admin_page_main() {
         echo $this->get_wrapper_start( $this->options['name'] );
 
-        // Content
-        echo '<p>'.__( 'Content', $this->options['id'] ).'</p>';
+        // Get max number
+        $max_number = get_option( $this->max_number_id );
+
+        // Get default file path
+        $file_path = get_option( $this->file_path_id );
 
         // Default Form
         echo '<form action="" method="post"><div>';
+
+
+        echo '<p><label for="'.$this->max_number_id.'">'.__( 'Max Number of downloads:', $this->options['id'] ).'</label><br /><input type="number" id="'.$this->max_number_id.'" name="'.$this->max_number_id.'" value="'.$max_number.'" /></p>';
+        echo '<p><label for="'.$this->file_path_id.'">'.__( 'File path:', $this->options['id'] ).'</label><br /><input type="text" id="'.$this->file_path_id.'" name="'.$this->file_path_id.'" value="'.$file_path.'" /></p>';
+
+
         wp_nonce_field( 'action-main-form', 'action-main-form-'.$this->options['id'] );
         echo '<button class="button-primary" type="submit">'.__( 'Submit', $this->options['id'] ).'</button>';
         echo '</div></form>';
@@ -190,12 +243,23 @@ class wpuDownloadLinks {
         if ( empty( $_POST ) || !isset( $_POST['action-main-form-'.$this->options['id']] ) || !wp_verify_nonce( $_POST['action-main-form-'.$this->options['id']], 'action-main-form' ) ) {
             return;
         }
+
+        // Update option number
+        if ( isset( $_POST[$this->max_number_id] ) && is_numeric( $_POST[$this->max_number_id] ) ) {
+            update_option( $this->max_number_id, $_POST[$this->max_number_id] );
+        }
+
+        // Update option path
+        if ( isset( $_POST[$this->file_path_id] ) && file_exists( $_POST[$this->file_path_id] ) ) {
+            update_option( $this->file_path_id, $_POST[$this->file_path_id] );
+        }
+
         $this->messages[] = 'Success !';
     }
 
     function set_admin_page_list() {
         global $wpdb;
-        echo $this->get_wrapper_start( 'Links list' );
+        echo $this->get_wrapper_start( __( 'Links list', $this->options['id'] ) );
 
         $pager = $this->get_pager_limit( 20, $this->data_table );
         $list = $wpdb->get_results( "SELECT id, date, infos, downloads FROM ".$this->data_table . ' '. $pager['limit'] );
@@ -236,14 +300,27 @@ class wpuDownloadLinks {
     ---------------------------------------------------------- */
 
     function activate() {
+
+        // Set max number
+        $max_number = get_option( $this->max_number_id );
+        if ( !is_numeric( $max_number ) ) {
+            update_option( $this->max_number_id, 5 );
+        }
+
+        // Set default file path
+        $file_path = get_option( $this->file_path_id );
+        if ( !file_exists( $file_path ) ) {
+            update_option( $this->file_path_id, dirname( __FILE__ ).'/README.md' );
+        }
+
+        // Create or update data table
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-        // Create or update table search
         dbDelta( "CREATE TABLE ".$this->data_table." (
             `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
             `date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             `code` varchar(50) DEFAULT NULL,
-            `infos` varchar(200) DEFAULT NULL,
-            `path` varchar(200) DEFAULT NULL,
+            `infos` varchar(300) DEFAULT NULL,
+            `path` varchar(300) DEFAULT NULL,
             `downloads` int(11) unsigned NOT NULL,
             PRIMARY KEY (`id`)
         );" );
@@ -254,7 +331,7 @@ class wpuDownloadLinks {
 
     function uninstall() {
         global $wpdb;
-        $wpdb->query( 'DROP TABLE ' . $this->data_table );
+        //$wpdb->query( 'DROP TABLE ' . $this->data_table );
     }
 
 

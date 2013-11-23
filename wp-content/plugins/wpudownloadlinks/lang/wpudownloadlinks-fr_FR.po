@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2013-11-23 00:16+0100\n"
+"POT-Creation-Date: 2013-11-23 01:01+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Kevin <kevin@rocher.me>\n"
 "Language-Team: \n"
@@ -14,33 +14,44 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-SearchPath-0: ../.\n"
 
-#: .././wpudownloadlinks.php:29 .././wpudownloadlinks.php:30
+#: .././wpudownloadlinks.php:30 .././wpudownloadlinks.php:31
 msgid "Download links"
 msgstr "Liens de téléchargement"
 
-#: .././wpudownloadlinks.php:89
+#: .././wpudownloadlinks.php:93
 msgid "Error: This download code is invalid."
 msgstr "Erreur : Ce code de téléchargement est invalide."
 
-#: .././wpudownloadlinks.php:94
+#: .././wpudownloadlinks.php:98
 msgid "Error: The maximum number of downloads is outdated."
 msgstr "Erreur : Le nombre de téléchargements maximal a été dépassé."
 
-#: .././wpudownloadlinks.php:99
+#: .././wpudownloadlinks.php:103
 msgid "Error: This file doesn't exists."
 msgstr "Erreur : Ce fichier n'existe pas."
 
-#: .././wpudownloadlinks.php:169
-msgid "Content"
-msgstr "Contenu"
+#: .././wpudownloadlinks.php:231
+msgid "Max Number of downloads:"
+msgstr "Nombre max de téléchargements : "
 
-#: .././wpudownloadlinks.php:174
+#: .././wpudownloadlinks.php:232
+msgid "File path:"
+msgstr "Chemin du fichier : "
+
+#: .././wpudownloadlinks.php:236
 msgid "Submit"
 msgstr "Envoyer"
 
-#: .././wpudownloadlinks.php:195
+#: .././wpudownloadlinks.php:251
+msgid "Links list"
+msgstr "Liste des liens"
+
+#: .././wpudownloadlinks.php:257
 msgid "No results yet"
 msgstr "Aucun résultat pour le moment"
+
+#~ msgid "Content"
+#~ msgstr "Contenu"
 
 #~ msgid "Base Plugin"
 #~ msgstr "Plugin de base"

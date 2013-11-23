@@ -11,7 +11,6 @@ Framework :
 Plugins list :
 ---
 
-* *Debug toolbar* : Display a debug toolbar for developers.
 * *Newsletter* : Allow subscriptions to a newsletter
 * *Options* : Friendly interface for website options.
 * *Post Metas* : Simple admin for post metas.
@@ -23,6 +22,7 @@ Plugins list :
 
 "Must-Use" plugins are automatically activated. These plugins have more aggressive actions. Move their files to the /mu-plugins/ folder to activate them.
 
+* *Debug toolbar* : Display a debug toolbar for developers.
 * *Admin protect* : Adds a basic protection to the admin.
 * *Cache HTML* : Cache pages in files for a faster loading.
 * *Disable Comments* : Disable all comments. Usable in mu-plugins.

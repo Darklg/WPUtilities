@@ -8,24 +8,95 @@ include dirname( __FILE__ ) . '/z-protect.php';
 define( "THEME_URL", get_template_directory_uri() );
 define( 'PAGINATION_KIND', 'numbers' ); // load-more || numbers || default
 
+/* Pages IDs
+-------------------------- */
+
+$pages_ids = array(
+    'ABOUT__PAGE_ID' => 'about__page_id',
+    'MENTIONS__PAGE_ID' => 'mentions__page_id',
+);
+
+foreach ( $pages_ids as $constant => $option ) {
+    define( $constant, get_option( $option ) );
+}
+
+/* Menus
+-------------------------- */
+
+register_nav_menus( array(
+        'main' => __( 'Main menu', 'wputh' ),
+    ) );
+
+/* Post Types
+-------------------------- */
+
+add_filter( 'wputh_get_posttypes', 'wputh_set_theme_posttypes' );
+function wputh_set_theme_posttypes( $post_types ) {
+    $post_types = array(
+        'task' => array(
+            'name' => __( 'task', 'wputh' ),
+            'plural' => __( 'tasks', 'wputh' ),
+            'female' => 1
+        )
+    );
+    return $post_types;
+}
+
+/* Sidebars
+-------------------------- */
+
+register_sidebar( array(
+        'name' => __( 'Default Sidebar', 'wputh' ),
+        'id' => 'wputh-sidebar',
+        'description' => __( 'Default theme sidebar', 'wputh' ),
+        'before_title' => '<h3>',
+        'after_title' => '</h3>'
+    ) );
+
+/* Taxonomies
+-------------------------- */
+
+add_filter( 'wputh_get_taxonomies', 'wputh_set_theme_taxonomies' );
+function wputh_set_theme_taxonomies( $taxonomies ) {
+    $taxonomies = array(
+        'importance' => array(
+            'name' => __( 'Importance', 'wputh' )
+        )
+    );
+    return $taxonomies;
+}
+
+/* Thumbnails
+-------------------------- */
+
+// Default thumbnail size
+if ( function_exists( 'set_post_thumbnail_size' ) ) {
+    set_post_thumbnail_size( 1200, 1200 );
+}
+
+if ( function_exists( 'add_image_size' ) ) {
+    add_image_size( 'content-thumb', 300, 9999 );
+}
+
+/* ----------------------------------------------------------
+  Includes
+---------------------------------------------------------- */
+
 /* Theme
 -------------------------- */
 
 include get_template_directory() . '/inc/theme/params.php';
 include get_template_directory() . '/inc/theme/utilities.php';
+include get_template_directory() . '/inc/theme/shortcodes.php';
+include get_template_directory() . '/inc/theme/activation.php';
+
 if ( ! isset( $content_width ) ) $content_width = 680;
 
-
-/* Configuration
+/* Posts configuration
 -------------------------- */
 
-include get_template_directory() . '/inc/configuration/activation.php';
-include get_template_directory() . '/inc/configuration/taxonomies.php';
-include get_template_directory() . '/inc/configuration/post-types.php';
-include get_template_directory() . '/inc/configuration/sidebars.php';
-include get_template_directory() . '/inc/configuration/menus.php';
-include get_template_directory() . '/inc/configuration/thumbnails.php';
-include get_template_directory() . '/inc/configuration/shortcodes.php';
+include get_template_directory() . '/inc/theme/taxonomies.php';
+include get_template_directory() . '/inc/theme/post-types.php';
 
 /* Plugins Configuration
 -------------------------- */
@@ -52,18 +123,6 @@ add_action( 'after_setup_theme', 'wputh_setup' );
 
 function wputh_setup() {
     load_theme_textdomain( 'wputh', get_template_directory() . '/inc/lang' );
-}
-
-/* Pages IDs
--------------------------- */
-
-$pages_ids = array(
-    'ABOUT__PAGE_ID' => 'about__page_id',
-    'MENTIONS__PAGE_ID' => 'mentions__page_id',
-);
-
-foreach ( $pages_ids as $constant => $option ) {
-    define( $constant, get_option( $option ) );
 }
 
 /* Parameters

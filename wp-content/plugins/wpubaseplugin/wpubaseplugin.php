@@ -3,7 +3,7 @@
 Plugin Name: WPU Base Plugin
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: A framework for a WordPress plugin
-Version: 1.5
+Version: 1.5.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -61,7 +61,6 @@ class wpuBasePlugin {
             add_action( 'admin_notices', array( &$this, 'admin_notices' ) );
         }
     }
-
 
     /* ----------------------------------------------------------
       Admin
@@ -231,6 +230,17 @@ class wpuBasePlugin {
             }
             die;
         }
+    }
+
+    /* ----------------------------------------------------------
+      Utilities : Public
+    ---------------------------------------------------------- */
+
+    function public_message( $message = '' ) {
+        get_header();
+        echo '<div class="'.$this->options['id'].'-message">'.$message.'</div>';
+        get_footer();
+        exit();
     }
 
     /* ----------------------------------------------------------

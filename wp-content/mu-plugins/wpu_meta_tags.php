@@ -2,12 +2,16 @@
 /*
 Plugin Name: WPU Meta tags
 Description: Adds meta tags to the theme header
-Version: 0.1
+Version: 0.2
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
 License URI: http://opensource.org/licenses/MIT
 */
+
+/* ----------------------------------------------------------
+  Meta content & open graph
+---------------------------------------------------------- */
 
 add_action( 'wp_head', 'wpu_user_metas', 0 , 0 );
 
@@ -29,9 +33,13 @@ function wpu_user_metas() {
 
         // Meta description
         $meta_description = str_replace( array( "\n", "\t", '   ', '  ' ), ' ', trim( strip_tags( $post->post_content ) ) );
+        if ( strlen( $meta_description ) > 195 ) {
+            $meta_description = substr( $meta_description, 0, 190 ) . ' ...';
+        }
+
         $metas['description'] = array(
             'name' => 'description',
-            'content' => substr( $meta_description, 0, 200 ) . ' ...'
+            'content' => $meta_description
         );
         $metas['og_title'] = array(
             'property' => 'og:title',
@@ -64,6 +72,35 @@ function wpu_user_metas() {
         $metas['og_image'] = array(
             'property' => 'og:image',
             'content' => get_template_directory_uri() . '/screenshot.png'
+        );
+    }
+
+    foreach ( $metas as $values ) {
+        echo '<meta';
+        foreach ( $values as $name => $value ) {
+            echo ' '.$name.'="' . $value . '"';
+        }
+        echo ' />';
+    }
+}
+
+/* ----------------------------------------------------------
+  Robots tag
+---------------------------------------------------------- */
+
+add_action( 'wp_head', 'wpu_user_metas_robots', 1 , 0 );
+
+function wpu_user_metas_robots() {
+    global $post;
+    $metas = array();
+
+    $paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
+
+    // Disable indexation for archives pages after page 1 OR 404 page
+    if ( ( ( is_category() || is_tag() || is_author() || is_tax() ) && $paged > 1 ) || is_404() ) {
+        $metas['robots'] = array(
+            'name' => 'robots',
+            'content' => 'noindex, follow'
         );
     }
 

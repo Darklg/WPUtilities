@@ -24,6 +24,8 @@ body {
     margin-bottom: 10px;
 }
 
+.header__social a,
+.header__social li,
 .main-menu a,
 .main-menu li {
     display: inline-block;
@@ -32,17 +34,28 @@ body {
     *zoom: 1;
 }
 
+.header__social li,
 .main-menu li {
     margin-right: 10px;
 }
 
 @media(min-width:960px) {
+    .header__social {
+        float: right;
+    }
+
+    .header__social li {
+        margin-right: 0;
+        margin-left: 10px;
+    }
+
     .header-search {
         z-index: 1;
         position: absolute;
         top: 25px;
         left: 50%;
-        margin-left: 270px;
+        margin-left: 220px;
+        min-width: 250px;
         text-align: right;
     }
 }

@@ -13,6 +13,7 @@ if ( !isset( $_POST['is_ajax'] ) ) {
     <div>
     <?php include get_template_directory() . '/tpl/header/title.php'; ?>
     <?php include get_template_directory() . '/tpl/header/searchform.php'; ?>
+    <?php include get_template_directory() . '/tpl/header/social.php'; ?>
     <?php wp_nav_menu( array(
             'depth' => 1,
             'theme_location' => 'main',

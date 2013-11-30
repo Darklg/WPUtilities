@@ -3,7 +3,7 @@
 Plugin Name: WPU Post Metas
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Simple admin for post metas
-Version: 0.6.1
+Version: 0.6.2
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -64,7 +64,7 @@ class WPUPostMetas {
         $fields = $this->fields;
 
         $fields = $this->control_fields_datas( $fields );
-        $post_type = isset($_POST['post_type']) ? $_POST['post_type'] : 'post';
+        $post_type = isset( $_POST['post_type'] ) ? $_POST['post_type'] : 'post';
 
         // First we need to check if the current user is authorised to do this action.
         if ( 'page' == $post_type ) {
@@ -112,7 +112,12 @@ class WPUPostMetas {
         foreach ( $fields as $id => $field ) {
             if ( 'wputh_box_'.$field['box'] == $details['id'] ) {
 
-                $value = get_post_meta( $post->ID, $id, true );
+                $value = trim( get_post_meta( $post->ID, $id, true ) );
+                // If new post, try to load a default value
+                if ( isset( $field['default'], $post->post_title, $post->post_content ) && empty( $post->post_title ) && empty( $post->post_content ) && empty( $value ) ) {
+                    $value = $field['default'];
+                }
+
                 $idname = 'id="el_id_'.$id.'" name="'.$id.'"';
                 echo '<tr>';
                 echo '<td valign="top" style="width: 150px;"><label for="el_id_'.$id.'">'.$field['name'].' :</label></td>';
@@ -125,16 +130,16 @@ class WPUPostMetas {
                         'post_status' =>'any',
                         'post_parent' => $post->ID
                     );
-                    $attachments = get_posts($args);
-                    if ($attachments) {
+                    $attachments = get_posts( $args );
+                    if ( $attachments ) {
                         echo '<select '.$idname.'>';
                         foreach ( $attachments as $attachment ) {
-                            echo '<option value="'.$attachment->ID.'" '.($attachment->ID == $value ? 'selected="selected"' : '').'>'.apply_filters( 'the_title' , $attachment->post_title ).'</option>';
+                            echo '<option value="'.$attachment->ID.'" '.( $attachment->ID == $value ? 'selected="selected"' : '' ).'>'.apply_filters( 'the_title' , $attachment->post_title ).'</option>';
                         }
                         echo '</select>';
                     }
                     else {
-                        echo '<span>'.__('No attachments', 'wpupostmetas').'</span>';
+                        echo '<span>'.__( 'No attachments', 'wpupostmetas' ).'</span>';
                     }
                     break;
                 case 'email':
@@ -187,13 +192,13 @@ class WPUPostMetas {
         }
 
         $return = false;
-        $value = trim($_POST[$id]);
+        $value = trim( $_POST[$id] );
         switch ( $field['type'] ) {
         case 'attachment':
             $return = ctype_digit( $value ) ? $value : false;
             break;
         case 'email':
-            $return = ( filter_var( $value, FILTER_VALIDATE_EMAIL ) !== false || empty($value)) ? $value : false;
+            $return = ( filter_var( $value, FILTER_VALIDATE_EMAIL ) !== false || empty( $value ) ) ? $value : false;
             break;
         case 'select':
             $return = array_key_exists( $value, $field['datas'] ) ? $value : false;
@@ -205,7 +210,7 @@ class WPUPostMetas {
             $return = $value;
             break;
         case 'url':
-            $return = ( filter_var( $value, FILTER_VALIDATE_URL ) !== false || empty($value)) ? $value : false;
+            $return = ( filter_var( $value, FILTER_VALIDATE_URL ) !== false || empty( $value ) ) ? $value : false;
             break;
         default :
             $return = sanitize_text_field( $value );
@@ -290,10 +295,10 @@ class WPUPostMetas {
      * Load fields values
      */
     function load_fields() {
-        if (empty($this->boxes)) {
+        if ( empty( $this->boxes ) ) {
             $this->boxes = apply_filters( 'wputh_post_metas_boxes', array() );
         }
-        if (empty($this->fields)) {
+        if ( empty( $this->fields ) ) {
             $this->fields = apply_filters( 'wputh_post_metas_fields', array() );
         }
     }

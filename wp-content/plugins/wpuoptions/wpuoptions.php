@@ -2,7 +2,7 @@
 /*
 Plugin Name: WPU Options
 Plugin URI: http://github.com/Darklg/WPUtilities
-Version: 4.3.1
+Version: 4.3.2
 Description: Friendly interface for website options
 Author: Darklg
 Author URI: http://darklg.me/
@@ -337,6 +337,10 @@ class WPUOptions {
             $field = $this->get_field_datas( $field_version['id'], $field_version['field'] );
             $idname = ' id="' . $idf . '" name="' . $idf . '" ';
             $originalvalue = get_option( $field_version['prefix_opt'] . $field_version['id'] );
+            if ( $originalvalue === false && isset( $field['default_value'] ) && $this->test_field_value( $field, $field['default_value'] ) ) {
+                $originalvalue = $field['default_value'];
+                update_option( $field_version['prefix_opt'] . $field_version['id'], $field['default_value'] );
+            }
             $value = htmlspecialchars( $originalvalue, ENT_QUOTES, "UTF-8" );
 
             $content .= '<tr class="wpu-options-box">';

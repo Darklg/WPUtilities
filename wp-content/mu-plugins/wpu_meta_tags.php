@@ -2,19 +2,20 @@
 /*
 Plugin Name: WPU Meta tags
 Description: Adds meta tags to the theme header
-Version: 0.2
+Version: 0.3
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
 License URI: http://opensource.org/licenses/MIT
+Contributor: @boiteaweb
+Last Update: 07 dec. 2013
 */
 
 /* ----------------------------------------------------------
   Meta content & open graph
 ---------------------------------------------------------- */
 
-add_action( 'wp_head', 'wpu_user_metas', 0 , 0 );
-
+add_action( 'wp_head', 'wpu_user_metas', 0 );
 function wpu_user_metas() {
     global $post;
     $metas = array();
@@ -29,17 +30,10 @@ function wpu_user_metas() {
         'content' => 'blog'
     );
 
-    if ( is_single() ) {
-
-        // Meta description
-        $meta_description = str_replace( array( "\n", "\t", '   ', '  ' ), ' ', trim( strip_tags( $post->post_content ) ) );
-        if ( strlen( $meta_description ) > 195 ) {
-            $meta_description = substr( $meta_description, 0, 190 ) . ' ...';
-        }
-
+    if ( is_single() || is_page() ) {
         $metas['description'] = array(
             'name' => 'description',
-            'content' => $meta_description
+            'content' => wpu_user_metas_prepare_text( $post->post_content )
         );
         $metas['og_title'] = array(
             'property' => 'og:title',
@@ -49,17 +43,19 @@ function wpu_user_metas() {
             'property' => 'og:url',
             'content' => get_permalink()
         );
-        $metas['og_image'] = array(
-            'property' => 'og:image',
-            'content' => wputh_get_thumbnail_url( 'thumbnail' )
-        );
+        $thumb_url = wp_get_attachment_image_src( get_post_thumbnail_id(), 'thumbnail', true );
+        if ( isset( $thumb_url[0] ) ) {
+            $metas['og_image'] = array(
+                'property' => 'og:image',
+                'content' => $thumb_url[0]
+            );
+        }
     }
 
-    if ( is_home() ) {
-        $meta_description = get_bloginfo( 'description' );
+    if ( is_home() || is_front_page() ) {
         $metas['description'] = array(
             'name' => 'description',
-            'content' => substr( $meta_description, 0, 200 ) . ' ...'
+            'content' => wpu_user_metas_prepare_text( get_bloginfo( 'description' ), 200 )
         );
         $metas['og_title'] = array(
             'property' => 'og:title',
@@ -67,7 +63,7 @@ function wpu_user_metas() {
         );
         $metas['og_url'] = array(
             'property' => 'og:url',
-            'content' => site_url()
+            'content' => home_url()
         );
         $metas['og_image'] = array(
             'property' => 'og:image',
@@ -75,13 +71,7 @@ function wpu_user_metas() {
         );
     }
 
-    foreach ( $metas as $values ) {
-        echo '<meta';
-        foreach ( $values as $name => $value ) {
-            echo ' '.$name.'="' . $value . '"';
-        }
-        echo ' />';
-    }
+    echo wpu_user_metas_convert_array_html( $metas );
 }
 
 /* ----------------------------------------------------------
@@ -91,24 +81,51 @@ function wpu_user_metas() {
 add_action( 'wp_head', 'wpu_user_metas_robots', 1 , 0 );
 
 function wpu_user_metas_robots() {
-    global $post;
     $metas = array();
 
-    $paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
-
-    // Disable indexation for archives pages after page 1 OR 404 page
-    if ( ( ( is_category() || is_tag() || is_author() || is_tax() ) && $paged > 1 ) || is_404() ) {
+    // Disable indexation for archives pages after page 1 OR 404 page OR paginated comments
+    if ( ( is_paged() && ( is_category() || is_tag() || is_author() || is_tax() ) ) ||
+        is_404() ||
+        ( comments_open() && (int) get_query_var( 'cpage' ) > 0 )
+    ) {
         $metas['robots'] = array(
             'name' => 'robots',
             'content' => 'noindex, follow'
         );
     }
 
-    foreach ( $metas as $values ) {
-        echo '<meta';
-        foreach ( $values as $name => $value ) {
-            echo ' '.$name.'="' . $value . '"';
-        }
-        echo ' />';
+    echo wpu_user_metas_convert_array_html( $metas );
+}
+
+/* ----------------------------------------------------------
+  Utilities
+---------------------------------------------------------- */
+
+/* Prepare meta description
+-------------------------- */
+
+function wpu_user_metas_prepare_text( $text, $length = 200 ) {
+    $text = strip_shortcodes( $text );
+    $text = strip_tags( $text );
+    $text = preg_replace( "/\s+/", ' ', $text );
+    $text = trim( $text );
+    if ( strlen( $text ) > 195 ) {
+        $text = substr( $text, 0, 190 ) . ' &hellip;';
     }
+    return $text;
+}
+
+/* Convert an array of metas to HTML
+-------------------------- */
+
+function wpu_user_metas_convert_array_html( $metas ) {
+    $html = '';
+    foreach ( $metas as $values ) {
+        $html .= '<meta';
+        foreach ( $values as $name => $value ) {
+            $html .= sprintf( ' %s="%s"', $name, esc_attr( $value ) );
+        }
+        $html .= ' />';
+    }
+    return $html;
 }

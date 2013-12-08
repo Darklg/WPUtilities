@@ -2,7 +2,7 @@
 /*
 Plugin Name: WPU Options
 Plugin URI: http://github.com/Darklg/WPUtilities
-Version: 4.3.2
+Version: 4.4
 Description: Friendly interface for website options
 Author: Darklg
 Author URI: http://darklg.me/
@@ -288,11 +288,14 @@ class WPUOptions {
                 }
             }
             if ( !empty( $content_tmp ) ) {
+                $content .= '<div class="wpu-options-form__box">';
                 // Adding box name if available
-                if ( !empty( $box['name'] ) ) {
-                    $content .= '<h3>'.$box['name'].'</h3>';
+                if ( empty( $box['name'] ) ) {
+                    $box['name'] = ucfirst( $idbox );
                 }
-                $content .= '<table style="table-layout:fixed;width:650px;margin-top:20px;">'.$content_tmp.'</table>';
+                $content .= '<h3 class="wpu-options-form__title">'.$box['name'].'</h3>';
+                $content .= '<table style="table-layout:fixed;width:670px;margin-top:20px;border-spacing:5px">'.$content_tmp.'</table>';
+                $content .= '</div>';
             }
         }
         $content .= '<ul><li><input class="button button-primary" name="plugin_ok" value="' . __( 'Update', 'wpuoptions' ) . '" type="submit" /></li></ul>';
@@ -344,12 +347,14 @@ class WPUOptions {
             $value = htmlspecialchars( $originalvalue, ENT_QUOTES, "UTF-8" );
 
             $content .= '<tr class="wpu-options-box">';
-            $content .= '<td style="vertical-align:top;width: 150px;"><label for="' . $field_version['prefix_opt'] . $idf . '">' . $field_version['prefix_label'] . $field['label'] . ' : </label></td>';
+            $content .= '<td style="vertical-align:top;width: 150px;"><label for="' . $idf . '">' . $field_version['prefix_label'] . $field['label'] . ' : </label></td>';
             $content .= '<td>';
             switch ( $field['type'] ) {
             case 'editor':
                 ob_start();
-                wp_editor( $originalvalue, $idf );
+                wp_editor( $originalvalue, $idf, array(
+                        'textarea_rows' => 7
+                    ) );
                 $content .= ob_get_clean();
                 break;
             case 'media':

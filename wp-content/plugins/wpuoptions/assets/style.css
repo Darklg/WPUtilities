@@ -1,6 +1,14 @@
 @charset "UTF-8";
 
 /* ----------------------------------------------------------
+  Form
+---------------------------------------------------------- */
+
+.wpu-options-form {
+    padding-top: 20px;
+}
+
+/* ----------------------------------------------------------
   Upload media
 ---------------------------------------------------------- */
 
@@ -11,6 +19,42 @@
     margin-bottom: 5px;
     max-height: 140px;
     max-width: 170px;
+}
+
+/* ----------------------------------------------------------
+  Toggle boxes
+---------------------------------------------------------- */
+
+.wpu-options-form__box {
+    margin-bottom: 10px;
+}
+
+.wpu-options-form__box.is-closed {
+    outline: 1px solid transparent;
+}
+
+.wpu-options-form__title {
+    margin-top: 0;
+    cursor: pointer;
+}
+
+.wpu-options-form__title:after {
+    content: '▼';
+    margin: 0 5px;
+    font-size: 10px;
+    color: #999;
+}
+
+.is-closed > .wpu-options-form__title:after {
+    content: '▶';
+}
+
+.is-closed > .wpu-options-form__title:hover:after {
+    color: #333;
+}
+
+.wpu-options-form__box.is-closed > table {
+    display: none;
 }
 
 /* ----------------------------------------------------------

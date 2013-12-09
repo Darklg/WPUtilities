@@ -29,10 +29,6 @@
     margin-bottom: 10px;
 }
 
-.wpu-options-form__box.is-closed {
-    outline: 1px solid transparent;
-}
-
 .wpu-options-form__title {
     margin-top: 0;
     cursor: pointer;
@@ -43,6 +39,10 @@
     margin: 0 5px;
     font-size: 10px;
     color: #999;
+}
+
+.is-closed > .wpu-options-form__title {
+    color: #888;
 }
 
 .is-closed > .wpu-options-form__title:after {

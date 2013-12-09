@@ -35,13 +35,17 @@ var wputh_options_set_media = function() {
         // When an image is selected, run a callback.
         wpuopt_file_frame.on('select', function() {
             // We set multiple to false so only get one image from the uploader
-            attachment = wpuopt_file_frame.state().get('selection').first().toJSON();
+            var attachment = wpuopt_file_frame.state().get('selection').first().toJSON(),
+                $preview = jQuery('#preview-' + wpuopt_datafor);
 
             // Set attachment ID
             jQuery('#' + wpuopt_datafor).attr('value', attachment.id);
 
             // Set preview image
-            jQuery('#preview-' + wpuopt_datafor).html('<img class="wpu-options-upload-preview" src="' + attachment.url + '" />');
+            $preview.html('<img class="wpu-options-upload-preview" src="' + attachment.url + '" />');
+
+            // Change button label
+            $this.html($preview.attr('data-label'));
 
         });
 

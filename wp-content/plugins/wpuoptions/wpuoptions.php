@@ -2,7 +2,7 @@
 /*
 Plugin Name: WPU Options
 Plugin URI: http://github.com/Darklg/WPUtilities
-Version: 4.4
+Version: 4.4.1
 Description: Friendly interface for website options
 Author: Darklg
 Author URI: http://darklg.me/
@@ -360,15 +360,16 @@ class WPUOptions {
             case 'media':
                 $img = '';
                 $btn_label = __( 'Add a picture', 'wpuoptions' );
+                $btn_edit_label = __( 'Change this picture', 'wpuoptions' );
                 if ( is_numeric( $value ) ) {
                     $image = wp_get_attachment_image_src( $value, 'big' );
                     if ( isset( $image[0] ) ) {
                         $img = '<img class="wpu-options-upload-preview" src="'.$image[0]. '" alt="" />';
-                        $btn_label = __( 'Change this picture', 'wpuoptions' );
+                        $btn_label = $btn_edit_label;
                     }
                 }
 
-                $content .= '<div id="preview-'.$idf.'">'.$img.'</div>'.
+                $content .= '<div data-label="'.$btn_edit_label.'" id="preview-'.$idf.'">'.$img.'</div>'.
                     '<a href="#" data-for="'.$idf.'" class="button button-small wpuoptions_add_media">'.$btn_label.'</a>'.
                     '<input type="hidden" ' . $idname . ' value="' . $value . '" />';
                 break;

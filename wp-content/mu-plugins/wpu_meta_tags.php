@@ -2,7 +2,7 @@
 /*
 Plugin Name: WPU Meta tags
 Description: Adds meta tags to the theme header
-Version: 0.3
+Version: 0.3.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -104,13 +104,13 @@ function wpu_user_metas_robots() {
 /* Prepare meta description
 -------------------------- */
 
-function wpu_user_metas_prepare_text( $text, $length = 200 ) {
+function wpu_user_metas_prepare_text( $text, $max_length = 200 ) {
     $text = strip_shortcodes( $text );
     $text = strip_tags( $text );
     $text = preg_replace( "/\s+/", ' ', $text );
     $text = trim( $text );
-    if ( strlen( $text ) > 195 ) {
-        $text = substr( $text, 0, 190 ) . ' &hellip;';
+    if ( strlen( $text ) > $max_length ) {
+        $text = substr( $text, 0, $max_length - 5 ) . ' &hellip;';
     }
     return $text;
 }

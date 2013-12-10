@@ -2,7 +2,7 @@
 /*
 Plugin Name: WPU UX Tweaks
 Description: Adds UX enhancement & tweaks to WordPress
-Version: 0.1
+Version: 0.2
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -56,7 +56,13 @@ function wpu_bad_formed_links( $content ) {
 ---------------------------------------------------------- */
 
 add_filter( 'sanitize_file_name', 'remove_accents' );
-add_filter( 'sanitize_file_name', 'strtolower' );
+add_filter( 'sanitize_file_name', 'wputh_uxt_clean_filename' );
+
+function wputh_uxt_clean_filename( $string ) {
+    $string = strtolower( $string );
+    $string = preg_replace( '/[^a-z0-9-_\.]+/', '', $string );
+    return $string;
+}
 
 /* ----------------------------------------------------------
   Set media select to uploaded : http://wordpress.stackexchange.com/a/76213

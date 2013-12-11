@@ -3,7 +3,7 @@
 Plugin Name: WPU Base Plugin
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: A framework for a WordPress plugin
-Version: 1.5.1
+Version: 1.5.2
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -91,7 +91,7 @@ class wpuBasePlugin {
         echo $this->get_wrapper_start( $this->options['name'] );
 
         // Content
-        echo '<p>'.__( 'Content', $this->options['id'] ).'</p>';
+        echo '<p>'.$this->__( 'Content' ).'</p>';
 
         // Default Form
         echo '<form action="" method="post"><div>';
@@ -241,6 +241,14 @@ class wpuBasePlugin {
         echo '<div class="'.$this->options['id'].'-message">'.$message.'</div>';
         get_footer();
         exit();
+    }
+
+    /* ----------------------------------------------------------
+      Utilities : Translate
+    ---------------------------------------------------------- */
+
+    function __( $string ) {
+        return __( $string, $this->options['id'] );
     }
 
     /* ----------------------------------------------------------

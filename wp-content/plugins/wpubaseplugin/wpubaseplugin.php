@@ -3,7 +3,7 @@
 Plugin Name: WPU Base Plugin
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: A framework for a WordPress plugin
-Version: 1.5.2
+Version: 1.6
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -26,8 +26,8 @@ class wpuBasePlugin {
         $this->data_table = $wpdb->prefix.$this->options['id']."_table";
         load_plugin_textdomain( $this->options['id'], false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
         // Allow translation for plugin name
-        $this->options['name'] = __( 'Base Plugin', $this->options['id'] );
-        $this->options['menu_name'] = __( 'Base', $this->options['id'] );
+        $this->options['name'] = $this->__( 'Base Plugin' );
+        $this->options['menu_name'] = $this->__( 'Base' );
     }
 
     /* ----------------------------------------------------------
@@ -36,9 +36,15 @@ class wpuBasePlugin {
 
     function __construct() {
         $this->set_options();
-        $this->set_public_hooks();
+    }
+
+    function init() {
+        $this->set_global_hooks();
         if ( is_admin() ) {
             $this->set_admin_hooks();
+        }
+        else {
+            $this->set_public_hooks();
         }
     }
 
@@ -46,11 +52,16 @@ class wpuBasePlugin {
       Hooks
     ---------------------------------------------------------- */
 
-    function set_public_hooks() {
+    private function set_global_hooks() {
 
     }
 
-    function set_admin_hooks() {
+
+    private function set_public_hooks() {
+
+    }
+
+    private function set_admin_hooks() {
         add_action( 'admin_menu', array( &$this, 'set_admin_menu' ) );
         add_action( 'admin_bar_menu', array( &$this, 'set_adminbar_menu' ), 100 );
         add_action( 'wp_dashboard_setup', array( &$this, 'add_dashboard_widget' ) );
@@ -96,7 +107,7 @@ class wpuBasePlugin {
         // Default Form
         echo '<form action="" method="post"><div>';
         wp_nonce_field( 'action-main-form', 'action-main-form-'.$this->options['id'] );
-        echo '<button class="button-primary" type="submit">'.__( 'Submit', $this->options['id'] ).'</button>';
+        echo '<button class="button-primary" type="submit">'.$this->__( 'Submit' ).'</button>';
         echo '</div></form>';
 
         echo $this->get_wrapper_end();
@@ -128,7 +139,7 @@ class wpuBasePlugin {
     ---------------------------------------------------------- */
 
     /* Display notices */
-    function admin_notices() {
+    private function admin_notices() {
         $return = '';
         if ( !empty( $this->messages ) ) {
             foreach ( $this->messages as $message ) {
@@ -154,6 +165,7 @@ class wpuBasePlugin {
     ---------------------------------------------------------- */
 
     function activate() {
+        global $wpdb;
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         // Create or update table search
         dbDelta( "CREATE TABLE ".$this->data_table." (
@@ -177,7 +189,7 @@ class wpuBasePlugin {
       Utilities : Requests
     ---------------------------------------------------------- */
 
-    function get_pager_limit( $perpage, $tablename = '' ) {
+    private function get_pager_limit( $perpage, $tablename = '' ) {
         global $wpdb;
 
         // Ensure good format for table name
@@ -219,7 +231,7 @@ class wpuBasePlugin {
       Utilities : Export
     ---------------------------------------------------------- */
 
-    function export_array_to_csv( $array, $name ) {
+    private function export_array_to_csv( $array, $name ) {
         if ( isset( $array[0] ) ) {
             header( 'Content-Type: application/csv' );
             header( 'Content-Disposition: attachment; filename=export-list-'.$name.'-'.date( 'y-m-d' ).'.csv' );
@@ -236,7 +248,7 @@ class wpuBasePlugin {
       Utilities : Public
     ---------------------------------------------------------- */
 
-    function public_message( $message = '' ) {
+    private function public_message( $message = '' ) {
         get_header();
         echo '<div class="'.$this->options['id'].'-message">'.$message.'</div>';
         get_footer();
@@ -255,15 +267,15 @@ class wpuBasePlugin {
       Utilities : Display
     ---------------------------------------------------------- */
 
-    function get_wrapper_start( $title ) {
+    private function get_wrapper_start( $title ) {
         return '<div class="wrap"><div id="icon-options-general" class="icon32"></div><h2 class="title">'.$title.'</h2><br />';
     }
 
-    function get_wrapper_end() {
+    private function get_wrapper_end() {
         return '</div>';
     }
 
-    function get_admin_table( $values, $args = array() ) {
+    private function get_admin_table( $values, $args = array() ) {
         $pagination = '';
         if ( isset( $args['pagenum'], $args['max_pages'] ) ) {
             $page_links = paginate_links( array(
@@ -303,9 +315,15 @@ class wpuBasePlugin {
 
 }
 
-$wpuBasePlugin = new wpuBasePlugin();
+$wpuBasePlugin = false;
+add_action( 'init', 'init_wpuBasePlugin' );
+function init_wpuBasePlugin() {
+    global $wpuBasePlugin;
+    $wpuBasePlugin = new wpuBasePlugin();
+    $wpuBasePlugin->init();
+}
 
-/* External activation hook */
-
-register_activation_hook( __FILE__, array( &$wpuBasePlugin, 'activate' ) );
-register_deactivation_hook( __FILE__, array( &$wpuBasePlugin, 'deactivate' ) );
+/* Limited launch for activation/deactivation hook */
+$temp_wpuBasePlugin = new wpuBasePlugin();
+register_activation_hook( __FILE__, array( &$temp_wpuBasePlugin, 'activate' ) );
+register_deactivation_hook( __FILE__, array( &$temp_wpuBasePlugin, 'deactivate' ) );

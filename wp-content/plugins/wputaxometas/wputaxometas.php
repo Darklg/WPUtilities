@@ -3,7 +3,7 @@
 Plugin Name: WPU Taxo Metas
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Simple admin for taxo metas
-Version: 0.1
+Version: 0.2
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -29,9 +29,11 @@ class WPUTaxoMetas {
 
         // Add hook to edit category
         foreach ( $taxonomies as $taxo ) {
-            add_action ( 'edit_'.$taxo.'_form_fields', array( &$this, 'extra_taxo_field' ) );
-            add_action ( 'edited_'.$taxo, array( &$this, 'save_extra_taxo_field' ) );
-
+            $taxonomy = get_taxonomy( $taxo );
+            if ( current_user_can( $taxonomy->cap->edit_terms ) ) {
+                add_action ( 'edit_'.$taxo.'_form_fields', array( &$this, 'extra_taxo_field' ) );
+                add_action ( 'edited_'.$taxo, array( &$this, 'save_extra_taxo_field' ) );
+            }
         }
     }
 
@@ -55,12 +57,10 @@ class WPUTaxoMetas {
         $term_meta = get_option( "wpu_taxometas_term_" . $t_id );
         foreach ( $this->fields as $id => $field ) {
             if ( in_array( $tag->taxonomy, $field['taxonomies'] ) ) {
-
                 // Set value
-                $value = $origvalue = '';
+                $value = '';
                 if ( isset( $term_meta[$id] ) ) {
-                    $origvalue = stripslashes( $term_meta[$id] );
-                    $value = esc_html( $origvalue );
+                    $value = stripslashes( $term_meta[$id] );
                 }
 
                 // Set ID / Name
@@ -72,23 +72,23 @@ class WPUTaxoMetas {
                 echo '<td>';
                 switch ( $field['type'] ) {
                 case 'textarea':
-                    echo '<textarea rows="5" cols="50" '.$idname.'>'.$value.'</textarea>';
+                    echo '<textarea rows="5" cols="50" '.$idname.'>'.esc_textarea( $value ).'</textarea>';
                     break;
                 case 'editor':
-                    wp_editor( $origvalue, $htmlid, array(
+                    wp_editor( $value, $htmlid, array(
                             'textarea_name' => $htmlname,
                             'textarea_rows' => 5
                         ) );
                     break;
                 case 'email':
                 case 'url':
-                    echo '<input type="email" '.$idname.' value="'.$value.'">';
+                    echo '<input type="'.$field['type'].'" '.$idname.' value="'.esc_attr( $value ).'">';
                     break;
                 default :
-                    echo '<input type="'.$field['type'].'" '.$idname.' value="'.$value.'">';
+                    echo '<input type="text" '.$idname.' value="'.esc_attr( $value ).'">';
                 }
                 if ( isset( $field['description'] ) ) {
-                    echo '<br /><span class="description">'.$field['description'].'</span>';
+                    echo '<br /><span class="description">'.esc_html( $field['description'] ).'</span>';
                 }
                 echo '</td></tr>';
 

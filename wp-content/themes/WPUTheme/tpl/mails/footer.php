@@ -1,5 +1,6 @@
 <!-- Main Content end -->
 </td><td width="10"></td></tr>
+<tr><td colspan="3" height="10"></td></tr>
 </table>
 <!-- Main Container end -->
 </td></tr>

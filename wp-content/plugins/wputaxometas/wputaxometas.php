@@ -3,7 +3,7 @@
 Plugin Name: WPU Taxo Metas
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Simple admin for taxo metas
-Version: 0.2
+Version: 0.2.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -38,13 +38,16 @@ class WPUTaxoMetas {
     }
 
     function save_extra_taxo_field( $t_id ) {
+        global $taxonomy;
         if ( isset( $_POST['term_meta'] ) ) {
             $cat_meta = get_option( "wpu_taxometas_term_" . $t_id );
             if ( !is_array( $cat_meta ) ) {
                 $cat_meta = array();
             }
             foreach ( $_POST['term_meta'] as $key => $var ) {
-                $cat_meta[$key] = $var;
+                if ( isset( $this->fields[$key] ) && isset( $taxonomy ) && in_array( $taxonomy, $this->fields[$key]['taxonomies'] ) ) {
+                    $cat_meta[$key] = $var;
+                }
             }
 
             //save the option array

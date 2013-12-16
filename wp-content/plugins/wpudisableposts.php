@@ -3,7 +3,7 @@
 Plugin Name: WPU disable posts
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Disable all posts
-Version: 0.2
+Version: 0.3
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -46,4 +46,33 @@ function wputh_disable_posts_pages() {
 add_action( 'template_redirect', 'wputh_disable_posts_rss_feeds' );
 function wputh_disable_posts_rss_feeds() {
     remove_action( 'wp_head', 'feed_links', 2 );
+}
+
+/* ----------------------------------------------------------
+  Disable post single view
+---------------------------------------------------------- */
+
+add_action( 'template_redirect', 'wputh_disable_posts_check_single' );
+function wputh_disable_posts_check_single() {
+    if ( is_singular( 'post' ) ) {
+        wp_redirect( site_url() );
+        die;
+    }
+}
+
+/* ----------------------------------------------------------
+  Disable RSS feed for posts
+---------------------------------------------------------- */
+
+add_action( 'do_feed', 'wputh_disable_posts_disable_feed', 1 );
+add_action( 'do_feed_rdf', 'wputh_disable_posts_disable_feed', 1 );
+add_action( 'do_feed_rss', 'wputh_disable_posts_disable_feed', 1 );
+add_action( 'do_feed_rss2', 'wputh_disable_posts_disable_feed', 1 );
+add_action( 'do_feed_atom', 'wputh_disable_posts_disable_feed', 1 );
+
+function wputh_disable_posts_disable_feed() {
+    global $post;
+    if ( isset( $post->post_type ) && $post->post_type == 'post' ) {
+        wp_die( __( 'Our RSS feed is disabled. Please <a href="'.site_url().'">visit our homepage</a>.' ) );
+    }
 }

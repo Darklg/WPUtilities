@@ -3,7 +3,7 @@
 Plugin Name: WPU Base Plugin
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: A framework for a WordPress plugin
-Version: 1.6
+Version: 1.6.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -173,7 +173,7 @@ class wpuBasePlugin {
             `date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             `value` varchar(100) DEFAULT NULL,
             PRIMARY KEY (`id`)
-        );" );
+        ) DEFAULT CHARSET=utf8;" );
     }
 
     function deactivate() {

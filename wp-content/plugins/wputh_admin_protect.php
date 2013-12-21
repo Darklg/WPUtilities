@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Utilities admin protect
 Description: Restrictive options for WordPress admin
-Version: 0.2
+Version: 0.2.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -17,7 +17,7 @@ if ( !defined( 'ABSPATH' ) ) {
   Levels
 ---------------------------------------------------------- */
 
-define( 'WPUTH_ADMIN_MAX_LVL', 'update_options' );
+define( 'WPUTH_ADMIN_MAX_LVL', 'manage_options' );
 define( 'WPUTH_ADMIN_MIN_LVL', 'manage_categories' );
 
 /* ----------------------------------------------------------

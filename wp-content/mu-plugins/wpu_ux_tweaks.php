@@ -2,7 +2,7 @@
 /*
 Plugin Name: WPU UX Tweaks
 Description: Adds UX enhancement & tweaks to WordPress
-Version: 0.2
+Version: 0.3
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -12,7 +12,6 @@ License URI: http://opensource.org/licenses/MIT
 if ( !defined( 'ABSPATH' ) ) {
     exit();
 }
-
 
 /* ----------------------------------------------------------
   Clean head
@@ -109,4 +108,27 @@ function wpu_redirect_only_result_search() {
             wp_redirect( get_permalink( $wp_query->post ) );
         }
     }
+}
+
+/* ----------------------------------------------------------
+  Configure mail from & name
+---------------------------------------------------------- */
+
+add_filter( 'wp_mail_from', 'wpu_new_mail_from' );
+function wpu_new_mail_from( $email ) {
+    $new_email = get_option( 'wpu_opt_email' );
+    if ( !empty( $new_email ) && $new_email !== false ) {
+        $email = $new_email;
+    }
+
+    return $email;
+}
+
+add_filter( 'wp_mail_from_name', 'wpu_new_mail_from_name' );
+function wpu_new_mail_from_name( $name ) {
+    $new_email_name = get_option( 'wpu_opt_email_name' );
+    if ( !empty( $new_email_name ) && $new_email_name !== false ) {
+        $name = $new_email_name;
+    }
+    return $name;
 }

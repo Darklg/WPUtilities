@@ -1,7 +1,12 @@
 <?php
 include dirname( __FILE__ ) . '/z-protect.php';
 get_header();
-$shown_title = wputh_get_shown_title();
+
+$shown_title = wp_title( "", false );
+if ( function_exists( 'wputh_get_displayed_title' ) ) {
+    $shown_title = wputh_get_displayed_title();
+}
+
 echo '<div class="main-content">';
 echo '<h1>'.$shown_title.'</h1>';
 if ( is_year() || is_month() || is_day() ) {

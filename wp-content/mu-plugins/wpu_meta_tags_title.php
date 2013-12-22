@@ -1,8 +1,8 @@
 <?php
 /*
-Plugin Name: WPU Meta tags
-Description: Adds meta tags to the theme header
-Version: 0.3.1
+Plugin Name: WPU Meta tags & title
+Description: Adds meta tags & better page title
+Version: 0.4
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -10,6 +10,63 @@ License URI: http://opensource.org/licenses/MIT
 Contributor: @boiteaweb
 Last Update: 07 dec. 2013
 */
+
+/* ----------------------------------------------------------
+  Page Title
+---------------------------------------------------------- */
+
+add_filter( 'wp_title', 'wputh_wp_title', 10, 2 );
+function wputh_wp_title( $title, $sep ) {
+    $spaced_sep = ' ' . $sep . ' ';
+    $new_title = '';
+    // Home : Exception for order
+    if ( is_home() ) {
+        return get_bloginfo( 'name' ) . $spaced_sep . get_bloginfo( 'description' );
+    }
+    $new_title = wputh_get_displayed_title();
+
+    // Return new title with site name at the end
+    return $new_title . $spaced_sep . get_bloginfo( 'name' );
+}
+
+function wputh_get_displayed_title() {
+    global $post;
+    if ( is_singular() ) {
+        $displayed_title = get_the_title();
+    }
+    if ( is_tax() ) {
+        $displayed_title = single_cat_title( "", false );
+    }
+    if ( is_search() ) {
+        $displayed_title = sprintf( __( 'Search results for "%s"', 'wputh' ),  get_search_query() );
+    }
+    if ( is_404() ) {
+        $displayed_title =  __( '404 Error', 'wputh' );
+    }
+    if ( is_archive() ) {
+        $displayed_title = __( 'Archive', 'wputh' );
+    }
+    if ( is_tag() ) {
+        $displayed_title = __( 'Tag:', 'wputh' ) . ' ' . single_tag_title( "", false );
+    }
+    if ( is_category() ) {
+        $displayed_title = __( 'Category:', 'wputh' ) . ' ' . single_cat_title( "", false );
+    }
+    if ( is_author() ) {
+        $curauth = ( isset( $_GET['author_name'] ) ) ? get_user_by( 'slug', $author_name ) : get_userdata( intval( $author ) );
+        $displayed_title = __( 'Author:', 'wputh' ) . ' ' . $curauth->nickname;
+    }
+    if ( is_year() ) {
+        $displayed_title = __( 'Year:', 'wputh' ) . ' ' . get_the_time( __( 'Y', 'wputh' ) );
+    }
+    if ( is_month() ) {
+        $displayed_title = __( 'Month:', 'wputh' ) . ' ' . get_the_time( __( 'F Y', 'wputh' ) );
+    }
+    if ( is_day() ) {
+        $displayed_title = __( 'Day:', 'wputh' ) . ' ' . get_the_time( __( 'F j, Y', 'wputh' ) );
+    }
+    return $displayed_title;
+}
 
 /* ----------------------------------------------------------
   Meta content & open graph
@@ -53,9 +110,16 @@ function wpu_user_metas() {
     }
 
     if ( is_home() || is_front_page() ) {
+
+        $home_meta_description = trim( get_bloginfo( 'description' ) );
+        $wpu_description = trim( get_option( 'wpu_home_meta_description' ) );
+        if ( !empty( $wpu_description ) ) {
+            $home_meta_description = $wpu_description;
+        }
+
         $metas['description'] = array(
             'name' => 'description',
-            'content' => wpu_user_metas_prepare_text( get_bloginfo( 'description' ), 200 )
+            'content' => wpu_user_metas_prepare_text( $home_meta_description, 200 )
         );
         $metas['og_title'] = array(
             'property' => 'og:title',

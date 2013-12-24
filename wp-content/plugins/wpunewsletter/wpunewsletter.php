@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Utilities Newsletter
 Description: Allow subscriptions to a newsletter.
-Version: 1.3.6
+Version: 1.3.7
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -321,7 +321,7 @@ function wpunewsletter_confirm_address() {
                 )
             );
             if ( $update !== FALSE ) {
-                $message = __( "Your subscription has been successfully confirmed", 'wpunewsletter' );
+                $message = apply_filters( 'wpunewsletter_successmsg', __( "Your subscription has been successfully confirmed", 'wpunewsletter' ) );
             }
         }
 

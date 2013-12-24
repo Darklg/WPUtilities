@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Utilities Newsletter
 Description: Allow subscriptions to a newsletter.
-Version: 1.3.5
+Version: 1.3.6
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -94,7 +94,7 @@ function wpunewsletter_page() {
         echo '<form action="" method="post">';
         // - Display results
         echo '<table class="widefat">';
-        $cols = '<tr><th><input type="checkbox" class="wpunewsletter_element_check" name="wpunewsletter_element_check" /></th><th>'.__( 'ID', 'wpunewsletter' ).'</th><th>'.__( 'Email', 'wpunewsletter' ).'</th><th>'.__( 'Date', 'wpunewsletter' ).'</th></tr>';
+        $cols = '<tr><th><input type="checkbox" class="wpunewsletter_element_check" name="wpunewsletter_element_check" /></th><th>'.__( 'ID', 'wpunewsletter' ).'</th><th>'.__( 'Email', 'wpunewsletter' ).'</th><th>'.__( 'Locale', 'wpunewsletter' ).'</th><th>'.__( 'Date', 'wpunewsletter' ).'</th></tr>';
         echo '<thead>'.$cols.'</thead>';
         echo '<tfoot>'.$cols.'</tfoot>';
         foreach ( $results as $result ) {
@@ -102,6 +102,7 @@ function wpunewsletter_page() {
         <td style="width: 15px; text-align: right;"><input type="checkbox" class="wpunewsletter_element" name="wpunewsletter_element[]" value="'.$result->id.'" /></td>
         <td>'.$result->id.'</td>
         <td>'.$result->email.'</td>
+        <td>'.$result->locale.'</td>
         <td>'.$result->date_register.'</td>
         </tr></tbody>';
         }
@@ -257,6 +258,7 @@ function wpunewsletter_postaction() {
                 $table_name,
                 array(
                     'email' => $_POST['wpunewsletter_email'],
+                    'locale' => get_locale(),
                     'secretkey' => $secretkey
                 )
             );
@@ -345,6 +347,7 @@ function wpunewsletter_activate() {
     dbDelta( "CREATE TABLE ".$table_name." (
         `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
         `email` varchar(100) DEFAULT NULL,
+        `locale` varchar(20) DEFAULT NULL,
         `secretkey` varchar(100) DEFAULT NULL,
         `date_register` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         `is_valid` tinyint(1) unsigned DEFAULT '0' NOT NULL,

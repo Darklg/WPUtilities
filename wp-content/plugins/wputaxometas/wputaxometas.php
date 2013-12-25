@@ -3,7 +3,7 @@
 Plugin Name: WPU Taxo Metas
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Simple admin for taxo metas
-Version: 0.2.2
+Version: 0.3
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -19,6 +19,9 @@ class WPUTaxoMetas {
     }
 
     function set_admin_hooks() {
+        // Load assets
+        add_action( 'admin_enqueue_scripts', array( &$this, 'load_assets' ) );
+
         $taxonomies = array();
         // Extract taxonomies
         foreach ( $this->fields as $id => $field ) {
@@ -35,6 +38,12 @@ class WPUTaxoMetas {
                 add_action ( 'edited_'.$taxo, array( &$this, 'save_extra_taxo_field' ) );
             }
         }
+    }
+
+    function load_assets() {
+        wp_enqueue_media();
+        wp_enqueue_script( 'wputaxometas_scripts', plugins_url( '/assets/global.js', __FILE__ ) );
+        wp_enqueue_style( 'wputaxometas_style', plugins_url( 'assets/style.css', __FILE__ ) );
     }
 
     function save_extra_taxo_field( $t_id ) {
@@ -71,17 +80,32 @@ class WPUTaxoMetas {
                 $htmlid = 'term_meta_'.$id;
                 $idname = 'name="'.$htmlname.'" id="'.$htmlid.'"';
 
-                echo '<tr class="form-field"><th scope="row" valign="top"><label for="'.$htmlid.'">'.$field['label'].'</label></th>';
+                echo '<tr class="form-field wpu-taxometas-form"><th scope="row" valign="top"><label for="'.$htmlid.'">'.$field['label'].'</label></th>';
                 echo '<td>';
                 switch ( $field['type'] ) {
-                case 'textarea':
-                    echo '<textarea rows="5" cols="50" '.$idname.'>'.esc_textarea( $value ).'</textarea>';
+                case 'attachment':
+                    $img = '';
+                    $btn_label = __( 'Add a picture', 'wputaxometas' );
+                    $btn_edit_label = __( 'Change this picture', 'wputaxometas' );
+                    if ( is_numeric( $value ) ) {
+                        $image = wp_get_attachment_image_src( $value, 'big' );
+                        if ( isset( $image[0] ) ) {
+                            $img = '<img class="wpu-taxometas-upload-preview" src="'.$image[0]. '" alt="" />';
+                            $btn_label = $btn_edit_label;
+                        }
+                    }
+                    echo '<div data-label="'.$btn_edit_label.'" id="preview-'.$htmlid.'">'.$img.'</div>'.
+                        '<a href="#" data-for="'.$htmlid.'" class="button button-small wputaxometas_add_media">'.$btn_label.'</a>'.
+                        '<input type="hidden" ' . $idname . ' value="' . $value . '" />';
                     break;
                 case 'editor':
                     wp_editor( $value, $htmlid, array(
                             'textarea_name' => $htmlname,
                             'textarea_rows' => 5
                         ) );
+                    break;
+                case 'textarea':
+                    echo '<textarea rows="5" cols="50" '.$idname.'>'.esc_textarea( $value ).'</textarea>';
                     break;
                 case 'email':
                 case 'url':
@@ -102,6 +126,8 @@ class WPUTaxoMetas {
     function set_options() {
         // Get Fields
         $this->fields = apply_filters( 'wputaxometas_fields', array() );
+
+        load_plugin_textdomain( 'wputaxometas', false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
 
         // Fix Fields
         foreach ( $this->fields as $id => $field ) {

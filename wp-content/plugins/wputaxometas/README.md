@@ -41,3 +41,4 @@ Fields types :
 * "url" : input type url.
 * "textarea" : textarea field.
 * "editor" : the WYSIWYG editor used in the content of a post.
+* "attachment" : An attached image (only the ID of the attachment is stored)

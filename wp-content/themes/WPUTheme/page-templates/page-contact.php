@@ -13,4 +13,5 @@ the_post();
 </article>
 </div>
 <?php
+get_sidebar();
 get_footer();

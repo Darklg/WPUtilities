@@ -21,13 +21,17 @@ if ( !isset( $_POST['is_ajax'] ) ) {
     include get_template_directory() . '/tpl/header/searchform.php';
     /* Social links */
     include get_template_directory() . '/tpl/header/social.php';
-    /* Main menu */
-    wp_nav_menu( array(
-        'depth' => 1,
-        'theme_location' => 'main',
-        'menu_class' => 'main-menu'
-    ) );
     ?>
+    <nav class="navigation" role="navigation" id="navigation">
+        <?php
+        /* Main menu */
+        wp_nav_menu( array(
+            'depth' => 1,
+            'theme_location' => 'main',
+            'menu_class' => 'main-menu'
+        ) );
+        ?>
+    </nav>
     </header>
 </div>
 <div class="main-container centered-container"><div class="main-container--inner" id="content">

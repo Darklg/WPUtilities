@@ -3,7 +3,7 @@
 /*
 Name: Content
 URL: http://github.com/Darklg/CSSCommon
-Version: 1.1.1
+Version: 1.1.4
 License: MIT
 */
 
@@ -70,16 +70,14 @@ License: MIT
   Content text
 ---------------------------------------------------------- */
 
-p,
-li,
-dl,
 .cssc-content {
     font-size: 13px;
     line-height: 1.4;
 }
 
-p,
+.cssc-content p,
 .cssc-content li {
+    font: inherit;
     -webkit-hyphens: auto;
     -moz-hyphens: auto;
     hyphens: auto;
@@ -104,24 +102,30 @@ p,
     padding-left: 12px;
 }
 
-p,
-blockquote,
-table,
-address,
+.cssc-content p,
+.cssc-content blockquote,
+.cssc-content table,
+.cssc-content address,
 .cssc-content > iframe,
 .cssc-content > video,
 .cssc-content dl,
 .cssc-content ol,
 .cssc-content ul,
+.cssc-content,
 .cssc-block {
     margin-bottom: 16px;
+}
+
+.cssc-content blockquote p {
+    margin-bottom: 4px;
 }
 
 .cssc-content dl:last-child,
 .cssc-content ol:last-child,
 .cssc-content ul:last-child,
-blockquote:last-child,
-p:last-child,
+.cssc-content blockquote:last-child,
+.cssc-content blockquote p:last-child,
+.cssc-content p:last-child,
 .cssc-block:last-child {
     margin-bottom: 0;
 }

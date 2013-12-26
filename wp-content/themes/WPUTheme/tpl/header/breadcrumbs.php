@@ -83,19 +83,22 @@ if ( !isset( $elements_ariane ) ) {
 }
 
 if ( !empty( $elements_ariane ) ) {
-    echo '<div class="breadcrumbs">';
+    echo '<div class="breadcrumb" id="breadcrumb">';
+    echo '<p>';
+    echo '<span>'. __( 'Vous êtes ici&nbsp;:', 'wputh' ) .'</span> ';
     foreach ( $elements_ariane as $id => $element ) {
         $last = ( isset( $element['last'] ) && $element['last'] == 1 );
-        $className = 'element-ariane element-ariane--'.$id.' '.( $last ? 'is-last' : '' );
+        $className = 'breadcrumb__'.$id.' '.( $last ? 'is-last' : '' );
         if ( isset( $element['link'] ) ) {
-            echo '<a href="'.$element['link'].'" class="'.$className.'">'.$element['name'].'</a>';
+            echo '<a href="'.$element['link'].'" class="'.$className.'" itemprop="url"><span itemprop="title">'.$element['name'].'</span></a> › ';
         }
         else {
-            echo '<strong class="'.$className.'">'.$element['name'].'</strong>';
+            echo '<strong class="regular '.$className.'">'.$element['name'].'</strong>';
         }
         if ( !$last ) {
-            echo ' <span class="ariane-sep">/</span> ';
+            // echo ' <span class="ariane-sep">/</span> ';
         }
     }
+    echo '</p>';
     echo '</div>';
 }

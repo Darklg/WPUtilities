@@ -3,7 +3,7 @@
 /*
 Name: Default
 URL: http://github.com/Darklg/CSSCommon
-Version: 2.7.5
+Version: 2.7.9
 License: MIT
 */
 
@@ -159,6 +159,14 @@ input[type=search]::-webkit-search-results-decoration {
     -webkit-appearance: none;
 }
 
+/* Input type date */
+
+input[type=date]::-webkit-clear-button,
+input[type=date]::-webkit-inner-spin-button,
+input[type=date]::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
 /* Bug with Firefox and buttons */
 
 input[type="submit"]::-moz-focus-inner,
@@ -193,6 +201,7 @@ iframe {
 
 /* Bugfix for Google Maps */
 
+.gm-style img,
 .gmnoprint img {
     max-width: none;
 }
@@ -217,7 +226,7 @@ p img {
 /* Various elements
 -------------------------- */
 
-/* Address styling not present in IE 8/9. | necolas.github.io/normalize.css/ */
+/* Address styling not present in IE 8/9. | necolas.github.io/normalize.css/ */
 
 [hidden] {
     display: none;
@@ -228,6 +237,7 @@ p img {
 
 html {
     height: 100%;
+    background: #fff;
 }
 
 body {
@@ -235,6 +245,7 @@ body {
     min-height: 100%;
     font: 62.5%/1 sans-serif;
     color: #212121;
+    -webkit-text-size-adjust: none;
 }
 
 .lt_ie8 body {

@@ -3,7 +3,7 @@
 /*
 Name: Forms
 URL: http://github.com/Darklg/CSSCommon
-Version: 1.9.1
+Version: 1.10.1
 License: MIT
 */
 
@@ -122,6 +122,30 @@ button {
     width: 90%;
 }
 
+/* Select */
+
+.cssc-select {
+    display: block;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    overflow: hidden;
+    text-align: left;
+    text-indent: 0.01px;
+    text-overflow: ellipsis;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.cssc-select:focus {
+    outline: none;
+}
+
 /* Submit box */
 
 .cssc-form .submit-box {
@@ -185,7 +209,7 @@ button {
 ---------------------------------------------------------- */
 
 /* Formulaire collé
-   ----------------------- */
+   ----------------------- */
 
 .form-append {
     overflow: auto;
@@ -298,6 +322,7 @@ button {
 /* Champs */
 
 .inputbase,
+.cssc-select,
 .cssc-form textarea,
 .cssc-form .fake-input,
 .cssc-form input[type=text],
@@ -312,7 +337,12 @@ button {
     border-radius: 2px;
     font-size: 12px;
     color: #333;
-    background: #fafafa;
+    background: #fafafa no-repeat center right;
+}
+
+.cssc-select {
+    padding: 3px 23px 3px 5px;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAFCAQAAADvCgS4AAAAGklEQVR4AWNg+I8BcQGCyhAAXRlhpcQAQsoAMGIY6KADYAUAAAAASUVORK5CYII=);
 }
 
 .cssc-form .fake-input,
@@ -328,6 +358,7 @@ button {
     min-height: 80px;
 }
 
+.cssc-select:focus,
 .cssc-form textarea:focus,
 .cssc-form input[type=text]:focus,
 .cssc-form input[type=url]:focus,

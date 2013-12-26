@@ -3,12 +3,12 @@
 /*
 Name: Common Objects
 URL: http://github.com/Darklg/CSSCommon
-Version: 1.12
+Version: 2.2
 License: MIT
 */
 
 /* ----------------------------------------------------------
-  Images masquées (Pour push, etc)
+  Image replacement
 ---------------------------------------------------------- */
 
 .ir-children a,
@@ -39,6 +39,27 @@ License: MIT
 }
 
 /* ----------------------------------------------------------
+  Image button
+---------------------------------------------------------- */
+
+/* Reset */
+
+.cssc-btn {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+}
+
+/* :Hover */
+
+.cssc-btn:focus,
+.cssc-btn:hover {
+    opacity: 0.50;
+    filter: alpha(opacity=50);
+}
+
+/* ----------------------------------------------------------
   Clearfix
 ---------------------------------------------------------- */
 
@@ -63,31 +84,11 @@ hr.clearfix {
 }
 
 /* ----------------------------------------------------------
-  Bouton image
+  Automatic ellipsis "..." if content is more than one line
 ---------------------------------------------------------- */
 
-/* Reset */
-
-.cssc-btn {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    outline: 0;
-}
-
-/* :Hover */
-
-.cssc-btn:focus,
-.cssc-btn:hover {
-    opacity: 0.50;
-    filter: alpha(opacity=50);
-}
-
-/* ----------------------------------------------------------
-  "..." automatique à la fin d'une ligne
----------------------------------------------------------- */
-
-.non-depassement {
+.cssc-oneline {
+    max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -95,11 +96,11 @@ hr.clearfix {
 }
 
 /* ----------------------------------------------------------
-  Suppression d'élément
+  Removing an element
 ---------------------------------------------------------- */
 
-.suppression-element-enfant > *,
-.suppression-element {
+.cssc-remove-element-children > *,
+.cssc-remove-element {
     z-index: 0;
     position: absolute;
     top: -9999px;
@@ -110,7 +111,7 @@ hr.clearfix {
 }
 
 /* ----------------------------------------------------------
-  Objet Tiroir
+  Drawer : Submenu, etc
 ---------------------------------------------------------- */
 
 .wdrw {
@@ -152,8 +153,8 @@ hr.clearfix {
 }
 
 /* ----------------------------------------------------------
-  Block Media : Bloc avec flottant
-  From @Stubbornella : http://www.stubbornella.org/content/2010/06/25/the-media-object-saves-hundreds-of-lines-of-code/
+  Block Media : Floating block
+  By @Stubbornella : http://www.stubbornella.org/content/2010/06/25/the-media-object-saves-hundreds-of-lines-of-code/
 ---------------------------------------------------------- */
 
 .bmedia,
@@ -184,10 +185,10 @@ hr.clearfix {
 }
 
 /* ----------------------------------------------------------
-  Barre d'avancement
+  Progress bar
 ---------------------------------------------------------- */
 
-.lvl-barre {
+.progress-bar {
     display: block;
     z-index: 1;
     position: relative;
@@ -196,8 +197,8 @@ hr.clearfix {
     box-sizing: border-box;
 }
 
-.lvl-barre .bar,
-.lvl-barre:before {
+.progress-bar .bar,
+.progress-bar:before {
     z-index: 1;
     position: absolute;
     top: 0;
@@ -206,12 +207,12 @@ hr.clearfix {
     left: 0;
 }
 
-.lvl-barre:before {
+.progress-bar:before {
     content: '';
     z-index: 9;
 }
 
-.lvl-barre .bar {
+.progress-bar .bar {
     width: 0;
     max-width: 100%;
     overflow: hidden;
@@ -225,29 +226,30 @@ hr.clearfix {
     background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.2) );
 }
 
-/* Base thème */
+/* Theme
+-------------------------- */
 
-.lvl-barre {
+.progress-bar {
     height: 15px;
     margin: 3px;
 }
 
-.lvl-barre:before {
-    top: -2px;
-    right: -2px;
-    bottom: -2px;
-    left: -2px;
-    border: 3px solid #333;
+.progress-bar:before {
+    top: -1px;
+    right: -1px;
+    bottom: -1px;
+    left: -1px;
+    border: 2px solid #333;
 }
 
-.lvl-barre:before,
-.lvl-barre .bar {
+.progress-bar:before,
+.progress-bar .bar {
     -webkit-border-radius: 999px;
     -moz-border-radius: 999px;
     border-radius: 999px;
 }
 
-.lvl-barre .bar {
+.progress-bar .bar {
     background-color: #369;
     -webkit-box-shadow: inset 1px 1px 1px rgba(0,0,0,0.2);
     -moz-box-shadow: inset 1px 1px 1px rgba(0,0,0,0.2);
@@ -255,7 +257,7 @@ hr.clearfix {
 }
 
 /* ----------------------------------------------------------
-  Style du code
+  Code presentation
 ---------------------------------------------------------- */
 
 tt,
@@ -352,7 +354,7 @@ pre {
 /* Directions
 -------------------------- */
 
-.tooltip-bottom .tooltip-bubble {
+.tooltip--bottom .tooltip-bubble {
     top: 100%;
     bottom: auto;
 }
@@ -386,12 +388,12 @@ pre {
 /* Theme direction
 -------------------------- */
 
-.tooltip-bottom .tooltip-bubble {
+.tooltip--bottom .tooltip-bubble {
     margin-top: 5px;
     margin-bottom: 0;
 }
 
-.tooltip-bottom .tooltip-bubble:after {
+.tooltip--bottom .tooltip-bubble:after {
     top: auto;
     bottom: 100%;
     border-top: 0;
@@ -399,7 +401,7 @@ pre {
 }
 
 /* ----------------------------------------------------------
-  Panneau
+  Panel
 ---------------------------------------------------------- */
 
 .cssc-panel {
@@ -526,6 +528,7 @@ pre {
     cursor: pointer;
 }
 
+.cssc-stars .current ~ label,
 .cssc-stars input:checked ~ label {
     color: #F99;
 }
@@ -534,4 +537,114 @@ pre {
 .cssc-stars input:checked ~ label:hover,
 .cssc-stars label:hover ~ label {
     color: #F33;
+}
+
+/* ----------------------------------------------------------
+  Vertical center
+---------------------------------------------------------- */
+
+.vertical-center {
+    z-index: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.vertical-center__wrapper {
+    z-index: 1;
+    position: absolute;
+    top: 50%;
+}
+
+.vertical-center__centered {
+    display: inline-block;
+    line-height: 1;
+    vertical-align: middle;
+    *display: inline;
+    *zoom: 1;
+}
+
+/* Personalization
+-------------------------- */
+
+/* This block can be of any height, but bigger than the centered element */
+
+.vertical-center {
+    height: 100px;
+}
+
+/*
+ * Arbitrary height (way bigger than the parent if possible)
+ * margin-top should be 0-(height/2)
+ * line-height should be equal to height
+ */
+
+.vertical-center__wrapper {
+    height: 400px;
+    margin-top: -200px;
+    line-height: 400px;
+}
+
+/* Theme
+-------------------------- */
+
+.vertical-center {
+    background-color: #f0f0f0;
+}
+
+.vertical-center p {
+    padding: 0 10px;
+    font-size: 12px;
+}
+
+/* ----------------------------------------------------------
+  Separators
+---------------------------------------------------------- */
+
+.cssc-sep {
+    z-index: 1;
+    position: relative;
+}
+
+.cssc-sep-before:before,
+.cssc-sep-after:after {
+    content: '';
+    z-index: 1;
+    position: absolute;
+    left: 50%;
+}
+
+.cssc-sep-before:before {
+    top: 0;
+}
+
+.cssc-sep-after:after {
+    bottom: 0;
+}
+
+/* Theme
+-------------------------- */
+
+.cssc-sep {
+    text-align: center;
+}
+
+.cssc-sep:before,
+.cssc-sep:after {
+    border-radius: 10px;
+    width: 20px;
+    height: 5px;
+    margin-left: -10px;
+    background-color: #BDF;
+}
+
+/* Before */
+
+.cssc-sep-before {
+    padding-top: 15px;
+}
+
+/* After */
+
+.cssc-sep-after {
+    padding-bottom: 15px;
 }

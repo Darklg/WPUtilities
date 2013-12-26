@@ -14,4 +14,5 @@ if ( is_year() || is_month() || is_day() ) {
 }
 echo get_the_loop();
 echo '</div>';
+get_sidebar();
 get_footer();

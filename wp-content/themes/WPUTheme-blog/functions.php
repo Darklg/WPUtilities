@@ -18,3 +18,13 @@ function wputh_addsub_stylesheets() {
         wpu_add_css_file( $file, WPUSUB_CSS_DIR, WPUSUB_CSS_URL );
     }
 }
+
+/* ----------------------------------------------------------
+  Add a body class to help styling this plugin
+---------------------------------------------------------- */
+
+add_filter( 'body_class', 'wputh_blog_body_classes' );
+function wputh_blog_body_classes( $classes ) {
+    $classes[] = 'theme-has-sidebar';
+    return $classes;
+}

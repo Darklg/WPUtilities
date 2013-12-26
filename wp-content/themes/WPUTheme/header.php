@@ -11,14 +11,23 @@ if ( !isset( $_POST['is_ajax'] ) ) {
 <body <?php body_class( 'cssc-is-responsive' ); ?>>
 <header class="main-header centered-container">
     <div>
-    <?php include get_template_directory() . '/tpl/header/title.php'; ?>
-    <?php include get_template_directory() . '/tpl/header/searchform.php'; ?>
-    <?php include get_template_directory() . '/tpl/header/social.php'; ?>
-    <?php wp_nav_menu( array(
-            'depth' => 1,
-            'theme_location' => 'main',
-            'menu_class' => 'main-menu'
-        ) ); ?>
+    <?php
+    /* Title */
+    $main_tag = is_home() ? 'h1' : 'div';
+    echo '<'.$main_tag.' class="h1 main-title">';
+    echo '<a href="' . site_url() . '">'.get_bloginfo( 'name' ).'</a>';
+    echo '</'.$main_tag.'>';
+    /* Search form */
+    include get_template_directory() . '/tpl/header/searchform.php';
+    /* Social links */
+    include get_template_directory() . '/tpl/header/social.php';
+    /* Main menu */
+    wp_nav_menu( array(
+        'depth' => 1,
+        'theme_location' => 'main',
+        'menu_class' => 'main-menu'
+    ) );
+    ?>
     </div>
 </header>
 <div class="main-container centered-container"><div class="main-container--inner" id="content">

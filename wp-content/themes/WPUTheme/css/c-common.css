@@ -8,6 +8,27 @@ License: MIT
 */
 
 /* ----------------------------------------------------------
+  Skiplink
+  les liens d'évitemtnt douvent être visible au focus
+---------------------------------------------------------- */
+
+.skiplinks a {
+  position: absolute;
+  left: -9999px;
+  z-index: 2;
+}
+
+.skiplinks a:focus,
+.skiplinks a:active {
+  display: inline;
+  top: 0;
+  left: 0;
+  padding: 5px 10px;
+  background: #b00;
+  color: #fff;
+}
+
+/* ----------------------------------------------------------
   Image replacement
 ---------------------------------------------------------- */
 

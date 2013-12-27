@@ -1,7 +1,7 @@
 <?php
 include dirname( __FILE__ ) . '/z-protect.php';
 $has_thumb = has_post_thumbnail();
-?><article <?php post_class( 'loop-small' ); ?>>
+?><article role="article" <?php post_class( 'loop-small' ); ?>>
     <div class="<?php echo $has_thumb ? 'bmedia':''; ?>">
         <?php if ( $has_thumb ): ?>
         <div>

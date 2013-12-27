@@ -13,8 +13,8 @@ $attachments = get_posts( array(
 );
 ?>
 
-<div class="main-content">
-<article>
+<main class="main-content" role="main" id="main">
+<article role="article">
     <h1><?php the_title(); ?></h1>
 <?php
 the_content();
@@ -33,7 +33,7 @@ if ( !empty( $attachments ) ) {
 }
 ?>
 </article>
-</div>
+</main>
 <?php
 get_sidebar();
 get_footer();

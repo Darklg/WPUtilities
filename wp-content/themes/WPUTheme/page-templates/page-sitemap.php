@@ -63,8 +63,8 @@ $wpq_sitemap_posts = new WP_Query( $args );
 get_header();
 the_post();
 ?>
-<div class="main-content">
-<article>
+<main class="main-content" role="main" id="main">
+<article role="article">
     <h1><?php the_title(); ?></h1>
     <div class="le-content">
     <?php the_content(); ?>
@@ -89,7 +89,7 @@ wp_reset_postdata();
 ?>
     </div>
 </article>
-</div>
+</main>
 <?php
 get_sidebar();
 get_footer();

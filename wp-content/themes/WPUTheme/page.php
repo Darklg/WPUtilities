@@ -3,8 +3,8 @@ include dirname( __FILE__ ) . '/z-protect.php';
 get_header();
 the_post();
 ?>
-<div class="main-content">
-<article <?php post_class(); ?>>
+<main class="main-content" role="main" id="main">
+<article role="article" <?php post_class(); ?>>
     <h1><?php the_title(); ?></h1>
     <div class="cssc-content cssc-block">
 <?php
@@ -34,7 +34,7 @@ the_post();
 ?>
     </div>
 </article>
-</div>
+</main>
 <?php
 get_sidebar();
 get_footer();

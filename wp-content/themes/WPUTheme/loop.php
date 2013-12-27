@@ -1,6 +1,6 @@
 <?php
 include dirname( __FILE__ ) . '/z-protect.php';
-?><article <?php post_class(); ?>>
+?><article role="article" <?php post_class(); ?>>
     <h1><?php the_title(); ?></h1>
     <aside class="lp-metas">
         <?php the_category( ', ' ); ?>

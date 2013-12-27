@@ -57,21 +57,29 @@ if ( !empty( $_POST ) ) {
             }
 
             if ( !$field_ok ) {
-                $msg_errors[] = sprintf( __( 'The field "%s" is not correct', 'wputh' ), $id );
+                $msg_errors[$id] = '<span id="error_'. $id .'">'. sprintf( __( 'The field "%s" is not correct', 'wputh' ), $fields[$id]['label'] ) .'</span>';
             }
             else {
                 $fields[$id]['value'] = $tmp_value;
             }
         }
         elseif ( $field['required'] ) {
-            $msg_errors[] = sprintf( __( 'The field "%s" is required', 'wputh' ), $id );
+            $msg_errors[$id] = '<span id="error_'. $id .'">'. sprintf( __( 'The field "%s" is required', 'wputh' ), $fields[$id]['label'] ) .'</span>';
         }
     }
 
     if ( empty( $msg_errors ) ) {
 
+        add_filter( 'wp_title', 'contact_wp_title_error', 10, 1 );
+        add_filter( 'wpseo_title', 'contact_wp_title_error', 10, 1 );
+        function contact_wp_title_error( $old_title ){
+            $output = __('Your message was successfully sent.', 'wputh');
+            $output .= ' - '. get_bloginfo( 'name', 'display' );
+            return $output;
+        }
+
         // Setting success message
-        $content_contact .= '<p>'.__( 'Thank you for your message!', 'wputh' ).'</p>';
+        $content_contact .= '<p>'.__( 'Your message was successfully sent.<br />Thank you for your message!', 'wputh' ).'</p>';
 
         // Send mail
         $mail_content = '<p>'.__( 'Message from your contact form', 'wputh' ).'</p>';
@@ -86,34 +94,54 @@ if ( !empty( $_POST ) ) {
 
     }
     else {
-        $content_contact .= '<p><strong>'.__( 'Error:', 'wputh' ).'</strong><br />'.implode( '<br />', $msg_errors ).'</p>';
+        add_filter( 'wp_title', 'contact_wp_title_error', 10, 1 );
+        add_filter( 'wpseo_title', 'contact_wp_title_error', 10, 1 );
+        function contact_wp_title_error( $old_title){
+        global $msg_errors;
+            $errors_count = count($msg_errors); // retrieve all error messages
+            if($errors_count > 1) {
+                $output = sprintf( _n( '1 error found, the form could not be submitted', '%s errors found, the form could not be submitted', $errors_count, 'wputh' ), $errors_count );
+            } else {
+                $output = strip_tags(array_shift($msg_errors));
+            }
+            $output .= ' - '. get_bloginfo( 'name', 'display' );
+            return $output;
+        }
+
+        $content_contact .= '<div class="message message--error"><p class="bold">'. sprintf( _n( 'I found 1 error', 'I found %s errors', count($msg_errors), 'wputh' ), count($msg_errors) ) .'</p><ol class="message__list"><li class="message__item">'.implode( '</li><li class="message__item">', $msg_errors ).'</li></ol></div>';
     }
 }
 
 // Showing contact form
-$content_contact .= '<form action="" method="post"><ul class="cssc-form float-form">';
+$content_contact .= '<form action="" method="post">';
+$content_contact .= '<div class="cssc-form float-form">';
 foreach ( $fields as $id => $field ) {
     $field_type = isset( $field['type'] ) ? $field['type']:'';
     $field_id_name = 'id="'.$id.'" name="'.$id.'"';
     $field_val = 'value="'.$field['value'].'"';
-    $content_contact .= '<li class="box">';
+    $content_contact .= '<p class="box">';
     if ( isset( $field['label'] ) ) {
-        $content_contact .= '<label for="'.$id.'">'.$field['label'].'</label>';
+        $aria_error = (isset($msg_errors) && is_array($msg_errors) && array_key_exists($id, $msg_errors)) ? ' aria-describedby="error_'.$id.'"' : '';
+        $content_contact .= '<label for="'.$id.'"'.$aria_error.'>'.$field['label'].'</label>';
     }
+    $field_required = ''; // ($field['required'] === 1) ? ' aria-required="true" required="required"' : '';
+    $field_class_error = (isset($msg_errors) && is_array($msg_errors) && array_key_exists($id, $msg_errors)) ? ' class="field--error"' : '';
+
     switch ( $field_type ) {
     case 'email':
-        $content_contact .= '<input type="email" '.$field_id_name.' '.$field_val.' />';
+        $content_contact .= '<input type="email" '.$field_id_name.' '.$field_val . $field_required . $field_class_error .' />';
         break;
     case 'textarea':
-        $content_contact .= '<textarea cols="30" rows="5" '.$field_id_name.'>'.$field['value'].'</textarea>';
+        $content_contact .= '<textarea cols="30" rows="5" '.$field_id_name . $field_required . $field_class_error .'>'.$field['value'].'</textarea>';
         break;
     default :
-        $content_contact .= '<input type="text" '.$field_id_name.' '.$field_val.' />';
+        $content_contact .= '<input type="text" '.$field_id_name.' '.$field_val . $field_required . $field_class_error .' />';
     }
-    $content_contact .= '</li>';
+    $content_contact .= '</p>';
 }
-$content_contact .= '<li>
+$content_contact .= '<p>
 <input type="hidden" name="control_stripslashes" value="&quot;" />
-<button class="cssc-button" type="submit">'.__( 'Submit', 'wputh' ).'</button>
-</li>';
-$content_contact .= '</ul></form>';
+<button class="cssc-button" type="submit">'. __( 'Submit your message', 'wputh' ) .'</button>
+</p>';
+$content_contact .= '</div>';
+$content_contact .= '</form>';

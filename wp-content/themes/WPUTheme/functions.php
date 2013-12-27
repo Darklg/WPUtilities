@@ -49,8 +49,8 @@ register_sidebar( array(
         'name' => __( 'Default Sidebar', 'wputh' ),
         'id' => 'wputh-sidebar',
         'description' => __( 'Default theme sidebar', 'wputh' ),
-        'before_title' => '<h3>',
-        'after_title' => '</h3>'
+        'before_title' => '<p class="h3 widget__title">',
+        'after_title' => '</p>'
     ) );
 
 /* Taxonomies

@@ -53,7 +53,7 @@ class widget_post_categories extends WP_Widget {
         ));
         if ( $wpq_widget_post_cat->have_posts() ) {
             echo $args['before_widget'];
-            echo '<h3>'.get_cat_name($cat_id).'</h3>';
+            echo '<p class="h3 widget__title">'.get_cat_name($cat_id).'</p>';
             echo '<ul>';
             while ( $wpq_widget_post_cat->have_posts() ) {
                 $wpq_widget_post_cat->the_post();

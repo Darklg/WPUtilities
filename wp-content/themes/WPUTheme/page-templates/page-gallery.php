@@ -5,7 +5,7 @@ include dirname( __FILE__ ) . '/../z-protect.php';
 get_header();
 the_post();
 ?>
-<div class="main-content">
+<main class="main-content" role="main" id="main">
 <article>
     <h1><?php the_title(); ?></h1>
 <?php
@@ -31,7 +31,7 @@ if ( !empty( $attachments ) ) {
 
 ?>
 </article>
-</div>
+</main>
 <?php
 get_sidebar();
 get_footer();

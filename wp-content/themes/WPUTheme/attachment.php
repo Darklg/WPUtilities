@@ -64,7 +64,7 @@ if ( !empty( $attachments ) &&  count( $attachments ) > 2 ) {
 }
 
 ?>
-<div class="main-content">
+<main class="main-content" role="main" id="main">
 <article class="loop">
     <h1><?php the_title(); ?></h1>
     <div>
@@ -86,7 +86,7 @@ if ( !empty( $attachments ) &&  count( $attachments ) > 2 ) {
     ?>
     </div>
 </article>
-</div>
+</main>
 <?php
 get_sidebar();
 get_footer();

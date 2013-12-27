@@ -3,7 +3,7 @@ include dirname( __FILE__ ) . '/../WPUTheme/z-protect.php';
 get_header();
 the_post();
 ?>
-<div class="main-content">
+<main class="main-content" role="main" id="main">
 <?php
 
 /* Content */
@@ -29,7 +29,7 @@ if ( $hasALink ) {
     echo '</p></nav>';
 }
 ?>
-</div>
+</main>
 <?php
 get_sidebar();
 get_footer();

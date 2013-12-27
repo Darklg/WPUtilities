@@ -11,9 +11,9 @@ if ( $number_results > 1 ) {
 }
 
 get_header();
-echo '<div class="main-content">';
+echo '<main class="main-content" role="main" id="main">';
 echo '<h1>'.sprintf( __( '%s for &ldquo;%s&rdquo;', 'wputh' ), $search_results, get_search_query() ).'</h1>';
 echo get_the_loop();
-echo '</div>';
+echo '</main>';
 get_sidebar();
 get_footer();

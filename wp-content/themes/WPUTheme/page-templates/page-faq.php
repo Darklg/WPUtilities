@@ -16,14 +16,14 @@ foreach ($content as $faq_element) {
 }
 get_header();
 ?>
-<div class="main-content">
+<main class="main-content" role="main" id="main">
 <article>
     <h1><?php the_title(); ?></h1>
     <div id="faq-content">
         <?php echo $content_faq; ?>
     </div>
 </article>
-</div>
+</main>
 <?php
 get_sidebar();
 get_footer();

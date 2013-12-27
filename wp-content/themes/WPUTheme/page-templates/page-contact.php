@@ -5,13 +5,13 @@ include get_template_directory() . '/tpl/contact/header-action.php';
 get_header();
 the_post();
 ?>
-<div class="main-content">
+<main class="main-content" role="main" id="main">
 <article>
     <h1><?php the_title(); ?></h1>
     <?php the_content(); ?>
     <?php echo $content_contact; ?>
 </article>
-</div>
+</main>
 <?php
 get_sidebar();
 get_footer();

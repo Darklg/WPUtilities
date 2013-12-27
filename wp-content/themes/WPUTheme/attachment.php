@@ -65,7 +65,7 @@ if ( !empty( $attachments ) &&  count( $attachments ) > 2 ) {
 
 ?>
 <main class="main-content" role="main" id="main">
-<article class="loop">
+<article role="article" class="loop">
     <h1><?php the_title(); ?></h1>
     <div>
     <?php if ( $isImage ) : ?>

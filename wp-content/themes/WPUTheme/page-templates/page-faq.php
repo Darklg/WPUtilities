@@ -17,7 +17,7 @@ foreach ($content as $faq_element) {
 get_header();
 ?>
 <main class="main-content" role="main" id="main">
-<article>
+<article role="article">
     <h1><?php the_title(); ?></h1>
     <div id="faq-content">
         <?php echo $content_faq; ?>

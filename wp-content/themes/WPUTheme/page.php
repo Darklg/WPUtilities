@@ -4,7 +4,7 @@ get_header();
 the_post();
 ?>
 <main class="main-content" role="main" id="main">
-<article <?php post_class(); ?>>
+<article role="article" <?php post_class(); ?>>
     <h1><?php the_title(); ?></h1>
     <div class="cssc-content cssc-block">
 <?php

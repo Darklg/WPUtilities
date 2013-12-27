@@ -64,7 +64,7 @@ get_header();
 the_post();
 ?>
 <main class="main-content" role="main" id="main">
-<article>
+<article role="article">
     <h1><?php the_title(); ?></h1>
     <div class="le-content">
     <?php the_content(); ?>

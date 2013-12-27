@@ -9,6 +9,9 @@ if ( !isset( $_POST['is_ajax'] ) ) {
 <!--[if !IE]><!--> <html <?php language_attributes(); ?>><!--<![endif]-->
 <head><?php include get_template_directory() . '/tpl/header/head.php'; ?></head>
 <body <?php body_class( 'cssc-is-responsive' ); ?>>
+<div class="skiplinks" id="skiplinks">
+  <a href="#main"><?php _e('Skip to content', 'wputh'); ?></a>
+</div>
 <div class="main-header centered-container">
     <header class="banner" role="banner" id="banner">
     <?php

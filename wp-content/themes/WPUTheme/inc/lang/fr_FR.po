@@ -1,20 +1,21 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2013-10-31 18:02+0200\n"
+"POT-Creation-Date: 2013-12-28 18:20+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Kevin <kevin@rocher.me>\n"
 "Language-Team: \n"
+"Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.6.3\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-KeywordsList: __;_e;_x:1,2c;_n:1,2\n"
 "X-Poedit-SearchPath-0: ../../.\n"
 
-#: ../.././404.php:7 ../.././inc/theme/params.php:55
+#: ../.././404.php:7 ../.././tpl/header/breadcrumbs.php:72
 msgid "404 Error"
 msgstr "Erreur 404"
 
@@ -22,8 +23,36 @@ msgstr "Erreur 404"
 msgid "Sorry, but this page doesn&rsquo;t exists."
 msgstr "Désolé, mais cette page n'existe pas."
 
-#: ../.././loop.php:8 ../.././inc/theme/params.php:84
-#: ../.././tpl/loops/header-loop-small.php:8
+#: ../.././footer.php:10
+#, php-format
+msgid "A %s site using %s"
+msgstr "Un site %s utilisant %s"
+
+#: ../.././functions.php:27
+msgid "Main menu"
+msgstr "Menu principal"
+
+#: ../.././functions.php:37
+msgid "task"
+msgstr "tâche"
+
+#: ../.././functions.php:38
+msgid "tasks"
+msgstr "tâches"
+
+#: ../.././functions.php:49
+msgid "Default Sidebar"
+msgstr "Sidebar par défaut"
+
+#: ../.././functions.php:51
+msgid "Default theme sidebar"
+msgstr "Sidebar du thème par défaut"
+
+#: ../.././functions.php:63
+msgid "Importance"
+msgstr "Importance"
+
+#: ../.././loop.php:8 ../.././tpl/loops/header-loop-small.php:8
 msgid "F j, Y"
 msgstr "j F Y"
 
@@ -35,188 +64,139 @@ msgstr "Par"
 msgid "Tags:"
 msgstr "Tags :"
 
+#: ../.././search.php:5
+msgid "<strong>no</strong> search results"
+msgstr "<strong>aucun</strong> résultat de recherche"
+
 #: ../.././search.php:7
+msgid "<strong>1</strong> search result"
+msgstr "<strong>1</strong> résultat de recherche"
+
+#: ../.././search.php:10
+#, php-format
+msgid "<strong>%s</strong> search result"
+msgstr "<strong>%s</strong> résultats de recherche"
+
+#: ../.././search.php:15
 #, php-format
 msgid "%s for &ldquo;%s&rdquo;"
 msgstr "%s pour &ldquo;%s&rdquo;"
 
-#: ../.././inc/configuration/menus.php:3
-msgid "Main menu"
-msgstr "Menu principal"
+#: ../.././inc/plugins/wpu-options.php:24
+msgid "Analytics code"
+msgstr "Code analytics"
 
-#: ../.././inc/configuration/post-types.php:9
-msgid "task"
-msgstr "tâche"
+#: ../.././inc/plugins/wpu-options.php:28
+msgid "Email address"
+msgstr "Adresse email"
 
-#: ../.././inc/configuration/post-types.php:10
-msgid "tasks"
-msgstr "tâches"
+#: ../.././inc/plugins/wpu-options.php:40
+msgid "About"
+msgstr "A Propos"
 
-#: ../.././inc/configuration/post-types.php:52
+#: ../.././inc/plugins/wpu-options.php:41
+msgid "Mentions"
+msgstr "Mentions"
+
+#: ../.././inc/theme/post-types.php:47
 msgid "Add New"
 msgstr "Ajouter"
 
-#: ../.././inc/configuration/post-types.php:53
+#: ../.././inc/theme/post-types.php:48
 #, php-format
 msgctxt "male"
 msgid "Add New %s"
 msgstr "Ajouter un %s"
 
-#: ../.././inc/configuration/post-types.php:54
+#: ../.././inc/theme/post-types.php:49
 #, php-format
 msgctxt "male"
 msgid "Edit %s"
 msgstr "Modifier ce %s"
 
-#: ../.././inc/configuration/post-types.php:55
+#: ../.././inc/theme/post-types.php:50
 #, php-format
 msgctxt "male"
 msgid "New %s"
 msgstr "Nouveau %s"
 
-#: ../.././inc/configuration/post-types.php:56
+#: ../.././inc/theme/post-types.php:51
 #, php-format
 msgctxt "male"
 msgid "All %s"
 msgstr "Tous les %s"
 
-#: ../.././inc/configuration/post-types.php:57
+#: ../.././inc/theme/post-types.php:52
 #, php-format
 msgctxt "male"
 msgid "View %s"
 msgstr "Voir cet %s"
 
-#: ../.././inc/configuration/post-types.php:58
+#: ../.././inc/theme/post-types.php:53
 #, php-format
 msgctxt "male"
 msgid "Search %s"
 msgstr "Rechercher un %s"
 
-#: ../.././inc/configuration/post-types.php:59
+#: ../.././inc/theme/post-types.php:54
 #, php-format
 msgctxt "male"
 msgid "No %s found"
 msgstr "Aucun %s trouvé"
 
-#: ../.././inc/configuration/post-types.php:60
+#: ../.././inc/theme/post-types.php:55
 #, php-format
 msgctxt "male"
 msgid "No %s found in Trash"
 msgstr "Aucun %s trouvé dans la corbeille"
 
-#: ../.././inc/configuration/post-types.php:68
+#: ../.././inc/theme/post-types.php:63
 #, php-format
 msgctxt "female"
 msgid "Add New %s"
 msgstr "Ajouter une %s"
 
-#: ../.././inc/configuration/post-types.php:69
+#: ../.././inc/theme/post-types.php:64
 #, php-format
 msgctxt "female"
 msgid "Edit %s"
 msgstr "Modifier cette %s"
 
-#: ../.././inc/configuration/post-types.php:70
+#: ../.././inc/theme/post-types.php:65
 #, php-format
 msgctxt "female"
 msgid "New %s"
 msgstr "Nouvelle %s"
 
-#: ../.././inc/configuration/post-types.php:71
+#: ../.././inc/theme/post-types.php:66
 #, php-format
 msgctxt "female"
 msgid "All %s"
 msgstr "Toutes les %s"
 
-#: ../.././inc/configuration/post-types.php:72
+#: ../.././inc/theme/post-types.php:67
 #, php-format
 msgctxt "female"
 msgid "View %s"
 msgstr "Voir cette %s"
 
-#: ../.././inc/configuration/post-types.php:73
+#: ../.././inc/theme/post-types.php:68
 #, php-format
 msgctxt "female"
 msgid "Search %s"
 msgstr "Rechercher une %s"
 
-#: ../.././inc/configuration/post-types.php:74
+#: ../.././inc/theme/post-types.php:69
 #, php-format
 msgctxt "female"
 msgid "No %s found"
 msgstr "Aucune %s trouvée"
 
-#: ../.././inc/configuration/post-types.php:75
+#: ../.././inc/theme/post-types.php:70
 #, php-format
 msgctxt "female"
 msgid "No %s found in Trash"
 msgstr "Aucune %s trouvée dans la corbeille"
-
-#: ../.././inc/configuration/sidebars.php:4
-msgid "Default Sidebar"
-msgstr "Sidebar par défaut"
-
-#: ../.././inc/configuration/sidebars.php:6
-msgid "Default theme sidebar"
-msgstr "Sidebar du thème par défaut"
-
-#: ../.././inc/configuration/taxonomies.php:9
-msgid "Importance"
-msgstr "Importance"
-
-#: ../.././inc/plugins/wpu-options.php:26
-msgid "Analytics code"
-msgstr "Code analytics"
-
-#: ../.././inc/plugins/wpu-options.php:29
-msgid "Email address"
-msgstr "Adresse email"
-
-#: ../.././inc/plugins/wpu-options.php:36
-msgid "About"
-msgstr "A Propos"
-
-#: ../.././inc/theme/params.php:52
-#, php-format
-msgid "Search results for \"%s\""
-msgstr "Résultats de recherche pour \"%s\""
-
-#: ../.././inc/theme/params.php:66
-msgid "Archive"
-msgstr "Archive"
-
-#: ../.././inc/theme/params.php:68
-msgid "Tag:"
-msgstr "Tag :"
-
-#: ../.././inc/theme/params.php:71
-#: ../.././tpl/widgets/widget_post_categories.php:25
-msgid "Category:"
-msgstr "Catégorie :"
-
-#: ../.././inc/theme/params.php:75
-msgid "Author:"
-msgstr "Auteur :"
-
-#: ../.././inc/theme/params.php:78
-msgid "Year:"
-msgstr "Année :"
-
-#: ../.././inc/theme/params.php:78
-msgid "Y"
-msgstr "Y"
-
-#: ../.././inc/theme/params.php:81
-msgid "Month:"
-msgstr "Mois :"
-
-#: ../.././inc/theme/params.php:81
-msgid "F Y"
-msgstr "F Y"
-
-#: ../.././inc/theme/params.php:84
-msgid "Day:"
-msgstr "Jour :"
 
 #: ../.././inc/theme/utilities.php:41
 msgid "Sorry, no search results for this query."
@@ -243,11 +223,15 @@ msgstr "Les commentaires sont fermés"
 msgid "Size:"
 msgstr "Poids :"
 
-#: ../.././page-templates/page-sitemap.php:16
+#: ../.././page-templates/page-sitemap.php:13
+msgid "Home page"
+msgstr "Accueil"
+
+#: ../.././page-templates/page-sitemap.php:74
 msgid "Pages"
 msgstr "Pages"
 
-#: ../.././page-templates/page-sitemap.php:21
+#: ../.././page-templates/page-sitemap.php:79
 msgid "Posts"
 msgstr "Articles"
 
@@ -294,14 +278,14 @@ msgstr "Erreur :"
 msgid "Submit"
 msgstr "Envoyer"
 
-#: ../.././tpl/footer/copyright.php:2
-#, php-format
-msgid "A %s site using %s"
-msgstr "Un site %s utilisant %s"
-
 #: ../.././tpl/header/breadcrumbs.php:17
 msgid "Home"
 msgstr "Accueil"
+
+#: ../.././tpl/header/breadcrumbs.php:79
+#, php-format
+msgid "Search results for \"%s\""
+msgstr "Résultats de recherche pour \"%s\""
 
 #: ../.././tpl/header/searchform.php:5
 msgid "Search for:"
@@ -311,26 +295,42 @@ msgstr "Rechercher :"
 msgid "Search"
 msgstr "Rechercher"
 
-#: ../.././tpl/search/header-results.php:3
-msgid "<strong>no</strong> search results"
-msgstr "<strong>aucun</strong> résultat de recherche"
-
-#: ../.././tpl/search/header-results.php:5
-msgid "<strong>1</strong> search result"
-msgstr "<strong>1</strong> résultat de recherche"
-
-#: ../.././tpl/search/header-results.php:8
+#: ../.././tpl/header/social.php:11
 #, php-format
-msgid "<strong>%s</strong> search result"
-msgstr "<strong>%s</strong> résultats de recherche"
-
-#: ../.././tpl/sitemap/header-action.php:11
-msgid "Home page"
-msgstr "Accueil"
+msgid "%s: Follow %s (open in new window)"
+msgstr "%s : Suivre %s (s'ouvre dans une nouvelle fenêtre)"
 
 #: ../.././tpl/widgets/widget_post_categories.php:22
 msgid "Number of posts:"
 msgstr "Nombre de posts :"
+
+#: ../.././tpl/widgets/widget_post_categories.php:25
+msgid "Category:"
+msgstr "Catégorie :"
+
+#~ msgid "Archive"
+#~ msgstr "Archive"
+
+#~ msgid "Tag:"
+#~ msgstr "Tag :"
+
+#~ msgid "Author:"
+#~ msgstr "Auteur :"
+
+#~ msgid "Year:"
+#~ msgstr "Année :"
+
+#~ msgid "Y"
+#~ msgstr "Y"
+
+#~ msgid "Month:"
+#~ msgstr "Mois :"
+
+#~ msgid "F Y"
+#~ msgstr "F Y"
+
+#~ msgid "Day:"
+#~ msgstr "Jour :"
 
 #~ msgid "Contact"
 #~ msgstr "Contact"

@@ -3,7 +3,7 @@
 Plugin Name: WPU Post Metas
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Simple admin for post metas
-Version: 0.6.2
+Version: 0.7
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -24,9 +24,18 @@ class WPUPostMetas {
             load_plugin_textdomain( 'wpupostmetas', false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
             add_action( 'add_meta_boxes', array( $this, 'add_custom_box' ) );
             add_action( 'save_post',  array( $this, 'save_postdata' ) );
+            add_action( 'admin_enqueue_scripts', array( &$this, 'load_assets' ) );
+            add_action( 'wp_ajax_wpupostmetas_attachments', array( &$this, 'list_attachments_options' ) );
         }
     }
 
+    function load_assets() {
+        $screen = get_current_screen();
+        if ( $screen->id == 'post' ) {
+            wp_enqueue_style( 'wpupostmetas_style', plugins_url( 'assets/style.css', __FILE__ ) );
+            wp_enqueue_script( 'wpupostmetas_scripts', plugins_url( '/assets/global.js', __FILE__ ) );
+        }
+    }
 
     /**
      * Adds meta boxes
@@ -108,7 +117,7 @@ class WPUPostMetas {
         $fields = $this->fields;
         $fields = $this->control_fields_datas( $fields );
         wp_nonce_field( plugin_basename( __FILE__ ), 'wputh_post_metas_noncename' );
-        echo '<table>';
+        echo '<table class="wpupostmetas-table">';
         foreach ( $fields as $id => $field ) {
             if ( 'wputh_box_'.$field['box'] == $details['id'] ) {
 
@@ -132,11 +141,18 @@ class WPUPostMetas {
                     );
                     $attachments = get_posts( $args );
                     if ( $attachments ) {
-                        echo '<select '.$idname.'>';
+                        echo '<div class="wpupostmetas-attachments__container"><span class="before"></span>';
+                        echo '<div class="preview-img" id="preview-'.$id.'"></div>';
+                        echo '<select '.$idname.' class="wpupostmetas-attachments" data-postid="'.$post->ID.'" data-postvalue="'.$value.'">';
                         foreach ( $attachments as $attachment ) {
-                            echo '<option value="'.$attachment->ID.'" '.( $attachment->ID == $value ? 'selected="selected"' : '' ).'>'.apply_filters( 'the_title' , $attachment->post_title ).'</option>';
+                            $data_guid = '';
+                            if ( strpos( $attachment->post_mime_type, 'image/' ) !== false ) {
+                                $data_guid = 'data-guid="'.$attachment->guid.'"';
+                            }
+                            echo '<option '.$data_guid.' value="'.$attachment->ID.'" '.( $attachment->ID == $value ? 'selected="selected"' : '' ).'>'.apply_filters( 'the_title' , $attachment->post_title ).'</option>';
                         }
                         echo '</select>';
+                        echo '</div>';
                     }
                     else {
                         echo '<span>'.__( 'No attachments', 'wpupostmetas' ).'</span>';
@@ -170,6 +186,30 @@ class WPUPostMetas {
             }
         }
         echo '</table>';
+    }
+
+
+    function list_attachments_options() {
+        global $wpdb; // this is how you get access to the database
+        if ( !isset( $_POST['post_id'], $_POST['post_value'] ) || !is_numeric( $_POST['post_id'] ) ) {
+            die();
+        }
+        $args = array(
+            'post_type' => 'attachment',
+            'posts_per_page' => -1,
+            'post_status' =>'any',
+            'post_parent' => $_POST['post_id']
+        );
+        $attachments = get_posts( $args );
+        foreach ( $attachments as $attachment ) {
+            $data_guid = '';
+            if ( strpos( $attachment->post_mime_type, 'image/' ) !== false ) {
+                $data_guid = 'data-guid="'.$attachment->guid.'"';
+            }
+            echo '<option '.$data_guid.' value="'.$attachment->ID.'" '.( $attachment->ID==$_POST['post_value'] ? 'selected="selected"':'' ).'>'.apply_filters( 'the_title' , $attachment->post_title ).'</option>';
+        }
+
+        die();
     }
 
 

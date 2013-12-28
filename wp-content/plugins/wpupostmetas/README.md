@@ -36,3 +36,9 @@ Put the code below in your theme's functions.php file. Add new fields to your co
         );
         return $fields;
     }
+
+
+Thanks
+--
+
+* Thanks to Yummygum for his reload icon http://www.iconsweets2.com/

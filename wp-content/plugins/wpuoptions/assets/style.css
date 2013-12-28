@@ -22,6 +22,22 @@
 }
 
 /* ----------------------------------------------------------
+  Editor
+---------------------------------------------------------- */
+
+.wpuoptions-view-editor-switch .original {
+    margin-bottom: 5px;
+    padding: 10px;
+    max-height: 150px;
+    overflow: auto;
+    outline: 1px solid #d0d0d0;
+}
+
+.wpuoptions-view-editor-switch .editor {
+    display: none;
+}
+
+/* ----------------------------------------------------------
   Toggle boxes
 ---------------------------------------------------------- */
 

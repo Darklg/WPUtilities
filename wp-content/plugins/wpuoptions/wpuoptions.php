@@ -2,7 +2,7 @@
 /*
 Plugin Name: WPU Options
 Plugin URI: http://github.com/Darklg/WPUtilities
-Version: 4.4.1
+Version: 4.5
 Description: Friendly interface for website options
 Author: Darklg
 Author URI: http://darklg.me/
@@ -137,8 +137,6 @@ class WPUOptions {
         if ( isset( $_GET['page'] ) && $_GET['page'] == 'wpuoptions/wpuoptions.php' ) {
             wp_register_style( 'wpuoptions_style', plugins_url( 'assets/style.css', __FILE__ ) );
             wp_enqueue_style( 'wpuoptions_style' );
-            wp_register_style( 'wpuoptions_style_jqueryui', plugins_url( 'assets/jquery-ui-1.10.3.custom.min.css', __FILE__ ) );
-            wp_enqueue_style( 'wpuoptions_style_jqueryui' );
         }
     }
 
@@ -355,7 +353,17 @@ class WPUOptions {
                 wp_editor( $originalvalue, $idf, array(
                         'textarea_rows' => 7
                     ) );
-                $content .= ob_get_clean();
+                $content_editor = ob_get_clean();
+                if ( !empty( $originalvalue ) ) {
+                    $content .= '<div class="wpuoptions-view-editor-switch">';
+                    $content .= '<div class="original">'.apply_filters( 'the_content', $originalvalue ).'</div>';
+                    $content .= '<a class="edit-link button button-small" href="#" role="button">'.__( 'Edit this text', 'wpuoptions' ).'</a>';
+                    $content .= '<div class="editor">'.$content_editor.'</div>';
+                    $content .= '</div>';
+                }
+                else {
+                    $content .= $content_editor;
+                }
                 break;
             case 'media':
                 $img = '';
@@ -568,11 +576,16 @@ $WPUOptions = new WPUOptions();
 function wputh_l18n_get_option( $name ) {
     global $q_config;
 
+    $option = get_option( $name );
+
     if ( isset( $q_config['language'] ) ) {
-        $name = $q_config['language'] . '___' . $name;
+        $option_l18n = get_option( $q_config['language'] . '___' . $name );
+        if ( !empty( $option_l18n ) ) {
+            $option = $option_l18n;
+        }
     }
 
-    return get_option( $name );
+    return $option;
 }
 
 

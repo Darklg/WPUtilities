@@ -1,7 +1,23 @@
 jQuery(document).ready(function($) {
     wputh_options_set_media();
     wputh_options_set_accordion();
+    wputh_options_set_editor();
 });
+
+/* ----------------------------------------------------------
+  Set Editor
+---------------------------------------------------------- */
+
+var wputh_options_set_editor = function() {
+    jQuery('.wpuoptions-view-editor-switch').on('click', '.edit-link', function(e) {
+        var $this = jQuery(this),
+            $parent = $this.closest('.wpuoptions-view-editor-switch');
+
+            $this.remove();
+            $parent.find('.editor').show();
+            $parent.find('.original').remove();
+    });
+};
 
 /* ----------------------------------------------------------
   Upload files

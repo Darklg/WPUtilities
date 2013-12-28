@@ -3,7 +3,7 @@
 Plugin Name: WPU Taxo Metas
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Simple admin for taxo metas
-Version: 0.3
+Version: 0.3.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -41,9 +41,12 @@ class WPUTaxoMetas {
     }
 
     function load_assets() {
-        wp_enqueue_media();
-        wp_enqueue_script( 'wputaxometas_scripts', plugins_url( '/assets/global.js', __FILE__ ) );
-        wp_enqueue_style( 'wputaxometas_style', plugins_url( 'assets/style.css', __FILE__ ) );
+        $screen = get_current_screen();
+        if ( $screen->base == 'edit-tags' ) {
+            wp_enqueue_media();
+            wp_enqueue_script( 'wputaxometas_scripts', plugins_url( '/assets/global.js', __FILE__ ) );
+            wp_enqueue_style( 'wputaxometas_style', plugins_url( 'assets/style.css', __FILE__ ) );
+        }
     }
 
     function save_extra_taxo_field( $t_id ) {

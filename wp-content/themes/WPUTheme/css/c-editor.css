@@ -6,7 +6,14 @@
 
 .wputh-content,
 body#tinymce.wp-editor {
+    max-width: 960px;
     font: 13px/1.4 sans-serif;
+}
+
+.wputh-content img,
+body#tinymce.wp-editor img {
+    height: auto;
+    max-width: 100%;
 }
 
 .wputh-content li,

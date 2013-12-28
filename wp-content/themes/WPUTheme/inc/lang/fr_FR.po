@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"POT-Creation-Date: 2013-12-28 18:20+0100\n"
+"Project-Id-Version: WPUtilities\n"
+"POT-Creation-Date: 2013-12-28 18:32+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Kevin <kevin@rocher.me>\n"
 "Language-Team: \n"
@@ -12,7 +12,7 @@ msgstr ""
 "X-Generator: Poedit 1.6.3\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: .\n"
-"X-Poedit-KeywordsList: __;_e;_x:1,2c;_n:1,2\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c;_n:1,2;esc_attr__\n"
 "X-Poedit-SearchPath-0: ../../.\n"
 
 #: ../.././404.php:7 ../.././tpl/header/breadcrumbs.php:72
@@ -287,11 +287,24 @@ msgstr "Accueil"
 msgid "Search results for \"%s\""
 msgstr "Résultats de recherche pour \"%s\""
 
-#: ../.././tpl/header/searchform.php:5
+#: ../.././tpl/header/searchform.php:7
 msgid "Search for:"
 msgstr "Rechercher :"
 
-#: ../.././tpl/header/searchform.php:7
+#: ../.././tpl/header/searchform.php:8
+msgid "Enter your keywords..."
+msgstr "Entrez vos mots-clefs..."
+
+#: ../.././tpl/header/searchform.php:8
+msgid "Search by keywords"
+msgstr "Rechercher par mots-clefs"
+
+#: ../.././tpl/header/searchform.php:9
+#, php-format
+msgid "Search on %s"
+msgstr "Rechercher sur %s"
+
+#: ../.././tpl/header/searchform.php:9
 msgid "Search"
 msgstr "Rechercher"
 
@@ -307,6 +320,10 @@ msgstr "Nombre de posts :"
 #: ../.././tpl/widgets/widget_post_categories.php:25
 msgid "Category:"
 msgstr "Catégorie :"
+
+#, fuzzy
+#~ msgid "Search all %s"
+#~ msgstr "Tous les %s"
 
 #~ msgid "Archive"
 #~ msgstr "Archive"

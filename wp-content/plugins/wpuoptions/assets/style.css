@@ -13,12 +13,40 @@
 ---------------------------------------------------------- */
 
 .wpu-options-upload-preview {
-    display: block;
-    width: auto;
-    height: auto;
+    z-index: 1;
+    position: relative;
     margin-bottom: 5px;
     max-height: 140px;
     max-width: 170px;
+    outline: 1px solid #ccc;
+}
+
+.wpu-options-upload-preview .x {
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    color: #fff;
+    background-color: #999;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.wpu-options-upload-preview .x:hover {
+    background-color: red;
+}
+
+.wpu-options-upload-preview img {
+    width: auto;
+    display: block;
+    height: auto;
+    max-height: 100%;
+    max-width: 100%;
 }
 
 /* ----------------------------------------------------------

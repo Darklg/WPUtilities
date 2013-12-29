@@ -13,9 +13,9 @@ var wputh_options_set_editor = function() {
         var $this = jQuery(this),
             $parent = $this.closest('.wpuoptions-view-editor-switch');
 
-            $this.remove();
-            $parent.find('.editor').show();
-            $parent.find('.original').remove();
+        $this.remove();
+        $parent.find('.editor').show();
+        $parent.find('.original').remove();
     });
 };
 
@@ -27,7 +27,25 @@ var wpuopt_file_frame,
     wpuopt_datafor;
 
 var wputh_options_set_media = function() {
-    jQuery('.wpu-options-form').on('click', '.wpuoptions_add_media', function(event) {
+    var options_form = jQuery('.wpu-options-form');
+    // Remove media
+    options_form.on('click', '.wpu-options-upload-preview .x', function(event) {
+        event.preventDefault();
+        var $this = jQuery(this),
+            $td = $this.closest('td'),
+            defaultLabel = $td.find('[data-defaultlabel]').attr('data-defaultlabel');
+
+        // Remove preview
+        $td.find('.wpu-options-upload-preview').remove();
+
+        // Empty value
+        $td.find('.hidden-value').val('');
+
+        // Set default text to button
+        $td.find('.wpuoptions_add_media').html(defaultLabel);
+    });
+    // Add media
+    options_form.on('click', '.wpuoptions_add_media', function(event) {
         event.preventDefault();
         var $this = jQuery(this);
 
@@ -58,7 +76,7 @@ var wputh_options_set_media = function() {
             jQuery('#' + wpuopt_datafor).attr('value', attachment.id);
 
             // Set preview image
-            $preview.html('<img class="wpu-options-upload-preview" src="' + attachment.url + '" />');
+            $preview.html('<div class="wpu-options-upload-preview"><span class="x">&times;</span><img src="' + attachment.url + '" /></div>');
 
             // Change button label
             $this.html($preview.attr('data-label'));

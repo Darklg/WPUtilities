@@ -33,9 +33,9 @@ register_nav_menus( array(
 add_filter( 'wputh_get_posttypes', 'wputh_set_theme_posttypes' );
 function wputh_set_theme_posttypes( $post_types ) {
     $post_types = array(
-        'task' => array(
-            'name' => __( 'task', 'wputh' ),
-            'plural' => __( 'tasks', 'wputh' ),
+        'work' => array(
+            'name' => __( 'Work', 'wputh' ),
+            'plural' => __( 'Works', 'wputh' ),
             'female' => 1
         )
     );
@@ -59,8 +59,8 @@ register_sidebar( array(
 add_filter( 'wputh_get_taxonomies', 'wputh_set_theme_taxonomies' );
 function wputh_set_theme_taxonomies( $taxonomies ) {
     $taxonomies = array(
-        'importance' => array(
-            'name' => __( 'Importance', 'wputh' )
+        'work-type' => array(
+            'name' => __( 'Work type', 'wputh' )
         )
     );
     return $taxonomies;

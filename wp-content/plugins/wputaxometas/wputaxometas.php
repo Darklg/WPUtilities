@@ -3,7 +3,7 @@
 Plugin Name: WPU Taxo Metas
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Simple admin for taxo metas
-Version: 0.3.1
+Version: 0.3.2
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -12,10 +12,8 @@ License URI: http://opensource.org/licenses/MIT
 
 class WPUTaxoMetas {
     function __construct() {
-        if ( is_admin() ) {
-            $this->set_options();
-            $this->set_admin_hooks();
-        }
+        $this->set_options();
+        $this->set_admin_hooks();
     }
 
     function set_admin_hooks() {
@@ -156,7 +154,9 @@ class WPUTaxoMetas {
 
 add_action( 'init', 'init_WPUTaxoMetas' );
 function init_WPUTaxoMetas() {
-    $WPUTaxoMetas = new WPUTaxoMetas();
+    if ( is_admin() ) {
+        $WPUTaxoMetas = new WPUTaxoMetas();
+    }
 }
 
 

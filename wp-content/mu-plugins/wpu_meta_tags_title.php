@@ -2,7 +2,7 @@
 /*
 Plugin Name: WPU Meta tags & title
 Description: Adds meta tags & better page title
-Version: 0.4
+Version: 0.4.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -88,6 +88,8 @@ function wpu_user_metas() {
     );
 
     if ( is_single() || is_page() ) {
+        $metas['og_type']['content'] = 'article';
+
         $metas['description'] = array(
             'name' => 'description',
             'content' => wpu_user_metas_prepare_text( $post->post_content )

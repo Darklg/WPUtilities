@@ -10,7 +10,14 @@ $wputh_setup_options = array(
     'date_format' => 'j F Y',
     'permalink_structure' => '/%postname%/',
     'timezone_string' => 'Europe/Paris',
-    'time_format' => 'H:i'
+    'time_format' => 'H:i',
+    // Default values to avoid unnecessary queries
+    'widget_calendar' => '',
+    'widget_nav_menu' => '',
+    'widget_pages' => '',
+    'widget_post_categories' => '',
+    'widget_tag_cloud' => '',
+    'wpu_home_meta_description' => '',
 );
 
 $wputh_setup_pages = array(
@@ -19,7 +26,7 @@ $wputh_setup_pages = array(
         'post_content' => '<p>A Propos de ce site.</p>',
     ),
     'mentions__page_id' => array(
-        'post_title' => html_entity_decode( 'Mentions l&eacute;gales' ),
+        'post_title' => 'Mentions Legales',
         'post_content' => '<p>Mentions l&eacute;gales du site.</p>',
     ),
 );

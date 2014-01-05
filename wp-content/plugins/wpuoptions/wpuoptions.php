@@ -2,7 +2,7 @@
 /*
 Plugin Name: WPU Options
 Plugin URI: http://github.com/Darklg/WPUtilities
-Version: 4.5.1
+Version: 4.6
 Description: Friendly interface for website options
 Author: Darklg
 Author URI: http://darklg.me/
@@ -387,6 +387,25 @@ class WPUOptions {
                         'selected' => $value,
                         'echo' => 0,
                     ) );
+                break;
+            case 'post':
+                $field_post_type = isset( $field['post_type'] ) ? $field['post_type'] : 'post';
+                $wpq_post_type = new WP_Query( array(
+                        'posts_per_page' => -1,
+                        'post_type' => $field_post_type,
+                        'orderby' => 'name',
+                        'order' => 'ASC'
+                    ) );
+                $content .= '<select ' . $idname . '"><option value="" disabled selected style="display:none;">'.sprintf( __( 'Select a %s', 'wpuoptions' ), $field_post_type ).'</option>';
+                while ( $wpq_post_type->have_posts() ) {
+                    $wpq_post_type->the_post();
+                    $key = get_the_ID();
+                    $content .= '<option value="'.htmlentities( $key ).'" '.( $key == $value ? 'selected="selected"' : '' ).'>';
+                    $content .= get_the_title();
+                    $content .= '</option>';
+                }
+                wp_reset_postdata();
+                $content .= '</select>';
                 break;
             case 'select':
                 $content .= '<select ' . $idname . '"><option value="" disabled selected style="display:none;">'.__( 'Select a value', 'wpuoptions' ).'</option>';

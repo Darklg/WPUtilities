@@ -1,0 +1,322 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WPUtilities\n"
+"POT-Creation-Date: 2014-01-07 14:11+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: it_IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c;_n:1,2;esc_attr__\n"
+"X-Poedit-SearchPath-0: ../../.\n"
+
+#: ../.././404.php:7 ../.././tpl/header/breadcrumbs.php:72
+msgid "404 Error"
+msgstr "Errore 404"
+
+#: ../.././404.php:8
+msgid "Sorry, but this page doesn&rsquo;t exists."
+msgstr "Spiacenti, ma questa pagina non esiste."
+
+#: ../.././footer.php:10
+#, php-format
+msgid "A %s site using %s"
+msgstr "Un sito %s utilizzando %s"
+
+#: ../.././functions.php:27
+msgid "Main menu"
+msgstr "menu principale"
+
+#: ../.././functions.php:37
+msgid "Work"
+msgstr "Lavoro"
+
+#: ../.././functions.php:38
+msgid "Works"
+msgstr "Lavori"
+
+#: ../.././functions.php:49
+msgid "Default Sidebar"
+msgstr ""
+
+#: ../.././functions.php:51
+msgid "Default theme sidebar"
+msgstr ""
+
+#: ../.././functions.php:63
+msgid "Work type"
+msgstr "Tipo di lavoro"
+
+#: ../.././loop.php:8 ../.././tpl/loops/header-loop-small.php:8
+msgid "F j, Y"
+msgstr "j F Y"
+
+#: ../.././loop.php:10 ../.././tpl/loops/header-loop-small.php:4
+msgid "By"
+msgstr "Di"
+
+#: ../.././loop.php:14
+msgid "Tags:"
+msgstr "Tags :"
+
+#: ../.././search.php:5
+msgid "<strong>no</strong> search results"
+msgstr "<strong>nessun</strong> risultato di ricerca"
+
+#: ../.././search.php:7
+msgid "<strong>1</strong> search result"
+msgstr "<strong>1</strong> risultato di ricerca"
+
+#: ../.././search.php:10
+#, php-format
+msgid "<strong>%s</strong> search result"
+msgstr "<strong>%s</strong> risultati di ricerca"
+
+#: ../.././search.php:15
+#, php-format
+msgid "%s for &ldquo;%s&rdquo;"
+msgstr "%s per &ldquo;%s&rdquo;"
+
+#: ../.././inc/plugins/wpu-options.php:24
+msgid "Analytics code"
+msgstr "Codice analytics"
+
+#: ../.././inc/plugins/wpu-options.php:28
+msgid "Email address"
+msgstr "Indirizzo e-mail"
+
+#: ../.././inc/plugins/wpu-options.php:40
+msgid "About"
+msgstr "Circa"
+
+#: ../.././inc/plugins/wpu-options.php:41
+msgid "Mentions"
+msgstr "Menzioni"
+
+#: ../.././inc/theme/post-types.php:47
+msgid "Add New"
+msgstr "Aggiungi nuovo"
+
+#: ../.././inc/theme/post-types.php:48
+#, php-format
+msgctxt "male"
+msgid "Add New %s"
+msgstr "Aggiungere un nuovo %s"
+
+#: ../.././inc/theme/post-types.php:49
+#, php-format
+msgctxt "male"
+msgid "Edit %s"
+msgstr "Modifica %s"
+
+#: ../.././inc/theme/post-types.php:50
+#, php-format
+msgctxt "male"
+msgid "New %s"
+msgstr "Nuovo %s"
+
+#: ../.././inc/theme/post-types.php:51
+#, php-format
+msgctxt "male"
+msgid "All %s"
+msgstr "Tutti gli %s"
+
+#: ../.././inc/theme/post-types.php:52
+#, php-format
+msgctxt "male"
+msgid "View %s"
+msgstr "Vedere un %s"
+
+#: ../.././inc/theme/post-types.php:53
+#, php-format
+msgctxt "male"
+msgid "Search %s"
+msgstr "Cerca un %s"
+
+#: ../.././inc/theme/post-types.php:54
+#, php-format
+msgctxt "male"
+msgid "No %s found"
+msgstr "Nessun %s trovato"
+
+#: ../.././inc/theme/post-types.php:55
+#, php-format
+msgctxt "male"
+msgid "No %s found in Trash"
+msgstr "Nessun %s trovati nella spazzatura"
+
+#: ../.././inc/theme/post-types.php:63
+#, php-format
+msgctxt "female"
+msgid "Add New %s"
+msgstr "Aggiungere una nuova %s"
+
+#: ../.././inc/theme/post-types.php:64
+#, php-format
+msgctxt "female"
+msgid "Edit %s"
+msgstr "Modifica %s"
+
+#: ../.././inc/theme/post-types.php:65
+#, php-format
+msgctxt "female"
+msgid "New %s"
+msgstr "Nuova %s"
+
+#: ../.././inc/theme/post-types.php:66
+#, php-format
+msgctxt "female"
+msgid "All %s"
+msgstr "Tutte le %s"
+
+#: ../.././inc/theme/post-types.php:67
+#, php-format
+msgctxt "female"
+msgid "View %s"
+msgstr "Vedere una %s"
+
+#: ../.././inc/theme/post-types.php:68
+#, php-format
+msgctxt "female"
+msgid "Search %s"
+msgstr "Cerca una %s"
+
+#: ../.././inc/theme/post-types.php:69
+#, php-format
+msgctxt "female"
+msgid "No %s found"
+msgstr "Nessuna %s trovata"
+
+#: ../.././inc/theme/post-types.php:70
+#, php-format
+msgctxt "female"
+msgid "No %s found in Trash"
+msgstr "Nessun %s trovata nella spazzatura"
+
+#: ../.././inc/theme/utilities.php:41
+msgid "Sorry, no search results for this query."
+msgstr "Spiacenti, nessun risultato trovato."
+
+#: ../.././inc/theme/utilities.php:68
+msgid "<strong>no</strong> comments"
+msgstr "<strong>nessun</strong> comment"
+
+#: ../.././inc/theme/utilities.php:71
+msgid "<strong>1</strong> comment"
+msgstr "<strong>1</strong> commento"
+
+#: ../.././inc/theme/utilities.php:74
+#, php-format
+msgid "<strong>%s</strong> comments"
+msgstr "<strong>%s</strong> commenti"
+
+#: ../.././inc/theme/utilities.php:77
+msgid "Comments are closed"
+msgstr "I commenti sono chiusi"
+
+#: ../.././page-templates/page-downloads.php:29
+msgid "Size:"
+msgstr "Peso :"
+
+#: ../.././page-templates/page-sitemap.php:13
+msgid "Home page"
+msgstr "Pagina iniziale"
+
+#: ../.././page-templates/page-sitemap.php:74
+msgid "Pages"
+msgstr "Pagine"
+
+#: ../.././page-templates/page-sitemap.php:79
+msgid "Posts"
+msgstr "Articoli"
+
+#: ../.././tpl/paginate.php:28
+msgid "Next page"
+msgstr "Pagina successiva"
+
+#: ../.././tpl/contact/header-action.php:6
+msgid "Name"
+msgstr "Nome"
+
+#: ../.././tpl/contact/header-action.php:10
+msgid "Email"
+msgstr "E-mail"
+
+#: ../.././tpl/contact/header-action.php:15
+msgid "Message"
+msgstr "Messaggio"
+
+#: ../.././tpl/contact/header-action.php:60
+#, php-format
+msgid "The field \"%s\" is not correct"
+msgstr "Il campo \"%s\" non è corretto"
+
+#: ../.././tpl/contact/header-action.php:67
+#, php-format
+msgid "The field \"%s\" is required"
+msgstr "Il campo \"%s\" è necessaria"
+
+#: ../.././tpl/contact/header-action.php:74
+msgid "Thank you for your message!"
+msgstr "Grazie per il tuo messaggio!"
+
+#: ../.././tpl/contact/header-action.php:77
+#: ../.././tpl/contact/header-action.php:85
+msgid "Message from your contact form"
+msgstr "Messaggio dal modulo di contatto"
+
+#: ../.././tpl/contact/header-action.php:89
+msgid "Error:"
+msgstr "Errore :"
+
+#: ../.././tpl/contact/header-action.php:117
+msgid "Submit"
+msgstr "Inviare"
+
+#: ../.././tpl/header/breadcrumbs.php:17
+msgid "Home"
+msgstr "Pagina iniziale"
+
+#: ../.././tpl/header/breadcrumbs.php:79
+#, php-format
+msgid "Search results for \"%s\""
+msgstr "Risultati della ricerca per \"%s\""
+
+#: ../.././tpl/header/searchform.php:7
+msgid "Search for:"
+msgstr "Ricerca :"
+
+#: ../.././tpl/header/searchform.php:8
+msgid "Enter your keywords..."
+msgstr "Inserire le parole chiave..."
+
+#: ../.././tpl/header/searchform.php:8
+msgid "Search by keywords"
+msgstr "Ricerca per parole chiave"
+
+#: ../.././tpl/header/searchform.php:9
+#, php-format
+msgid "Search on %s"
+msgstr "Ricerca in %s"
+
+#: ../.././tpl/header/searchform.php:9
+msgid "Search"
+msgstr "Ricerca"
+
+#: ../.././tpl/header/social.php:11
+#, php-format
+msgid "%s: Follow %s (open in new window)"
+msgstr "%s : Seguire %s (apre in una nuova finestra)"
+
+#: ../.././tpl/widgets/widget_post_categories.php:22
+msgid "Number of posts:"
+msgstr "Numero di articolo"
+
+#: ../.././tpl/widgets/widget_post_categories.php:25
+msgid "Category:"
+msgstr "Categoria :"

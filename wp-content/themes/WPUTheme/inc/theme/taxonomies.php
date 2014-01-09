@@ -12,7 +12,7 @@ function wputh_add_taxonomies() {
     foreach ( $taxonomies as $slug => $taxo ) {
         register_taxonomy(
             $slug,
-            $post_type,
+            $taxo['post_type'],
             array(
                 'label' => $taxo['name'],
                 'rewrite' => array( 'slug' => $slug ),

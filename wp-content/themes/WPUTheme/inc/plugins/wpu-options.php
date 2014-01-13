@@ -20,9 +20,6 @@ add_filter( 'wpu_options_fields', 'set_wputh_options_fields', 10, 3 );
 
 function set_wputh_options_fields( $options ) {
 
-    // Various fields
-    $options['wputh_ua_analytics'] = array( 'label' => __( 'Analytics code', 'wputh' ) );
-
     // Virtual contacts
     $options['wpu_opt_email'] = array(
         'label' => __( 'Email address', 'wputh' ),

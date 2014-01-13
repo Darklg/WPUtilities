@@ -3,8 +3,9 @@ include dirname( __FILE__ ) . '/z-protect.php';
 get_header();
 
 $shown_title = wp_title( "", false );
-if ( function_exists( 'wputh_get_displayed_title' ) ) {
-    $shown_title = wputh_get_displayed_title();
+if ( class_exists( 'WPUSEO' ) ) {
+    $wpu_seo = new WPUSEO();
+    $shown_title = $wpu_seo->get_displayed_title();
 }
 
 echo '<div class="main-content">';

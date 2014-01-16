@@ -1,6 +1,5 @@
 jQuery(document).ready(function() {
     var attachments_select = jQuery('.wpupostmetas-attachments');
-
     // Display image preview
     attachments_select.on('change', function() {
         wpupostmetas_setattachmentpreview(jQuery(this));
@@ -55,9 +54,10 @@ var wpupostmetas_setattachmentpreview = function(self) {
     if (guid) {
         img = '<img src="' + guid + '" alt="" />';
     }
-    if (img) {
-        prev = self.closest('td').find('.preview-img');
+    if (!img) {
+        img = '';
     }
+    prev = self.closest('td').find('.preview-img');
     if (prev) {
         prev.html(img);
     }

@@ -3,7 +3,7 @@
 Plugin Name: WPU Post Metas
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Simple admin for post metas
-Version: 0.7
+Version: 0.7.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -31,7 +31,7 @@ class WPUPostMetas {
 
     function load_assets() {
         $screen = get_current_screen();
-        if ( $screen->id == 'post' ) {
+        if ( $screen->base == 'post' ) {
             wp_enqueue_style( 'wpupostmetas_style', plugins_url( 'assets/style.css', __FILE__ ) );
             wp_enqueue_script( 'wpupostmetas_scripts', plugins_url( '/assets/global.js', __FILE__ ) );
         }
@@ -144,6 +144,7 @@ class WPUPostMetas {
                         echo '<div class="wpupostmetas-attachments__container"><span class="before"></span>';
                         echo '<div class="preview-img" id="preview-'.$id.'"></div>';
                         echo '<select '.$idname.' class="wpupostmetas-attachments" data-postid="'.$post->ID.'" data-postvalue="'.$value.'">';
+                        echo '<option value="-">'.__( 'None', 'wpupostmetas' ).'</option>';
                         foreach ( $attachments as $attachment ) {
                             $data_guid = '';
                             if ( strpos( $attachment->post_mime_type, 'image/' ) !== false ) {

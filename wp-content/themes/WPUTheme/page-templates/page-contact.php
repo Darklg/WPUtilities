@@ -1,6 +1,6 @@
 <?php
 /* Template Name: Contact */
-include dirname( __FILE__ ) . '/../../WPUTheme/z-protect.php';
+include dirname( __FILE__ ) . '/../z-protect.php';
 include get_template_directory() . '/tpl/contact/header-action.php';
 get_header();
 the_post();

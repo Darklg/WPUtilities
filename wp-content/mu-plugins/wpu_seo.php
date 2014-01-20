@@ -2,7 +2,7 @@
 /*
 Plugin Name: WPU SEO
 Description: Enhance SEO : Clean title, nice metas.
-Version: 0.6.1
+Version: 0.6.2
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -127,7 +127,7 @@ class WPUSEO {
                 'content' => $this->prepare_text( $post->post_content )
             );
 
-            $keywords = $this->get_post_keywords();
+            $keywords = $this->get_post_keywords( get_the_ID() );
             if ( !empty( $keywords ) ) {
                 $keywords_txt = implode( ', ', $keywords );
                 $metas['keywords'] = array(
@@ -319,8 +319,10 @@ class WPUSEO {
     }
 
     function add_terms_to_keywords( $terms, $keywords_raw ) {
-        foreach ( $terms as $term ) {
-            $keywords_raw = $this->check_keywords_value( $term->slug, $term->name, $keywords_raw );
+        if ( is_array( $terms ) ) {
+            foreach ( $terms as $term ) {
+                $keywords_raw = $this->check_keywords_value( $term->slug, $term->name, $keywords_raw );
+            }
         }
 
         return $keywords_raw;

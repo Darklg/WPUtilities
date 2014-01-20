@@ -2,7 +2,7 @@
 /*
 Plugin Name: WPU SEO
 Description: Enhance SEO : Clean title, nice metas.
-Version: 0.6.2
+Version: 0.6.3
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -48,6 +48,7 @@ class WPUSEO {
         // Facebook
         $options['wputh_fb_admins'] = array( 'label' => __( 'FB:Admins ID', 'wputh' ), 'box' => 'wpu_seo' );
         $options['wputh_fb_app'] = array( 'label' => __( 'FB:App ID', 'wputh' ), 'box' => 'wpu_seo' );
+        $options['wputh_fb_image'] = array( 'label' => __( 'FB:Image', 'wputh' ), 'box' => 'wpu_seo', 'type' => 'media' );
 
         return $options;
     }
@@ -118,6 +119,16 @@ class WPUSEO {
         global $post;
         $metas = array();
 
+        $metas['og_sitename'] = array(
+            'property' => 'og:site_name',
+            'content' => get_bloginfo( 'name' )
+        );
+
+        $metas['og_type'] = array(
+            'property' => 'og:type',
+            'content' => 'website'
+        );
+
         if ( is_single() || is_page() ) {
             $metas['og_type']['content'] = 'article';
 
@@ -144,7 +155,7 @@ class WPUSEO {
                 'property' => 'og:url',
                 'content' => get_permalink()
             );
-            $thumb_url = wp_get_attachment_image_src( get_post_thumbnail_id(), 'thumbnail', true );
+            $thumb_url = wp_get_attachment_image_src( get_post_thumbnail_id(), 'medium', true );
             if ( isset( $thumb_url[0] ) ) {
                 $metas['og_image'] = array(
                     'property' => 'og:image',
@@ -183,21 +194,18 @@ class WPUSEO {
                 'property' => 'og:url',
                 'content' => home_url()
             );
+
+            $og_image = get_template_directory_uri() . '/screenshot.png';
+            $opt_wputh_fb_image = get_option( 'wputh_fb_image' );
+            $wputh_fb_image = wp_get_attachment_image_src( $opt_wputh_fb_image, 'medium', true );
+            if ( $opt_wputh_fb_image != false && isset( $wputh_fb_image[0] ) ) {
+                $og_image = $wputh_fb_image[0];
+            }
             $metas['og_image'] = array(
                 'property' => 'og:image',
-                'content' => get_template_directory_uri() . '/screenshot.png'
+                'content' => $og_image
             );
         }
-
-        $metas['og_sitename'] = array(
-            'property' => 'og:site_name',
-            'content' => get_bloginfo( 'name' )
-        );
-
-        $metas['og_type'] = array(
-            'property' => 'og:type',
-            'content' => 'blog'
-        );
 
         // Google Site
         $wpu_google_site_verification = trim( get_option( 'wpu_google_site_verification' ) );

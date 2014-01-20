@@ -17,7 +17,7 @@ var wputh_ajax_load_more = function() {
             return;
         }
         var req = new Request.HTML({
-            method: 'post',
+            method: 'get',
             url: self.get('href'),
             data: {
                 'is_ajax': '1'

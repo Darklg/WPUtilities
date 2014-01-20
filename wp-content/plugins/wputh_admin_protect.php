@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Utilities admin protect
 Description: Restrictive options for WordPress admin
-Version: 0.2.1
+Version: 0.3
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -55,3 +55,22 @@ if ( !defined( 'DISALLOW_FILE_EDIT' ) ) {
 if ( !defined( 'DISALLOW_FILE_MODS' ) ) {
     define( 'DISALLOW_FILE_MODS', true );
 }
+
+/* ----------------------------------------------------------
+  Users settings
+---------------------------------------------------------- */
+
+/* Thanks to http://blog.secupress.fr/ajoutez-point-securite-facilement-astuce-156.html */
+
+/* Disable user registration */
+add_filter( 'pre_option_users_can_register', 'wputh_admin_option_users_can_register' );
+function wputh_admin_option_users_can_register( $value ) {
+    return '0';
+}
+
+/* Default role : subscriber */
+add_filter( 'pre_option_default_role', 'wputh_admin_option_default_role' );
+function wputh_admin_option_default_role( $value ) {
+    return 'subscriber';
+}
+

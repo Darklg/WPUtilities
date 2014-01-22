@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Utilities Open Sans
 Description: Use an embedded version of the font Open Sans, and bypasses Google Fonts in WP Admin
-Version: 0.1.1
+Version: 0.1.2
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License

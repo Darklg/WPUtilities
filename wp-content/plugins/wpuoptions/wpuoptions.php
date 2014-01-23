@@ -2,7 +2,7 @@
 /*
 Plugin Name: WPU Options
 Plugin URI: http://github.com/Darklg/WPUtilities
-Version: 4.6
+Version: 4.6.1
 Description: Friendly interface for website options
 Author: Darklg
 Author URI: http://darklg.me/
@@ -369,16 +369,17 @@ class WPUOptions {
                 $img = '';
                 $btn_label = __( 'Add a picture', 'wpuoptions' );
                 $btn_edit_label = __( 'Change this picture', 'wpuoptions' );
+                $btn_label_display = $btn_label;
                 if ( is_numeric( $value ) ) {
                     $image = wp_get_attachment_image_src( $value, 'big' );
                     if ( isset( $image[0] ) ) {
                         $img = '<div class="wpu-options-upload-preview"><span class="x">&times;</span><img src="'.$image[0]. '" alt="" /></div>';
-                        $btn_label = $btn_edit_label;
+                        $btn_label_display = $btn_edit_label;
                     }
                 }
 
-                $content .= '<div data-defaultlabel="'.esc_attr( $btn_label ).'" data-label="'.esc_attr( $btn_edit_label ).'" id="preview-'.$idf.'">'.$img.'</div>'.
-                    '<a href="#" data-for="'.$idf.'" class="button button-small wpuoptions_add_media">'.$btn_label.'</a>'.
+                $content .= '<div data-confirm="'.__( 'Do you really want to remove this image ?', 'wpuoptions' ).'" data-defaultlabel="'.esc_attr( $btn_label ).'" data-label="'.esc_attr( $btn_edit_label ).'" id="preview-'.$idf.'">'.$img.'</div>'.
+                    '<a href="#" data-for="'.$idf.'" class="button button-small wpuoptions_add_media">'.$btn_label_display.'</a>'.
                     '<input class="hidden-value" type="hidden" ' . $idname . ' value="' . $value . '" />';
                 break;
             case 'page':

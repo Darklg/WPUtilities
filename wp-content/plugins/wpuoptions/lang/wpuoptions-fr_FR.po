@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WPU Options\n"
-"POT-Creation-Date: 2014-01-05 21:04+0100\n"
+"POT-Creation-Date: 2014-01-23 23:10+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Kevin <kevin@rocher.me>\n"
 "Language-Team: \n"
@@ -105,23 +105,27 @@ msgstr "Ajouter une image"
 msgid "Change this picture"
 msgstr "Modifier cette image"
 
-#: .././wpuoptions.php:399
+#: .././wpuoptions.php:381
+msgid "Do you really want to remove this image ?"
+msgstr "Voulez-vous vraiment retirer cette image ?"
+
+#: .././wpuoptions.php:400
 #, php-format
 msgid "Select a %s"
 msgstr "Sélectionner un %s"
 
-#: .././wpuoptions.php:411
+#: .././wpuoptions.php:412
 msgid "Select a value"
 msgstr "Sélectionner une valeur"
 
-#: .././wpuoptions.php:451
+#: .././wpuoptions.php:452
 msgid "No"
 msgstr "Non"
 
-#: .././wpuoptions.php:451
+#: .././wpuoptions.php:452
 msgid "Yes"
 msgstr "Oui"
 
-#: .././wpuoptions.php:490
+#: .././wpuoptions.php:491
 msgid "Export options"
 msgstr "Exporter les options"

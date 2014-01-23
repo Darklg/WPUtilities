@@ -33,7 +33,14 @@ var wputh_options_set_media = function() {
         event.preventDefault();
         var $this = jQuery(this),
             $td = $this.closest('td'),
-            defaultLabel = $td.find('[data-defaultlabel]').attr('data-defaultlabel');
+            divLabel = $td.find('[data-defaultlabel]'),
+            defaultLabel = divLabel.attr('data-defaultlabel');
+
+        // Asks for confirmation
+        var confirm = window.confirm(divLabel.attr('data-confirm'));
+        if (!confirm) {
+            return false;
+        }
 
         // Remove preview
         $td.find('.wpu-options-upload-preview').remove();
@@ -42,7 +49,8 @@ var wputh_options_set_media = function() {
         $td.find('.hidden-value').val('');
 
         // Set default text to button
-        $td.find('.wpuoptions_add_media').html(defaultLabel);
+        console.log($td.find('.wpuoptions_add_media'), defaultLabel);
+        $td.find('.wpuoptions_add_media').text(defaultLabel);
     });
     // Add media
     options_form.on('click', '.wpuoptions_add_media', function(event) {

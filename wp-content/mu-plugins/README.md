@@ -7,6 +7,5 @@ Plugins list :
 ---
 
 * *Display Instagram* : Displays the latest image for an Instagram account
-* *Google Analytics* : Adds Google Analytics script to the Footer
-* *WPU Meta tags & Title* : Adds meta tags & better page title
+* *WPU SEO* : Enhance SEO : Clean title, nice metas.
 * *WPU UX Tweaks* : Adds UX enhancement & tweaks to WordPress

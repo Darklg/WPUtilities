@@ -8,7 +8,7 @@ if ( !isset( $_GET['is_ajax'] ) ) {
 <!--[if gt IE 9]><html <?php language_attributes(); ?> class="is_ie10"><![endif]-->
 <!--[if !IE]><!--> <html <?php language_attributes(); ?>><!--<![endif]-->
 <head><?php include get_template_directory() . '/tpl/header/head.php'; ?></head>
-<body <?php body_class( 'cssc-is-responsive' ); ?>>
+<body <?php body_class( 'no-js cssc-is-responsive' ); ?>>
 <div class="main-header centered-container">
     <header class="banner" role="banner" id="banner">
     <?php

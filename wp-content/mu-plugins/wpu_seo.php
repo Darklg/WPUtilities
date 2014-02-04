@@ -2,7 +2,7 @@
 /*
 Plugin Name: WPU SEO
 Description: Enhance SEO : Clean title, nice metas.
-Version: 0.6.4
+Version: 0.7
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -25,10 +25,15 @@ class WPUSEO {
         // Admin boxes
         add_filter( 'wpu_options_boxes', array( &$this, 'add_boxes' ), 99, 1 );
         add_filter( 'wpu_options_fields', array( &$this, 'add_fields' ), 99, 1 );
+
+        // User boxes
+        add_filter( 'wpu_usermetas_sections', array( &$this, 'add_user_sections' ), 10, 3 );
+        add_filter( 'wpu_usermetas_fields', array( &$this, 'add_user_fields' ), 10, 3 );
+
     }
 
     /* ----------------------------------------------------------
-      Admin
+      Admin Options
     ---------------------------------------------------------- */
 
     function add_boxes( $boxes ) {
@@ -52,6 +57,26 @@ class WPUSEO {
 
         return $options;
     }
+
+    /* ----------------------------------------------------------
+      User Options
+    ---------------------------------------------------------- */
+
+    function add_user_sections( $sections ) {
+        $sections['wpu-seo'] = array(
+            'name' => 'WPU SEO'
+        );
+        return $sections;
+    }
+
+    function add_user_fields( $fields ) {
+        $fields['wpu_seo_user_google_profile'] = array(
+            'name' => 'Google+ URL',
+            'section' => 'wpu-seo'
+        );
+        return $fields;
+    }
+
 
     /* ----------------------------------------------------------
       Page Title
@@ -161,6 +186,12 @@ class WPUSEO {
                     'property' => 'og:image',
                     'content' => $thumb_url[0]
                 );
+            }
+
+            // Author informations
+            $wpu_seo_user_google_profile = get_user_meta( $post->post_author, 'wpu_seo_user_google_profile', 1 );
+            if ( filter_var( $wpu_seo_user_google_profile, FILTER_VALIDATE_URL ) ) {
+                echo '<link rel="author" href="'.$wpu_seo_user_google_profile.'"/>';
             }
         }
 

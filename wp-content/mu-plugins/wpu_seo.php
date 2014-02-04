@@ -2,7 +2,7 @@
 /*
 Plugin Name: WPU SEO
 Description: Enhance SEO : Clean title, nice metas.
-Version: 0.7
+Version: 0.7.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -143,6 +143,7 @@ class WPUSEO {
     function add_metas() {
         global $post;
         $metas = array();
+        $links = array();
 
         $metas['og_sitename'] = array(
             'property' => 'og:site_name',
@@ -191,7 +192,10 @@ class WPUSEO {
             // Author informations
             $wpu_seo_user_google_profile = get_user_meta( $post->post_author, 'wpu_seo_user_google_profile', 1 );
             if ( filter_var( $wpu_seo_user_google_profile, FILTER_VALIDATE_URL ) ) {
-                echo '<link rel="author" href="'.$wpu_seo_user_google_profile.'"/>';
+                $links['google_author'] = array(
+                    'rel' => 'author',
+                    'href' => $wpu_seo_user_google_profile
+                );
             }
         }
 
@@ -265,7 +269,8 @@ class WPUSEO {
             );
         }
 
-        echo $this->metas_convert_array_html( $metas );
+        echo $this->special_convert_array_html( $metas );
+        echo $this->special_convert_array_html( $links, 'link' );
     }
 
     /* ----------------------------------------------------------
@@ -286,7 +291,7 @@ class WPUSEO {
             );
         }
 
-        echo $this->metas_convert_array_html( $metas );
+        echo $this->special_convert_array_html( $metas );
     }
 
     /* ----------------------------------------------------------
@@ -403,10 +408,10 @@ class WPUSEO {
     /* Convert an array of metas to HTML
     -------------------------- */
 
-    function metas_convert_array_html( $metas ) {
+    function special_convert_array_html( $metas, $tag='meta' ) {
         $html = '';
         foreach ( $metas as $values ) {
-            $html .= '<meta';
+            $html .= '<'.$tag;
             foreach ( $values as $name => $value ) {
                 $html .= sprintf( ' %s="%s"', $name, esc_attr( $value ) );
             }

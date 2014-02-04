@@ -3,7 +3,7 @@
 Plugin Name: WPU User Metas
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Simple admin for user metas
-Version: 0.2
+Version: 0.2.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -86,7 +86,7 @@ class WPUUserMetas {
         if ( !empty( $fields ) ) {
             $content .= '<h3>' . $name . '</h3>';
             $content .= '<table class="form-table">';
-            foreach ( $this->fields as $id_field => $field ) {
+            foreach ( $fields as $id_field => $field ) {
                 $content .= $this->display_field( $user, $id_field, $field );
             }
             $content .= '</table>';

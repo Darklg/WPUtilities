@@ -3,7 +3,7 @@
 Plugin Name: WPU disable comments
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Disable all comments
-Version: 1.0
+Version: 1.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -19,6 +19,7 @@ License URI: http://opensource.org/licenses/MIT
 function wputh_disable_comments_css() {
     echo "<style>#dashboard_right_now .table_discussion {display:none !important;}</style>";
 }
+
 add_action( 'admin_head', 'wputh_disable_comments_css' );
 
 /* ----------------------------------------------------------
@@ -31,6 +32,7 @@ function wputh_disable_comments_remove_dashboard_widgets() {
         unset( $wp_meta_boxes['dashboard']['normal']['core']['dashboard_recent_comments'] );
     }
 }
+
 add_action( 'wp_dashboard_setup', 'wputh_disable_comments_remove_dashboard_widgets' );
 
 /* ----------------------------------------------------------
@@ -79,6 +81,26 @@ function wputh_disable_comments_send_spam( $approved , $commentdata ) {
 }
 
 add_filter( 'pre_comment_approved' , 'wputh_disable_comments_send_spam' , '99', 2 );
+
+/* ----------------------------------------------------------
+  Force options
+---------------------------------------------------------- */
+
+/* Disable new comments */
+
+function wputh_disable_comments_option_default_comment_status( $value ) {
+    return 'closed';
+}
+
+add_filter( 'pre_option_default_comment_status', 'wputh_disable_comments_option_default_comment_status' );
+
+/* Disable new pings */
+
+function wputh_disable_comments_option_default_ping_status( $value ) {
+    return 'closed';
+}
+
+add_filter( 'pre_option_default_ping_status', 'wputh_disable_comments_option_default_ping_status' );
 
 /* ----------------------------------------------------------
   Disable pings

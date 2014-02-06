@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Utilities admin protect
 Description: Restrictive options for WordPress admin
-Version: 0.3
+Version: 0.4
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -26,9 +26,10 @@ define( 'WPUTH_ADMIN_MIN_LVL', 'manage_categories' );
 
 if ( is_admin() ) {
 
+    /* if the user is not an administrator, kill WordPress execution and provide a message */
+
     add_action( 'admin_init', 'wputh_block_admin', 1 );
     function wputh_block_admin() {
-        // if the user is not an administrator, kill WordPress execution and provide a message
         if ( ! current_user_can( WPUTH_ADMIN_MIN_LVL ) && $_SERVER['PHP_SELF'] != '/wp-admin/admin-ajax.php' ) {
             wp_die( __( 'You are not allowed to access this part of the site' ) );
         }
@@ -40,6 +41,16 @@ if ( is_admin() ) {
     function wputh_remove_update_nag() {
         if ( !current_user_can( WPUTH_ADMIN_MAX_LVL ) ) {
             remove_action( 'admin_notices', 'update_nag', 3 );
+        }
+    }
+
+
+    /* Hide Errors for non admins */
+    add_action( 'init', 'wputh_hide_errors' );
+    function wputh_hide_errors() {
+        if ( ! current_user_can( WPUTH_ADMIN_MIN_LVL ) ) {
+            @error_reporting( 0 );
+            @ini_set( 'display_errors', 0 );
         }
     }
 
@@ -73,4 +84,3 @@ add_filter( 'pre_option_default_role', 'wputh_admin_option_default_role' );
 function wputh_admin_option_default_role( $value ) {
     return 'subscriber';
 }
-

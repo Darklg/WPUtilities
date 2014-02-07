@@ -43,17 +43,6 @@ function wputh_set_theme_posttypes( $post_types ) {
     return $post_types;
 }
 
-/* Sidebars
--------------------------- */
-
-register_sidebar( array(
-        'name' => __( 'Default Sidebar', 'wputh' ),
-        'id' => 'wputh-sidebar',
-        'description' => __( 'Default theme sidebar', 'wputh' ),
-        'before_title' => '<h3>',
-        'after_title' => '</h3>'
-    ) );
-
 /* Taxonomies
 -------------------------- */
 
@@ -66,6 +55,18 @@ function wputh_set_theme_taxonomies( $taxonomies ) {
     );
     return $taxonomies;
 }
+
+/* Sidebars
+-------------------------- */
+
+register_sidebar( array(
+        'name' => __( 'Default Sidebar', 'wputh' ),
+        'id' => 'wputh-sidebar',
+        'description' => __( 'Default theme sidebar', 'wputh' ),
+        'before_title' => '<h3>',
+        'after_title' => '</h3>'
+    ) );
+
 
 /* Thumbnails
 -------------------------- */
@@ -92,12 +93,6 @@ include get_template_directory() . '/inc/theme/shortcodes.php';
 include get_template_directory() . '/inc/theme/activation.php';
 
 if ( ! isset( $content_width ) ) $content_width = 680;
-
-/* Posts configuration
--------------------------- */
-
-include get_template_directory() . '/inc/theme/taxonomies.php';
-include get_template_directory() . '/inc/theme/post-types.php';
 
 /* Plugins Configuration
 -------------------------- */

@@ -2,7 +2,7 @@
 /*
 Plugin Name: WPU SEO
 Description: Enhance SEO : Clean title, nice metas.
-Version: 0.7.1
+Version: 0.8
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -22,6 +22,9 @@ class WPUSEO {
         add_action( 'wp_head', array( &$this, 'add_metas_robots' ), 1 , 0 );
         add_action( 'wp_footer', array( &$this, 'display_google_analytics_code' ) );
 
+        // Clean WP Head
+        add_action( 'template_redirect', array( &$this, 'clean_wordpress_head' ) );
+
         // Admin boxes
         add_filter( 'wpu_options_boxes', array( &$this, 'add_boxes' ), 99, 1 );
         add_filter( 'wpu_options_fields', array( &$this, 'add_fields' ), 99, 1 );
@@ -30,6 +33,17 @@ class WPUSEO {
         add_filter( 'wpu_usermetas_sections', array( &$this, 'add_user_sections' ), 10, 3 );
         add_filter( 'wpu_usermetas_fields', array( &$this, 'add_user_fields' ), 10, 3 );
 
+    }
+
+    /* ----------------------------------------------------------
+      Clean WordPress head
+    ---------------------------------------------------------- */
+
+    function clean_wordpress_head() {
+        if ( !is_single() ) {
+            remove_action( 'wp_head', 'wp_shortlink_wp_head' );
+            remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head' );
+        }
     }
 
     /* ----------------------------------------------------------

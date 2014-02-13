@@ -34,10 +34,10 @@ add_filter( 'wputh_get_posttypes', 'wputh_set_theme_posttypes' );
 function wputh_set_theme_posttypes( $post_types ) {
     $post_types = array(
         'work' => array(
-            'menu_icon' => 'http://placehold.it/16x16',
+            'menu_icon' => 'dashicons-portfolio',
             'name' => __( 'Work', 'wputh' ),
             'plural' => __( 'Works', 'wputh' ),
-            'female' => 1
+            'female' => 0
         )
     );
     return $post_types;
@@ -50,7 +50,8 @@ add_filter( 'wputh_get_taxonomies', 'wputh_set_theme_taxonomies' );
 function wputh_set_theme_taxonomies( $taxonomies ) {
     $taxonomies = array(
         'work-type' => array(
-            'name' => __( 'Work type', 'wputh' )
+            'name' => __( 'Work type', 'wputh' ),
+            'post_type' => 'work'
         )
     );
     return $taxonomies;

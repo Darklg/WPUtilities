@@ -2,7 +2,7 @@
 /*
 Plugin Name: WPU SEO
 Description: Enhance SEO : Clean title, nice metas.
-Version: 0.8
+Version: 0.9
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -88,6 +88,14 @@ class WPUSEO {
             'name' => 'Google+ URL',
             'section' => 'wpu-seo'
         );
+        $fields['wpu_seo_user_twitter_site_username'] = array(
+            'name' => 'Twitter site @username',
+            'section' => 'wpu-seo'
+        );
+        $fields['wpu_seo_user_twitter_site_creator'] = array(
+            'name' => 'Twitter site @creator',
+            'section' => 'wpu-seo'
+        );
         return $fields;
     }
 
@@ -169,13 +177,48 @@ class WPUSEO {
             'content' => 'website'
         );
 
+        $wpu_seo_user_twitter_site_username = trim( get_option( 'wpu_seo_user_twitter_site_username' ) );
+        if ( !empty( $wpu_seo_user_twitter_site_username ) ) {
+            $metas['twitter_site'] = array(
+                'name' => 'twitter:site',
+                'content' => $wpu_seo_user_twitter_site_username
+            );
+        }
+        $wpu_seo_user_twitter_site_creator = trim( get_option( 'wpu_seo_user_twitter_site_creator' ) );
+        if ( !empty( $wpu_seo_user_twitter_site_creator ) ) {
+            $metas['twitter_creator'] = array(
+                'name' => 'twitter:creator',
+                'content' => $wpu_seo_user_twitter_site_creator
+            );
+        }
+
         if ( is_single() || is_page() ) {
+
+            $description = $this->prepare_text( $post->post_content );
+
+            /* Twitter : Summary card */
+            $metas['twitter_card'] = array(
+                'name' => 'twitter:card',
+                'content' => 'summary'
+            );
+            $metas['twitter_title'] = array(
+                'name' => 'twitter:title',
+                'content' => get_the_title()
+            );
+            $metas['twitter_description'] = array(
+                'name' => 'twitter:description',
+                'content' => $description
+            );
+
+
+            /* Facebook : Open Graph */
+
             $metas['og_type']['content'] = 'article';
 
             // Description
             $metas['description'] = array(
                 'name' => 'description',
-                'content' => $this->prepare_text( $post->post_content )
+                'content' => $description
             );
 
             $keywords = $this->get_post_keywords( get_the_ID() );
@@ -199,6 +242,10 @@ class WPUSEO {
             if ( isset( $thumb_url[0] ) ) {
                 $metas['og_image'] = array(
                     'property' => 'og:image',
+                    'content' => $thumb_url[0]
+                );
+                $metas['twitter_image'] = array(
+                    'name' => 'twitter:image',
                     'content' => $thumb_url[0]
                 );
             }

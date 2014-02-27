@@ -2,7 +2,7 @@
 /*
 Plugin Name: WPU SEO
 Description: Enhance SEO : Clean title, nice metas.
-Version: 0.9
+Version: 0.10
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -51,7 +51,10 @@ class WPUSEO {
     ---------------------------------------------------------- */
 
     function add_boxes( $boxes ) {
-        $boxes['wpu_seo'] = array( 'name' => 'WPU SEO' );
+        $boxes['wpu_seo'] = array( 'name' => 'WPU SEO : Main' );
+        $boxes['wpu_seo_google'] = array( 'name' => 'WPU SEO : Google' );
+        $boxes['wpu_seo_facebook'] = array( 'name' => 'WPU SEO : Facebook' );
+        $boxes['wpu_seo_twitter'] = array( 'name' => 'WPU SEO : Twitter' );
         return $boxes;
     }
 
@@ -61,13 +64,18 @@ class WPUSEO {
         $options['wpu_home_meta_keywords'] = array( 'label' => __( 'Main meta keywords', 'wputh' ), 'type' => 'textarea', 'box' => 'wpu_seo' );
 
         // Google
-        $options['wpu_google_site_verification'] = array( 'label' => __( 'Google verification ID', 'wputh' ), 'box' => 'wpu_seo' );
-        $options['wputh_ua_analytics'] = array( 'label' => __( 'Google Analytics ID', 'wputh' ), 'box' => 'wpu_seo' );
+        $options['wpu_google_site_verification'] = array( 'label' => __( 'Google verification ID', 'wputh' ), 'box' => 'wpu_seo_google' );
+        $options['wputh_ua_analytics'] = array( 'label' => __( 'Google Analytics ID', 'wputh' ), 'box' => 'wpu_seo_google' );
 
         // Facebook
-        $options['wputh_fb_admins'] = array( 'label' => __( 'FB:Admins ID', 'wputh' ), 'box' => 'wpu_seo' );
-        $options['wputh_fb_app'] = array( 'label' => __( 'FB:App ID', 'wputh' ), 'box' => 'wpu_seo' );
-        $options['wputh_fb_image'] = array( 'label' => __( 'FB:Image', 'wputh' ), 'box' => 'wpu_seo', 'type' => 'media' );
+        $options['wputh_fb_admins'] = array( 'label' => __( 'FB:Admins ID', 'wputh' ), 'box' => 'wpu_seo_facebook' );
+        $options['wputh_fb_app'] = array( 'label' => __( 'FB:App ID', 'wputh' ), 'box' => 'wpu_seo_facebook' );
+        $options['wputh_fb_image'] = array( 'label' => __( 'FB:Image', 'wputh' ), 'box' => 'wpu_seo_facebook', 'type' => 'media' );
+
+        // Twitter
+        $options['wpu_seo_user_twitter_site_username'] = array( 'label' => __( 'Twitter site @username', 'wputh' ), 'box' => 'wpu_seo_twitter' );
+        $options['wpu_seo_user_twitter_site_creator'] = array( 'label' => __( 'Twitter site @creator', 'wputh' ), 'box' => 'wpu_seo_twitter' );
+        $options['wpu_seo_user_twitter_account_id'] = array( 'label' => __( 'Twitter ads account ID', 'wputh' ), 'box' => 'wpu_seo_twitter' );
 
         return $options;
     }
@@ -86,14 +94,6 @@ class WPUSEO {
     function add_user_fields( $fields ) {
         $fields['wpu_seo_user_google_profile'] = array(
             'name' => 'Google+ URL',
-            'section' => 'wpu-seo'
-        );
-        $fields['wpu_seo_user_twitter_site_username'] = array(
-            'name' => 'Twitter site @username',
-            'section' => 'wpu-seo'
-        );
-        $fields['wpu_seo_user_twitter_site_creator'] = array(
-            'name' => 'Twitter site @creator',
             'section' => 'wpu-seo'
         );
         return $fields;
@@ -178,17 +178,25 @@ class WPUSEO {
         );
 
         $wpu_seo_user_twitter_site_username = trim( get_option( 'wpu_seo_user_twitter_site_username' ) );
-        if ( !empty( $wpu_seo_user_twitter_site_username ) ) {
+        if ( !empty( $wpu_seo_user_twitter_site_username ) && $this->testTwitterUsername( $wpu_seo_user_twitter_site_username ) ) {
             $metas['twitter_site'] = array(
                 'name' => 'twitter:site',
                 'content' => $wpu_seo_user_twitter_site_username
             );
         }
         $wpu_seo_user_twitter_site_creator = trim( get_option( 'wpu_seo_user_twitter_site_creator' ) );
-        if ( !empty( $wpu_seo_user_twitter_site_creator ) ) {
+        if ( !empty( $wpu_seo_user_twitter_site_creator ) && $this->testTwitterUsername( $wpu_seo_user_twitter_site_creator ) ) {
             $metas['twitter_creator'] = array(
                 'name' => 'twitter:creator',
                 'content' => $wpu_seo_user_twitter_site_creator
+            );
+        }
+
+        $wpu_seo_user_twitter_account_id = trim( get_option( 'wpu_seo_user_twitter_account_id' ) );
+        if ( !empty( $wpu_seo_user_twitter_account_id ) ) {
+            $metas['twitter_account_id'] = array(
+                'property' => 'twitter:account_id',
+                'content' => $wpu_seo_user_twitter_account_id
             );
         }
 
@@ -210,9 +218,7 @@ class WPUSEO {
                 'content' => $description
             );
 
-
             /* Facebook : Open Graph */
-
             $metas['og_type']['content'] = 'article';
 
             // Description
@@ -391,7 +397,6 @@ class WPUSEO {
     }
 
 
-
     /* ----------------------------------------------------------
       Get post keywords
     ---------------------------------------------------------- */
@@ -451,6 +456,13 @@ class WPUSEO {
     /* ----------------------------------------------------------
       Utilities
     ---------------------------------------------------------- */
+
+    /* Test a twitter username
+    -------------------------- */
+
+    public function testTwitterUsername( $username ) {
+        return preg_match( '/^\@([a-zA_Z_0-9]+)$/', $username ) !== false;
+    }
 
     /* Prepare meta description
     -------------------------- */

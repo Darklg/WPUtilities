@@ -2,7 +2,7 @@
 /*
 Plugin Name: WPU SEO
 Description: Enhance SEO : Clean title, nice metas.
-Version: 0.10
+Version: 0.11
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -74,7 +74,6 @@ class WPUSEO {
 
         // Twitter
         $options['wpu_seo_user_twitter_site_username'] = array( 'label' => __( 'Twitter site @username', 'wputh' ), 'box' => 'wpu_seo_twitter' );
-        $options['wpu_seo_user_twitter_site_creator'] = array( 'label' => __( 'Twitter site @creator', 'wputh' ), 'box' => 'wpu_seo_twitter' );
         $options['wpu_seo_user_twitter_account_id'] = array( 'label' => __( 'Twitter ads account ID', 'wputh' ), 'box' => 'wpu_seo_twitter' );
 
         return $options;
@@ -94,6 +93,10 @@ class WPUSEO {
     function add_user_fields( $fields ) {
         $fields['wpu_seo_user_google_profile'] = array(
             'name' => 'Google+ URL',
+            'section' => 'wpu-seo'
+        );
+        $fields['wpu_seo_user_twitter_account'] = array(
+            'name' => '@TwitterUsername',
             'section' => 'wpu-seo'
         );
         return $fields;
@@ -183,12 +186,9 @@ class WPUSEO {
                 'name' => 'twitter:site',
                 'content' => $wpu_seo_user_twitter_site_username
             );
-        }
-        $wpu_seo_user_twitter_site_creator = trim( get_option( 'wpu_seo_user_twitter_site_creator' ) );
-        if ( !empty( $wpu_seo_user_twitter_site_creator ) && $this->testTwitterUsername( $wpu_seo_user_twitter_site_creator ) ) {
             $metas['twitter_creator'] = array(
                 'name' => 'twitter:creator',
-                'content' => $wpu_seo_user_twitter_site_creator
+                'content' => $wpu_seo_user_twitter_site_username
             );
         }
 
@@ -264,6 +264,15 @@ class WPUSEO {
                     'href' => $wpu_seo_user_google_profile
                 );
             }
+
+            $wpu_seo_user_twitter_account = get_user_meta( $post->post_author, 'wpu_seo_user_twitter_account', 1 );
+            if ( !empty( $wpu_seo_user_twitter_account ) && preg_match( '/^@([A-Za-z0-9_]+)$/', $wpu_seo_user_twitter_account ) ) {
+                $metas['twitter_creator'] = array(
+                    'name' => 'twitter:creator',
+                    'content' => $wpu_seo_user_twitter_account
+                );
+            }
+
         }
 
         if ( is_home() || is_front_page() ) {

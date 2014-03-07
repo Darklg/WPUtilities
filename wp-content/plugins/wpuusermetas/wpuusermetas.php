@@ -3,7 +3,7 @@
 Plugin Name: WPU User Metas
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Simple admin for user metas
-Version: 0.2.1
+Version: 0.3
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -65,7 +65,14 @@ class WPUUserMetas {
         foreach ( $this->fields as $id_field => $field ) {
             $new_value = '';
             if ( isset( $_POST[$id_field] ) ) {
-                $new_value = esc_attr( $_POST[$id_field] );
+                $posted_value = $_POST[$id_field];
+                switch ( $field['type'] ) {
+                case 'editor':
+                    $new_value = $posted_value;
+                    break;
+                default:
+                    $new_value = esc_attr( $posted_value );
+                }
                 update_usermeta( $user_id, $id_field, $new_value );
             }
         }
@@ -99,7 +106,7 @@ class WPUUserMetas {
         $label = $field['name'];
         $type = $field['type'];
         $idname = ' id="'.$id_field.'" name="'.$id_field.'" placeholder="'.$label.'" ';
-        $value = esc_attr( get_the_author_meta( $id_field, $user->ID ) );
+        $value = get_the_author_meta( $id_field, $user->ID );
         $content = '';
 
         // Add a row by field
@@ -107,11 +114,16 @@ class WPUUserMetas {
         $content .= '<th><label for="'.$id_field.'">'.$label.'</label></th>';
         $content .= '<td>';
         switch ( $type ) {
+        case 'editor':
+            ob_start();
+            wp_editor( $value, $id_field );
+            $content .= ob_get_clean();
+            break;
         case 'textarea':
-            $content .= '<textarea rows="5" cols="30" '.$idname.'>'.$value .'</textarea>';
+            $content .= '<textarea rows="5" cols="30" '.$idname.'>'.esc_attr( $value ) .'</textarea>';
             break;
         default:
-            $content .= '<input type="text" '.$idname.' value="'.$value .'" />';
+            $content .= '<input type="text" '.$idname.' value="'.esc_attr( $value ) .'" />';
             break;
         }
         if ( isset( $field['description'] ) ) {

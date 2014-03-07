@@ -35,3 +35,17 @@ Put the code below in your theme's functions.php file. Add new fields to your co
         );
         return $fields;
     }
+
+Fields parameters :
+---
+
+* "section" : String (required) / Set this field in a particular section.
+* "name" : String (optional) / Adds a label to the field administration. Default to ID value.
+* "type" : String (optional) / Set a kind of form field. Default to "text".
+
+Fields types :
+---
+
+* "text" : input type text.
+* "textarea" : textarea field.
+* "editor" : the WYSIWYG editor used in the content of a post.

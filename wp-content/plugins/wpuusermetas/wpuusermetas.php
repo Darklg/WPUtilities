@@ -3,15 +3,13 @@
 Plugin Name: WPU User Metas
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Simple admin for user metas
-Version: 0.3
+Version: 0.3.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
 License URI: http://opensource.org/licenses/MIT
 Based On: http://blog.ftwr.co.uk/archives/2009/07/19/adding-extra-user-meta-fields/
 */
-
-
 
 class WPUUserMetas {
     private $sections = array();
@@ -122,9 +120,12 @@ class WPUUserMetas {
         case 'textarea':
             $content .= '<textarea rows="5" cols="30" '.$idname.'>'.esc_attr( $value ) .'</textarea>';
             break;
+        case 'email':
+        case 'url':
+            $content .= '<input type="'.$type.'" '.$idname.' value="'.esc_attr( $value ) .'" />';
+            break;
         default:
             $content .= '<input type="text" '.$idname.' value="'.esc_attr( $value ) .'" />';
-            break;
         }
         if ( isset( $field['description'] ) ) {
             $content .= '<br /><span class="description">'.esc_attr( $field['description'] ).'</span>';

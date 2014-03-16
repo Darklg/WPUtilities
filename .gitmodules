@@ -1,0 +1,3 @@
+[submodule "wp-content/plugins/wpu_opensans"]
+	path = wp-content/plugins/wpu_opensans
+	url = git@github.com:WordPressUtilities/wpu_opensans.git

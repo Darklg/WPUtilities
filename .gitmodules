@@ -13,3 +13,15 @@
 [submodule "wp-content/plugins/wpumaintenance"]
 	path = wp-content/plugins/wpumaintenance
 	url = git@github.com:WordPressUtilities/wpumaintenance.git
+[submodule "wp-content/plugins/wpuoptions"]
+	path = wp-content/plugins/wpuoptions
+	url = git@github.com:WordPressUtilities/wpuoptions.git
+[submodule "wp-content/plugins/wputaxometas"]
+	path = wp-content/plugins/wputaxometas
+	url = git@github.com:WordPressUtilities/wputaxometas.git
+[submodule "wp-content/plugins/wpupostmetas"]
+	path = wp-content/plugins/wpupostmetas
+	url = git@github.com:WordPressUtilities/wpupostmetas.git
+[submodule "wp-content/plugins/wpuusermetas"]
+	path = wp-content/plugins/wpuusermetas
+	url = git@github.com:WordPressUtilities/wpuusermetas.git

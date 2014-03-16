@@ -4,3 +4,12 @@
 [submodule "wp-content/plugins/wpubaseplugin"]
 	path = wp-content/plugins/wpubaseplugin
 	url = git@github.com:WordPressUtilities/wpubaseplugin.git
+[submodule "wp-content/plugins/wputrack404search"]
+	path = wp-content/plugins/wputrack404search
+	url = git@github.com:WordPressUtilities/wputrack404search.git
+[submodule "wp-content/plugins/wpunewsletter"]
+	path = wp-content/plugins/wpunewsletter
+	url = git@github.com:WordPressUtilities/wpunewsletter.git
+[submodule "wp-content/plugins/wpumaintenance"]
+	path = wp-content/plugins/wpumaintenance
+	url = git@github.com:WordPressUtilities/wpumaintenance.git

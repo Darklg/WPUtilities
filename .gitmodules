@@ -25,3 +25,6 @@
 [submodule "wp-content/plugins/wpuusermetas"]
 	path = wp-content/plugins/wpuusermetas
 	url = git@github.com:WordPressUtilities/wpuusermetas.git
+[submodule "wp-content/plugins/wpuseo"]
+	path = wp-content/plugins/wpuseo
+	url = git@github.com:WordPressUtilities/wpuseo.git

@@ -32,5 +32,6 @@ if ( !isset( $_GET['is_ajax'] ) ) {
 </div>
 <div class="main-container centered-container"><div class="main-container--inner" id="content">
 <?php }
+include get_template_directory() . '/tpl/header/languages.php';
 include get_template_directory() . '/tpl/header/breadcrumbs.php';
 include get_template_directory() . '/tpl/header/jsvalues.php';

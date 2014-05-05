@@ -161,11 +161,32 @@ function wputh_get_attachments_images( $postID, $format='medium' ) {
     foreach ( $attachments as $attachment ) {
         $image = wp_get_attachment_image_src( $attachment->ID , $format );
         if ( isset( $image[0] ) ) {
-            $images[] = $image;
+            $images[$attachment->ID] = $image;
         }
     }
     return $images;
 }
+
+/**
+ * Get attachment detail
+ *
+ * via http://wordpress.org/ideas/topic/functions-to-get-an-attachments-caption-title-alt-description
+ *
+ * @param int     $postID
+ * @return array
+ */
+function wputh_get_attachment( $attachment_id ) {
+    $attachment = get_post( $attachment_id );
+    return array(
+        'alt' => get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true ),
+        'caption' => $attachment->post_excerpt,
+        'description' => $attachment->post_content,
+        'href' => get_permalink( $attachment->ID ),
+        'src' => $attachment->guid,
+        'title' => $attachment->post_title
+    );
+}
+
 
 /**
  * Send a preformated mail

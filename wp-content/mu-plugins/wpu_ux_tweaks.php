@@ -2,7 +2,7 @@
 /*
 Plugin Name: WPU UX Tweaks
 Description: Adds UX enhancement & tweaks to WordPress
-Version: 0.3
+Version: 0.4
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -132,3 +132,23 @@ function wpu_new_mail_from_name( $name ) {
     }
     return $name;
 }
+
+/* ----------------------------------------------------------
+  Clean up text from PDF
+---------------------------------------------------------- */
+
+function wputh_cleanup_pdf_text($co) {
+    $letters = array(
+        'a', 'A', 'e', 'E', 'i', 'I', 'o', 'O', 'u', 'U'
+    );
+    foreach ($letters as $letter) {
+        $co = str_replace($letter . '̀', '&' . $letter . 'grave;', $co);
+        $co = str_replace($letter . '́', '&' . $letter . 'acute;', $co);
+        $co = str_replace($letter . '̂', '&' . $letter . 'circ;', $co);
+        $co = str_replace($letter . '̈', '&' . $letter . 'uml;', $co);
+    }
+    $co = str_replace('ç', '&ccedil;', $co);
+    return $co;
+}
+add_filter('the_content', 'wputh_cleanup_pdf_text');
+add_filter('the_excerpt', 'wputh_cleanup_pdf_text');

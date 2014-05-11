@@ -49,3 +49,12 @@ function wpu_widget_shortcode( $atts ) {
     the_widget( $type, $atts, $args );
     return ob_get_clean();
 }
+
+/* ----------------------------------------------------------
+  [get_site_option key="option_name"] Get option
+---------------------------------------------------------- */
+
+add_shortcode('get_site_option', 'fun_get_site_option');
+function fun_get_site_option($atts) {
+    return get_option($atts['key']);
+}

@@ -2,7 +2,7 @@
 /*
 Plugin Name: WPU Post types & taxonomies
 Description: Load custom post types & taxonomies
-Version: 0.2
+Version: 0.3
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -17,6 +17,7 @@ class wputh_add_post_types_taxonomies {
         if ( is_admin() ) {
             add_filter( 'manage_posts_columns', array( &$this, 'columns_head_taxo' ), 10 );
             add_action( 'manage_posts_custom_column', array( &$this, 'columns_content_taxo' ), 10, 2 );
+            add_action( 'pre_get_posts', array( &$this, 'add_editor_styles' ));
         }
     }
 
@@ -183,6 +184,26 @@ class wputh_add_post_types_taxonomies {
                     $content_term = array( '-' );
                 }
                 echo implode( ', ', $content_term );
+            }
+        }
+    }
+
+    /* ----------------------------------------------------------
+      Editor styles
+    ---------------------------------------------------------- */
+
+    public function add_editor_styles() {
+        $post_types = apply_filters('wputh_get_posttypes', array());
+        foreach ($post_types as $post_type) {
+            if (isset($post_type['editor_style'])) {
+                if (!is_array($post_type['editor_style'])) {
+                    $post_type['editor_style'] = array(
+                        $post_type['editor_style']
+                    );
+                }
+                foreach ($post_type['editor_style'] as $css) {
+                    add_editor_style(get_template_directory_uri() . $css);
+                }
             }
         }
     }

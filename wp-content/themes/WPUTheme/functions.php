@@ -20,6 +20,17 @@ foreach ( $pages_ids as $constant => $option ) {
     define( $constant, get_option( $option ) );
 }
 
+/* Social links
+-------------------------- */
+
+$wpu_social_links = array(
+    'twitter' => 'Twitter',
+    'facebook' => 'Facebook',
+    'instagram' => 'Instagram',
+);
+
+define('WPU_SOCIAL_LINKS', serialize($wpu_social_links));
+
 /* Menus
 -------------------------- */
 

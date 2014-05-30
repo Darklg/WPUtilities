@@ -29,9 +29,10 @@ function set_wputh_options_fields( $options ) {
     );
 
     // Social networks
-    $options['social_twitter_url'] = array( 'label' => 'Twitter URL', 'box' => 'social_networks' );
-    $options['social_facebook_url'] = array( 'label' => 'Facebook URL', 'box' => 'social_networks' );
-    $options['social_instagram_url'] = array( 'label' => 'Instagram URL', 'box' => 'social_networks' );
+    $wpu_social_links = unserialize(WPU_SOCIAL_LINKS);
+    foreach ( $wpu_social_links as $id => $name ) {
+        $options['social_'.$id.'_url'] = array( 'label' => $name . ' URL', 'box' => 'social_networks' );
+    }
 
     // Pages IDs
     $options['about__page_id'] = array( 'label' => __( 'About', 'wputh' ), 'box' => 'pages_id', 'type' => 'page' );

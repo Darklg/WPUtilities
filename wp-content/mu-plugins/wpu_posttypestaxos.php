@@ -2,14 +2,33 @@
 /*
 Plugin Name: WPU Post types & taxonomies
 Description: Load custom post types & taxonomies
-Version: 0.3
+Version: 0.4
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
 License URI: http://opensource.org/licenses/MIT
 */
 
-class wputh_add_post_types_taxonomies {
+class wputh_add_post_types_taxonomies
+{
+    private $values_array = array(
+        'supports',
+        'taxonomies'
+    );
+    private $values_text = array(
+        'menu_icon'
+    );
+    private $values_bool = array(
+        'can_export',
+        'exclude_from_search',
+        'has_archive',
+        'public',
+        'publicly_queryable',
+        'rewrite',
+        'show_ui',
+        'with_front'
+    );
+
     function __construct() {
         add_action( 'init', array( &$this, 'add_post_types' ) );
         add_action( 'init', array( &$this, 'add_taxonomies' ) );
@@ -26,77 +45,97 @@ class wputh_add_post_types_taxonomies {
     ---------------------------------------------------------- */
 
     public function add_post_types() {
-        $post_types = apply_filters( 'wputh_get_posttypes', array() );
-        foreach ( $post_types as $slug => $post_type ) {
+        $post_types = apply_filters('wputh_get_posttypes', array());
+        foreach ($post_types as $slug => $post_type) {
+
+            $args = array(
+                'menu_icon' => '',
+                'exclude_from_search' => false,
+                'has_archive' => true,
+                'public' => true,
+                'publicly_queryable' => true,
+                'rewrite' => true,
+                'can_export' => true,
+                'show_ui' => true,
+                'with_front' => true,
+                'taxonomies' => array() ,
+                'supports' => array(
+                    'title',
+                    'editor',
+                    'thumbnail'
+                )
+            );
+
             // Default label: slug
-            if ( !isset( $post_type['name'] ) ) {
-                $post_type['name'] = ucfirst( $slug );
+            if (!isset($post_type['name'])) {
+                $post_type['name'] = ucfirst($slug);
             }
-            // Default capabilities
-            if ( !isset( $post_type['supports'] ) ) {
-                $post_type['supports'] = array( 'title', 'editor', 'thumbnail' );
-            }
+            $args['name'] = $post_type['name'];
+
             // Plural
-            if ( !isset( $post_type['plural'] ) ) {
+            if (!isset($post_type['plural'])) {
                 $post_type['plural'] = $post_type['name'];
             }
-            // Taxonomies
-            if ( !isset( $post_type['taxonomies'] ) ) {
-                $post_type['taxonomies'] = array();
-            }
-            // Menu icon
-            if ( !isset( $post_type['menu_icon'] ) ) {
-                $post_type['menu_icon'] = '';
-            }
+            $args['plural'] = $post_type['plural'];
 
             // Female
             $context = 'female';
-            if ( !isset( $post_type['female'] ) || $post_type['female'] != 1 ) {
+            if (!isset($post_type['female']) || $post_type['female'] != 1) {
                 $post_type['female'] = 0;
                 $context = 'male';
             }
 
-            $args = array(
-                'public' => true,
-                'publicly_queryable' => true,
-                'has_archive' => true,
-                'taxonomies' => $post_type['taxonomies'],
-                'menu_icon' => $post_type['menu_icon'],
-                'with_front' => true,
-                'show_ui' => true,
-                'rewrite' => true,
-                'name' => $post_type['name'],
-                'supports' => $post_type['supports'],
-                'labels' => array(
-                    'name' => ucfirst( $post_type['plural'] ),
-                    'singular_name' => ucfirst( $post_type['name'] ),
-                    'add_new' => __( 'Add New', 'wputh' ),
-                    'add_new_item' => sprintf( _x( 'Add New %s', 'male', 'wputh' ), $post_type['name'] ),
-                    'edit_item' => sprintf( _x( 'Edit %s', 'male', 'wputh' ), $post_type['name'] ),
-                    'new_item' => sprintf( _x( 'New %s', 'male', 'wputh' ), $post_type['name'] ),
-                    'all_items' => sprintf( _x( 'All %s', 'male', 'wputh' ), $post_type['plural'] ),
-                    'view_item' => sprintf( _x( 'View %s', 'male', 'wputh' ), $post_type['name'] ),
-                    'search_items' => sprintf( _x( 'Search %s', 'male', 'wputh' ), $post_type['name'] ),
-                    'not_found' => sprintf( _x( 'No %s found', 'male', 'wputh' ), $post_type['name'] ),
-                    'not_found_in_trash' => sprintf( _x( 'No %s found in Trash', 'male', 'wputh' ), $post_type['name'] ),
-                    'parent_item_colon' => '',
-                    'menu_name' => ucfirst( $post_type['plural'] )
-                )
+            // Add array values
+            foreach ($this->values_array as $val_name) {
+                if (isset($post_type[$val_name]) && is_array($post_type[$val_name])) {
+                    $args[$val_name] = $post_type[$val_name];
+                }
+            }
+
+            // Add boolean values
+            foreach ($this->values_bool as $val_name) {
+                if (isset($post_type[$val_name]) && is_bool($post_type[$val_name])) {
+                    $args[$val_name] = $post_type[$val_name];
+                }
+            }
+
+            // Add text values
+            foreach ($this->values_text as $val_name) {
+                if (isset($post_type[$val_name]) && !empty($post_type[$val_name])) {
+                    $args[$val_name] = $post_type[$val_name];
+                }
+            }
+
+            // Labels
+            $args['labels'] = array(
+                'name' => ucfirst($post_type['plural']) ,
+                'singular_name' => ucfirst($post_type['name']) ,
+                'add_new' => __('Add New', 'wputh') ,
+                'add_new_item' => sprintf(_x('Add New %s', 'male', 'wputh') , $post_type['name']) ,
+                'edit_item' => sprintf(_x('Edit %s', 'male', 'wputh') , $post_type['name']) ,
+                'new_item' => sprintf(_x('New %s', 'male', 'wputh') , $post_type['name']) ,
+                'all_items' => sprintf(_x('All %s', 'male', 'wputh') , $post_type['plural']) ,
+                'view_item' => sprintf(_x('View %s', 'male', 'wputh') , $post_type['name']) ,
+                'search_items' => sprintf(_x('Search %s', 'male', 'wputh') , $post_type['name']) ,
+                'not_found' => sprintf(_x('No %s found', 'male', 'wputh') , $post_type['name']) ,
+                'not_found_in_trash' => sprintf(_x('No %s found in Trash', 'male', 'wputh') , $post_type['name']) ,
+                'parent_item_colon' => '',
+                'menu_name' => ucfirst($post_type['plural'])
             );
 
             // I couldn't use the content of $context var inside of _x() calls because of Poedit :(
-            if ( $context == 'female' ) {
-                $args['labels']['add_new_item'] = sprintf( _x( 'Add New %s', 'female', 'wputh' ), $post_type['name'] );
-                $args['labels']['edit_item'] = sprintf( _x( 'Edit %s', 'female', 'wputh' ), $post_type['name'] );
-                $args['labels']['new_item'] = sprintf( _x( 'New %s', 'female', 'wputh' ), $post_type['name'] );
-                $args['labels']['all_items'] = sprintf( _x( 'All %s', 'female', 'wputh' ), $post_type['plural'] );
-                $args['labels']['view_item'] =sprintf( _x( 'View %s', 'female', 'wputh' ), $post_type['name'] );
-                $args['labels']['search_items'] = sprintf( _x( 'Search %s', 'female', 'wputh' ), $post_type['name'] );
-                $args['labels']['not_found'] = sprintf( _x( 'No %s found', 'female', 'wputh' ), $post_type['name'] );
-                $args['labels']['not_found_in_trash'] = sprintf( _x( 'No %s found in Trash', 'female', 'wputh' ), $post_type['name'] );
+            if ($context == 'female') {
+                $args['labels']['add_new_item'] = sprintf(_x('Add New %s', 'female', 'wputh') , $post_type['name']);
+                $args['labels']['edit_item'] = sprintf(_x('Edit %s', 'female', 'wputh') , $post_type['name']);
+                $args['labels']['new_item'] = sprintf(_x('New %s', 'female', 'wputh') , $post_type['name']);
+                $args['labels']['all_items'] = sprintf(_x('All %s', 'female', 'wputh') , $post_type['plural']);
+                $args['labels']['view_item'] = sprintf(_x('View %s', 'female', 'wputh') , $post_type['name']);
+                $args['labels']['search_items'] = sprintf(_x('Search %s', 'female', 'wputh') , $post_type['name']);
+                $args['labels']['not_found'] = sprintf(_x('No %s found', 'female', 'wputh') , $post_type['name']);
+                $args['labels']['not_found_in_trash'] = sprintf(_x('No %s found in Trash', 'female', 'wputh') , $post_type['name']);
             }
 
-            register_post_type( $slug, $args );
+            register_post_type($slug, $args);
         }
     }
 

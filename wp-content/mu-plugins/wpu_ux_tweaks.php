@@ -2,7 +2,7 @@
 /*
 Plugin Name: WPU UX Tweaks
 Description: Adds UX enhancement & tweaks to WordPress
-Version: 0.4
+Version: 0.5
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -152,3 +152,23 @@ function wputh_cleanup_pdf_text($co) {
 }
 add_filter('the_content', 'wputh_cleanup_pdf_text');
 add_filter('the_excerpt', 'wputh_cleanup_pdf_text');
+
+/* ----------------------------------------------------------
+  Thumbnails for post columns
+---------------------------------------------------------- */
+
+add_filter('manage_posts_columns', 'wputh_add_column_thumb', 5);
+function wputh_add_column_thumb($defaults) {
+    $defaults['wputh_column_thumb'] = __('Thumbnail');
+    return $defaults;
+}
+
+add_action('manage_posts_custom_column', 'wputh_add_column_thumb_content', 5, 2);
+function wputh_add_column_thumb_content($column_name, $id) {
+    if ($column_name === 'wputh_column_thumb') {
+        $image = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID) , 'thumbnail');
+        if (isset($image[0])) {
+            echo '<img style="height:70px;width:70px;" src="' . $image[0] . '" alt="" />';
+        }
+    }
+}

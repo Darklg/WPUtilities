@@ -103,6 +103,7 @@ include get_template_directory() . '/inc/theme/params.php';
 include get_template_directory() . '/inc/theme/utilities.php';
 include get_template_directory() . '/inc/theme/shortcodes.php';
 include get_template_directory() . '/inc/theme/activation.php';
+include get_template_directory() . '/inc/theme/customize.php';
 
 if ( ! isset( $content_width ) ) $content_width = 680;
 

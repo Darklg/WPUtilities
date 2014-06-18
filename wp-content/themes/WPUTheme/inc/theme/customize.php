@@ -2,6 +2,14 @@
 class WPUCustomizeTheme
 {
     function __construct() {
+        $this->sections = array(
+            'colors' => array(
+                'name' => 'Site colors'
+            ) ,
+            'texts' => array(
+                'name' => 'Site text'
+            )
+        );
         $this->settings = array(
             'wpu_link_color' => array(
                 'label' => __('Link Color') ,
@@ -23,24 +31,88 @@ class WPUCustomizeTheme
                 'section' => 'colors',
                 'css_selector' => 'body',
                 'css_property' => 'background-color'
-            )
+            ) ,
+            'wpu_text_title_align' => array(
+                'label' => __('Title align') ,
+                'default' => 'left',
+                'section' => 'texts',
+                'css_selector' => '.main-title',
+                'css_property' => 'text-align'
+            ) ,
         );
+
+        // Init some values
+        $upload_dir = wp_upload_dir();
+        $this->up_dir = $upload_dir['basedir'] . '/wputheme-cache';
+        $this->up_url = $upload_dir['baseurl'] . '/wputheme-cache';
+        $this->cache_file = $this->up_dir . '/theme-customizer.js';
+        $this->cache_file_url = $this->up_url . '/theme-customizer.js';
+        $this->cached_code_version = get_option('wputh_customize_theme_version');
+
+        // Set events
+        add_action('wp_head', array(&$this,
+            'display_mod'
+        ));
         add_action('customize_register', array(&$this,
             'wpu_customize_theme'
         ));
         add_action('customize_preview_init', array(&$this,
             'customizer_live_preview'
         ));
-        add_action('wp_head', array(&$this,
-            'display_mod'
+        add_action('current_screen', array(&$this,
+            'regenerate_js_file'
         ));
+    }
+
+    // Function regenerate_js_file
+    function regenerate_js_file() {
+        $screen = get_current_screen();
+        if (!isset($screen->base) || $screen->base != 'customize') {
+            return;
+        }
+
+        // Check cache directory
+        if (!is_dir($this->up_dir)) {
+            @mkdir($this->up_dir, 0777);
+            @chmod($this->up_dir, 0777);
+        }
+
+        // Check code version
+        $str_sections = serialize($this->sections);
+        $str_settings = serialize($this->settings);
+        $code_version = md5($str_settings . $str_sections);
+
+        if ($this->cached_code_version !== $code_version) {
+            $content_cache = "(function($) {\n";
+            foreach ($this->settings as $id => $setting) {
+                $tmp_id = 'wputheme_' . $id;
+                $property = trim(esc_attr($setting['css_property']));
+                $selector = trim(esc_attr($setting['css_selector']));
+                if (!empty($property) && !empty($selector)) {
+                    $content_cache.= "wp.customize('" . $tmp_id . "', function(value) {";
+                    $content_cache.= "value.bind(function(newval) {";
+                    $content_cache.= "$('" . $selector . "').css('" . $property . "', newval);";
+                    $content_cache.= "});";
+                    $content_cache.= "});\n";
+                }
+            }
+            $content_cache.= "})(jQuery);\n";
+
+            // Regenerate JS file
+            file_put_contents($this->cache_file, $content_cache);
+
+            // Set code version
+            $this->cached_code_version = $code_version;
+            update_option('wputh_customize_theme_version', $code_version);
+        }
     }
 
     // Display theme modifications in front-end
     function display_mod() {
         $content = '';
         foreach ($this->settings as $id => $setting) {
-            $mod = strtolower(get_theme_mod($id));
+            $tmp_id = 'wputheme_' . $id;
+            $mod = strtolower(get_theme_mod($tmp_id));
             $def = strtolower($setting['default']);
             $property = trim(esc_attr($setting['css_property']));
             $selector = trim(esc_attr($setting['css_selector']));
@@ -55,29 +127,63 @@ class WPUCustomizeTheme
 
     // Register functions
     function wpu_customize_theme($wp_customize) {
+
+        foreach ($this->sections as $id => $section) {
+            $wp_customize->add_section('wputh_' . $id, array(
+                'title' => $section['name'],
+                'priority' => 200
+            ));
+        }
+
         foreach ($this->settings as $id => $setting) {
-            $wp_customize->add_setting($id, array(
+            $tmp_id = 'wputh_conf_' . $id;
+            if (!isset($setting['css_property'])) {
+                $setting['css_property'] = '';
+            }
+            $detail_setting = array(
                 'default' => $setting['default'],
                 'type' => 'theme_mod',
                 'capability' => 'edit_theme_options',
                 'transport' => 'postMessage',
-            ));
-            $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'wputheme_' . $id, array(
+            );
+            $detail_control = array(
                 'label' => $setting['label'],
-                'section' => $setting['section'],
-                'settings' => $id,
+                'section' => 'wputh_' . $setting['section'],
+                'settings' => 'wputheme_' . $id,
                 'priority' => 10,
-            )));
+            );
+
+            // Special types
+            if ($setting['css_property'] == 'text-align') {
+                $detail_control['type'] = 'radio';
+                $detail_control['choices'] = array(
+                    'left' => 'left',
+                    'center' => 'center',
+                    'justify' => 'justify',
+                    'right' => 'right',
+                );
+            }
+
+            $wp_customize->add_setting('wputheme_' . $id, $detail_setting);
+            switch ($setting['css_property']) {
+                case 'color':
+                case 'background-color':
+                    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'wputheme_' . $id, $detail_control));
+                    break;
+
+                default:
+                    $wp_customize->add_control(new WP_Customize_Control($wp_customize, 'wputheme_' . $id, $detail_control));
+            }
         }
         return $wp_customize;
     }
 
     // Enable live preview in admin
     function customizer_live_preview() {
-        wp_enqueue_script('wputheme-themecustomizer', get_template_directory_uri() . '/js/admin/theme-customizer.js', array(
+        wp_enqueue_script('wputheme-themecustomizer', $this->cache_file_url, array(
             'jquery',
             'customize-preview'
-        ) , '', true);
+        ) , $this->cached_code_version, true);
     }
 }
 

@@ -1,4 +1,9 @@
 <?php
+/*
+Name: Theme Customize
+Version: 0.3
+*/
+
 class WPUCustomizeTheme
 {
     function __construct() {
@@ -38,6 +43,13 @@ class WPUCustomizeTheme
                 'section' => 'texts',
                 'css_selector' => '.main-title',
                 'css_property' => 'text-align'
+            ) ,
+            'wpu_text_title_size' => array(
+                'label' => __('Title size') ,
+                'default' => '25px',
+                'section' => 'texts',
+                'css_selector' => '.main-title',
+                'css_property' => 'font-size'
             ) ,
         );
 
@@ -153,7 +165,9 @@ class WPUCustomizeTheme
                 'priority' => 10,
             );
 
-            // Special types
+            /* Special types */
+
+            /* text-align */
             if ($setting['css_property'] == 'text-align') {
                 $detail_control['type'] = 'radio';
                 $detail_control['choices'] = array(
@@ -162,6 +176,16 @@ class WPUCustomizeTheme
                     'justify' => 'justify',
                     'right' => 'right',
                 );
+            }
+
+            /* Font size */
+            if ($setting['css_property'] == 'font-size') {
+                $detail_control['type'] = 'select';
+                $detail_control['choices'] = array();
+                $font_sizes = array();
+                for ($i = 8; $i <= 70; $i++) {
+                    $detail_control['choices'][$i . 'px'] = $i . 'px';
+                }
             }
 
             $wp_customize->add_setting('wputheme_' . $id, $detail_setting);

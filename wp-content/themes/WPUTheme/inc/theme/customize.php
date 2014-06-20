@@ -1,53 +1,63 @@
 <?php
+
 /*
 Name: Theme Customize
-Version: 0.3
+Version: 0.4
 */
 
 class WPUCustomizeTheme
 {
     function __construct() {
         $this->sections = array(
-            'colors' => array(
-                'name' => 'Site colors'
+            'global' => array(
+                'name' => 'Global',
+                'priority' => 199
             ) ,
-            'texts' => array(
-                'name' => 'Site text'
+            'header' => array(
+                'name' => 'Header',
+                'priority' => 200
             )
         );
         $this->settings = array(
             'wpu_link_color' => array(
                 'label' => __('Link Color') ,
                 'default' => '#6699CC',
-                'section' => 'colors',
+                'section' => 'global',
                 'css_selector' => 'a',
                 'css_property' => 'color'
             ) ,
             'wpu_link_color_hover' => array(
                 'label' => __('Link Color :hover') ,
                 'default' => '#336699',
-                'section' => 'colors',
+                'section' => 'global',
                 'css_selector' => 'a:hover',
                 'css_property' => 'color'
             ) ,
             'wpu_background_color' => array(
                 'label' => __('Background Color') ,
                 'default' => '#FFFFFF',
-                'section' => 'colors',
+                'section' => 'global',
                 'css_selector' => 'body',
                 'css_property' => 'background-color'
+            ) ,
+            'wpu_background_image' => array(
+                'label' => __('Background image site') ,
+                'default' => '',
+                'section' => 'global',
+                'css_selector' => 'body',
+                'css_property' => 'background-image'
             ) ,
             'wpu_text_title_align' => array(
                 'label' => __('Title align') ,
                 'default' => 'left',
-                'section' => 'texts',
+                'section' => 'header',
                 'css_selector' => '.main-title',
                 'css_property' => 'text-align'
             ) ,
             'wpu_text_title_size' => array(
                 'label' => __('Title size') ,
                 'default' => '25px',
-                'section' => 'texts',
+                'section' => 'header',
                 'css_selector' => '.main-title',
                 'css_property' => 'font-size'
             ) ,
@@ -101,11 +111,17 @@ class WPUCustomizeTheme
                 $property = trim(esc_attr($setting['css_property']));
                 $selector = trim(esc_attr($setting['css_selector']));
                 if (!empty($property) && !empty($selector)) {
-                    $content_cache.= "wp.customize('" . $tmp_id . "', function(value) {";
-                    $content_cache.= "value.bind(function(newval) {";
-                    $content_cache.= "$('" . $selector . "').css('" . $property . "', newval);";
-                    $content_cache.= "});";
-                    $content_cache.= "});\n";
+                    $content_cache.= "wp.customize('" . $tmp_id . "', function(value) {
+                    value.bind(function(newval) {
+                        var selector = '" . $selector . "',
+                            property = '" . $property . "';
+                        if(property == 'background-image'){
+                            newval = 'url('+newval+')';
+                        }
+                        $(selector).css(property, newval);
+                    });
+                });
+                ";
                 }
             }
             $content_cache.= "})(jQuery);\n";
@@ -129,6 +145,11 @@ class WPUCustomizeTheme
             $property = trim(esc_attr($setting['css_property']));
             $selector = trim(esc_attr($setting['css_selector']));
             if (!empty($mod) && !empty($property) && !empty($selector) && $mod != $def) {
+
+                if ($property == 'background-image') {
+                    $mod = 'url(' . $mod . ')';
+                }
+
                 $content.= $selector . '{' . $property . ':' . $mod . '}';
             }
         }
@@ -143,7 +164,7 @@ class WPUCustomizeTheme
         foreach ($this->sections as $id => $section) {
             $wp_customize->add_section('wputh_' . $id, array(
                 'title' => $section['name'],
-                'priority' => 200
+                'priority' => isset($section['priority']) ? $section['priority'] : 200
             ));
         }
 
@@ -195,10 +216,15 @@ class WPUCustomizeTheme
                     $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'wputheme_' . $id, $detail_control));
                     break;
 
+                case 'background-image':
+                    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'wputheme_' . $id, $detail_control));
+                    break;
+
                 default:
                     $wp_customize->add_control(new WP_Customize_Control($wp_customize, 'wputheme_' . $id, $detail_control));
             }
         }
+
         return $wp_customize;
     }
 

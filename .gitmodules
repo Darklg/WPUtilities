@@ -28,3 +28,6 @@
 [submodule "wp-content/plugins/wpuseo"]
 	path = wp-content/plugins/wpuseo
 	url = git@github.com:WordPressUtilities/wpuseo.git
+[submodule "wp-content/plugins/wpuorders"]
+	path = wp-content/plugins/wpuorders
+	url = git@github.com:WordPressUtilities/wpuorders.git

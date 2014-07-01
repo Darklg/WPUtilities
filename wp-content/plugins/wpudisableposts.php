@@ -3,7 +3,7 @@
 Plugin Name: WPU disable posts
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Disable all posts
-Version: 0.3
+Version: 0.4
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -76,3 +76,16 @@ function wputh_disable_posts_disable_feed() {
         wp_die( __( 'Our RSS feed is disabled. Please <a href="'.site_url().'">visit our homepage</a>.' ) );
     }
 }
+
+/* ----------------------------------------------------------
+  Remove dashboard widget
+---------------------------------------------------------- */
+
+function wputh_disable_posts_remove_dashboard_widgets() {
+    global $wp_meta_boxes;
+    if ( isset( $wp_meta_boxes['dashboard']['side']['core']['dashboard_quick_press'] ) ) {
+        unset( $wp_meta_boxes['dashboard']['side']['core']['dashboard_quick_press'] );
+    }
+}
+
+add_action( 'wp_dashboard_setup', 'wputh_disable_posts_remove_dashboard_widgets' );

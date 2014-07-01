@@ -3,7 +3,7 @@
 Plugin Name: WPU disable comments
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Disable all comments
-Version: 1.1
+Version: 1.2
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -17,7 +17,7 @@ License URI: http://opensource.org/licenses/MIT
 ---------------------------------------------------------- */
 
 function wputh_disable_comments_css() {
-    echo "<style>#dashboard_right_now .table_discussion {display:none !important;}</style>";
+    echo "<style>#dashboard_right_now .comment-count, #dashboard_right_now .table_discussion {display:none !important;}</style>";
 }
 
 add_action( 'admin_head', 'wputh_disable_comments_css' );

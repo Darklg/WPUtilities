@@ -169,7 +169,6 @@ class WPUCustomizeTheme
         }
 
         foreach ($this->settings as $id => $setting) {
-            $tmp_id = 'wputh_conf_' . $id;
             if (!isset($setting['css_property'])) {
                 $setting['css_property'] = '';
             }
@@ -203,7 +202,6 @@ class WPUCustomizeTheme
             if ($setting['css_property'] == 'font-size') {
                 $detail_control['type'] = 'select';
                 $detail_control['choices'] = array();
-                $font_sizes = array();
                 for ($i = 8; $i <= 70; $i++) {
                     $detail_control['choices'][$i . 'px'] = $i . 'px';
                 }

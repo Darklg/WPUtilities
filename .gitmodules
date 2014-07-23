@@ -31,3 +31,6 @@
 [submodule "wp-content/plugins/wpuorders"]
 	path = wp-content/plugins/wpuorders
 	url = git@github.com:WordPressUtilities/wpuorders.git
+[submodule "wp-content/plugins/wpuvalidateform"]
+	path = wp-content/plugins/wpuvalidateform
+	url = git@github.com:WordPressUtilities/wpuvalidateform.git

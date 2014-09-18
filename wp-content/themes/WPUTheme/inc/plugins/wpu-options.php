@@ -34,8 +34,19 @@ function set_wputh_options_fields( $options ) {
         $options['social_'.$id.'_url'] = array( 'label' => $name . ' URL', 'box' => 'social_networks' );
     }
 
-    // Pages IDs
-    $options['about__page_id'] = array( 'label' => __( 'About', 'wputh' ), 'box' => 'pages_id', 'type' => 'page' );
-    $options['mentions__page_id'] = array( 'label' => __( 'Mentions', 'wputh' ), 'box' => 'pages_id', 'type' => 'page' );
+    // Create pages IDs from list defined in functions.php
+    if (defined('PAGES_IDS')) {
+        $pages_ids = unserialize(PAGES_IDS);
+        if (is_array($pages_ids)) {
+            foreach ($pages_ids as $id => $page) {
+                $options[$id] = array(
+                    'label' => __($page['name'], 'wputh') ,
+                    'box' => 'pages_id',
+                    'type' => 'page'
+                );
+            }
+        }
+    }
+
     return $options;
 }

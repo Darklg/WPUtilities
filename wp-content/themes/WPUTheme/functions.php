@@ -12,12 +12,23 @@ define( 'PAGINATION_KIND', 'numbers' ); // load-more || numbers || default
 -------------------------- */
 
 $pages_ids = array(
-    'ABOUT__PAGE_ID' => 'about__page_id',
-    'MENTIONS__PAGE_ID' => 'mentions__page_id',
+    'about__page_id' => array(
+        'constant' => 'ABOUT__PAGE_ID',
+        'name' => 'About'
+    ) ,
+    'mentions__page_id' => array(
+        'constant' => 'MENTIONS__PAGE_ID',
+        'name' => 'Mentions légales'
+    ) ,
 );
 
-foreach ( $pages_ids as $constant => $option ) {
-    define( $constant, get_option( $option ) );
+define('PAGES_IDS', serialize($pages_ids));
+
+foreach ($pages_ids as $id => $option) {
+    if (!isset($option['constant'])) {
+        $option['constant'] = strtoupper($id);
+    }
+    define($option['constant'], get_option($id));
 }
 
 /* Social links

@@ -36,3 +36,4 @@ wp-content/plugins/qtranslate
 vendor
 composer.lock
 composer.phar
+wp-content/themes/WPUTheme/.sass-cache

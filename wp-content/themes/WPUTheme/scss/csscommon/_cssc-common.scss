@@ -3,7 +3,7 @@
 /*
 Name: Common Objects
 URL: http://github.com/Darklg/CSSCommon
-Version: 2.2
+Version: 2.4
 License: MIT
 */
 
@@ -23,6 +23,7 @@ License: MIT
     text-align: left;
     text-indent: -9999px;
     white-space: nowrap;
+    vertical-align: 0;
     background: transparent no-repeat top left;
     *text-indent: 0;
     *color: transparent;
@@ -33,14 +34,12 @@ License: MIT
 }
 
 .cssc-btn-px {
-    -webkit-background-size: 100% 100%;
-    -moz-background-size: 100% 100%;
-    background-size: 100% 100%;
+    -webkit-background-size: contain;
+    background-size: contain;
 }
 
-/* ----------------------------------------------------------
-  Image button
----------------------------------------------------------- */
+/* Icon button
+-------------------------- */
 
 /* Reset */
 
@@ -49,6 +48,10 @@ License: MIT
     padding: 0;
     border: 0;
     outline: 0;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
 }
 
 /* :Hover */
@@ -60,27 +63,35 @@ License: MIT
 }
 
 /* ----------------------------------------------------------
-  Clearfix
+  IR Switch
 ---------------------------------------------------------- */
 
-.clearfix,
-.cssc-grid:before,
-.cssc-grid:after,
-.clearfix:after,
-.subfloat:after {
-    content: " ";
-    display: block;
-    visibility: hidden;
-    clear: both;
-    max-height: 0;
-    overflow: hidden;
+.ir-switch {
+    display: inline-block;
+    z-index: 1;
+    position: relative;
+    vertical-align: middle;
+    background: none!important;
 }
 
-hr.clearfix {
-    height: 0;
-    border: 0;
-    outline: 0;
-    background: transparent;
+.ir-switch > * {
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    vertical-align: 0;
+    opacity: 0.999;
+    -webkit-transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease;
+}
+
+.ir-switch * + *,
+.ir-switch:hover > * {
+    opacity: 0;
+}
+
+.ir-switch:hover * + * {
+    opacity: 0.999;
 }
 
 /* ----------------------------------------------------------
@@ -134,6 +145,10 @@ hr.clearfix {
     line-height: 1;
     opacity: 0;
     background-color: #fff;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
 }
 
 .wdrw .submenu-r {
@@ -154,8 +169,9 @@ hr.clearfix {
 
 /* ----------------------------------------------------------
   Block Media : Floating block
-  By @Stubbornella : http://www.stubbornella.org/content/2010/06/25/the-media-object-saves-hundreds-of-lines-of-code/
 ---------------------------------------------------------- */
+
+/* By @Stubbornella : http://www.stubbornella.org/content/2010/06/25/the-media-object-saves-hundreds-of-lines-of-code/ */
 
 .bmedia,
 .bmedia-right,
@@ -195,6 +211,8 @@ hr.clearfix {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    min-height: 1px;
+    background-color: #f0f0f0;
 }
 
 .progress-bar .bar,
@@ -218,23 +236,19 @@ hr.clearfix {
     overflow: hidden;
     text-align: left;
     text-indent: -9999px;
-    background: rgba(0,0,0,0) no-repeat 0 0;
-    background-image: -moz-linear-gradient(top,rgba(0,0,0,0), rgba(0,0,0,0.2) );
-    background-image: -o-linear-gradient(top,rgba(0,0,0,0), rgba(0,0,0,0.2) );
-    background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0,rgba(0,0,0,0) ), color-stop(1,rgba(0,0,0,0.2) ) );
-    background-image: -webkit-linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.2) );
-    background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.2) );
+    background: #000 no-repeat 0 0;
 }
 
 /* Theme
 -------------------------- */
 
-.progress-bar {
+.progress-bar--default {
     height: 15px;
     margin: 3px;
+    background-color: #fff;
 }
 
-.progress-bar:before {
+.progress-bar--default:before {
     top: -1px;
     right: -1px;
     bottom: -1px;
@@ -242,15 +256,20 @@ hr.clearfix {
     border: 2px solid #333;
 }
 
-.progress-bar:before,
-.progress-bar .bar {
+.progress-bar--default:before,
+.progress-bar--default .bar {
     -webkit-border-radius: 999px;
     -moz-border-radius: 999px;
     border-radius: 999px;
 }
 
-.progress-bar .bar {
+.progress-bar--default .bar {
     background-color: #369;
+    background-image: -moz-linear-gradient(top,rgba(0,0,0,0), rgba(0,0,0,0.2) );
+    background-image: -o-linear-gradient(top,rgba(0,0,0,0), rgba(0,0,0,0.2) );
+    background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0,rgba(0,0,0,0) ), color-stop(1,rgba(0,0,0,0.2) ) );
+    background-image: -webkit-linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.2) );
+    background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.2) );
     -webkit-box-shadow: inset 1px 1px 1px rgba(0,0,0,0.2);
     -moz-box-shadow: inset 1px 1px 1px rgba(0,0,0,0.2);
     box-shadow: inset 1px 1px 1px rgba(0,0,0,0.2);
@@ -337,6 +356,10 @@ pre {
     position: relative;
 }
 
+.tooltip:hover {
+    z-index: 3;
+}
+
 .tooltip-bubble {
     visibility: hidden;
     z-index: 1;
@@ -362,7 +385,7 @@ pre {
 /* Base tooltip theme
 -------------------------- */
 
-.tooltip-bubble {
+.tooltip--default .tooltip-bubble {
     width: 150px;
     margin-bottom: 5px;
     padding: 10px;
@@ -372,7 +395,7 @@ pre {
 
 /* Triangle bubble */
 
-.tooltip-bubble:after {
+.tooltip--default .tooltip-bubble:after {
     content: '';
     position: absolute;
     top: 100%;
@@ -388,12 +411,12 @@ pre {
 /* Theme direction
 -------------------------- */
 
-.tooltip--bottom .tooltip-bubble {
+.tooltip--default.tooltip--bottom .tooltip-bubble {
     margin-top: 5px;
     margin-bottom: 0;
 }
 
-.tooltip--bottom .tooltip-bubble:after {
+.tooltip--default.tooltip--bottom .tooltip-bubble:after {
     top: auto;
     bottom: 100%;
     border-top: 0;
@@ -405,6 +428,15 @@ pre {
 ---------------------------------------------------------- */
 
 .cssc-panel {
+    z-index: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Theme
+-------------------------- */
+
+.cssc-panel--default {
     padding: 10px;
     border: 1px solid #e0e0e0;
     background-color: #f0f0f0;
@@ -475,8 +507,8 @@ pre {
 /* Theme
 -------------------------- */
 
-.cssc-tags a,
-.cssc-tag {
+.cssc-tags--default a,
+.cssc-tag--default {
     margin-right: 1px;
     margin-bottom: 5px;
     padding: 1px 4px;
@@ -487,8 +519,8 @@ pre {
     color: #333;
 }
 
-.cssc-tags a:before,
-.cssc-tag:before {
+.cssc-tags--default a:before,
+.cssc-tag--default:before {
     content: '✔';
     color: #676767;
 }
@@ -522,20 +554,20 @@ pre {
 /* Theme
 -------------------------- */
 
-.cssc-stars label {
+.cssc-stars--default label {
     padding: 2px;
     font-size: 20px;
     cursor: pointer;
 }
 
-.cssc-stars .current ~ label,
-.cssc-stars input:checked ~ label {
+.cssc-stars--default .current ~ label,
+.cssc-stars--default input:checked ~ label {
     color: #F99;
 }
 
-.cssc-stars label:hover,
-.cssc-stars input:checked ~ label:hover,
-.cssc-stars label:hover ~ label {
+.cssc-stars--default label:hover,
+.cssc-stars--default input:checked ~ label:hover,
+.cssc-stars--default label:hover ~ label {
     color: #F33;
 }
 
@@ -624,27 +656,27 @@ pre {
 /* Theme
 -------------------------- */
 
-.cssc-sep {
+.cssc-sep--default {
     text-align: center;
 }
 
-.cssc-sep:before,
-.cssc-sep:after {
-    border-radius: 10px;
+.cssc-sep--default:before,
+.cssc-sep--default:after {
     width: 20px;
     height: 5px;
     margin-left: -10px;
+    border-radius: 10px;
     background-color: #BDF;
 }
 
 /* Before */
 
-.cssc-sep-before {
+.cssc-sep--default.cssc-sep-before {
     padding-top: 15px;
 }
 
 /* After */
 
-.cssc-sep-after {
+.cssc-sep--default.cssc-sep-after {
     padding-bottom: 15px;
 }

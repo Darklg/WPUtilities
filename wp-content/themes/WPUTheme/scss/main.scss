@@ -1,15 +1,37 @@
 @charset "UTF-8";
 
 /* ----------------------------------------------------------
+  Config
+---------------------------------------------------------- */
+
+/* Colors & fonts */
+
+$color-main: #333333;
+$font-main: sans-serif;
+
+/* Sprites */
+
+$sprites: sprite-map("css-sprite/*.png", $spacing: 10px);       /* :) */
+$sprites2x: sprite-map("css-sprite-2x/*.png", $spacing: 10px);  /* :) */
+
+/* ----------------------------------------------------------
+  Utilities
+---------------------------------------------------------- */
+
+@import "utilities/_mixins.scss";
+@import "utilities/_retina-sprites.scss";
+@import "utilities/_plugins.scss";
+
+/* ----------------------------------------------------------
   CSS Common
 ---------------------------------------------------------- */
 
-@import "csscommon/_a-default.scss";
-@import "csscommon/_b-buttons.scss";
-@import "csscommon/_b-content.scss";
-@import "csscommon/_b-forms.scss";
-@import "csscommon/_c-common.scss";
-@import "csscommon/_c-layouts.scss";
+@import "csscommon/_cssc-default.scss";
+@import "csscommon/_cssc-buttons.scss";
+@import "csscommon/_cssc-content.scss";
+@import "csscommon/_cssc-forms.scss";
+@import "csscommon/_cssc-common.scss";
+@import "csscommon/_cssc-layouts.scss";
 
 /* ----------------------------------------------------------
   Project

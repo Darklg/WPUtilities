@@ -19,7 +19,7 @@ if ( get_option( 'comment_registration' ) && !is_user_logged_in() ) {
 ?>
 <h3><?php echo __( 'Leave a reply', 'wputh' ); ?></h3>
 <form action="<?php echo get_option( 'siteurl' ); ?>/wp-comments-post.php" method="post" id="commentform">
-    <ul class="cssc-form ">
+    <ul class="cssc-form cssc-form--default">
         <?php if ( is_user_logged_in() ) { get_currentuserinfo(); ?>
         <li class="box">
             <?php echo sprintf( __( 'Logged in as <strong>%s</strong>.', 'wputh' ), $current_user->display_name ); ?>
@@ -57,7 +57,7 @@ if ( get_option( 'comment_registration' ) && !is_user_logged_in() ) {
             comment_id_fields();
             do_action( 'comment_form', $post->ID );
             ?>
-            <button type="submit" class="cssc-button"><?php echo __( 'Submit', 'wputh' ); ?></button>
+            <button type="submit" class="cssc-button cssc-button--default"><?php echo __( 'Submit', 'wputh' ); ?></button>
         </li>
     </ul>
 </form>

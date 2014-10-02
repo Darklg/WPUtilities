@@ -1,17 +1,16 @@
 @charset "UTF-8";
 
 /*
-Name: Boutons par défaut
+Name: Default Buttons
 URL: http://github.com/Darklg/CSSCommon
-Version: 1.8.2
+Version: 2.1
 License: MIT
 */
 
 /* ----------------------------------------------------------
-  Base du bouton
+  Button core
 ---------------------------------------------------------- */
 
-.buttonreset,
 .cssc-button {
     display: inline-block;
     -webkit-appearance: none;
@@ -22,6 +21,7 @@ License: MIT
     padding: 0;
     border: 0;
     text-align: center;
+    text-decoration: none;
     white-space: nowrap;
     vertical-align: middle;
     -webkit-background-clip: padding-box;
@@ -36,22 +36,24 @@ License: MIT
     *display: inline;
 }
 
-/* Icones
+.cssc-button:hover,
+.cssc-button:focus {
+    text-decoration: none;
+    outline: 0;
+}
+
+/* Icons
 -------------------------- */
 
-.buttonreset:before,
-.buttonreset:after,
 .cssc-button:before,
 .cssc-button:after {
     vertical-align: 0;
 }
 
-.buttonreset:before,
 .cssc-button:before {
     margin-right: 4px;
 }
 
-.buttonreset:after,
 .cssc-button:after {
     margin-left: 4px;
 }
@@ -62,18 +64,17 @@ License: MIT
 }
 
 /* ----------------------------------------------------------
-  Thèmes du bouton
+  Button Theme
 ---------------------------------------------------------- */
 
-/* Thème défault
+/* Default themes
    ----------------------- */
 
-.cssc-button {
+.cssc-button--default {
     height: 25px;
     padding: 0 8px;
     border: 1px solid #ccc;
     -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
     border-radius: 3px;
     text-shadow: 1px 1px 0 rgba(255,255,255,0.5);
     font: 12px/25px sans-serif;
@@ -87,23 +88,22 @@ License: MIT
     background-image: linear-gradient(to bottom,rgba(0,0,0,0) 0,rgba(0,0,0,0.10) 100%);
 }
 
-.cssc-button:focus,
-.cssc-button:hover {
+.cssc-button--default:focus,
+.cssc-button--default:hover {
     border-color: #bbb;
-    text-decoration: none;
     color: #000;
     background-position: 0 12px;
 }
 
-.cssc-button:active {
+.cssc-button--default:active {
     border-color: #888;
     background-position: 0 25px;
 }
 
-.cssc-button[disabled],
-.cssc-button[disabled]:focus,
-.cssc-button[disabled]:hover,
-.cssc-button[disabled]:active {
+.cssc-button--default[disabled],
+.cssc-button--default[disabled]:focus,
+.cssc-button--default[disabled]:hover,
+.cssc-button--default[disabled]:active {
     border: 1px solid #ccc;
     color: #333;
     opacity: 0.66;
@@ -112,39 +112,39 @@ License: MIT
     filter: alpha(opacity=66);
 }
 
-/* Mode de boutons
+/* Buttons' modes
    ----------------------- */
 
-.wide-button {
+.cssc-button--wide {
     display: block;
     width: 100%;
 }
 
-/* Tailles de boutons
+/* Buttons' sizes
    ----------------------- */
 
-.cssc-button-small {
+.cssc-button--small {
     height: 20px;
     padding: 0 5px;
     font-size: 11px;
     line-height: 20px;
 }
 
-.cssc-button-medium {
+.cssc-button--medium {
     height: 30px;
     padding: 0 10px;
     font-size: 13px;
     line-height: 30px;
 }
 
-.cssc-button-big {
+.cssc-button--big {
     height: 35px;
     padding: 0 15px;
     font-size: 14px;
     line-height: 35px;
 }
 
-/* Thèmes de button
+/* Buttons' themes
 -------------------------- */
 
 .error-button,
@@ -172,11 +172,10 @@ License: MIT
 
 .round-button {
     -webkit-border-radius: 99px;
-    -moz-border-radius: 99px;
     border-radius: 99px;
 }
 
-/* Bouton icône avant
+/* Buttons with an icon
    ----------------------- */
 
 .btn-phone:before {
@@ -204,7 +203,7 @@ License: MIT
 }
 
 /* ----------------------------------------------------------
-  Utilitaires
+  Utilities
 ---------------------------------------------------------- */
 
 /* Container
@@ -232,7 +231,7 @@ License: MIT
     position: relative;
 }
 
-/* Button double
+/* Double button
    ----------------------- */
 
 .cssc-button-double {
@@ -269,7 +268,6 @@ License: MIT
     z-index: 1;
     position: relative;
     -webkit-border-radius: 0;
-    -moz-border-radius: 0;
     border-radius: 0;
 }
 
@@ -279,12 +277,10 @@ License: MIT
 
 .button-group .cssc-button:first-child {
     -webkit-border-radius: 3px 0 0 3px;
-    -moz-border-radius: 3px 0 0 3px;
     border-radius: 3px 0 0 3px;
 }
 
 .button-group .cssc-button:last-child {
     -webkit-border-radius: 0 3px 3px 0;
-    -moz-border-radius: 0 3px 3px 0;
     border-radius: 0 3px 3px 0;
 }

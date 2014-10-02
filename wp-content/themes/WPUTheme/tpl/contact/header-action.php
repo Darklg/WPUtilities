@@ -91,7 +91,7 @@ if ( !empty( $_POST ) ) {
 }
 
 // Showing contact form
-$content_contact .= '<form action="" method="post"><ul class="cssc-form float-form">';
+$content_contact .= '<form action="" method="post"><ul class="cssc-form cssc-form--default float-form">';
 foreach ( $fields as $id => $field ) {
     $field_type = isset( $field['type'] ) ? $field['type']:'';
     $field_id_name = 'id="'.$id.'" name="'.$id.'"';
@@ -114,6 +114,6 @@ foreach ( $fields as $id => $field ) {
 }
 $content_contact .= '<li>
 <input type="hidden" name="control_stripslashes" value="&quot;" />
-<button class="cssc-button" type="submit">'.__( 'Submit', 'wputh' ).'</button>
+<button class="cssc-button cssc-button--default" type="submit">'.__( 'Submit', 'wputh' ).'</button>
 </li>';
 $content_contact .= '</ul></form>';

@@ -4,7 +4,7 @@
 Plugin Name: WPU User
 Plugin URI: https://github.com/WordPressUtilities/wpuvalidateform
 Description: Handle users
-Version: 0.2
+Version: 0.3
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -16,7 +16,8 @@ class WPUUser
     private $user = array();
     private $user_data = array();
     private $messages = array();
-    private $fields_create = array();
+    private $field_login = array();
+    private $fields_register = array();
     private $validateForm = array();
 
     function __construct($user_id = false) {
@@ -27,8 +28,8 @@ class WPUUser
 
         $this->validateForm = new WPUValidateForm();
 
-        $this->fields_create = array(
-            'user_login' => array(
+        $this->field_login = array(
+            'user_name' => array(
                 'required' => 1,
                 'label' => 'Username',
             ) ,
@@ -38,6 +39,27 @@ class WPUUser
             ) ,
             'remember' => array(
                 'required' => false,
+            )
+        );
+
+        $this->fields_register = array(
+            'user_login' => array(
+                'required' => 1,
+                'label' => 'Username',
+                'islogin' => 1
+            ) ,
+            'user_email' => array(
+                'required' => 1,
+                'label' => 'Password',
+                'isemail' => 1
+            ) ,
+            'user_pass' => array(
+                'required' => 1,
+                'label' => 'Password',
+            ) ,
+            'user_pass2' => array(
+                'required' => 1,
+                'label' => 'Password 2',
             )
         );
 
@@ -68,7 +90,7 @@ class WPUUser
             return false;
         }
 
-        $form_valid = $this->validateForm->validate_values_from($this->fields_create, $creds);
+        $form_valid = $this->validateForm->validate_values_from($this->field_login, $creds);
         if ($form_valid['has_errors']) {
             $this->add_messages($form_valid['messages']);
             return false;
@@ -83,6 +105,63 @@ class WPUUser
         $this->add_message('Success !', 'success');
 
         return $user;
+    }
+
+    function register($creds = array()) {
+        if (!is_array($creds) || empty($creds)) {
+            $this->add_message('Missing user informations');
+            return false;
+        }
+
+        // Form validity
+        $form_valid = $this->validateForm->validate_values_from($this->fields_register, $creds);
+        if ($form_valid['has_errors']) {
+            $this->add_messages($form_valid['messages']);
+            return false;
+        }
+        $valid_creds = $form_valid['values'];
+
+        // Email exists
+        if (email_exists($valid_creds['user_email'])) {
+            $this->add_message('Email is already used.');
+            return false;
+        }
+
+        // Same password
+        if ($valid_creds['user_pass'] != $valid_creds['user_pass2']) {
+            $this->add_message('The two password are not identicals.');
+            return false;
+        }
+
+        // Username exists
+        if (username_exists($valid_creds['user_login'])) {
+            $this->add_message('Username is already used.');
+            return false;
+        }
+
+        $user_details = array(
+            'role' => 'subscriber'
+        );
+
+        $user_full_details = array_merge($valid_creds, $user_details);
+
+        // Create user
+        $user_id = wp_insert_user($user_full_details);
+
+        // Check for a WordPress error
+        if (is_wp_error($user_id)) {
+            foreach ($user_id->errors as $error) {
+                foreach ($error as $error_message) {
+                    $this->add_message($error_message);
+                }
+            }
+            return false;
+        }
+
+        // Set user
+        $this->user = $this->get_user_by($user_id);
+
+        $this->add_message('Welcome '.$this->get_username().' !', 'success');
     }
 
     /**
@@ -110,7 +189,7 @@ class WPUUser
             return false;
         }
 
-        $user = get_user_by('id', 1);
+        $user = get_user_by('id', $key_value);
 
         if ($user === false) {
             $this->add_message('This user does not exists');

@@ -4,7 +4,7 @@
 Plugin Name: WPU User
 Plugin URI: https://github.com/WordPressUtilities/wpuvalidateform
 Description: Handle users
-Version: 0.3
+Version: 0.3.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -16,10 +16,13 @@ class WPUUser
     private $user = array();
     private $user_data = array();
     private $messages = array();
-    private $field_login = array();
-    private $fields_register = array();
+    public $fields_login = array();
+    public $fields_register = array();
     private $validateForm = array();
 
+    /**
+     * @param mixed $user_id  numeric if loading a user, current if current user
+     */
     function __construct($user_id = false) {
 
         if (!class_exists('WPUValidateForm')) {
@@ -28,8 +31,8 @@ class WPUUser
 
         $this->validateForm = new WPUValidateForm();
 
-        $this->field_login = array(
-            'user_name' => array(
+        $this->fields_login = array(
+            'user_login' => array(
                 'required' => 1,
                 'label' => 'Username',
             ) ,
@@ -63,6 +66,9 @@ class WPUUser
             )
         );
 
+        if ($user_id == 'current') {
+            $user_id = get_current_user_id();
+        }
         if (is_numeric($user_id)) {
             $this->user = $this->get_user_by($user_id);
         }
@@ -90,7 +96,7 @@ class WPUUser
             return false;
         }
 
-        $form_valid = $this->validateForm->validate_values_from($this->field_login, $creds);
+        $form_valid = $this->validateForm->validate_values_from($this->fields_login, $creds);
         if ($form_valid['has_errors']) {
             $this->add_messages($form_valid['messages']);
             return false;
@@ -161,7 +167,7 @@ class WPUUser
         // Set user
         $this->user = $this->get_user_by($user_id);
 
-        $this->add_message('Welcome '.$this->get_username().' !', 'success');
+        $this->add_message('Welcome ' . $this->get_username() . ' !', 'success');
     }
 
     /**
@@ -261,16 +267,17 @@ class WPUUser
 }
 
 /*
-
+### LOGIN ###
 $wpu_user = new WPUUser();
-$wpu_user->login(array(
-    'user_login' => 'admin',
-    'user_password' => 'admin'
-));
-
+if(!empty($_POST)){
+    $wpu_user->login($_POST);
+}
 echo $wpu_user->display_messages();
 
-
-
-
+### REGISTER ###
+$wpu_user = new WPUUser();
+if(!empty($_POST)){
+    $wpu_user->register($_POST);
+}
+echo $wpu_user->display_messages();
 */

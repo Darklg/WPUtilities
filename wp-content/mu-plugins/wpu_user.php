@@ -4,7 +4,7 @@
 Plugin Name: WPU User
 Plugin URI: https://github.com/WordPressUtilities/wpuvalidateform
 Description: Handle users
-Version: 0.3.1
+Version: 0.3.2
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -33,36 +33,42 @@ class WPUUser
 
         $this->fields_login = array(
             'user_login' => array(
-                'required' => 1,
                 'label' => 'Username',
+                'required' => 1,
             ) ,
             'user_password' => array(
-                'required' => 1,
                 'label' => 'Password',
+                'type' => 'password',
+                'required' => 1,
             ) ,
             'remember' => array(
+                'label' => 'Remember me',
+                'type' => 'checkbox',
                 'required' => false,
             )
         );
 
         $this->fields_register = array(
             'user_login' => array(
-                'required' => 1,
                 'label' => 'Username',
+                'required' => 1,
                 'islogin' => 1
             ) ,
             'user_email' => array(
+                'label' => 'Email',
+                'type' => 'email',
                 'required' => 1,
-                'label' => 'Password',
                 'isemail' => 1
             ) ,
             'user_pass' => array(
-                'required' => 1,
                 'label' => 'Password',
+                'type' => 'password',
+                'required' => 1,
             ) ,
             'user_pass2' => array(
-                'required' => 1,
                 'label' => 'Password 2',
+                'type' => 'password',
+                'required' => 1,
             )
         );
 

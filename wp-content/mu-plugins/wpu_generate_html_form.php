@@ -4,7 +4,7 @@
 Plugin Name: WPU Generate HTML Form
 Plugin URI: https://github.com/WordPressUtilities/wpuvalidateform
 Description: Generate HTML Form from a model
-Version: 0.2
+Version: 0.3
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -57,12 +57,20 @@ class WPUGenerateHTMLForm
         if (isset($field['label'])) {
             $label = $field['label'];
         }
-        $html_label = '<label for="item-' . $id . '">' . $label . '</label>';
+        $item_id = 'item-' . $id;
+        $html_label = '<label for="' . $item_id . '">' . $label . '</label>';
+        $html_attr = 'name="' . $id . '" ';
 
         // Id / name
-        $id_name = 'id="item-' . $id . '" name="' . $id . '" ';
+        $id_name = 'id="' . $item_id . '" ';
         if (isset($field['required']) && $field['required']) {
-            $id_name.= 'required="required"';
+            $html_attr.= 'required="required" ';
+        }
+
+        // Set value
+        $value = '';
+        if (isset($field['value'])) {
+            $value = $field['value'];
         }
 
         // Field type
@@ -84,23 +92,42 @@ class WPUGenerateHTMLForm
         switch ($field['type']) {
             case 'checkbox':
                 $box_type = 'checked-box';
-                $html_field.= '<input ' . $id_name . ' type="checkbox" value="" /> ' . $html_label;
+                $current = in_array($value, array(
+                    '1',
+                    'checked'
+                )) ? 'checked="checked" ' : '';
+                $html_field.= '<input ' . $html_attr . $id_name . $current . ' type="checkbox" value="" /> ' . $html_label;
+                break;
+
+            case 'radio':
+                $box_type = 'checked-box';
+                $html_field.= '<span class="fake-label">' . $label . '</span>';
+                foreach ($field['datas'] as $key => $var) {
+                    $current = $key == $value ? 'checked="checked" ' : '';
+                    $html_field.= '<input type="radio" id="' . $item_id . '__' . $key . '" ' . $html_attr . '  value="' . $key . '" /> ';
+                    $html_field.= '<label for="' . $item_id . '__' . $key . '">' . $var . '</label> ';
+                }
                 break;
 
             case 'select':
-                $html_field.= '<select ' . $id_name . '>';
+                $html_field.= '<select ' . $html_attr . $id_name . '>';
                 $html_field.= '<option value="" disabled selected style="display:none;">Select a value</option>';
                 foreach ($field['datas'] as $key => $var) {
-                    $html_field.= '<option value="' . $key . '">' . $var . '</option>';
+                    $current = $key == $value ? 'selected="selected" ' : '';
+                    $html_field.= '<option value="' . $key . '" ' . $current . '>' . $var . '</option>';
                 }
                 $html_field.= '</select>';
+                break;
+
+            case 'textarea':
+                $html_field.= $html_label . '<textarea ' . $html_attr . $id_name . ' rows="3" cols="40">' . $value . '</textarea>';
                 break;
 
             case 'text':
             case 'password':
             case 'email':
             case 'url':
-                $html_field.= $html_label . '<input ' . $id_name . ' type="' . $field['type'] . '" value="" />';
+                $html_field.= $html_label . '<input ' . $html_attr . $id_name . ' type="' . $field['type'] . '" value="' . $value . '" />';
                 break;
         }
 

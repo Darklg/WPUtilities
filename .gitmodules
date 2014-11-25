@@ -34,3 +34,6 @@
 [submodule "wp-content/plugins/wpuvalidateform"]
 	path = wp-content/plugins/wpuvalidateform
 	url = git@github.com:WordPressUtilities/wpuvalidateform.git
+[submodule "wp-content/themes/WPUTheme"]
+	path = wp-content/themes/WPUTheme
+	url = git@github.com:WordPressUtilities/WPUTheme.git

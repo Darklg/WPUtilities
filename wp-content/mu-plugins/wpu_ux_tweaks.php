@@ -1,8 +1,9 @@
 <?php
+
 /*
 Plugin Name: WPU UX Tweaks
 Description: Adds UX enhancement & tweaks to WordPress
-Version: 0.6
+Version: 0.7
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -70,6 +71,25 @@ function wpuux_uxt_clean_filename($string) {
     $string = strtolower($string);
     $string = preg_replace('/[^a-z0-9-_\.]+/', '', $string);
     return $string;
+}
+
+/* ----------------------------------------------------------
+  Clean default image title
+---------------------------------------------------------- */
+
+add_action('add_attachment', 'wpuux_clean_default_image_title');
+function wpuux_clean_default_image_title($post_ID) {
+    $post = get_post($post_ID);
+    $post->post_title = str_replace(array(
+        '-',
+        '_'
+    ) , ' ', $post->post_title);
+    $post->post_title = ucwords($post->post_title);
+    wp_update_post(array(
+        'ID' => $post_ID,
+        'post_title' => $post->post_title
+    ));
+    return $post_ID;
 }
 
 /* ----------------------------------------------------------

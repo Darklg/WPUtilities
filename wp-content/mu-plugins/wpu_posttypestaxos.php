@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU Post types & taxonomies
 Description: Load custom post types & taxonomies
-Version: 0.5
+Version: 0.6
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -29,6 +29,15 @@ class wputh_add_post_types_taxonomies
         'rewrite',
         'show_ui',
         'with_front'
+    );
+    private $non_consonants = array(
+        'a',
+        'e',
+        'i',
+        'o',
+        'u',
+        'y',
+        'h'
     );
 
     function __construct() {
@@ -127,33 +136,43 @@ class wputh_add_post_types_taxonomies
                 }
             }
 
+            $post_type_name = strtolower($post_type['name']);
+            $post_type_plural = strtolower($post_type['plural']);
+
             // Labels
             $args['labels'] = array(
                 'name' => ucfirst($post_type['plural']) ,
                 'singular_name' => ucfirst($post_type['name']) ,
                 'add_new' => __('Add New', 'wputh') ,
-                'add_new_item' => sprintf(_x('Add New %s', 'male', 'wputh') , $post_type['name']) ,
-                'edit_item' => sprintf(_x('Edit %s', 'male', 'wputh') , $post_type['name']) ,
-                'new_item' => sprintf(_x('New %s', 'male', 'wputh') , $post_type['name']) ,
-                'all_items' => sprintf(_x('All %s', 'male', 'wputh') , $post_type['plural']) ,
-                'view_item' => sprintf(_x('View %s', 'male', 'wputh') , $post_type['name']) ,
-                'search_items' => sprintf(_x('Search %s', 'male', 'wputh') , $post_type['name']) ,
-                'not_found' => sprintf(_x('No %s found', 'male', 'wputh') , $post_type['name']) ,
-                'not_found_in_trash' => sprintf(_x('No %s found in Trash', 'male', 'wputh') , $post_type['name']) ,
+                'add_new_item' => sprintf(_x('Add New %s', 'male', 'wputh') , $post_type_name) ,
+                'edit_item' => sprintf(_x('Edit %s', 'male', 'wputh') , $post_type_name) ,
+                'new_item' => sprintf(_x('New %s', 'male', 'wputh') , $post_type_name) ,
+                'all_items' => sprintf(_x('All %s', 'male', 'wputh') , $post_type_plural) ,
+                'view_item' => sprintf(_x('View %s', 'male', 'wputh') , $post_type_name) ,
+                'search_items' => sprintf(_x('Search %s', 'male', 'wputh') , $post_type_name) ,
+                'not_found' => sprintf(_x('No %s found', 'male', 'wputh') , $post_type_name) ,
+                'not_found_in_trash' => sprintf(_x('No %s found in Trash', 'male', 'wputh') , $post_type_name) ,
                 'parent_item_colon' => '',
                 'menu_name' => ucfirst($post_type['plural'])
             );
 
+            // Allow correct translations for post types with a name starting with a consonant
+            $first_letter = $post_type_name[0];
+            if (!in_array($first_letter, $this->non_consonants)) {
+                $args['labels']['edit_item'] = sprintf(_x('Edit %s', 'male_consonant', 'wputh') , $post_type_name);
+                $args['labels']['view_item'] = sprintf(_x('View %s', 'male_consonant', 'wputh') , $post_type_name);
+            }
+
             // I couldn't use the content of $context var inside of _x() calls because of Poedit :(
             if ($context == 'female') {
-                $args['labels']['add_new_item'] = sprintf(_x('Add New %s', 'female', 'wputh') , $post_type['name']);
-                $args['labels']['edit_item'] = sprintf(_x('Edit %s', 'female', 'wputh') , $post_type['name']);
-                $args['labels']['new_item'] = sprintf(_x('New %s', 'female', 'wputh') , $post_type['name']);
-                $args['labels']['all_items'] = sprintf(_x('All %s', 'female', 'wputh') , $post_type['plural']);
-                $args['labels']['view_item'] = sprintf(_x('View %s', 'female', 'wputh') , $post_type['name']);
-                $args['labels']['search_items'] = sprintf(_x('Search %s', 'female', 'wputh') , $post_type['name']);
-                $args['labels']['not_found'] = sprintf(_x('No %s found', 'female', 'wputh') , $post_type['name']);
-                $args['labels']['not_found_in_trash'] = sprintf(_x('No %s found in Trash', 'female', 'wputh') , $post_type['name']);
+                $args['labels']['add_new_item'] = sprintf(_x('Add New %s', 'female', 'wputh') , $post_type_name);
+                $args['labels']['edit_item'] = sprintf(_x('Edit %s', 'female', 'wputh') , $post_type_name);
+                $args['labels']['new_item'] = sprintf(_x('New %s', 'female', 'wputh') , $post_type_name);
+                $args['labels']['all_items'] = sprintf(_x('All %s', 'female', 'wputh') , $post_type_plural);
+                $args['labels']['view_item'] = sprintf(_x('View %s', 'female', 'wputh') , $post_type_name);
+                $args['labels']['search_items'] = sprintf(_x('Search %s', 'female', 'wputh') , $post_type_name);
+                $args['labels']['not_found'] = sprintf(_x('No %s found', 'female', 'wputh') , $post_type_name);
+                $args['labels']['not_found_in_trash'] = sprintf(_x('No %s found in Trash', 'female', 'wputh') , $post_type_name);
             }
 
             register_post_type($slug, $args);

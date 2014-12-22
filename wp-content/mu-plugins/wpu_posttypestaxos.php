@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU Post types & taxonomies
 Description: Load custom post types & taxonomies
-Version: 0.6
+Version: 0.7
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -187,13 +187,36 @@ class wputh_add_post_types_taxonomies
         $taxonomies = apply_filters('wputh_get_taxonomies', array());
         $taxonomies = $this->verify_taxonomies($taxonomies);
         foreach ($taxonomies as $slug => $taxo) {
-            register_taxonomy($slug, $taxo['post_type'], array(
+
+            $args = array(
                 'label' => $taxo['name'],
                 'rewrite' => array(
                     'slug' => $slug
                 ) ,
                 'hierarchical' => $taxo['hierarchical']
-            ));
+            );
+
+            $singular = $taxo['name'];
+            $plural = $singular . 's';
+
+            $args['labels'] = array(
+                'name' => $plural,
+                'singular_name' => $singular,
+                'search_items' => sprintf(__('Search %s', 'wputh') , strtolower($plural)) ,
+                'popular_items' => sprintf(__('Popular %s', 'wputh') , strtolower($plural)) ,
+                'all_items' => sprintf(__('All %s', 'wputh') , strtolower($plural)) ,
+                'edit_item' => sprintf(__('Edit %s', 'wputh') , strtolower($singular)) ,
+                'update_item' => sprintf(__('Update %s', 'wputh') , strtolower($singular)) ,
+                'add_new_item' => sprintf(__('Add New %s', 'wputh') , strtolower($singular)) ,
+                'new_item_name' => sprintf(__('New %s Name', 'wputh') , strtolower($singular)) ,
+                'separate_items_with_commas' => sprintf(__('Separate %s with commas', 'wputh') , strtolower($plural)) ,
+                'add_or_remove_items' => sprintf(__('Add or remove %s', 'wputh') , strtolower($plural)) ,
+                'choose_from_most_used' => sprintf(__('Choose from the most used %s', 'wputh') , strtolower($plural)) ,
+                'not_found' => sprintf(__('No %s found.', 'wputh') , strtolower($plural)) ,
+                'menu_name' => $plural,
+            );
+
+            register_taxonomy($slug, $taxo['post_type'], $args);
         }
     }
 

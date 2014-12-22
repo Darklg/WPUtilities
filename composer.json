@@ -1,6 +1,7 @@
 {
     "require": {
         "pdepend/pdepend": "1.1.1",
-        "phpmd/phpmd": "1.4.*"
+        "phpmd/phpmd": "1.4.*",
+        "sebastian/phpcpd": "*"
     }
 }

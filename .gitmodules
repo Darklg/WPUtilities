@@ -37,3 +37,6 @@
 [submodule "wp-content/themes/WPUTheme"]
 	path = wp-content/themes/WPUTheme
 	url = git@github.com:WordPressUtilities/WPUTheme.git
+[submodule "wp-content/plugins/wpuposttypestaxos"]
+	path = wp-content/plugins/wpuposttypestaxos
+	url = git@github.com:WordPressUtilities/wpuposttypestaxos.git

@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU UX Tweaks
 Description: Adds UX enhancement & tweaks to WordPress
-Version: 0.7
+Version: 0.8
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -242,4 +242,40 @@ function wpuux_special_smileys($content) {
     $content = str_replace(' <3', ' &hearts;', $content);
     $content = str_replace('<3 ', '&hearts; ', $content);
     return $content;
+}
+
+/* ----------------------------------------------------------
+  Prevent heavy 404 pages for static files
+---------------------------------------------------------- */
+
+/* From http://www.binarymoon.co.uk/2011/04/optimizing-wordpress-404s/ */
+
+add_filter('template_redirect', 'wpuux_preventheavy404');
+function wpuux_preventheavy404() {
+    if (!is_404()) {
+        return;
+    }
+    header('HTTP/1.1 404 Not Found');
+    $fileExtension = '';
+    $badFileTypes = array(
+        'css',
+        'txt',
+        'jpg',
+        'gif',
+        'rar',
+        'zip',
+        'png',
+        'bmp',
+        'tar',
+        'doc',
+        'xml',
+        'js',
+    );
+    if (!empty($_SERVER['REQUEST_URI'])) {
+        $fileExtension = strtolower(pathinfo($_SERVER['REQUEST_URI'], PATHINFO_EXTENSION));
+    }
+    $badFileTypes = apply_filters('wpuux_preventheavy404_filestype', $badFileTypes);
+    if (in_array($fileExtension, $badFileTypes)) {
+        exit('error');
+    }
 }

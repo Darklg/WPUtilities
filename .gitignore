@@ -37,3 +37,5 @@ vendor
 composer.lock
 composer.phar
 wp-content/themes/WPUTheme/.sass-cache
+wp-content/plugins/theme-checklist
+wp-content/plugins/themeforest-check

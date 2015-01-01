@@ -2,7 +2,7 @@
 
 /*
 Plugin Name: WPU User
-Plugin URI: https://github.com/WordPressUtilities/wpuvalidateform
+Plugin URI: https://github.com/Darklg/WPUtilities
 Description: Handle users
 Version: 0.3.2
 Author: Darklg

@@ -40,3 +40,6 @@
 [submodule "wp-content/plugins/wpuposttypestaxos"]
 	path = wp-content/plugins/wpuposttypestaxos
 	url = git@github.com:WordPressUtilities/wpuposttypestaxos.git
+[submodule "wp-content/plugins/wputhemecustomize"]
+	path = wp-content/plugins/wputhemecustomize
+	url = git@github.com:WordPressUtilities/wputhemecustomize.git

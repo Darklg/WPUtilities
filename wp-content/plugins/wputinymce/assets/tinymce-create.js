@@ -4,7 +4,7 @@ tinymce.create('tinymce.plugins.WPUTinyMCE', {
             item = wpu_tinymce_items[i];
             ed.addButton(item.id, {
                 title: item.title,
-                image: url + '/icon-list.png',
+                image: item.image,
                 onclick: function() {
                     ed.selection.setContent(item.html);
                 }

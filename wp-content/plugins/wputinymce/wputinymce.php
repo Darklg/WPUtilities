@@ -4,7 +4,7 @@
 Plugin Name: WPU TinyMCE Buttons
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Add new buttons to TinyMCE
-Version: 0.2
+Version: 0.3
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -21,7 +21,7 @@ class WPUTinyMCE
         $upload_dir = wp_upload_dir();
         $this->up_dir = $upload_dir['basedir'] . '/wpu_tinymce-cache';
         $this->up_url = $upload_dir['baseurl'] . '/wpu_tinymce-cache';
-        $this->plugin_dir = dirname(__FILE__);
+        $this->plugin_assets_dir = dirname(__FILE__) . '/assets/';
 
         add_action('init', array(&$this,
             'check_buttons_list'
@@ -37,7 +37,28 @@ class WPUTinyMCE
     function check_buttons_list() {
 
         // Import buttons
-        $this->buttons = apply_filters('wputinymce_buttons', array());
+        $buttons = apply_filters('wputinymce_buttons', array());
+        $this->buttons = array();
+
+        // Check values
+        foreach ($buttons as $button_id => $button) {
+
+            $button['id'] = $button_id;
+
+            // Default image
+            if (!isset($button['image'])) {
+                $button['image'] = $this->up_url . '/icon-list.png';
+            }
+
+            // Default title
+            if (!isset($button['title']) || empty($button['title'])) {
+                $button['title'] = ucwords(str_replace('_', ' ', $button_id));
+            }
+
+            if (isset($button['html'])) {
+                $this->buttons[$button_id] = $button;
+            }
+        }
 
         // Check version
         $buttons_version = md5(serialize($this->buttons));
@@ -53,7 +74,6 @@ class WPUTinyMCE
 
         // Save version
         update_option('wputinymce_buttons_list', $buttons_version);
-
     }
 
     function regenerate_js_file() {
@@ -69,21 +89,18 @@ class WPUTinyMCE
         $js.= "var wpu_tinymce_items = [];\n";
 
         foreach ($this->buttons as $button_id => $button) {
-            $js.= "wpu_tinymce_items.push({
-        id: '".$button_id."',
-        title: '".$button['title']."',
-        html: '".$button['html']."'
-    });\n";
+            $js.= "wpu_tinymce_items.push(" . json_encode($button) . ");\n";
         }
 
-        $js.= file_get_contents($this->plugin_dir."/assets/tinymce-create.js") . "\n";
+        $js.= file_get_contents($this->plugin_assets_dir . "tinymce-create.js") . "\n";
         $js.= "}());";
 
         file_put_contents($this->up_dir . '/cache.js', $js);
 
-        // Copy image
-        copy($this->plugin_dir."/assets/icon-list.png",$this->up_dir.'/icon-list.png');
-
+        // Copy default icon
+        if (!file_exists($this->up_dir . '/icon-list.png')) {
+            copy($this->plugin_assets_dir . "icon-list.png", $this->up_dir . '/icon-list.png');
+        }
     }
 
     function set_options() {

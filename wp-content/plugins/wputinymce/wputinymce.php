@@ -4,7 +4,7 @@
 Plugin Name: WPU TinyMCE Buttons
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Add new buttons to TinyMCE
-Version: 0.3
+Version: 0.4
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -22,6 +22,7 @@ class WPUTinyMCE
         $this->up_dir = $upload_dir['basedir'] . '/wpu_tinymce-cache';
         $this->up_url = $upload_dir['baseurl'] . '/wpu_tinymce-cache';
         $this->plugin_assets_dir = dirname(__FILE__) . '/assets/';
+        $this->plugin_version = "0.4";
 
         add_action('init', array(&$this,
             'check_buttons_list'
@@ -61,7 +62,7 @@ class WPUTinyMCE
         }
 
         // Check version
-        $buttons_version = md5(serialize($this->buttons));
+        $buttons_version = md5($this->plugin_version.serialize($this->buttons));
         $buttons_version_option = get_option('wputinymce_buttons_list');
 
         // Same version : quit

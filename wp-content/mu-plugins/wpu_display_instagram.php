@@ -1,8 +1,9 @@
 <?php
+
 /*
 Plugin Name: Display Instagram
 Description: Displays the latest image for an Instagram account
-Version: 0.4
+Version: 0.4.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -94,15 +95,32 @@ function wpu_get_instagram_catch_att_id( $att_id ) {
   Add administration with WPU Options plugin
 ---------------------------------------------------------- */
 
-add_filter( 'wpu_options_boxes', 'wpu_get_instagram_options_boxes', 12, 3 );
-function wpu_get_instagram_options_boxes( $boxes ) {
-    $boxes['instagram_config'] = array( 'name' => 'Plugin: Display Instagram' );
+add_filter('wpu_options_tabs', 'wpu_get_instagram_options_tabs', 10, 3);
+function wpu_get_instagram_options_tabs($tabs) {
+    $tabs['instagram_tab'] = array(
+        'name' => 'Plugin : Display Instagram',
+    );
+    return $tabs;
+}
+
+add_filter('wpu_options_boxes', 'wpu_get_instagram_options_boxes', 12, 3);
+function wpu_get_instagram_options_boxes($boxes) {
+    $boxes['instagram_config'] = array(
+        'tab' => 'instagram_tab',
+        'name' => 'Display Instagram'
+    );
     return $boxes;
 }
 
-add_filter( 'wpu_options_fields', 'wpu_get_instagram_options_fields', 12, 3 );
-function wpu_get_instagram_options_fields( $options ) {
-    $options['wpu_get_instagram__api_key'] = array( 'label' => 'API Key', 'box' => 'instagram_config' );
-    $options['wpu_get_instagram__user_id'] = array( 'label' => 'User ID' , 'box' => 'instagram_config' );
+add_filter('wpu_options_fields', 'wpu_get_instagram_options_fields', 12, 3);
+function wpu_get_instagram_options_fields($options) {
+    $options['wpu_get_instagram__api_key'] = array(
+        'label' => 'API Key',
+        'box' => 'instagram_config'
+    );
+    $options['wpu_get_instagram__user_id'] = array(
+        'label' => 'User ID',
+        'box' => 'instagram_config'
+    );
     return $options;
 }

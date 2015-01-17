@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU UX Tweaks
 Description: Adds UX enhancement & tweaks to WordPress
-Version: 0.8
+Version: 0.9
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -278,4 +278,14 @@ function wpuux_preventheavy404() {
     if (in_array($fileExtension, $badFileTypes)) {
         exit('error');
     }
+}
+
+/* ----------------------------------------------------------
+  Check "Remember me" by default on login
+---------------------------------------------------------- */
+
+add_action('login_form', 'wpuux_check_rememberme');
+function wpuux_check_rememberme() {
+    global $rememberme;
+    $rememberme = 1;
 }

@@ -3,7 +3,7 @@
 /*
 Plugin Name: WP Utilities Debug toolbar
 Description: Display a debug toolbar for developers.
-Version: 0.6
+Version: 0.6.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -48,6 +48,9 @@ class WPUDebugToolbar
     function launch_bar() {
         global $template, $pagenow;
         if ($pagenow == 'wp-login.php') {
+            return;
+        }
+        if (!empty($_POST) && isset($_POST['wp_customize'])) {
             return;
         }
         echo '<div data-show-queries="" id="wputh-debug-toolbar" class="wputh-debug-toolbar">';

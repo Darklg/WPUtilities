@@ -43,3 +43,6 @@
 [submodule "wp-content/plugins/wputhemecustomize"]
 	path = wp-content/plugins/wputhemecustomize
 	url = git@github.com:WordPressUtilities/wputhemecustomize.git
+[submodule "wp-content/plugins/wpuimportfolder"]
+	path = wp-content/plugins/wpuimportfolder
+	url = git@github.com:WordPressUtilities/wpuimportfolder.git

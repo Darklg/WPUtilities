@@ -46,3 +46,6 @@
 [submodule "wp-content/plugins/wpuimportfolder"]
 	path = wp-content/plugins/wpuimportfolder
 	url = git@github.com:WordPressUtilities/wpuimportfolder.git
+[submodule "wp-content/plugins/wpucommunity"]
+	path = wp-content/plugins/wpucommunity
+	url = git@github.com:WordPressUtilities/wpucommunity.git

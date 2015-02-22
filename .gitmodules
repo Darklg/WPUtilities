@@ -49,3 +49,6 @@
 [submodule "wp-content/plugins/wpucommunity"]
 	path = wp-content/plugins/wpucommunity
 	url = git@github.com:WordPressUtilities/wpucommunity.git
+[submodule "wp-content/plugins/wpudisplayinstagram"]
+	path = wp-content/plugins/wpudisplayinstagram
+	url = git@github.com:WordPressUtilities/wpudisplayinstagram.git

@@ -52,3 +52,6 @@
 [submodule "wp-content/plugins/wpudisplayinstagram"]
 	path = wp-content/plugins/wpudisplayinstagram
 	url = git@github.com:WordPressUtilities/wpudisplayinstagram.git
+[submodule "wp-content/plugins/wputinymce"]
+	path = wp-content/plugins/wputinymce
+	url = git@github.com:WordPressUtilities/wputinymce.git

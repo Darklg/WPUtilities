@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU UX Tweaks
 Description: Adds UX enhancement & tweaks to WordPress
-Version: 0.9
+Version: 0.10
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -74,49 +74,6 @@ function wpuux_uxt_clean_filename($string) {
 }
 
 /* ----------------------------------------------------------
-  Clean default image title
----------------------------------------------------------- */
-
-add_action('add_attachment', 'wpuux_clean_default_image_title');
-function wpuux_clean_default_image_title($post_ID) {
-    $post = get_post($post_ID);
-    $post->post_title = str_replace(array(
-        '-',
-        '_'
-    ) , ' ', $post->post_title);
-    $post->post_title = ucwords($post->post_title);
-    wp_update_post(array(
-        'ID' => $post_ID,
-        'post_title' => $post->post_title
-    ));
-    return $post_ID;
-}
-
-/* ----------------------------------------------------------
-  Set media select to uploaded : http://wordpress.stackexchange.com/a/76213
----------------------------------------------------------- */
-
-add_action('admin_footer-post-new.php', 'wpuux_set_media_select_uploaded');
-add_action('admin_footer-post.php', 'wpuux_set_media_select_uploaded');
-
-function wpuux_set_media_select_uploaded() { ?><script>
-jQuery(function($) {
-    var called = 0;
-    $('#wpcontent').ajaxStop(function() {
-        $('[value="uploaded"]').each(function(){
-            var uploaded = $(this),
-                uploadedParent = uploaded.parent();
-            if (!uploadedParent.hasClass('has-set-uploaded')) {
-                uploaded.attr('selected', true).parent().trigger('change');
-                uploadedParent.addClass('has-set-uploaded');
-            }
-        });
-    });
-});
-</script><?php
-}
-
-/* ----------------------------------------------------------
   Add copyright to content in RSS feed
 ---------------------------------------------------------- */
 
@@ -152,7 +109,6 @@ function wpuux_redirect_only_result_search() {
 ---------------------------------------------------------- */
 
 add_filter('wp_mail_from', 'wpuux_new_mail_from');
-
 function wpuux_new_mail_from($email) {
     $new_email = get_option('wpuux_opt_email');
     if (!empty($new_email) && $new_email !== false) {
@@ -163,7 +119,6 @@ function wpuux_new_mail_from($email) {
 }
 
 add_filter('wp_mail_from_name', 'wpuux_new_mail_from_name');
-
 function wpuux_new_mail_from_name($name) {
     $new_email_name = get_option('wpuux_opt_email_name');
     if (!empty($new_email_name) && $new_email_name !== false) {
@@ -200,34 +155,6 @@ function wpuux_cleanup_pdf_text($co) {
     }
     $co = str_replace('ç', '&ccedil;', $co);
     return $co;
-}
-
-/* ----------------------------------------------------------
-  Thumbnails for post columns
----------------------------------------------------------- */
-
-add_filter('manage_posts_columns', 'wpuux_add_column_thumb', 5);
-
-function wpuux_add_column_thumb($defaults) {
-    $defaults['wpuux_column_thumb'] = __('Thumbnail');
-    return $defaults;
-}
-
-add_action('manage_posts_custom_column', 'wpuux_add_column_thumb_content', 5, 2);
-
-function wpuux_add_column_thumb_content($column_name, $id) {
-    global $post;
-    if ($column_name === 'wpuux_column_thumb' && isset($post->ID)) {
-        $thumb_id = get_post_thumbnail_id($post->ID);
-        if (!$thumb_id) {
-            return;
-        }
-        $image = wp_get_attachment_image_src($thumb_id, 'thumbnail');
-        if (!isset($image[0])) {
-            return;
-        }
-        echo '<img style="height:70px;width:70px;" src="' . $image[0] . '" alt="" />';
-    }
 }
 
 /* ----------------------------------------------------------
@@ -288,4 +215,86 @@ add_action('login_form', 'wpuux_check_rememberme');
 function wpuux_check_rememberme() {
     global $rememberme;
     $rememberme = 1;
+}
+
+/* ----------------------------------------------------------
+  Images
+---------------------------------------------------------- */
+
+/* Clean default image title
+ -------------------------- */
+
+add_action('add_attachment', 'wpuux_clean_default_image_title');
+function wpuux_clean_default_image_title($post_ID) {
+    $post = get_post($post_ID);
+    $post->post_title = str_replace(array(
+        '-',
+        '_'
+    ) , ' ', $post->post_title);
+    $post->post_title = ucwords($post->post_title);
+    wp_update_post(array(
+        'ID' => $post_ID,
+        'post_title' => $post->post_title
+    ));
+    return $post_ID;
+}
+
+/* Set default image link to none
+ -------------------------- */
+
+add_action('init', 'wpuux_default_link_type');
+function wpuux_default_link_type() {
+    $image_default_link_type = get_option('image_default_link_type');
+    if ($image_default_link_type != 'none') {
+        update_option('image_default_link_type', 'none');
+    }
+}
+
+/* Thumbnails for post columns
+ -------------------------- */
+
+add_filter('manage_posts_columns', 'wpuux_add_column_thumb', 5);
+function wpuux_add_column_thumb($defaults) {
+    $defaults['wpuux_column_thumb'] = __('Thumbnail');
+    return $defaults;
+}
+
+add_action('manage_posts_custom_column', 'wpuux_add_column_thumb_content', 5, 2);
+function wpuux_add_column_thumb_content($column_name, $id) {
+    global $post;
+    if ($column_name === 'wpuux_column_thumb' && isset($post->ID)) {
+        $thumb_id = get_post_thumbnail_id($post->ID);
+        if (!$thumb_id) {
+            return;
+        }
+        $image = wp_get_attachment_image_src($thumb_id, 'thumbnail');
+        if (isset($image[0])) {
+            echo '<img style="height:70px;width:70px;" src="' . $image[0] . '" alt="" />';
+        }
+    }
+}
+
+/* Set media select to uploaded
+ -------------------------- */
+
+/* Thx http://wordpress.stackexchange.com/a/76213 */
+
+add_action('admin_footer-post-new.php', 'wpuux_set_media_select_uploaded');
+add_action('admin_footer-post.php', 'wpuux_set_media_select_uploaded');
+
+function wpuux_set_media_select_uploaded() { ?><script>
+jQuery(function($) {
+    var called = 0;
+    $('#wpcontent').ajaxStop(function() {
+        $('[value="uploaded"]').each(function(){
+            var uploaded = $(this),
+                uploadedParent = uploaded.parent();
+            if (!uploadedParent.hasClass('has-set-uploaded')) {
+                uploaded.attr('selected', true).parent().trigger('change');
+                uploadedParent.addClass('has-set-uploaded');
+            }
+        });
+    });
+});
+</script><?php
 }

@@ -55,3 +55,6 @@
 [submodule "wp-content/plugins/wputinymce"]
 	path = wp-content/plugins/wputinymce
 	url = git@github.com:WordPressUtilities/wputinymce.git
+[submodule "wp-content/plugins/wputhumbnails"]
+	path = wp-content/plugins/wputhumbnails
+	url = git@github.com:WordPressUtilities/wputhumbnails.git

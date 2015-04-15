@@ -16,6 +16,7 @@ Plugins list :
 * *Post Metas* : Simple admin for post metas.
 * *Track 404 & Search* : Logs & analyze search queries & 404 Errors
 * *User Metas* : Simple admin for user metas.
+* *Display Instagram* : Displays the latest image for an Instagram account
 
 "Must-Use" plugins
 =================

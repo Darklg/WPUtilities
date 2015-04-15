@@ -6,6 +6,5 @@ Must-Use plugins
 Plugins list :
 ---
 
-* *Display Instagram* : Displays the latest image for an Instagram account
-* *WPU SEO* : Enhance SEO : Clean title, nice metas.
+* *WPU Body Classes* : Add more body classes to WordPress
 * *WPU UX Tweaks* : Adds UX enhancement & tweaks to WordPress

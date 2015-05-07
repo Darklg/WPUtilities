@@ -58,3 +58,6 @@
 [submodule "wp-content/plugins/wputhumbnails"]
 	path = wp-content/plugins/wputhumbnails
 	url = git@github.com:WordPressUtilities/wputhumbnails.git
+[submodule "wp-content/plugins/wpugenerateform"]
+	path = wp-content/plugins/wpugenerateform
+	url = git@github.com:WordPressUtilities/wpugenerateform.git

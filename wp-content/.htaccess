@@ -31,4 +31,5 @@ FileETag None
     AddType font/eot .eot
     AddType font/otf .otf
     AddType font/woff .woff
+    AddType application/font-woff2 .woff2
 </IfModule>

@@ -1,9 +1,9 @@
 <?php
 
 /*
-Plugin Name: WP Utilities admin protect
+Plugin Name: WP Utilities Admin Protect
 Description: Restrictive options for WordPress admin
-Version: 0.5
+Version: 0.6
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -109,22 +109,29 @@ function wputh_admin_protect_remove_versions() {
 }
 
 function wputh_admin_protect__set_htaccess($opt_ver = '0.0') {
+    $opt = 'wputh_admin_protect__has_htaccess';
     $ver = get_option($opt);
     if ($ver == $opt_ver) {
         return;
     }
     $htaccess_file = ABSPATH . '/.htaccess';
-    $opt = 'wputh_admin_protect__has_htaccess';
     $htaccess_content = file_get_contents($htaccess_file);
     $htaccess_content = preg_replace("/\n\n\#\ STARTWPUADMINPROTECT(.*)\#\ ENDWPUADMINPROTECT\n/isU", "", $htaccess_content);
-    $htaccess_content.= <<<EOD
-\n\n# STARTWPUADMINPROTECT
-# Protect files
+    $htaccess_content = "\n# STARTWPUADMINPROTECT
+# WP Utilities Admin Protect - v ${opt_ver}
+# - Security requirements
+RewriteEngine On
+RewriteCond %{QUERY_STRING} (\<|%3C).*script.*(\>|%3E) [NC,OR]
+RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
+RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
+RewriteRule ^(.*)$ index.php [F,L]
+# - Disable directory browsing
+Options All -Indexes
+# - Protect files
 <FilesMatch (^wp-config\.php|^readme\.html|^README\.md|^license\.html|^debug\.log)>
 Deny from all
 </FilesMatch>
-# ENDWPUADMINPROTECT\n
-EOD;
+# ENDWPUADMINPROTECT\n" . $htaccess_content;
     @file_put_contents($htaccess_file, $htaccess_content);
     update_option($opt, $opt_ver);
 }

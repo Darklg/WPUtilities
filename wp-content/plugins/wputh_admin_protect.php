@@ -3,7 +3,7 @@
 /*
 Plugin Name: WP Utilities Admin Protect
 Description: Restrictive options for WordPress admin
-Version: 0.6
+Version: 0.7
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -101,7 +101,7 @@ function wputh_admin_protect__remove_ver($src) {
 
 add_action('init', 'wputh_admin_protect_remove_versions');
 function wputh_admin_protect_remove_versions() {
-    wputh_admin_protect__set_htaccess("0.6");
+    wputh_admin_protect__set_htaccess("0.7");
     remove_action('wp_head', 'wp_generator');
     add_filter('the_generator', '__return_empty_string', 9999);
     add_filter('style_loader_src', 'wputh_admin_protect__remove_ver', 9999);
@@ -116,7 +116,7 @@ function wputh_admin_protect__set_htaccess($opt_ver = '0.0') {
     }
     $htaccess_file = ABSPATH . '/.htaccess';
     $htaccess_content = file_get_contents($htaccess_file);
-    $htaccess_content = preg_replace("/\n\n\#\ STARTWPUADMINPROTECT(.*)\#\ ENDWPUADMINPROTECT\n/isU", "", $htaccess_content);
+    $htaccess_content = preg_replace("/\n\#\ STARTWPUADMINPROTECT(.*)\#\ ENDWPUADMINPROTECT\n/isU", "", $htaccess_content);
     $htaccess_content = "\n# STARTWPUADMINPROTECT
 # WP Utilities Admin Protect - v ${opt_ver}
 # - Security requirements
@@ -128,9 +128,15 @@ RewriteRule ^(.*)$ index.php [F,L]
 # - Disable directory browsing
 Options All -Indexes
 # - Protect files
-<FilesMatch (^wp-config\.php|^readme\.html|^README\.md|^license\.html|^debug\.log)>
+<FilesMatch (^wp-config\.php|^timthumb\.php|^readme\.html|^README\.md|^license\.html|^debug\.log)>
 Deny from all
 </FilesMatch>
+# - Disallow PHP Easter Egg
+RewriteCond %{QUERY_STRING} \=PHP[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} [NC]
+RewriteRule .* - [F,L]
+# Remove Server Signature
+Header unset Server
+ServerSignature Off
 # ENDWPUADMINPROTECT\n" . $htaccess_content;
     @file_put_contents($htaccess_file, $htaccess_content);
     update_option($opt, $opt_ver);

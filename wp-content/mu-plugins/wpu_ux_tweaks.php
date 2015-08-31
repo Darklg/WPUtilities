@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU UX Tweaks
 Description: Adds UX enhancement & tweaks to WordPress
-Version: 0.11
+Version: 0.12
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -38,8 +38,11 @@ function wpuux_clean_head() {
 }
 
 /* ----------------------------------------------------------
-  Prevent bad formed link
+  CONTENT TWEAKS
 ---------------------------------------------------------- */
+
+/* Prevent bad formed links
+ -------------------------- */
 
 add_action('the_content', 'wpuux_bad_formed_links');
 
@@ -57,6 +60,62 @@ function wpuux_bad_formed_links($content) {
     $goodform[] = 'href="http://';
 
     $content = str_replace($badform, $goodform, $content);
+    return $content;
+}
+
+/* Clean up text from PDF
+ -------------------------- */
+
+add_filter('the_content', 'wpuux_cleanup_pdf_text');
+add_filter('the_excerpt', 'wpuux_cleanup_pdf_text');
+
+function wpuux_cleanup_pdf_text($co) {
+    $letters = array(
+        'a',
+        'A',
+        'c',
+        'C',
+        'e',
+        'E',
+        'i',
+        'I',
+        'o',
+        'O',
+        'u',
+        'U'
+    );
+    foreach ($letters as $letter) {
+        $co = str_replace($letter . '̀', '&' . $letter . 'grave;', $co);
+        $co = str_replace($letter . '́', '&' . $letter . 'acute;', $co);
+        $co = str_replace($letter . '̂', '&' . $letter . 'circ;', $co);
+        $co = str_replace($letter . '̈', '&' . $letter . 'uml;', $co);
+        $co = str_replace($letter . '¸', '&' . $letter . 'cedil;', $co);
+    }
+    return $co;
+}
+
+/* Specials smileys
+ -------------------------- */
+
+add_filter('the_title', 'wpuux_special_smileys');
+add_filter('the_content', 'wpuux_special_smileys');
+add_filter('the_excerpt', 'wpuux_special_smileys');
+
+function wpuux_special_smileys($content) {
+    $content = str_replace(' <3', ' &hearts;', $content);
+    $content = str_replace('<3 ', '&hearts; ', $content);
+    return $content;
+}
+
+/* Add content classes
+ -------------------------- */
+
+add_filter('the_content', 'wpuux_content_classes', 99, 1);
+function wpuux_content_classes($content) {
+
+    /* Add a class to P tags containing only a A>IMG */
+    $content = preg_replace('/<p>([\s]?)<a([^>]*)>([\s]?)<img([^>]*)>([\s]?)<\/a>([\s]?)<\/p>/isU', "<p class=\"only-child-link \">$1<a$2><img$4></a></p>", $content);
+
     return $content;
 }
 
@@ -125,50 +184,6 @@ function wpuux_new_mail_from_name($name) {
         $name = $new_email_name;
     }
     return $name;
-}
-
-/* ----------------------------------------------------------
-  Clean up text from PDF
----------------------------------------------------------- */
-
-add_filter('the_content', 'wpuux_cleanup_pdf_text');
-add_filter('the_excerpt', 'wpuux_cleanup_pdf_text');
-
-function wpuux_cleanup_pdf_text($co) {
-    $letters = array(
-        'a',
-        'A',
-        'e',
-        'E',
-        'i',
-        'I',
-        'o',
-        'O',
-        'u',
-        'U'
-    );
-    foreach ($letters as $letter) {
-        $co = str_replace($letter . '̀', '&' . $letter . 'grave;', $co);
-        $co = str_replace($letter . '́', '&' . $letter . 'acute;', $co);
-        $co = str_replace($letter . '̂', '&' . $letter . 'circ;', $co);
-        $co = str_replace($letter . '̈', '&' . $letter . 'uml;', $co);
-    }
-    $co = str_replace('ç', '&ccedil;', $co);
-    return $co;
-}
-
-/* ----------------------------------------------------------
-  Specials smileys
----------------------------------------------------------- */
-
-add_filter('the_title', 'wpuux_special_smileys');
-add_filter('the_content', 'wpuux_special_smileys');
-add_filter('the_excerpt', 'wpuux_special_smileys');
-
-function wpuux_special_smileys($content) {
-    $content = str_replace(' <3', ' &hearts;', $content);
-    $content = str_replace('<3 ', '&hearts; ', $content);
-    return $content;
 }
 
 /* ----------------------------------------------------------

@@ -61,3 +61,6 @@
 [submodule "wp-content/plugins/wpugenerateform"]
 	path = wp-content/plugins/wpugenerateform
 	url = git@github.com:WordPressUtilities/wpugenerateform.git
+[submodule "wp-content/plugins/wpudebugtoolbar"]
+	path = wp-content/plugins/wpudebugtoolbar
+	url = git@github.com:WordPressUtilities/wpudebugtoolbar.git

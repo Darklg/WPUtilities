@@ -64,3 +64,6 @@
 [submodule "wp-content/plugins/wpudebugtoolbar"]
 	path = wp-content/plugins/wpudebugtoolbar
 	url = git@github.com:WordPressUtilities/wpudebugtoolbar.git
+[submodule "wp-content/plugins/wpupostviews"]
+	path = wp-content/plugins/wpupostviews
+	url = git@github.com:WordPressUtilities/wpupostviews.git

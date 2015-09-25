@@ -67,3 +67,6 @@
 [submodule "wp-content/plugins/wpupostviews"]
 	path = wp-content/plugins/wpupostviews
 	url = git@github.com:WordPressUtilities/wpupostviews.git
+[submodule "wp-content/plugins/wpusavevideos"]
+	path = wp-content/plugins/wpusavevideos
+	url = git@github.com:WordPressUtilities/wpusavevideos.git

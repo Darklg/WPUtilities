@@ -3,7 +3,7 @@
 /*
 Plugin Name: WP Utilities Admin Protect
 Description: Restrictive options for WordPress admin
-Version: 0.7
+Version: 0.7.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -88,6 +88,15 @@ function wputh_admin_option_default_role($value) {
   Block WordPress version info
 ---------------------------------------------------------- */
 
+add_action('init', 'wputh_admin_protect_remove_versions');
+function wputh_admin_protect_remove_versions() {
+    remove_action('wp_head', 'wp_generator');
+    add_filter('update_footer', '__return_empty_string', 9999);
+    add_filter('the_generator', '__return_empty_string', 9999);
+    add_filter('style_loader_src', 'wputh_admin_protect__remove_ver', 9999,1);
+    add_filter('script_loader_src', 'wputh_admin_protect__remove_ver', 9999,1);
+}
+
 // remove wp version param from any enqueued scripts
 function wputh_admin_protect__remove_ver($src) {
     $ver = get_bloginfo('version');
@@ -99,13 +108,13 @@ function wputh_admin_protect__remove_ver($src) {
     return $src;
 }
 
-add_action('init', 'wputh_admin_protect_remove_versions');
-function wputh_admin_protect_remove_versions() {
-    wputh_admin_protect__set_htaccess("0.7");
-    remove_action('wp_head', 'wp_generator');
-    add_filter('the_generator', '__return_empty_string', 9999);
-    add_filter('style_loader_src', 'wputh_admin_protect__remove_ver', 9999);
-    add_filter('script_loader_src', 'wputh_admin_protect__remove_ver', 9999);
+/* ----------------------------------------------------------
+  Htaccess
+---------------------------------------------------------- */
+
+add_action('init', 'wputh_admin_protect_init_htaccess');
+function wputh_admin_protect_init_htaccess() {
+    wputh_admin_protect__set_htaccess("0.7.1");
 }
 
 function wputh_admin_protect__set_htaccess($opt_ver = '0.0') {
@@ -116,7 +125,7 @@ function wputh_admin_protect__set_htaccess($opt_ver = '0.0') {
     }
     $htaccess_file = ABSPATH . '/.htaccess';
     $htaccess_content = file_get_contents($htaccess_file);
-    $htaccess_content = preg_replace("/\n\#\ STARTWPUADMINPROTECT(.*)\#\ ENDWPUADMINPROTECT\n/isU", "", $htaccess_content);
+    $htaccess_content = preg_replace("/\#\ STARTWPUADMINPROTECT(.*)\#\ ENDWPUADMINPROTECT/isU", "", $htaccess_content);
     $htaccess_content = "\n# STARTWPUADMINPROTECT
 # WP Utilities Admin Protect - v ${opt_ver}
 # - Security requirements

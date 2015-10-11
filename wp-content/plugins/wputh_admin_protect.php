@@ -3,7 +3,7 @@
 /*
 Plugin Name: WP Utilities Admin Protect
 Description: Restrictive options for WordPress admin
-Version: 0.7.1
+Version: 0.7.2
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -31,7 +31,11 @@ if (is_admin()) {
 
     add_action('admin_init', 'wputh_block_admin', 1);
     function wputh_block_admin() {
-        if (!current_user_can(WPUTH_ADMIN_MIN_LVL) && $_SERVER['PHP_SELF'] != '/wp-admin/admin-ajax.php') {
+
+        $uri_ajax = '/wp-admin/admin-ajax.php';
+        $len_ajax = strlen($uri_ajax);
+
+        if (!current_user_can(WPUTH_ADMIN_MIN_LVL) && substr($_SERVER['PHP_SELF'], 0 - $len_ajax) != $uri_ajax) {
             wp_die(__('You are not allowed to access this part of the site'));
         }
     }
@@ -93,8 +97,8 @@ function wputh_admin_protect_remove_versions() {
     remove_action('wp_head', 'wp_generator');
     add_filter('update_footer', '__return_empty_string', 9999);
     add_filter('the_generator', '__return_empty_string', 9999);
-    add_filter('style_loader_src', 'wputh_admin_protect__remove_ver', 9999,1);
-    add_filter('script_loader_src', 'wputh_admin_protect__remove_ver', 9999,1);
+    add_filter('style_loader_src', 'wputh_admin_protect__remove_ver', 9999, 1);
+    add_filter('script_loader_src', 'wputh_admin_protect__remove_ver', 9999, 1);
 }
 
 // remove wp version param from any enqueued scripts

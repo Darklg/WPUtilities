@@ -44,3 +44,7 @@ wp-content/plugins/qtranslate-x
 wpu-test.php
 wp-cli.phar
 wp-content/plugins/woocommerce
+wp-content/plugins/debug-bar
+wp-content/plugins/p3-profiler
+p3-profiler.php
+wp-content/plugins/wp-crontrol

@@ -70,3 +70,6 @@
 [submodule "wp-content/plugins/wpusavevideos"]
 	path = wp-content/plugins/wpusavevideos
 	url = git@github.com:WordPressUtilities/wpusavevideos.git
+[submodule "wp-content/plugins/wpuimporttwitter"]
+	path = wp-content/plugins/wpuimporttwitter
+	url = git@github.com:WordPressUtilities/wpuimporttwitter.git

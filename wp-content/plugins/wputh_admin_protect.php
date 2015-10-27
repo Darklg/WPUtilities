@@ -3,7 +3,7 @@
 /*
 Plugin Name: WP Utilities Admin Protect
 Description: Restrictive options for WordPress admin
-Version: 0.7.2
+Version: 0.8
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -18,6 +18,7 @@ if (!defined('ABSPATH')) {
   Levels
 ---------------------------------------------------------- */
 
+define('WPUTH_ADMIN_PLUGIN_VERSION', '0.8');
 define('WPUTH_ADMIN_MAX_LVL', 'manage_options');
 define('WPUTH_ADMIN_MIN_LVL', 'manage_categories');
 
@@ -118,7 +119,7 @@ function wputh_admin_protect__remove_ver($src) {
 
 add_action('init', 'wputh_admin_protect_init_htaccess');
 function wputh_admin_protect_init_htaccess() {
-    wputh_admin_protect__set_htaccess("0.7.1");
+    wputh_admin_protect__set_htaccess(WPUTH_ADMIN_PLUGIN_VERSION);
 }
 
 function wputh_admin_protect__set_htaccess($opt_ver = '0.0') {
@@ -133,6 +134,8 @@ function wputh_admin_protect__set_htaccess($opt_ver = '0.0') {
     $htaccess_content = "\n# STARTWPUADMINPROTECT
 # WP Utilities Admin Protect - v ${opt_ver}
 # - Security requirements
+<IfModule mod_rewrite.c>
+<IfModule mod_headers.c>
 RewriteEngine On
 RewriteCond %{QUERY_STRING} (\<|%3C).*script.*(\>|%3E) [NC,OR]
 RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
@@ -150,8 +153,29 @@ RewriteRule .* - [F,L]
 # Remove Server Signature
 Header unset Server
 ServerSignature Off
+</IfModule>
+</IfModule>
 # ENDWPUADMINPROTECT\n" . $htaccess_content;
     @file_put_contents($htaccess_file, $htaccess_content);
     update_option($opt, $opt_ver);
 }
 
+/* ----------------------------------------------------------
+  Warn from user admin creation
+---------------------------------------------------------- */
+
+add_action('admin_head', 'wputh_admin_protect_invalidusername');
+function wputh_admin_protect_invalidusername() {
+    $screen = get_current_screen();
+    if (!is_object($screen) || $screen->base != 'user' || $screen->action != 'add') {
+        return;
+    }
+    echo "<script>jQuery(document).ready(function($) {
+    $('#createuser').on('submit', function wputh_admin_protect_invalidusername(e){
+        if($('#user_login').val() == 'admin'){
+            e.preventDefault();
+            alert('The \"admin\" username is disabled, it\'s a security breach.');
+        }
+    });
+});</script>";
+}

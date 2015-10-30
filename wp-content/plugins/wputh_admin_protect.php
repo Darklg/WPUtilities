@@ -3,7 +3,7 @@
 /*
 Plugin Name: WP Utilities Admin Protect
 Description: Restrictive options for WordPress admin
-Version: 0.8
+Version: 0.8.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
   Levels
 ---------------------------------------------------------- */
 
-define('WPUTH_ADMIN_PLUGIN_VERSION', '0.8');
+define('WPUTH_ADMIN_PLUGIN_VERSION', '0.8.1');
 define('WPUTH_ADMIN_MAX_LVL', 'manage_options');
 define('WPUTH_ADMIN_MIN_LVL', 'manage_categories');
 
@@ -144,7 +144,7 @@ RewriteRule ^(.*)$ index.php [F,L]
 # - Disable directory browsing
 Options All -Indexes
 # - Protect files
-<FilesMatch (^wp-config\.php|^timthumb\.php|^readme\.html|^README\.md|^license\.html|^debug\.log)>
+<FilesMatch (^.gitignore|^.gitmodules|\\.sql|\\.phar|^wp-config\.php|^timthumb\.php|^readme\.html|^README\.md|^license\.html|^license\.txt|^debug\.log)>
 Deny from all
 </FilesMatch>
 # - Disallow PHP Easter Egg
@@ -171,10 +171,14 @@ function wputh_admin_protect_invalidusername() {
         return;
     }
     echo "<script>jQuery(document).ready(function($) {
+    var forbidden_usernames = ['admin','administrator'],
+        alert_message = '" . esc_attr(__('The ”%s” username is forbidden, because it is a potential security breach.', 'wputh')) . "';
     $('#createuser').on('submit', function wputh_admin_protect_invalidusername(e){
-        if($('#user_login').val() == 'admin'){
+        var val = $('#user_login').val();
+        if($.inArray(val,forbidden_usernames) >= 0){
             e.preventDefault();
-            alert('The \"admin\" username is disabled, it\'s a security breach.');
+            alert(alert_message.replace(/%s/g,val));
+            $('#user_login').val('').focus();
         }
     });
 });</script>";

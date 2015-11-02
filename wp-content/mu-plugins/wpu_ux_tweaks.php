@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU UX Tweaks
 Description: Adds UX enhancement & tweaks to WordPress
-Version: 0.13
+Version: 0.14
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -334,4 +334,16 @@ function wpuux_disable_newemojis() {
 add_action('admin_head','wpuux_fixchromebug_admin');
 function wpuux_fixchromebug_admin(){
     echo '<style>#adminmenu{-webkit-transform:translateZ(0);transform:translateZ(0);}</style>';
+}
+
+/* ----------------------------------------------------------
+  Disable heartbeat API on new post
+---------------------------------------------------------- */
+
+add_action('init', 'wpuux_stop_heartbeat', 1);
+function wpuux_stop_heartbeat() {
+    global $pagenow;
+    if ($pagenow == 'post-new.php') {
+        wp_deregister_script('heartbeat');
+    }
 }

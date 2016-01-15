@@ -48,3 +48,5 @@ wp-content/plugins/debug-bar
 wp-content/plugins/p3-profiler
 p3-profiler.php
 wp-content/plugins/wp-crontrol
+config
+wp-content/plugins/password-protected

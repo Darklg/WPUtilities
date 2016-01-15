@@ -73,3 +73,6 @@
 [submodule "wp-content/plugins/wpuimporttwitter"]
 	path = wp-content/plugins/wpuimporttwitter
 	url = git@github.com:WordPressUtilities/wpuimporttwitter.git
+[submodule "wp-content/plugins/wpugmapsautocompletebox"]
+	path = wp-content/plugins/wpugmapsautocompletebox
+	url = git@github.com:WordPressUtilities/wpugmapsautocompletebox.git

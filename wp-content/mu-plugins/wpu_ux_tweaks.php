@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU UX Tweaks
 Description: Adds UX enhancement & tweaks to WordPress
-Version: 0.14
+Version: 0.15
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -143,7 +143,7 @@ add_filter('the_content', 'wpuux_add_copyright_feed');
 
 function wpuux_add_copyright_feed($content) {
     if (is_feed()) {
-        $content.= '<hr /><p>&copy; ' . date('Y') . ' ' . get_bloginfo('name') . ' - <a href="' . get_permalink() . '">' . get_the_title() . '</a></p>';
+        $content .= '<hr /><p>&copy; ' . date('Y') . ' ' . get_bloginfo('name') . ' - <a href="' . get_permalink() . '">' . get_the_title() . '</a></p>';
     }
     return $content;
 }
@@ -212,7 +212,7 @@ function wpuux_preventheavy404() {
         'tar',
         'txt',
         'xml',
-        'zip',
+        'zip'
     );
     if (!empty($_SERVER['REQUEST_URI'])) {
         $fileExtension = strtolower(pathinfo($_SERVER['REQUEST_URI'], PATHINFO_EXTENSION));
@@ -246,7 +246,7 @@ function wpuux_clean_default_image_title($post_ID) {
     $post->post_title = str_replace(array(
         '-',
         '_'
-    ) , ' ', $post->post_title);
+    ), ' ', $post->post_title);
     $post->post_title = ucwords($post->post_title);
     wp_update_post(array(
         'ID' => $post_ID,
@@ -298,7 +298,7 @@ function wpuux_add_column_thumb_content($column_name, $id) {
 add_action('admin_footer-post-new.php', 'wpuux_set_media_select_uploaded');
 add_action('admin_footer-post.php', 'wpuux_set_media_select_uploaded');
 
-function wpuux_set_media_select_uploaded() { ?><script>
+function wpuux_set_media_select_uploaded() {?><script>
 jQuery(function($) {
     var called = 0;
     $('#wpcontent').ajaxStop(function() {
@@ -331,8 +331,8 @@ function wpuux_disable_newemojis() {
   Fix admin
 ---------------------------------------------------------- */
 
-add_action('admin_head','wpuux_fixchromebug_admin');
-function wpuux_fixchromebug_admin(){
+add_action('admin_head', 'wpuux_fixchromebug_admin');
+function wpuux_fixchromebug_admin() {
     echo '<style>#adminmenu{-webkit-transform:translateZ(0);transform:translateZ(0);}</style>';
 }
 
@@ -345,5 +345,41 @@ function wpuux_stop_heartbeat() {
     global $pagenow;
     if ($pagenow == 'post-new.php') {
         wp_deregister_script('heartbeat');
+    }
+}
+
+/* ----------------------------------------------------------
+  Editor can use menus
+---------------------------------------------------------- */
+
+add_action('init', 'wpuux_add_menus_editor');
+function wpuux_add_menus_editor() {
+    $roleObject = get_role('editor');
+    if (!$roleObject->has_cap('edit_theme_options')) {
+        $roleObject->add_cap('edit_theme_options');
+    }
+}
+
+add_action('admin_head', 'wpuux_add_menus__hide_menu_full');
+function wpuux_add_menus__hide_menu_full() {
+    $user = wp_get_current_user();
+    $roles = (array) $user->roles;
+    if (in_array('editor', $roles)) {
+        remove_submenu_page('themes.php', 'themes.php');
+        remove_submenu_page('themes.php', 'widgets.php');
+        remove_submenu_page('themes.php', 'custom-header');
+        remove_submenu_page('themes.php', 'custom-background');
+    }
+}
+
+add_action('admin_head', 'wpuux_add_menus__hide_menuhead_full');
+function wpuux_add_menus__hide_menuhead_full() {
+    global $submenu;
+    $user = wp_get_current_user();
+    $roles = (array) $user->roles;
+    if (in_array('editor', $roles)) {
+        unset($submenu['themes.php'][6]);
+        unset($submenu['themes.php'][15]);
+        unset($submenu['themes.php'][20]);
     }
 }

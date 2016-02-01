@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU UX Tweaks
 Description: Adds UX enhancement & tweaks to WordPress
-Version: 0.15
+Version: 0.15.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -355,7 +355,7 @@ function wpuux_stop_heartbeat() {
 add_action('init', 'wpuux_add_menus_editor');
 function wpuux_add_menus_editor() {
     $roleObject = get_role('editor');
-    if (!$roleObject->has_cap('edit_theme_options')) {
+    if (is_object($roleObject) && !$roleObject->has_cap('edit_theme_options')) {
         $roleObject->add_cap('edit_theme_options');
     }
 }

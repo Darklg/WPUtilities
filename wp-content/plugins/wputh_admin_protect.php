@@ -3,7 +3,7 @@
 /*
 Plugin Name: WP Utilities Admin Protect
 Description: Restrictive options for WordPress admin
-Version: 0.8.1
+Version: 0.8.2
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
   Levels
 ---------------------------------------------------------- */
 
-define('WPUTH_ADMIN_PLUGIN_VERSION', '0.8.1');
+define('WPUTH_ADMIN_PLUGIN_VERSION', '0.8.2');
 define('WPUTH_ADMIN_MAX_LVL', 'manage_options');
 define('WPUTH_ADMIN_MIN_LVL', 'manage_categories');
 
@@ -128,8 +128,11 @@ function wputh_admin_protect__set_htaccess($opt_ver = '0.0') {
     if ($ver == $opt_ver) {
         return;
     }
-    $htaccess_file = ABSPATH . '/.htaccess';
-    $htaccess_content = file_get_contents($htaccess_file);
+    $htaccess_file = ABSPATH . '.htaccess';
+    $htaccess_content = '';
+    if(file_exists($htaccess_file)){
+        $htaccess_content = file_get_contents($htaccess_file);
+    }
     $htaccess_content = preg_replace("/\#\ STARTWPUADMINPROTECT(.*)\#\ ENDWPUADMINPROTECT/isU", "", $htaccess_content);
     $htaccess_content = "\n# STARTWPUADMINPROTECT
 # WP Utilities Admin Protect - v ${opt_ver}

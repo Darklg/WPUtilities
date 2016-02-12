@@ -3,7 +3,7 @@
 /*
 Plugin Name: WP Utilities Admin Protect
 Description: Restrictive options for WordPress admin
-Version: 0.8.2
+Version: 0.9
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
   Levels
 ---------------------------------------------------------- */
 
-define('WPUTH_ADMIN_PLUGIN_VERSION', '0.8.2');
+define('WPUTH_ADMIN_PLUGIN_VERSION', '0.9');
 define('WPUTH_ADMIN_MAX_LVL', 'manage_options');
 define('WPUTH_ADMIN_MIN_LVL', 'manage_categories');
 
@@ -26,37 +26,34 @@ define('WPUTH_ADMIN_MIN_LVL', 'manage_categories');
   Block capabilities
 ---------------------------------------------------------- */
 
-if (is_admin()) {
+/* if the user is not an administrator, kill WordPress execution and provide a message */
 
-    /* if the user is not an administrator, kill WordPress execution and provide a message */
+add_action('admin_init', 'wputh_block_admin', 1);
+function wputh_block_admin() {
 
-    add_action('admin_init', 'wputh_block_admin', 1);
-    function wputh_block_admin() {
+    $uri_ajax = '/wp-admin/admin-ajax.php';
+    $len_ajax = strlen($uri_ajax);
 
-        $uri_ajax = '/wp-admin/admin-ajax.php';
-        $len_ajax = strlen($uri_ajax);
-
-        if (!current_user_can(WPUTH_ADMIN_MIN_LVL) && substr($_SERVER['PHP_SELF'], 0 - $len_ajax) != $uri_ajax) {
-            wp_die(__('You are not allowed to access this part of the site'));
-        }
+    if (!current_user_can(WPUTH_ADMIN_MIN_LVL) && substr($_SERVER['PHP_SELF'], 0 - $len_ajax) != $uri_ajax) {
+        wp_die(__('You are not allowed to access this part of the site'));
     }
+}
 
-    /* Hide Updates */
+/* Hide Updates */
 
-    add_action('admin_menu', 'wputh_remove_update_nag');
-    function wputh_remove_update_nag() {
-        if (!current_user_can(WPUTH_ADMIN_MAX_LVL)) {
-            remove_action('admin_notices', 'update_nag', 3);
-        }
+add_action('admin_menu', 'wputh_remove_update_nag');
+function wputh_remove_update_nag() {
+    if (!current_user_can(WPUTH_ADMIN_MAX_LVL)) {
+        remove_action('admin_notices', 'update_nag', 3);
     }
+}
 
-    /* Hide Errors for non admins */
-    add_action('init', 'wputh_hide_errors');
-    function wputh_hide_errors() {
-        if (!current_user_can(WPUTH_ADMIN_MIN_LVL)) {
-            @error_reporting(0);
-            @ini_set('display_errors', 0);
-        }
+/* Hide Errors for non admins */
+add_action('init', 'wputh_hide_errors');
+function wputh_hide_errors() {
+    if (!current_user_can(WPUTH_ADMIN_MIN_LVL)) {
+        @error_reporting(0);
+        @ini_set('display_errors', 0);
     }
 }
 
@@ -186,3 +183,15 @@ function wputh_admin_protect_invalidusername() {
     });
 });</script>";
 }
+
+/* ----------------------------------------------------------
+  Disable WP JSON
+---------------------------------------------------------- */
+
+// WP-API version 1.x
+add_filter('json_enabled', '__return_false');
+add_filter('json_jsonp_enabled', '__return_false');
+
+// WP-API version 2.x
+add_filter('rest_enabled', '__return_false');
+add_filter('rest_jsonp_enabled', '__return_false');

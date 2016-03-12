@@ -79,3 +79,9 @@
 [submodule "wp-content/plugins/wpupostvalidationrules"]
 	path = wp-content/plugins/wpupostvalidationrules
 	url = git@github.com:WordPressUtilities/wpupostvalidationrules.git
+[submodule "wp-content/plugins/wpursstoposts"]
+	path = wp-content/plugins/wpursstoposts
+	url = git@github.com:WordPressUtilities/wpursstoposts.git
+[submodule "wp-content/plugins/wpuimportvimeo"]
+	path = wp-content/plugins/wpuimportvimeo
+	url = git@github.com:WordPressUtilities/wpuimportvimeo.git

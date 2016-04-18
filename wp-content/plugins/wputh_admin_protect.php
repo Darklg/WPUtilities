@@ -3,7 +3,7 @@
 /*
 Plugin Name: WP Utilities Admin Protect
 Description: Restrictive options for WordPress admin
-Version: 0.9
+Version: 0.10
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
   Levels
 ---------------------------------------------------------- */
 
-define('WPUTH_ADMIN_PLUGIN_VERSION', '0.9');
+define('WPUTH_ADMIN_PLUGIN_VERSION', '0.10');
 define('WPUTH_ADMIN_MAX_LVL', 'manage_options');
 define('WPUTH_ADMIN_MIN_LVL', 'manage_categories');
 
@@ -102,7 +102,7 @@ function wputh_admin_protect_remove_versions() {
 // remove wp version param from any enqueued scripts
 function wputh_admin_protect__remove_ver($src) {
     $ver = get_bloginfo('version');
-    $new_ver = substr(md5(NONCE_SALT . $ver) , 0, 6);
+    $new_ver = substr(md5(NONCE_SALT . $ver), 0, 6);
     if (strpos($src, 'ver=' . $ver)) {
         $src = remove_query_arg('ver', $src);
         $src = add_query_arg('ver', $new_ver, $src);
@@ -127,7 +127,7 @@ function wputh_admin_protect__set_htaccess($opt_ver = '0.0') {
     }
     $htaccess_file = ABSPATH . '.htaccess';
     $htaccess_content = '';
-    if(file_exists($htaccess_file)){
+    if (file_exists($htaccess_file)) {
         $htaccess_content = file_get_contents($htaccess_file);
     }
     $htaccess_content = preg_replace("/\#\ STARTWPUADMINPROTECT(.*)\#\ ENDWPUADMINPROTECT/isU", "", $htaccess_content);
@@ -141,6 +141,10 @@ RewriteCond %{QUERY_STRING} (\<|%3C).*script.*(\>|%3E) [NC,OR]
 RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
 RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
 RewriteRule ^(.*)$ index.php [F,L]
+# BEGIN Stop wordpress username enumeration vulnerability
+RewriteCond %{QUERY_STRING} author=d
+RewriteRule ^ /? [L,R=301]
+# END Stop wordpress username enumeration vulnerability
 # - Disable directory browsing
 Options All -Indexes
 # - Protect files
@@ -195,3 +199,78 @@ add_filter('json_jsonp_enabled', '__return_false');
 // WP-API version 2.x
 add_filter('rest_enabled', '__return_false');
 add_filter('rest_jsonp_enabled', '__return_false');
+
+/* ----------------------------------------------------------
+  Disable RSS Feed
+---------------------------------------------------------- */
+
+function wputh_admin_protect_disable_feed() {
+    if (!apply_filters('wputh_admin_protect_disable_feed__enabled', true)) {
+        return;
+    }
+    wp_die(sprintf(__('No feed available, please visit our <a href="%s">homepage</a>!'), get_bloginfo('url')));
+}
+
+add_action('do_feed', 'wputh_admin_protect_disable_feed', 1);
+add_action('do_feed_rdf', 'wputh_admin_protect_disable_feed', 1);
+add_action('do_feed_rss', 'wputh_admin_protect_disable_feed', 1);
+add_action('do_feed_rss2', 'wputh_admin_protect_disable_feed', 1);
+add_action('do_feed_atom', 'wputh_admin_protect_disable_feed', 1);
+add_action('do_feed_rss2_comments', 'wputh_admin_protect_disable_feed', 1);
+add_action('do_feed_atom_comments', 'wputh_admin_protect_disable_feed', 1);
+
+/* ----------------------------------------------------------
+  Disable author page (prevent user enumeration)
+---------------------------------------------------------- */
+
+add_filter('template_include', 'wputh_admin_protect_author_page', 99);
+function wputh_admin_protect_author_page($template) {
+    if (is_author() && apply_filters('wputh_admin_protect_author_page__enabled', true)) {
+        wp_redirect(site_url());
+        die;
+    }
+    return $template;
+}
+
+add_filter('author_link', 'wputh_admin_protect_get_the_author_url', 10, 1);
+add_filter('get_the_author_url', 'wputh_admin_protect_get_the_author_url', 10, 1);
+function wputh_admin_protect_get_the_author_url($url) {
+    if (apply_filters('wputh_admin_protect_author_page__enabled', true)) {
+        $url = home_url();
+    }
+    return $url;
+}
+
+/* ----------------------------------------------------------
+  Block malicious requests
+---------------------------------------------------------- */
+
+/* Inspired by : https://perishablepress.com/block-bad-queries/ */
+
+add_action('wp', 'wputh_admin_protect_bad_requests');
+function wputh_admin_protect_bad_requests() {
+    $request_uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
+    // Request URI
+    if (
+        stripos($request_uri, 'eval(') ||
+        stripos($request_uri, 'CONCAT') ||
+        stripos($request_uri, 'UNION+SELECT') ||
+        stripos($request_uri, '(null)') ||
+        stripos($request_uri, '.css(') ||
+        stripos($request_uri, '<script') ||
+        stripos($request_uri, '%3c%73%63%72%69%70%74%3e') ||
+        stripos($request_uri, '</script') ||
+        stripos($request_uri, '%3c%2f%73%63%72%69%70%74%3e') ||
+        stripos($request_uri, '/&&')
+    ) {
+        @header('HTTP/1.1 403 Forbidden');
+        @header('Status: 403 Forbidden');
+        @header('Connection: Close');
+        die;
+    }
+    if (!is_admin() && isset($_SERVER['REQUEST_URI'])) {
+        if (preg_match('/(wp-comments-post)/', $_SERVER['REQUEST_URI']) === 0 && !empty($_REQUEST['author'])) {
+            wp_die('forbidden');
+        }
+    }
+}

@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU Body Classes
 Description: Add more body classes to WordPress
-Version: 0.3
+Version: 0.3.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -48,10 +48,12 @@ class wpuBodyClasses {
             if ($taxonomy_slug == false) {
                 $taxonomy_slug = $taxonomy;
             }
-            $categories = get_the_terms($post->ID,$taxonomy);
-            foreach ($categories as $cat) {
-                if (!empty($cat->slug)) {
-                    $classes[] = sanitize_html_class($taxonomy_slug . '-' . $cat->slug, $cat->term_id);
+            $categories = get_the_terms($post->ID, $taxonomy);
+            if (is_array($categories)) {
+                foreach ($categories as $cat) {
+                    if (!empty($cat->slug)) {
+                        $classes[] = sanitize_html_class($taxonomy_slug . '-' . $cat->slug, $cat->term_id);
+                    }
                 }
             }
         }

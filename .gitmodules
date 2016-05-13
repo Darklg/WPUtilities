@@ -85,3 +85,6 @@
 [submodule "wp-content/plugins/wpuimportvimeo"]
 	path = wp-content/plugins/wpuimportvimeo
 	url = git@github.com:WordPressUtilities/wpuimportvimeo.git
+[submodule "wp-content/plugins/wpucontactforms"]
+	path = wp-content/plugins/wpucontactforms
+	url = git@github.com:WordPressUtilities/wpucontactforms.git

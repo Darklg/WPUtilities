@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU UX Tweaks
 Description: Adds UX enhancement & tweaks to WordPress
-Version: 0.15.1
+Version: 0.16
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -160,6 +160,25 @@ function wpuux_redirect_only_result_search() {
         if ($wp_query->post_count == 1) {
             wp_redirect(get_permalink($wp_query->post));
         }
+    }
+}
+
+/* ----------------------------------------------------------
+  Avoid 404 on pagination
+---------------------------------------------------------- */
+
+add_action('template_redirect', 'wpuux_redirect_avoid_404_pagination');
+function wpuux_redirect_avoid_404_pagination() {
+    global $wp_rewrite;
+
+    // Get page number if available
+    $paged = get_query_var('paged');
+
+    // If page 404 & page number > 0
+    if (is_404() && $paged > 0) {
+        // Redirect to first page
+        wp_redirect(preg_replace("#/$wp_rewrite->pagination_base/$paged(/+)?$#", '', esc_html($_SERVER['REQUEST_URI'])), 301);
+        die();
     }
 }
 

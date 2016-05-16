@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU UX Tweaks
 Description: Adds UX enhancement & tweaks to WordPress
-Version: 0.16
+Version: 0.17
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -402,3 +402,32 @@ function wpuux_add_menus__hide_menuhead_full() {
         unset($submenu['themes.php'][20]);
     }
 }
+
+/* ----------------------------------------------------------
+  WP Login logo & URL
+---------------------------------------------------------- */
+
+class wpuux_login_logo {
+    public function __construct() {
+        if (has_header_image()) {
+            add_action('login_enqueue_scripts', array(&$this, 'set_image'));
+        }
+        add_filter('login_headerurl', array(&$this, 'set_url'));
+        add_filter('login_headertitle', array(&$this, 'set_title'));
+    }
+
+    public function set_image() {
+        echo '<style type="text/css">#login h1 a, .login h1 a {background-image: url(' . get_header_image() . ');}</style>';
+    }
+
+    public function set_url() {
+        return home_url();
+    }
+
+    public function set_title() {
+        return get_bloginfo('name');
+    }
+
+}
+
+new wpuux_login_logo();

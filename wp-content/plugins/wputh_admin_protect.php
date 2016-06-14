@@ -3,7 +3,7 @@
 /*
 Plugin Name: WP Utilities Admin Protect
 Description: Restrictive options for WordPress admin
-Version: 0.10
+Version: 0.10.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
   Levels
 ---------------------------------------------------------- */
 
-define('WPUTH_ADMIN_PLUGIN_VERSION', '0.10');
+define('WPUTH_ADMIN_PLUGIN_VERSION', '0.10.1');
 define('WPUTH_ADMIN_MAX_LVL', 'manage_options');
 define('WPUTH_ADMIN_MIN_LVL', 'manage_categories');
 
@@ -45,6 +45,7 @@ add_action('admin_menu', 'wputh_remove_update_nag');
 function wputh_remove_update_nag() {
     if (!current_user_can(WPUTH_ADMIN_MAX_LVL)) {
         remove_action('admin_notices', 'update_nag', 3);
+        remove_action('network_admin_notices', 'update_nag', 3);
     }
 }
 
@@ -147,6 +148,7 @@ RewriteRule ^ /? [L,R=301]
 # END Stop wordpress username enumeration vulnerability
 # - Disable directory browsing
 Options All -Indexes
+IndexIgnore *
 # - Protect files
 <FilesMatch (^.gitignore|^.gitmodules|\\.sql|\\.phar|^wp-config\.php|^timthumb\.php|^readme\.html|^README\.md|^license\.html|^license\.txt|^debug\.log)>
 Deny from all

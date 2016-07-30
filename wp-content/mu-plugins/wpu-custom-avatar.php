@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU Custom Avatar
 Description: Override gravatar with a custom image.
-Version: 0.3
+Version: 0.3.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -42,6 +42,7 @@ class wpuCustomAvatar {
 
     public function get_avatar($avatar, $id_or_email, $size, $default, $alt) {
         $user = false;
+        /* Get user details */
         if (is_numeric($id_or_email)) {
             $id = (int) $id_or_email;
             $user = get_user_by('id', $id);
@@ -53,11 +54,14 @@ class wpuCustomAvatar {
         } else {
             $user = get_user_by('email', $id_or_email);
         }
+        /* Get user avatar */
         if ($user && is_object($user)) {
             $user_img = get_user_meta($user->data->ID, $this->meta_id, 1);
             if (is_numeric($user_img)) {
                 $avatar_arr = wp_get_attachment_image_src($user_img, $size);
-                $avatar = "<img alt='{$alt}' src='{$avatar_arr[0]}' class='avatar avatar-{$size} photo' height='{$size}' width='{$size}' />";
+                if (is_array($avatar_arr)) {
+                    $avatar = "<img alt='{$alt}' src='{$avatar_arr[0]}' class='avatar avatar-{$size} photo' height='{$size}' width='{$size}' />";
+                }
             }
         }
         return $avatar;
@@ -98,7 +102,7 @@ class wpuCustomAvatar {
     public function set_usermetas_fields($fields) {
         $fields[$this->meta_id] = array(
             'name' => 'Custom avatar',
-            'type' => 'attachment',
+            'type' => 'image',
             'section' => 'avatar'
         );
         return $fields;

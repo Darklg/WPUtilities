@@ -88,3 +88,6 @@
 [submodule "wp-content/plugins/wpucontactforms"]
 	path = wp-content/plugins/wpucontactforms
 	url = git@github.com:WordPressUtilities/wpucontactforms.git
+[submodule "wp-content/plugins/wpuimportfb"]
+	path = wp-content/plugins/wpuimportfb
+	url = https://github.com/WordPressUtilities/wpuimportfb.git

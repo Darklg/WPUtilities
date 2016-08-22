@@ -91,3 +91,6 @@
 [submodule "wp-content/plugins/wpuimportfb"]
 	path = wp-content/plugins/wpuimportfb
 	url = https://github.com/WordPressUtilities/wpuimportfb.git
+[submodule "wp-content/plugins/wpuimportyoutube"]
+	path = wp-content/plugins/wpuimportyoutube
+	url = https://github.com/WordPressUtilities/wpuimportyoutube.git

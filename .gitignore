@@ -18,8 +18,6 @@ wp-content/cache/
 wp-content/backups/
 sitemap.xml
 sitemap.xml.gz
-/*.php
-/index.php
 /license.txt
 /readme.html
 wp-content/index.php

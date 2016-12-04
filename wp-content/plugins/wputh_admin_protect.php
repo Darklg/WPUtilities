@@ -3,7 +3,7 @@
 /*
 Plugin Name: WP Utilities Admin Protect
 Description: Restrictive options for WordPress admin
-Version: 0.11.1
+Version: 0.12
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -18,7 +18,8 @@ if (!defined('ABSPATH')) {
   Levels
 ---------------------------------------------------------- */
 
-define('WPUTH_ADMIN_PLUGIN_VERSION', '0.11.1');
+define('WPUTH_ADMIN_PLUGIN_VERSION', '0.12');
+define('WPUTH_ADMIN_PLUGIN_OPT', 'wputh_admin_protect__has_htaccess');
 define('WPUTH_ADMIN_MAX_LVL', 'manage_options');
 define('WPUTH_ADMIN_MIN_LVL', 'manage_categories');
 
@@ -126,12 +127,7 @@ function wputh_admin_protect_generate_rewrite_rules_htaccess() {
     wputh_admin_protect__set_htaccess(WPUTH_ADMIN_PLUGIN_VERSION, true);
 }
 
-function wputh_admin_protect__set_htaccess($opt_ver = '0.0', $force_refresh = false) {
-    $opt = 'wputh_admin_protect__has_htaccess';
-    $ver = get_option($opt);
-    if (!$force_refresh && $ver == $opt_ver) {
-        return;
-    }
+function wputh_admin_protect__get_htaccess() {
     $root_path = ABSPATH;
     $wpfolders = array(
         'wp-cms/'
@@ -142,8 +138,16 @@ function wputh_admin_protect__set_htaccess($opt_ver = '0.0', $force_refresh = fa
             $root_path = substr($root_path, 0, -$length);
         }
     }
+    return apply_filters('wputh_admin_protect_htaccess_file', $root_path . '.htaccess');
+}
 
-    $htaccess_file = apply_filters('wputh_admin_protect_htaccess_file', $root_path . '.htaccess');
+function wputh_admin_protect__set_htaccess($opt_ver = '0.0', $force_refresh = false) {
+    $ver = get_option(WPUTH_ADMIN_PLUGIN_OPT);
+    if (!$force_refresh && $ver == $opt_ver) {
+        return;
+    }
+
+    $htaccess_file = wputh_admin_protect__get_htaccess();
     $htaccess_content = '';
     if (file_exists($htaccess_file)) {
         $htaccess_content = file_get_contents($htaccess_file);
@@ -178,9 +182,9 @@ Header unset Server
 ServerSignature Off
 </IfModule>
 </IfModule>
-# ENDWPUADMINPROTECT\n" . $htaccess_content;
-    @file_put_contents($htaccess_file, $htaccess_content);
-    update_option($opt, $opt_ver);
+# ENDWPUADMINPROTECT\n\n" . $htaccess_content;
+    @file_put_contents($htaccess_file, trim($htaccess_content));
+    update_option(WPUTH_ADMIN_PLUGIN_OPT, $opt_ver);
 }
 
 /* ----------------------------------------------------------
@@ -302,4 +306,26 @@ function wputh_admin_protect_get_the_author_url($url) {
         $url = home_url();
     }
     return $url;
+}
+
+/* ----------------------------------------------------------
+  Plugin
+---------------------------------------------------------- */
+
+/* Activation
+-------------------------- */
+
+register_deactivation_hook(__FILE__, 'wputh_admin_protect_generate_rewrite_rules_htaccess');
+
+/* Deactivation
+-------------------------- */
+
+register_deactivation_hook(__FILE__, 'wputh_admin_protect_deactivate');
+function wputh_admin_protect_deactivate() {
+    $htaccess_file = wputh_admin_protect__get_htaccess();
+    if (file_exists($htaccess_file)) {
+        $htaccess_content = preg_replace("/\#\ STARTWPUADMINPROTECT(.*)\#\ ENDWPUADMINPROTECT/isU", "", file_get_contents($htaccess_file));
+        @file_put_contents($htaccess_file, trim($htaccess_content));
+    }
+    update_option(WPUTH_ADMIN_PLUGIN_OPT, '');
 }

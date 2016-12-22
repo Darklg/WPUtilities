@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU UX Tweaks
 Description: Adds UX enhancement & tweaks to WordPress
-Version: 0.17
+Version: 0.17.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -431,3 +431,15 @@ class wpuux_login_logo {
 }
 
 new wpuux_login_logo();
+
+/* ----------------------------------------------------------
+  Avoid bugs in redirections
+---------------------------------------------------------- */
+
+add_filter('login_redirect', 'wpuux_login_redirect_fixes', 10, 1);
+
+function wpuux_login_redirect_fixes($redirect_to, $requested_redirect_to, $user) {
+    return str_replace(array(
+        '/wp-cms'
+    ), '', $redirect_to);
+}

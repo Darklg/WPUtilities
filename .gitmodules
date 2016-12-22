@@ -97,3 +97,6 @@
 [submodule "wp-cms"]
 	path = wp-cms
 	url = https://github.com/wordpress/wordpress
+[submodule "wp-content/plugins/wpuattachmetas"]
+	path = wp-content/plugins/wpuattachmetas
+	url = https://github.com/WordPressUtilities/wpuattachmetas.git

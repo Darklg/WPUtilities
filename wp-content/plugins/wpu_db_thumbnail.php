@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU DB Thumbnail
 Description: Store a small thumbnail in db
-Version: 0.2
+Version: 0.3
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -12,6 +12,9 @@ License URI: http://opensource.org/licenses/MIT
 
 add_action('save_post', 'wpudbthumbnail_init');
 function wpudbthumbnail_init($post_id = false) {
+    $jpeg_quality = apply_filters('wpudbthumbnail_jpegquality', 30);
+    $image_size = apply_filters('wpudbthumbnail_imagesize', 10);
+
     // Invalid post
     if (!is_numeric($post_id) || wp_is_post_revision($post_id)) {
         return false;
@@ -37,15 +40,23 @@ function wpudbthumbnail_init($post_id = false) {
 
     /* Generate image */
     $type = pathinfo($base_image, PATHINFO_EXTENSION);
+    $mime_type = 'image/' . $type;
+    if ($type == 'jpg' || $type == 'jpeg') {
+        $mime_type = 'image/jpeg';
+        $type = 'jpg';
+    }
     $upload_dir = wp_upload_dir();
-    $tmp_file = $upload_dir['basedir'] . '/tmp-thumb-' . microtime() . '.png';
-    $image->resize(3);
-    $image->save($tmp_file, 'image/png');
+    $image->resize($image_size, $image_size, false);
+    if ($type == 'jpg') {
+        $image->set_quality($jpeg_quality);
+    }
+    $tmp_file = $image->generate_filename('tmp-thumb', $upload_dir['basedir'], $type);
+    $image->save($tmp_file, $mime_type);
     $data = file_get_contents($tmp_file);
     unlink($tmp_file);
 
     /* Save as base64 */
-    $base64 = 'data:image/png;base64,' . base64_encode($data);
+    $base64 = 'data:' . $mime_type . ';base64,' . base64_encode($data);
     update_post_meta($post_id, 'wpudbthumbnail_base64thumb', $base64);
     update_post_meta($post_id, 'wpudbthumbnail_base64thumb_id', $post_thumbnail_id);
 }

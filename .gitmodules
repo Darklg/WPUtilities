@@ -100,3 +100,6 @@
 [submodule "wp-content/plugins/wpuattachmetas"]
 	path = wp-content/plugins/wpuattachmetas
 	url = https://github.com/WordPressUtilities/wpuattachmetas.git
+[submodule "wp-content/plugins/wpucacheblocks"]
+	path = wp-content/plugins/wpucacheblocks
+	url = https://github.com/WordPressUtilities/wpucacheblocks.git

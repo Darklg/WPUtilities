@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU Login As
 Description: Login as another user
-Version: 0.2
+Version: 0.2.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -91,9 +91,19 @@ class WPULoginAs {
      */
     public function setuser($user_id) {
 
+
+        $user = get_user_by('id', $user_id);
+        if (!$user) {
+            return;
+        }
+
+        /* Logout */
+        wp_logout();
+
         /* Login as user */
-        wp_set_current_user($user_id);
+        wp_set_current_user($user_id, $user->user_login);
         wp_set_auth_cookie($user_id);
+        do_action('wp_login', $user->user_login);
 
         /* Redirect to admin home */
         wp_redirect('/wp-admin/');

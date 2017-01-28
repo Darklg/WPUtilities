@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU Login As
 Description: Login as another user
-Version: 0.2.1
+Version: 0.3
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -12,6 +12,15 @@ License URI: http://opensource.org/licenses/MIT
 
 class WPULoginAs {
     public function __construct() {
+        add_action('wp_loaded', array(&$this,
+            'launch_plugin'
+        ), 1);
+    }
+
+    public function launch_plugin() {
+        if (!is_user_logged_in()) {
+            return;
+        }
         add_action('wp_loaded', array(&$this,
             'redirecttouser'
         ));
@@ -24,13 +33,20 @@ class WPULoginAs {
         add_action('admin_bar_menu', array(&$this,
             'go_back_link'
         ), 999);
+        add_filter('user_row_actions', array(&$this,
+            'user_action_link'
+        ), 10, 2);
     }
+
+    /* ----------------------------------------------------------
+      Admin buttons
+    ---------------------------------------------------------- */
 
     /**
      * Display backlink in admin bar
      */
     public function go_back_link($wp_admin_bar) {
-        if (!is_user_logged_in() || !isset($_SESSION['wpuloginas_originaluser'])) {
+        if (!isset($_SESSION['wpuloginas_originaluser'])) {
             return;
         }
         $user_id = $_SESSION['wpuloginas_originaluser'];
@@ -44,12 +60,32 @@ class WPULoginAs {
         ));
     }
 
+    public function user_action_link($actions, $user_obj) {
+        /* Only for admins */
+        if (!current_user_can('remove_users') || $user_obj->ID == get_current_user_id()) {
+            return $actions;
+        }
+
+        /* Save the original user id (the first time we see the button) */
+        if (!isset($_SESSION['wpuloginas_originaluser'])) {
+            $_SESSION['wpuloginas_originaluser'] = get_current_user_id();
+        }
+
+        $actions['wpu_login_as'] = '<a href="' . $this->get_redirect_url($user_obj->ID) . '">' . $this->get_loginas_txt($user_obj->ID) . '</a>';
+
+        return $actions;
+    }
+
+    /* ----------------------------------------------------------
+      Button
+    ---------------------------------------------------------- */
+
     /**
      * Display a button in user profile
      */
     public function displaybutton($user) {
         /* Only for admins */
-        if (!current_user_can('remove_users') || $user_id == get_current_user_id()) {
+        if (!current_user_can('remove_users') || $user->ID == get_current_user_id()) {
             return false;
         }
 
@@ -60,6 +96,10 @@ class WPULoginAs {
 
         echo '<a href="' . $this->get_redirect_url($user->ID) . '" class="button">' . $this->get_loginas_txt($user->ID) . '</a>';
     }
+
+    /* ----------------------------------------------------------
+      Login AS
+    ---------------------------------------------------------- */
 
     public function redirecttouser() {
         /* Only for loggedin user in admin */
@@ -91,7 +131,6 @@ class WPULoginAs {
      */
     public function setuser($user_id) {
 
-
         $user = get_user_by('id', $user_id);
         if (!$user) {
             return;
@@ -110,6 +149,10 @@ class WPULoginAs {
 
         die;
     }
+
+    /* ----------------------------------------------------------
+      Utils
+    ---------------------------------------------------------- */
 
     /**
      * Get redirect url with nonce

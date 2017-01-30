@@ -103,3 +103,6 @@
 [submodule "wp-content/plugins/wpucacheblocks"]
 	path = wp-content/plugins/wpucacheblocks
 	url = https://github.com/WordPressUtilities/wpucacheblocks.git
+[submodule "wp-content/plugins/wpuloginas"]
+	path = wp-content/plugins/wpuloginas
+	url = https://github.com/WordPressUtilities/wpuloginas.git

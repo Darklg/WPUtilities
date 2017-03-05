@@ -106,3 +106,9 @@
 [submodule "wp-content/plugins/wpuloginas"]
 	path = wp-content/plugins/wpuloginas
 	url = https://github.com/WordPressUtilities/wpuloginas.git
+[submodule "wp-content/plugins/wpudbthumbnail"]
+	path = wp-content/plugins/wpudbthumbnail
+	url = https://github.com/WordPressUtilities/wpudbthumbnail.git
+[submodule "wp-content/plugins/wputermstoposts"]
+	path = wp-content/plugins/wputermstoposts
+	url = https://github.com/Darklg/wputermstoposts.git

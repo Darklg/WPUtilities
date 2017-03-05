@@ -50,3 +50,4 @@ config
 wp-content/plugins/password-protected
 /wp-content/plugins/advanced-custom-fields-pro
 /wp-content/plugins/query-monitor
+/wp-content/db.php

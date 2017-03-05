@@ -3,7 +3,7 @@
 /*
 Plugin Name: WP Utilities Admin Protect
 Description: Restrictive options for WordPress admin
-Version: 0.13
+Version: 0.13.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
   Levels
 ---------------------------------------------------------- */
 
-define('WPUTH_ADMIN_PLUGIN_VERSION', '0.13');
+define('WPUTH_ADMIN_PLUGIN_VERSION', '0.13.1');
 define('WPUTH_ADMIN_PLUGIN_OPT', 'wputh_admin_protect__has_htaccess');
 define('WPUTH_ADMIN_MAX_LVL', 'manage_options');
 define('WPUTH_ADMIN_MIN_LVL', 'manage_categories');
@@ -180,6 +180,10 @@ RewriteRule .* - [F,L]
 # Remove Server Signature
 Header unset Server
 ServerSignature Off
+# Disable mime sniffing
+Header always set X-Content-Type-Options \"nosniff\"
+# Block if XSS detected
+Header always set X-XSS-Protection \"1; mode=block\"
 </IfModule>
 </IfModule>
 # ENDWPUADMINPROTECT\n\n" . trim($htaccess_content);

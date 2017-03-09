@@ -3,7 +3,7 @@
 /*
 Plugin Name: WP Utilities Admin Protect
 Description: Restrictive options for WordPress admin
-Version: 0.13.1
+Version: 0.14
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -227,7 +227,9 @@ function wputh_admin_protect_bad_requests() {
         }
     }
 
-    @header_remove("X-Powered-By");
+    if (!apply_filters('wputh_admin_protect_disallow_xframe_options', false)) {
+        header('X-Frame-Options: SAMEORIGIN');
+    }
 
     /* Empty author in comments */
     if (!is_admin() && isset($_SERVER['REQUEST_URI'])) {
@@ -235,6 +237,12 @@ function wputh_admin_protect_bad_requests() {
             wp_die('forbidden');
         }
     }
+}
+
+add_action('template_redirect', 'wputh_admin_protect_badrequests_lastchance', 9999);
+function wputh_admin_protect_badrequests_lastchance() {
+    @header_remove("X-Powered-By");
+    @header_remove("Link");
 }
 
 /* ----------------------------------------------------------
@@ -267,11 +275,9 @@ function wputh_admin_protect_invalidusername() {
 
 add_filter('plugin_action_links', 'wputh_admin_protect_disallow_plugin_activation');
 function wputh_admin_protect_disallow_plugin_activation($links) {
-
     if (apply_filters('wputh_admin_protect_disallow_plugin_activation__disable', true)) {
         return $links;
     }
-
     if (isset($links['deactivate'])) {
         unset($links['deactivate']);
     }

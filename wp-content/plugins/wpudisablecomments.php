@@ -3,7 +3,7 @@
 Plugin Name: WPU disable comments
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Disable all comments
-Version: 1.2.1
+Version: 1.3.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -36,12 +36,17 @@ function wputh_disable_comments_remove_dashboard_widgets() {
 add_action('wp_dashboard_setup', 'wputh_disable_comments_remove_dashboard_widgets');
 
 /* ----------------------------------------------------------
-  Hide from admin menu
+  Hide from admin menu & content
 ---------------------------------------------------------- */
 
 function wputh_disable_comments_admin_menus() {
     remove_menu_page('edit-comments.php');
     remove_submenu_page('options-general.php', 'options-discussion.php');
+    $post_types = get_post_types(array('public' => true), 'names');
+    foreach ($post_types as $post_type) {
+        remove_meta_box('commentsdiv', $post_type, 'normal');
+        remove_meta_box('commentstatusdiv', $post_type, 'normal');
+    }
 }
 
 add_action('admin_menu', 'wputh_disable_comments_admin_menus');

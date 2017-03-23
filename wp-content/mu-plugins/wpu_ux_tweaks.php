@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU UX Tweaks
 Description: Adds UX enhancement & tweaks to WordPress
-Version: 0.17.3
+Version: 0.18
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -296,7 +296,7 @@ function wpuux_add_column_thumb($defaults) {
         return $defaults;
     }
     $defaults['wpuux_column_thumb'] = __('Thumbnail');
-
+    return $defaults;
 }
 
 add_action('manage_posts_custom_column', 'wpuux_add_column_thumb_content', 5, 2);
@@ -319,25 +319,41 @@ function wpuux_add_column_thumb_content($column_name, $id) {
 
 /* Thx http://wordpress.stackexchange.com/a/76213 */
 
-add_action('admin_footer-post-new.php', 'wpuux_set_media_select_uploaded');
-add_action('admin_footer-post.php', 'wpuux_set_media_select_uploaded');
+class wpuux_set_media_select_uploaded_init {
+    function __construct() {
+        add_action('init', array(&$this, 'init'));
+    }
 
-function wpuux_set_media_select_uploaded() {?><script>
-jQuery(function($) {
-    var called = 0;
-    $('#wpcontent').ajaxStop(function() {
-        $('[value="uploaded"]').each(function(){
-            var uploaded = $(this),
-                uploadedParent = uploaded.parent();
-            if (!uploadedParent.hasClass('has-set-uploaded')) {
-                uploaded.attr('selected', true).parent().trigger('change');
-                uploadedParent.addClass('has-set-uploaded');
-            }
+    function init() {
+        if (apply_filters('disable__wpuux_set_media_select_uploaded_init', false)) {
+            return;
+        }
+        add_action('admin_footer-post-new.php', array(&$this, 'set_media_select'));
+        add_action('admin_footer-post.php', array(&$this, 'set_media_select'));
+    }
+
+    function set_media_select() {
+        echo <<<EOT
+<script>
+    jQuery(function($) {
+        var called = 0;
+        $('#wpcontent').ajaxStop(function() {
+            $('[value="uploaded"]').each(function(){
+                var uploaded = $(this),
+                    uploadedParent = uploaded.parent();
+                if (!uploadedParent.hasClass('has-set-uploaded')) {
+                    uploaded.attr('selected', true).parent().trigger('change');
+                    uploadedParent.addClass('has-set-uploaded');
+                }
+            });
         });
     });
-});
-</script><?php
+    </script>
+EOT;
+    }
 }
+
+new wpuux_set_media_select_uploaded_init();
 
 /* ----------------------------------------------------------
   Disable WP Emoji
@@ -345,6 +361,9 @@ jQuery(function($) {
 
 add_action('init', 'wpuux_disable_newemojis');
 function wpuux_disable_newemojis() {
+    if (apply_filters('disable__wpuux_disable_newemojis', false)) {
+        return;
+    }
     remove_action('wp_head', 'print_emoji_detection_script', 7);
     remove_action('admin_print_scripts', 'print_emoji_detection_script');
     remove_action('wp_print_styles', 'print_emoji_styles');
@@ -358,18 +377,6 @@ function wpuux_disable_newemojis() {
 add_action('admin_head', 'wpuux_fixchromebug_admin');
 function wpuux_fixchromebug_admin() {
     echo '<style>#adminmenu{-webkit-transform:translateZ(0);transform:translateZ(0);}</style>';
-}
-
-/* ----------------------------------------------------------
-  Disable heartbeat API on new post
----------------------------------------------------------- */
-
-add_action('init', 'wpuux_stop_heartbeat', 1);
-function wpuux_stop_heartbeat() {
-    global $pagenow;
-    if ($pagenow == 'post-new.php') {
-        wp_deregister_script('heartbeat');
-    }
 }
 
 /* ----------------------------------------------------------
@@ -422,7 +429,7 @@ class wpuux_login_logo {
     }
 
     public function set_image() {
-        echo '<style type="text/css">#login h1 a, .login h1 a {background-image: url(' . get_header_image() . ');}</style>';
+        echo '<style type="text/css">#login h1 a,.login h1 a{margin:0 24px;width:auto;background-size:contain;background-image:url(' . get_header_image() . ')}</style>';
     }
 
     public function set_url() {

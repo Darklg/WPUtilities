@@ -112,3 +112,6 @@
 [submodule "wp-content/plugins/wputermstoposts"]
 	path = wp-content/plugins/wputermstoposts
 	url = https://github.com/Darklg/wputermstoposts.git
+[submodule "wp-content/plugins/wpuwooproductfields"]
+	path = wp-content/plugins/wpuwooproductfields
+	url = https://github.com/WordPressUtilities/wpuwooproductfields.git

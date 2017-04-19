@@ -115,3 +115,6 @@
 [submodule "wp-content/plugins/wpuwooproductfields"]
 	path = wp-content/plugins/wpuwooproductfields
 	url = https://github.com/WordPressUtilities/wpuwooproductfields.git
+[submodule "wp-content/plugins/wpucustomrss"]
+	path = wp-content/plugins/wpucustomrss
+	url = https://github.com/WordPressUtilities/wpucustomrss.git

@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU Woo Account Endpoints
 Description: Add a new endpoint on Woocommerce account
-Version: 0.1.0
+Version: 0.2.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -57,7 +57,28 @@ class WPUWooAccountEndpoint {
     /* Load item into the WP menu */
     public function add_menu_items($items) {
         foreach ($this->endpoints as $id => $endpoint) {
-            $items[$id] = $endpoint['name'];
+            $item = array($id => $endpoint['name']);
+            if (isset($endpoint['position']) && $endpoint['position'] == 'top') {
+                /* Add link to the top */
+                $items = $item + $items;
+            } elseif ((isset($endpoint['position_after']) && array_key_exists($endpoint['position_after'], $items)) || (isset($endpoint['position_before']) && array_key_exists($endpoint['position_before'], $items))) {
+
+                $items2 = array();
+                foreach ($items as $item_id => $item_val) {
+                    if (isset($endpoint['position_before']) && $item_id == $endpoint['position_before']) {
+                        $items2[$id] = $endpoint['name'];
+                    }
+                    $items2[$item_id] = $item_val;
+                    if (isset($endpoint['position_after']) && $item_id == $endpoint['position_after']) {
+                        $items2[$id] = $endpoint['name'];
+                    }
+                }
+                $items = $items2;
+
+            } else {
+                /* Add link to the end */
+                $items += $item;
+            }
         }
         return $items;
     }
@@ -66,7 +87,7 @@ class WPUWooAccountEndpoint {
     public function default_content() {
         foreach ($this->endpoints as $id => $endpoint) {
             if ($this->is_endpoint($id)) {
-                echo '<p>' . sprintf('Default content for <strong>%s</strong>', $endpoint['name']) . '</p>';
+                echo '<p>' . sprintf(__('Default content for <strong>%s</strong>'), $endpoint['name']) . '</p>';
                 break;
             }
         }
@@ -77,7 +98,6 @@ class WPUWooAccountEndpoint {
         foreach ($this->endpoints as $id => $endpoint) {
             if ($this->is_endpoint($id) && isset($endpoint['callback_postaction'])) {
                 call_user_func_array($endpoint['callback_postaction'], array($id));
-                error_log($id);
                 break;
             }
         }
@@ -101,11 +121,11 @@ class WPUWooAccountEndpoint {
 
 $WPUWooAccountEndpoint = new WPUWooAccountEndpoint();
 
-
 /* ADD A FIELD
 add_filter('wpu_woo_account_endpoints__list', 'test___wpu_woo_account_endpoints__list', 10, 1);
 function test___wpu_woo_account_endpoints__list($items) {
     $items['info'] = array(
+        'position_after' => 'downloads',
         'name' => __('Information')
     );
     return $items;

@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU UX Tweaks
 Description: Adds UX enhancement & tweaks to WordPress
-Version: 0.18
+Version: 0.18.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -47,6 +47,9 @@ function wpuux_clean_head() {
 add_action('the_content', 'wpuux_bad_formed_links');
 
 function wpuux_bad_formed_links($content) {
+    if (apply_filters('disable__wpuux_bad_formed_links', false)) {
+        return;
+    }
     $badform = array();
     $goodform = array();
 
@@ -142,6 +145,9 @@ add_filter('the_excerpt_rss', 'wpuux_add_copyright_feed');
 add_filter('the_content', 'wpuux_add_copyright_feed');
 
 function wpuux_add_copyright_feed($content) {
+    if (apply_filters('disable__wpuux_add_copyright_feed', false)) {
+        return;
+    }
     if (is_feed()) {
         $content .= '<hr /><p>&copy; ' . date('Y') . ' ' . get_bloginfo('name') . ' - <a href="' . get_permalink() . '">' . get_the_title() . '</a></p>';
     }
@@ -155,6 +161,9 @@ function wpuux_add_copyright_feed($content) {
 add_action('template_redirect', 'wpuux_redirect_only_result_search');
 
 function wpuux_redirect_only_result_search() {
+    if (apply_filters('disable__wpuux_redirect_only_result_search', false)) {
+        return;
+    }
     if (is_search()) {
         global $wp_query;
         if ($wp_query->post_count == 1) {

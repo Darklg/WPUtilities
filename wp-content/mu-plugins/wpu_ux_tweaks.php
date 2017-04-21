@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU UX Tweaks
 Description: Adds UX enhancement & tweaks to WordPress
-Version: 0.18.1
+Version: 0.18.2
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -48,7 +48,7 @@ add_action('the_content', 'wpuux_bad_formed_links');
 
 function wpuux_bad_formed_links($content) {
     if (apply_filters('disable__wpuux_bad_formed_links', false)) {
-        return;
+        return $content;
     }
     $badform = array();
     $goodform = array();
@@ -146,7 +146,7 @@ add_filter('the_content', 'wpuux_add_copyright_feed');
 
 function wpuux_add_copyright_feed($content) {
     if (apply_filters('disable__wpuux_add_copyright_feed', false)) {
-        return;
+        return $content;
     }
     if (is_feed()) {
         $content .= '<hr /><p>&copy; ' . date('Y') . ' ' . get_bloginfo('name') . ' - <a href="' . get_permalink() . '">' . get_the_title() . '</a></p>';

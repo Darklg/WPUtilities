@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU Settings Version
 Description: Keep a custom DB version of your website
-Version: 0.1.0
+Version: 0.2.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -66,6 +66,51 @@ class wpu_settings_version {
         }
         return $actions;
     }
+
+    /* ----------------------------------------------------------
+      Helpers
+    ---------------------------------------------------------- */
+
+    public function upload_asset_by_path($imagepath) {
+
+        if (!file_exists($imagepath)) {
+            return false;
+        }
+
+        /* get image infos */
+        $imageinfos = pathinfo($imagepath);
+
+        /* Copy image to a tmp file */
+        $wp_upload_dir = wp_upload_dir();
+        $newfile = md5($imagepath) . uniqid();
+        if (isset($imageinfos['extension'])) {
+            $newfile .= '.' . $imageinfos['extension'];
+        }
+        $image = $wp_upload_dir['path'] . '/' . $newfile;
+        copy($imagepath, $image);
+
+        /* Required methods */
+        require_once ABSPATH . '/wp-admin/includes/file.php';
+        require_once ABSPATH . '/wp-admin/includes/media.php';
+        require_once ABSPATH . '/wp-admin/includes/image.php';
+
+        /* Upload image */
+        $att = media_handle_sideload(array(
+            'name' => basename($image),
+            'type' => wp_check_filetype($image),
+            'tmp_name' => $image,
+            'error' => 0,
+            'size' => filesize($image)
+        ), 0);
+
+        /* Return upload info */
+        if (!is_numeric($att)) {
+            $att = false;
+        }
+        return $att;
+
+    }
+
 }
 
 $wpu_settings_version = new wpu_settings_version();

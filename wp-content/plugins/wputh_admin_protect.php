@@ -3,7 +3,7 @@
 /*
 Plugin Name: WP Utilities Admin Protect
 Description: Restrictive options for WordPress admin
-Version: 0.14
+Version: 0.15
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
   Levels
 ---------------------------------------------------------- */
 
-define('WPUTH_ADMIN_PLUGIN_VERSION', '0.13.1');
+define('WPUTH_ADMIN_PLUGIN_VERSION', '0.15');
 define('WPUTH_ADMIN_PLUGIN_OPT', 'wputh_admin_protect__has_htaccess');
 define('WPUTH_ADMIN_MAX_LVL', 'manage_options');
 define('WPUTH_ADMIN_MIN_LVL', 'manage_categories');
@@ -28,9 +28,11 @@ define('WPUTH_ADMIN_MIN_LVL', 'manage_categories');
 ---------------------------------------------------------- */
 
 /* if the user is not an administrator, kill WordPress execution and provide a message */
-
 add_action('admin_init', 'wputh_block_admin', 1);
 function wputh_block_admin() {
+    if (apply_filters('wputh_admin_protect_block_admin__enabled', false)) {
+        return;
+    }
 
     $uri_ajax = '/wp-admin/admin-ajax.php';
     $len_ajax = strlen($uri_ajax);
@@ -41,22 +43,23 @@ function wputh_block_admin() {
 }
 
 /* Hide Updates */
-
 add_action('admin_menu', 'wputh_remove_update_nag');
 function wputh_remove_update_nag() {
-    if (!current_user_can(WPUTH_ADMIN_MAX_LVL)) {
-        remove_action('admin_notices', 'update_nag', 3);
-        remove_action('network_admin_notices', 'update_nag', 3);
+    if (current_user_can(WPUTH_ADMIN_MAX_LVL)) {
+        return;
     }
+    remove_action('admin_notices', 'update_nag', 3);
+    remove_action('network_admin_notices', 'update_nag', 3);
 }
 
 /* Hide Errors for non admins */
 add_action('init', 'wputh_hide_errors');
 function wputh_hide_errors() {
-    if (!current_user_can(WPUTH_ADMIN_MIN_LVL)) {
-        @error_reporting(0);
-        @ini_set('display_errors', 0);
+    if (current_user_can(WPUTH_ADMIN_MIN_LVL)) {
+        return;
     }
+    @error_reporting(0);
+    @ini_set('display_errors', 0);
 }
 
 /* ----------------------------------------------------------
@@ -129,9 +132,9 @@ function wputh_admin_protect_generate_rewrite_rules_htaccess() {
 
 function wputh_admin_protect__get_htaccess() {
     $root_path = ABSPATH;
-    $wpfolders = array(
+    $wpfolders = apply_filters('wputh_admin_protect_subfolders',array(
         'wp-cms/'
-    );
+    ));
     foreach ($wpfolders as $wpf) {
         $length = strlen($wpf);
         if ((substr($root_path, -$length) === $wpf)) {
@@ -198,6 +201,7 @@ Header always set X-XSS-Protection \"1; mode=block\"
 /* Inspired by : https://perishablepress.com/block-bad-queries/ */
 
 function wputh_admin_protect_die_bad_request() {
+    do_action('wputh_admin_protect_die_bad_request__custom_action');
     @header('HTTP/1.1 403 Forbidden');
     @header('Status: 403 Forbidden');
     @header('Connection: Close');
@@ -304,7 +308,7 @@ add_filter('rest_jsonp_enabled', '__return_false');
 ---------------------------------------------------------- */
 
 function wputh_admin_protect_disable_feed() {
-    if (!apply_filters('wputh_admin_protect_disable_feed__enabled', true)) {
+    if (!apply_filters('wputh_admin_protect_disable_feed__enabled', 0)) {
         return;
     }
     wp_die(sprintf(__('No feed available, please visit our <a href="%s">homepage</a>!'), get_bloginfo('url')));
@@ -361,3 +365,14 @@ function wputh_admin_protect_deactivate() {
     }
     update_option(WPUTH_ADMIN_PLUGIN_OPT, '');
 }
+
+
+/*
+'wputh_admin_protect_author_page__enabled', true
+'wputh_admin_protect_block_admin__enabled', false
+'wputh_admin_protect_disable_feed__enabled', 0
+'wputh_admin_protect_disallow_plugin_activation__disable', true
+'wputh_admin_protect_disallow_xframe_options', false
+'wputh_admin_protect_htaccess_file', $root_path . '.htaccess'
+'wputh_admin_protect_subfolders', array('wp-cms/')
+ */

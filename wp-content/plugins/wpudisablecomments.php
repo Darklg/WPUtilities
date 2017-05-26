@@ -3,7 +3,7 @@
 Plugin Name: WPU disable comments
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Disable all comments
-Version: 1.3.0
+Version: 1.3.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -121,10 +121,4 @@ add_action('pre_ping', 'wputh_disable_comments_disable_ping');
   Disable comments RSS feed
 ---------------------------------------------------------- */
 
-function wputh_disable_comments_feed_links() {
-    if (function_exists('remove_theme_support')) {
-        remove_theme_support('automatic-feed-links');
-    }
-}
-
-add_action('init', 'wputh_disable_comments_feed_links');
+add_filter( 'feed_links_show_comments_feed', '__return_false' );

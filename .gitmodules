@@ -118,3 +118,6 @@
 [submodule "wp-content/plugins/wpucustomrss"]
 	path = wp-content/plugins/wpucustomrss
 	url = https://github.com/WordPressUtilities/wpucustomrss.git
+[submodule "wp-content/plugins/wpudisabler"]
+	path = wp-content/plugins/wpudisabler
+	url = https://github.com/WordPressUtilities/wpudisabler.git

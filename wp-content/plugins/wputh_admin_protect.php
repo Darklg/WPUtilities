@@ -3,7 +3,7 @@
 /*
 Plugin Name: WP Utilities Admin Protect
 Description: Restrictive options for WordPress admin
-Version: 0.15
+Version: 1.0.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -18,49 +18,66 @@ if (!defined('ABSPATH')) {
   Levels
 ---------------------------------------------------------- */
 
-define('WPUTH_ADMIN_PLUGIN_VERSION', '0.15');
+define('WPUTH_ADMIN_PLUGIN_VERSION', '1.0.0');
 define('WPUTH_ADMIN_PLUGIN_OPT', 'wputh_admin_protect__has_htaccess');
 define('WPUTH_ADMIN_MAX_LVL', 'manage_options');
 define('WPUTH_ADMIN_MIN_LVL', 'manage_categories');
 
 /* ----------------------------------------------------------
-  Block capabilities
+  Block admin capabilities
 ---------------------------------------------------------- */
 
-/* if the user is not an administrator, kill WordPress execution and provide a message */
-add_action('admin_init', 'wputh_block_admin', 1);
-function wputh_block_admin() {
-    if (apply_filters('wputh_admin_protect_block_admin__enabled', false)) {
-        return;
+class WPUTHAdminProtectBlockAdmin {
+
+    private $level_access_min_admin_access = 'manage_categories';
+    private $level_access_can_update = 'manage_options';
+
+    public function __construct() {
+        add_action('init', array(&$this, 'init'));
     }
 
-    $uri_ajax = '/wp-admin/admin-ajax.php';
-    $len_ajax = strlen($uri_ajax);
+    public function init() {
 
-    if (!current_user_can(WPUTH_ADMIN_MIN_LVL) && substr($_SERVER['PHP_SELF'], 0 - $len_ajax) != $uri_ajax) {
-        wp_die(__('You are not allowed to access this part of the site'));
+        $this->level_access_min_admin_access = apply_filters('wputh_admin_protect_block_admin__level_access_min_admin_access', $this->level_access_min_admin_access);
+        $this->level_access_can_update = apply_filters('wputh_admin_protect_block_admin__level_access_can_update', $this->level_access_can_update);
+
+        if (!apply_filters('wputh_admin_protect_block_admin__enabled', false)) {
+            add_action('admin_init', array(&$this, 'wputh_block_admin'));
+        }
+        add_action('init', array(&$this, 'wputh_hide_errors'));
+        add_action('admin_menu', array(&$this, 'wputh_remove_update_nag'));
     }
+
+    /* if the user is not an administrator, kill WordPress execution and provide a message */
+    public function wputh_block_admin() {
+        $uri_ajax = '/wp-admin/admin-ajax.php';
+        $len_ajax = strlen($uri_ajax);
+        if (!current_user_can($this->level_access_min_admin_access) && substr($_SERVER['PHP_SELF'], 0 - $len_ajax) != $uri_ajax) {
+            wp_die(__('You are not allowed to access this part of the site'));
+        }
+    }
+
+    /* Hide Errors for non admins */
+    public function wputh_hide_errors() {
+        if (current_user_can($this->level_access_min_admin_access)) {
+            return;
+        }
+        @error_reporting(0);
+        @ini_set('display_errors', 0);
+    }
+
+    /* Hide Updates */
+    public function wputh_remove_update_nag() {
+        if (current_user_can($this->level_access_can_update)) {
+            return;
+        }
+        remove_action('admin_notices', 'update_nag', 3);
+        remove_action('network_admin_notices', 'update_nag', 3);
+    }
+
 }
 
-/* Hide Updates */
-add_action('admin_menu', 'wputh_remove_update_nag');
-function wputh_remove_update_nag() {
-    if (current_user_can(WPUTH_ADMIN_MAX_LVL)) {
-        return;
-    }
-    remove_action('admin_notices', 'update_nag', 3);
-    remove_action('network_admin_notices', 'update_nag', 3);
-}
-
-/* Hide Errors for non admins */
-add_action('init', 'wputh_hide_errors');
-function wputh_hide_errors() {
-    if (current_user_can(WPUTH_ADMIN_MIN_LVL)) {
-        return;
-    }
-    @error_reporting(0);
-    @ini_set('display_errors', 0);
-}
+$WPUTHAdminProtectBlockAdmin = new WPUTHAdminProtectBlockAdmin();
 
 /* ----------------------------------------------------------
   Constants
@@ -132,7 +149,7 @@ function wputh_admin_protect_generate_rewrite_rules_htaccess() {
 
 function wputh_admin_protect__get_htaccess() {
     $root_path = ABSPATH;
-    $wpfolders = apply_filters('wputh_admin_protect_subfolders',array(
+    $wpfolders = apply_filters('wputh_admin_protect_subfolders', array(
         'wp-cms/'
     ));
     foreach ($wpfolders as $wpf) {
@@ -274,77 +291,6 @@ function wputh_admin_protect_invalidusername() {
 }
 
 /* ----------------------------------------------------------
-  Prevent plugin deactivation
----------------------------------------------------------- */
-
-add_filter('plugin_action_links', 'wputh_admin_protect_disallow_plugin_activation');
-function wputh_admin_protect_disallow_plugin_activation($links) {
-    if (apply_filters('wputh_admin_protect_disallow_plugin_activation__disable', true)) {
-        return $links;
-    }
-    if (isset($links['deactivate'])) {
-        unset($links['deactivate']);
-    }
-    if (isset($links['activate'])) {
-        unset($links['activate']);
-    }
-    return $links;
-}
-
-/* ----------------------------------------------------------
-  Disable WP JSON
----------------------------------------------------------- */
-
-// WP-API version 1.x
-add_filter('json_enabled', '__return_false');
-add_filter('json_jsonp_enabled', '__return_false');
-
-// WP-API version 2.x
-add_filter('rest_enabled', '__return_false');
-add_filter('rest_jsonp_enabled', '__return_false');
-
-/* ----------------------------------------------------------
-  Disable RSS Feed
----------------------------------------------------------- */
-
-function wputh_admin_protect_disable_feed() {
-    if (!apply_filters('wputh_admin_protect_disable_feed__enabled', 0)) {
-        return;
-    }
-    wp_die(sprintf(__('No feed available, please visit our <a href="%s">homepage</a>!'), get_bloginfo('url')));
-}
-
-add_action('do_feed', 'wputh_admin_protect_disable_feed', 1);
-add_action('do_feed_rdf', 'wputh_admin_protect_disable_feed', 1);
-add_action('do_feed_rss', 'wputh_admin_protect_disable_feed', 1);
-add_action('do_feed_rss2', 'wputh_admin_protect_disable_feed', 1);
-add_action('do_feed_atom', 'wputh_admin_protect_disable_feed', 1);
-add_action('do_feed_rss2_comments', 'wputh_admin_protect_disable_feed', 1);
-add_action('do_feed_atom_comments', 'wputh_admin_protect_disable_feed', 1);
-
-/* ----------------------------------------------------------
-  Disable author page (prevent user enumeration)
----------------------------------------------------------- */
-
-add_filter('template_include', 'wputh_admin_protect_author_page', 99);
-function wputh_admin_protect_author_page($template) {
-    if (is_author() && apply_filters('wputh_admin_protect_author_page__enabled', true)) {
-        wp_redirect(site_url());
-        die;
-    }
-    return $template;
-}
-
-add_filter('author_link', 'wputh_admin_protect_get_the_author_url', 10, 1);
-add_filter('get_the_author_url', 'wputh_admin_protect_get_the_author_url', 10, 1);
-function wputh_admin_protect_get_the_author_url($url) {
-    if (apply_filters('wputh_admin_protect_author_page__enabled', true)) {
-        $url = home_url();
-    }
-    return $url;
-}
-
-/* ----------------------------------------------------------
   Plugin
 ---------------------------------------------------------- */
 
@@ -366,12 +312,10 @@ function wputh_admin_protect_deactivate() {
     update_option(WPUTH_ADMIN_PLUGIN_OPT, '');
 }
 
-
 /*
-'wputh_admin_protect_author_page__enabled', true
+'wputh_admin_protect_block_admin__level_access_min_admin_access', 'manage_categories'
+'wputh_admin_protect_block_admin__level_access_can_update', 'manage_options'
 'wputh_admin_protect_block_admin__enabled', false
-'wputh_admin_protect_disable_feed__enabled', 0
-'wputh_admin_protect_disallow_plugin_activation__disable', true
 'wputh_admin_protect_disallow_xframe_options', false
 'wputh_admin_protect_htaccess_file', $root_path . '.htaccess'
 'wputh_admin_protect_subfolders', array('wp-cms/')

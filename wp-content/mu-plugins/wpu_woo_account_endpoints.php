@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU Woo Account Endpoints
 Description: Add a new endpoint on Woocommerce account
-Version: 0.2.0
+Version: 0.3.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -47,11 +47,11 @@ class WPUWooAccountEndpoint {
         /* Check if rewrite rules are correct */
         $opt_id = 'wpu_woo_account_endpoints__rules';
         $rules_version = md5(json_encode($this->endpoints));
-        if (get_option($opt_id) != $rules_version) {
-            update_option($opt_id, $rules_version);
+        /* Use transients to avoid cache problems with options */
+        if (get_transient($opt_id) != $rules_version) {
+            set_transient($opt_id, $rules_version);
             flush_rewrite_rules();
         }
-
     }
 
     /* Load item into the WP menu */

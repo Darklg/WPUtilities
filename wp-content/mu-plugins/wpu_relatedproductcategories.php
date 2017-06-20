@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU Related Product Categories
 Description: Add related product categories to Woocommerce
-Version: 0.1
+Version: 0.2
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -98,6 +98,10 @@ class wpuRelatedProductsCategories {
 
         $field = $this->related_list[$id];
 
+        if (!isset($field['placeholder']) || empty($field['placeholder'])) {
+            $field['placeholder'] = __('Search for a product&hellip;', 'woocommerce');
+        }
+
         $product_ids = array_filter(array_map('absint', (array) get_post_meta($post->ID, '_' . $id . '_product_ids', true)));
         $json_ids = array();
         foreach ($product_ids as $product_id) {
@@ -110,16 +114,18 @@ class wpuRelatedProductsCategories {
         $html = '';
         $html .= 'id="' . $id . '_product_ids" ';
         $html .= 'name="' . $id . '_product_ids" ';
-        $html .= 'data-action="woocommerce_json_search_products" ';
+        $html .= 'data-action="woocommerce_json_search_products_and_variations" ';
         $html .= 'data-multiple="true" ';
-        $html .= 'value="' . implode(',', array_keys($json_ids)) . '"';
-        if (isset($field['placeholder']) && !empty($field['placeholder'])) {
-            $html .= 'data-placeholder="' . esc_attr($field['placeholder']) . '" ';
-        }
+        $html .= 'value="' . implode(',', array_keys($json_ids)) . '" ';
+        $html .= 'data-placeholder="' . esc_attr($field['placeholder']) . '" ';
         $html .= 'data-exclude="' . intval($post->ID) . '" ';
-        $html .= 'data-selected="' . esc_attr(json_encode($json_ids)) . '" ';
 
-        return '<input type="hidden" class="wc-product-search" style="width: 50%;" ' . $html . ' /> ';
+        $values = '';
+        foreach ($json_ids as $id => $val) {
+            $values .= '<option value="' . $id . '" selected="selected">' . $val . '</option>';
+        }
+
+        return '<select multiple="multiple" class="wc-product-search"  style="width: 50%;" ' . $html . '>' . $values . '</select>';
     }
 
     /* Save fields */

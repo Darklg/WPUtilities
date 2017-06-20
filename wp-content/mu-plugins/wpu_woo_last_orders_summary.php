@@ -2,8 +2,8 @@
 /*
 Plugin Name: WPU Woo Last Orders Summary
 Plugin URI: http://github.com/Darklg/WPUtilities
-Description: Get an order summary for the last user orders
-Version: 0.1
+Description: Get an order summary for the latest user order
+Version: 0.1.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -30,7 +30,7 @@ class WPUWooLastOrdersSummary {
                 'total' => 0,
                 'processing' => 0
             ),
-            'latest' => false,
+            'latest' => false
         );
 
         if (!is_numeric($customer_id)) {
@@ -42,6 +42,9 @@ class WPUWooLastOrdersSummary {
         }
         $customer_orders = wc_get_orders(array('customer' => $customer_id));
         foreach ($customer_orders as $order) {
+            if (is_bool($order)) {
+                continue;
+            }
             $status = $order->get_status();
             if (in_array($status, $statuses)) {
                 continue;

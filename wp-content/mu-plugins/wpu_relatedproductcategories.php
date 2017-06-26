@@ -1,9 +1,9 @@
 <?php
 
 /*
-Plugin Name: WPU Related Product Categories
-Description: Add related product categories to Woocommerce
-Version: 0.2
+Plugin Name: WPU WooCommerce Related Product Categories
+Description: Add related product categories to WooCommerce
+Version: 0.3
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -79,7 +79,7 @@ class wpuRelatedProductsCategories {
         foreach ($this->related_list as $id => $field) {
             echo '<p class="form-field">';
             if (isset($field['label']) && !empty($field['label'])) {
-                echo '<label for="more_recent_product_ids">' . $field['label'] . '</label>';
+                echo '<label for="' . $id . '_product_ids">' . $field['label'] . '</label>';
             }
             echo $this->get_field($post, $id);
             if (isset($field['help']) && !empty($field['help'])) {
@@ -113,7 +113,7 @@ class wpuRelatedProductsCategories {
 
         $html = '';
         $html .= 'id="' . $id . '_product_ids" ';
-        $html .= 'name="' . $id . '_product_ids" ';
+        $html .= 'name="' . $id . '_product_ids[]" ';
         $html .= 'data-action="woocommerce_json_search_products_and_variations" ';
         $html .= 'data-multiple="true" ';
         $html .= 'value="' . implode(',', array_keys($json_ids)) . '" ';
@@ -133,7 +133,13 @@ class wpuRelatedProductsCategories {
     public function save_fields($post_id) {
         foreach ($this->related_list as $id => $field) {
             $field_id = $id . '_product_ids';
-            $product_ids = isset($_POST[$field_id]) ? array_filter(array_map('intval', explode(',', $_POST[$field_id]))) : array();
+            if (!isset($_POST[$field_id])) {
+                continue;
+            }
+            $product_ids = array();
+            foreach ($_POST[$field_id] as $k => $val) {
+                $product_ids[] = intval($val, 10);
+            }
             update_post_meta($post_id, '_' . $field_id, $product_ids);
         }
     }

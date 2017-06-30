@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU Settings Version
 Description: Keep a custom DB version of your website
-Version: 0.2.0
+Version: 0.3.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -108,6 +108,51 @@ class wpu_settings_version {
             $att = false;
         }
         return $att;
+
+    }
+
+    /* ----------------------------------------------------------
+      Create menus
+    ---------------------------------------------------------- */
+
+    public function set_menus($page_ids = array(), $menus = array(), $theme_id = '') {
+        $opt_id = 'theme_mods_' . $theme_id;
+        $theme_mods = get_option($opt_id);
+        foreach ($menus as $pos => $menu_name) {
+
+            /* Delete menu if it exists */
+            $menu_exists = wp_get_nav_menu_object($menu_name);
+            if ($menu_exists) {
+                wp_delete_nav_menu($menu_name);
+            }
+            // If it doesn't exist, let's create it.
+            $menu_id = wp_create_nav_menu($menu_name);
+
+            foreach ($page_ids as $p) {
+                // Set up default menu items
+                wp_update_nav_menu_item($menu_id, 0, array(
+                    'menu-item-title' => get_the_title($p),
+                    'menu-item-object-id' => $p,
+                    'menu-item-db-id' => 0,
+                    'menu-item-object' => 'page',
+                    'menu-item-parent-id' => 0,
+                    'menu-item-type' => 'post_type',
+                    'menu-item-url' => get_page_link($p),
+                    'menu-item-status' => 'publish'
+                ));
+            }
+
+            if (!is_array($theme_mods)) {
+                $theme_mods = array();
+            }
+            if (!isset($theme_mods['nav_menu_locations']) || !is_array($theme_mods['nav_menu_locations'])) {
+                $theme_mods['nav_menu_locations'] = array();
+            }
+            $theme_mods['nav_menu_locations'][$pos] = $menu_id;
+
+        }
+
+        update_option($opt_id, $theme_mods);
 
     }
 

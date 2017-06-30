@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU Settings Version
 Description: Keep a custom DB version of your website
-Version: 0.3.0
+Version: 0.4.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -115,7 +115,7 @@ class wpu_settings_version {
       Create menus
     ---------------------------------------------------------- */
 
-    public function set_menus($page_ids = array(), $menus = array(), $theme_id = '') {
+    public function set_menus($pages = array(), $menus = array(), $theme_id = '') {
         $opt_id = 'theme_mods_' . $theme_id;
         $theme_mods = get_option($opt_id);
         foreach ($menus as $pos => $menu_name) {
@@ -128,18 +128,50 @@ class wpu_settings_version {
             // If it doesn't exist, let's create it.
             $menu_id = wp_create_nav_menu($menu_name);
 
-            foreach ($page_ids as $p) {
-                // Set up default menu items
-                wp_update_nav_menu_item($menu_id, 0, array(
-                    'menu-item-title' => get_the_title($p),
-                    'menu-item-object-id' => $p,
+            foreach ($pages as $p) {
+
+                if (!is_numeric($p) && !is_array($p)) {
+                    continue;
+                }
+
+                if (is_numeric($p)) {
+                    $p = array('type' => 'page', 'id' => $p);
+                }
+
+                if (!isset($p['id']) || !is_numeric($p['id'])) {
+                    continue;
+                }
+
+                if (!isset($p['type'])) {
+                    $p['type'] = 'page';
+                }
+
+                $page_item = array(
                     'menu-item-db-id' => 0,
-                    'menu-item-object' => 'page',
                     'menu-item-parent-id' => 0,
-                    'menu-item-type' => 'post_type',
-                    'menu-item-url' => get_page_link($p),
                     'menu-item-status' => 'publish'
-                ));
+                );
+
+                switch ($p['type']) {
+                case 'taxonomy':
+                    $term = get_term($p['id']);
+                    $page_item['menu-item-title'] = $term->name;
+                    $page_item['menu-item-object-id'] = $term->term_id;
+                    $page_item['menu-item-object'] = $term->taxonomy;
+                    $page_item['menu-item-type'] = 'taxonomy';
+                    $page_item['menu-item-url'] = get_term_link($term->term_id);
+                    break;
+
+                default:
+                    $page_item['menu-item-title'] = get_the_title($p['id']);
+                    $page_item['menu-item-object-id'] = $p['id'];
+                    $page_item['menu-item-object'] = 'page';
+                    $page_item['menu-item-type'] = 'post_type';
+                    $page_item['menu-item-url'] = get_page_link($p['id']);
+                }
+
+                // Set up default menu items
+                wp_update_nav_menu_item($menu_id, 0, $page_item);
             }
 
             if (!is_array($theme_mods)) {

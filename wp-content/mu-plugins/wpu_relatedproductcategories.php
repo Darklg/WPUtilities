@@ -1,9 +1,9 @@
 <?php
 
 /*
-Plugin Name: WPU WooCommerce Related Product Categories
-Description: Add related product categories to WooCommerce
-Version: 0.3
+Plugin Name: WPU Related Product Categories
+Description: Add related product categories to Woocommerce
+Version: 0.4.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -141,9 +141,24 @@ class wpuRelatedProductsCategories {
                 $product_ids[] = intval($val, 10);
             }
             update_post_meta($post_id, '_' . $field_id, $product_ids);
+
+            if (isset($field['reciprocity']) && $field['reciprocity']) {
+                $this->set_reciprocity($post_id, $field_id);
+            }
         }
     }
 
+    public function set_reciprocity($post_id, $field_id) {
+        $product_ids = get_post_meta($post_id, '_' . $field_id, 1);
+        $product_ids[] = $post_id;
+        foreach ($product_ids as $tmp_post_id) {
+            if ($tmp_post_id == $post_id) {
+                continue;
+            }
+            $tmp_product_ids = array_diff($product_ids, array($tmp_post_id));
+            update_post_meta($tmp_post_id, '_' . $field_id, $tmp_product_ids);
+        }
+    }
 }
 
 $wpuRelatedProductsCategories = new wpuRelatedProductsCategories();

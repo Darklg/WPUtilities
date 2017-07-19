@@ -10,6 +10,8 @@ License: MIT License
 License URI: http://opensource.org/licenses/MIT
 */
 
+/* @TODO : longer cache & clear at hook save_post */
+
 /* ----------------------------------------------------------
   Cache url_to_postid
 ---------------------------------------------------------- */

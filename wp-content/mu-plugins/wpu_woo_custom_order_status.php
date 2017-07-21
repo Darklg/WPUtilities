@@ -3,7 +3,7 @@
 Plugin Name: WPU Woo Custom Order Status
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Get an order summary for the latest user order
-Version: 0.1.1
+Version: 0.1.2
 Author: Darklg
 Author URI: http://darklg.me/
 Thanks to: https://www.sellwithwp.com/woocommerce-custom-order-status-2/
@@ -66,6 +66,11 @@ class WPUWooCustomOrderStatus {
         $new_order_statuses = array();
         // add new order status after processing
         foreach ($order_statuses as $key => $status) {
+            foreach ($this->statuses as $id => $new_status) {
+                if (isset($new_status['insert_before']) && $new_status['insert_before'] === $key) {
+                    $new_order_statuses[$id] = $new_status['name'];
+                }
+            }
             $new_order_statuses[$key] = $status;
             foreach ($this->statuses as $id => $new_status) {
                 if (isset($new_status['insert_after']) && $new_status['insert_after'] === $key) {
@@ -76,7 +81,7 @@ class WPUWooCustomOrderStatus {
 
         /* Insert status after */
         foreach ($this->statuses as $id => $new_status) {
-            if (!isset($new_status['insert_after'])) {
+            if (!isset($new_status['insert_before'],$new_status['insert_after'])) {
                 $new_order_statuses[$id] = $new_status['name'];
             }
         }

@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU Related Product Categories
 Description: Add related product categories to Woocommerce
-Version: 0.4.0
+Version: 0.4.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -111,8 +111,7 @@ class wpuRelatedProductsCategories {
             }
         }
 
-        $html = '';
-        $html .= 'id="' . $id . '_product_ids" ';
+        $html = 'id="' . $id . '_product_ids" ';
         $html .= 'name="' . $id . '_product_ids[]" ';
         $html .= 'data-action="woocommerce_json_search_products_and_variations" ';
         $html .= 'data-multiple="true" ';
@@ -125,7 +124,7 @@ class wpuRelatedProductsCategories {
             $values .= '<option value="' . $id . '" selected="selected">' . $val . '</option>';
         }
 
-        return '<select multiple="multiple" class="wc-product-search"  style="width: 50%;" ' . $html . '>' . $values . '</select>';
+        return '<select multiple="multiple" class="wc-product-search" style="width:50%;" ' . $html . '>' . $values . '</select>';
     }
 
     /* Save fields */
@@ -150,6 +149,10 @@ class wpuRelatedProductsCategories {
 
     public function set_reciprocity($post_id, $field_id) {
         $product_ids = get_post_meta($post_id, '_' . $field_id, 1);
+        /* No linked products : no need for reciprocity */
+        if (!is_array($product_ids) || empty($product_ids)) {
+            return;
+        }
         $product_ids[] = $post_id;
         foreach ($product_ids as $tmp_post_id) {
             if ($tmp_post_id == $post_id) {

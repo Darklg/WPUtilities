@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU UX Tweaks
 Description: Adds UX enhancement & tweaks to WordPress
-Version: 0.18.2
+Version: 0.19.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -463,4 +463,25 @@ function wpuux_login_redirect_fixes($redirect_to, $requested_redirect_to = null,
     return str_replace(array(
         '/wp-cms'
     ), '', $redirect_to);
+}
+
+/* ----------------------------------------------------------
+  Style for default WordPress emails
+---------------------------------------------------------- */
+
+function wpuux_mailcontenttype() {
+    return "text/html";
+}
+
+add_action('email_change_email', 'wpuux_change_email', 30, 3);
+add_action('password_change_email', 'wpuux_change_email', 30, 3);
+function wpuux_change_email($email_details, $user, $userdata) {
+
+    /* WooCommerce */
+    if (class_exists('WooCommerce')) {
+        add_filter('wp_mail_content_type', 'wpuux_mailcontenttype');
+        $email_details['message'] = WC()->mailer()->wrap_message('', $email_details['message']);
+    }
+
+    return $email_details;
 }

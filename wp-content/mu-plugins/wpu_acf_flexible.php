@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU ACF Flexible
 Description: Quickly generate flexible content in ACF
-Version: 0.2.0
+Version: 0.3.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -18,9 +18,6 @@ class wpu_acf_flexible {
         'label' => 'Title',
         'name' => 'title',
         'type' => 'text',
-        'instructions' => '',
-        'required' => 0,
-        'conditional_logic' => 0,
         'wrapper' => array(
             'width' => '',
             'class' => '',
@@ -29,8 +26,11 @@ class wpu_acf_flexible {
         'ajax' => 0,
         'allow_null' => 0,
         'append' => '',
+        'conditional_logic' => 0,
         'default_value' => '',
         'display' => 'block',
+        'filters' => array('search', 'post_type', 'taxonomy'),
+        'instructions' => '',
         'library' => 'all',
         'max' => '',
         'max_height' => '',
@@ -46,20 +46,55 @@ class wpu_acf_flexible {
         'placeholder' => '',
         'prepend' => '',
         'preview_size' => 'thumbnail',
+        'required' => 0,
         'sub_fields' => array(),
+        'taxonomy' => array(),
         'ui' => 0
     );
 
     private $default_content = <<<EOT
 <?php
 ###varsblockid###
-?><div class="centered-container cc-block--testblockid">
-    <div class="block--testblockid">
+?><div class="centered-container cc-block--###testblockid###">
+    <div class="block--###testblockid###">
 ###valuesblockid###
     </div>
 </div>
+EOT;
+
+    private $default_var_image = <<<EOT
+$##ID## = get_sub_field('##ID##');
+$##ID##_src = '';
+if (is_numeric($##ID##)) {
+    $##ID## = wp_get_attachment_image_src($##ID##, 'thumbnail');
+    if (is_array($##ID##)) {
+        $##ID##_src = $##ID##[0];
+    }
+}
+EOT;
+
+    private $default_value_relationship = <<<EOT
+<?php
+$##ID## = get_field('##ID##');
+if($##ID##):
+foreach ($##ID## as \$tmp_post_id):
+    echo '<a href="'.get_permalink(\$tmp_post_id).'">'.get_the_title(\$tmp_post_id).'</a>';
+endforeach;
+endif;
+?>
+EOT;
 
 
+    private $default_value_repeater = <<<EOT
+<?php if (get_sub_field('##ID##')): ?>
+    <ul>
+    <?php while (has_sub_field('##ID##')): ?>
+        <li>
+##REPEAT##
+        </li>
+    <?php endwhile;?>
+    </ul>
+<?php endif; ?>
 EOT;
 
     public function __construct() {
@@ -117,6 +152,58 @@ EOT;
 
     }
 
+    public function get_var_content_field($id, $sub_field) {
+        if (!isset($sub_field['type'])) {
+            $sub_field['type'] = 'text';
+        }
+        $vars = '';
+        switch ($sub_field['type']) {
+        case 'image':
+            $vars .= str_replace('##ID##', $id, $this->default_var_image) . "\n";
+            break;
+        default:
+
+        }
+
+        return $vars;
+    }
+
+    public function get_value_content_field($id, $sub_field) {
+        if (!isset($sub_field['type'])) {
+            $sub_field['type'] = 'text';
+        }
+        $values = '';
+        switch ($sub_field['type']) {
+        case 'image':
+            $values .= '<img src="<?php echo $' . $id . '_src ?>" alt="" />' . "\n";
+            break;
+
+        case 'relationship':
+        $values .= str_replace('##ID##', $id, $this->default_value_relationship) . "\n";
+        break;
+        case 'repeater':
+            $tmp_value_content = '';
+            foreach ($sub_field['sub_fields'] as $sub_id => $sub_sub_field) {
+                $field_value = trim($this->get_var_content_field($sub_id, $sub_sub_field));
+                if (!empty($field_value)) {
+                    $tmp_value_content .= '<?php ' . $field_value . ' ?>' . "\n";
+                }
+                $tmp_value_content .= $this->get_value_content_field($sub_id, $sub_sub_field);
+            }
+            $tmp_value = str_replace('##ID##', $id, $this->default_value_repeater) . "\n";
+            $tmp_value_content = trim($tmp_value_content);
+            if (!empty($tmp_value_content)) {
+                $values .= str_replace('##REPEAT##', $tmp_value_content, $tmp_value) . "\n";
+            }
+
+            break;
+        default:
+            $values .= '<div><?php echo get_sub_field(\'' . $id . '\') ?></div>' . "\n";
+        }
+
+        return $values;
+    }
+
     public function add_field_group($content_id, $content = array()) {
         $content_name = (isset($content['name']) && !empty($content['name'])) ? $content['name'] : 'Default';
         $post_types = (isset($content['post_types']) && is_array($content['post_types'])) ? $content['post_types'] : array('post');
@@ -137,15 +224,15 @@ EOT;
                 $vars = '';
                 $values = '';
                 foreach ($layout['sub_fields'] as $id => $sub_field) {
-                    if (!isset($sub_field['type']) || $sub_field['type'] == 'text') {
-                        $vars .= '$' . $id . ' = get_sub_field(\'' . $id . '\');' . "\n";
-                        $values .= '<div><?php echo $' . $id . ' ?></div>' . "\n";
-                    }
+                    $vars .= $this->get_var_content_field($id, $sub_field);
+                    $values .= $this->get_value_content_field($id, $sub_field);
                 }
 
                 $content = str_replace('###varsblockid###', $vars, $this->default_content);
                 $content = str_replace('###valuesblockid###', $values, $content);
-                $content = str_replace('testblockid', $layout_id, $content);
+                $content = str_replace('###testblockid###', $layout_id, $content);
+                /* Remove empty  */
+                $content = preg_replace('/<\?php(\s\n)\?>/isU', '', $content);
 
                 $file_id = get_stylesheet_directory() . '/tpl/blocks/' . $layout_id . '.php';
                 if (!file_exists($file_id)) {

@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU ACF Flexible
 Description: Quickly generate flexible content in ACF
-Version: 0.3.0
+Version: 0.4.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -75,15 +75,21 @@ EOT;
 
     private $default_value_relationship = <<<EOT
 <?php
-$##ID## = get_field('##ID##');
+$##ID## = get_sub_field('##ID##');
 if($##ID##):
 foreach ($##ID## as \$tmp_post_id):
-    echo '<a href="'.get_permalink(\$tmp_post_id).'">'.get_the_title(\$tmp_post_id).'</a>';
+    \$thumb_url = get_the_post_thumbnail_url(\$tmp_post_id,'thumbnail');
+    \$post_title = get_the_title(\$tmp_post_id);
+    echo '<a href="'.get_permalink(\$tmp_post_id).'">';
+    if(!empty(\$thumb_url)){
+        echo '<img src="'.\$thumb_url.'" alt="'.esc_attr(\$post_title).'" />';
+    }
+    echo \$post_title;
+    echo '</a>';
 endforeach;
 endif;
 ?>
 EOT;
-
 
     private $default_value_repeater = <<<EOT
 <?php if (get_sub_field('##ID##')): ?>
@@ -161,6 +167,11 @@ EOT;
         case 'image':
             $vars .= str_replace('##ID##', $id, $this->default_var_image) . "\n";
             break;
+        case 'color':
+        case 'color_picker':
+        case 'url':
+            $vars .= '$' . $id . ' = get_sub_field(\'' . $id . '\');' . "\n";
+            break;
         default:
 
         }
@@ -177,10 +188,17 @@ EOT;
         case 'image':
             $values .= '<img src="<?php echo $' . $id . '_src ?>" alt="" />' . "\n";
             break;
+        case 'url':
+            $values .= '<?php if(!empty($' . $id . ')): ?><a href="<?php echo $' . $id . '; ?>"><?php echo $' . $id . '; ?></a><?php endif; ?>' . "\n";
+            break;
+        case 'color':
+        case 'color_picker':
+            $values .= '<?php if(!empty($' . $id . ')): ?><div style="background-color:<?php echo $' . $id . ' ?>;"><?php echo $' . $id . '; ?></a><?php endif; ?>' . "\n";
+            break;
 
         case 'relationship':
-        $values .= str_replace('##ID##', $id, $this->default_value_relationship) . "\n";
-        break;
+            $values .= str_replace('##ID##', $id, $this->default_value_relationship) . "\n";
+            break;
         case 'repeater':
             $tmp_value_content = '';
             foreach ($sub_field['sub_fields'] as $sub_id => $sub_sub_field) {
@@ -233,6 +251,7 @@ EOT;
                 $content = str_replace('###testblockid###', $layout_id, $content);
                 /* Remove empty  */
                 $content = preg_replace('/<\?php(\s\n)\?>/isU', '', $content);
+                $content = preg_replace('/(?:(?:\r\n|\r|\n)){2}/s', "\n", $content);
 
                 $file_id = get_stylesheet_directory() . '/tpl/blocks/' . $layout_id . '.php';
                 if (!file_exists($file_id)) {

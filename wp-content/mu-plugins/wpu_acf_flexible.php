@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU ACF Flexible
 Description: Quickly generate flexible content in ACF
-Version: 0.4.0
+Version: 0.5.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -225,6 +225,7 @@ EOT;
     public function add_field_group($content_id, $content = array()) {
         $content_name = (isset($content['name']) && !empty($content['name'])) ? $content['name'] : 'Default';
         $post_types = (isset($content['post_types']) && is_array($content['post_types'])) ? $content['post_types'] : array('post');
+        $page_ids = (isset($content['page_ids']) && is_array($content['page_ids'])) ? $content['page_ids'] : array();
         $layouts = (isset($content['layouts']) && is_array($content['layouts'])) ? $content['layouts'] : array();
 
         /* Build Layouts */
@@ -260,14 +261,34 @@ EOT;
             }
         }
 
+        $acf_location = array();
+
         /* Build post types */
-        $acf_post_types = array();
-        foreach ($post_types as $post_type) {
-            $acf_post_types[] = array(array(
-                'param' => 'post_type',
-                'operator' => '==',
-                'value' => $post_type
-            ));
+        if (!empty($page_ids)) {
+            $acf_location_tmp = array(
+                array(
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'page'
+                )
+            );
+
+            foreach ($page_ids as $page_id) {
+                $acf_location_tmp[] = array(
+                    'param' => 'page',
+                    'operator' => '==',
+                    'value' => $page_id
+                );
+            }
+            $acf_location[] = $acf_location_tmp;
+        } else {
+            foreach ($post_types as $post_type) {
+                $acf_location[] = array(array(
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => $post_type
+                ));
+            }
         }
 
         /* Base content */
@@ -294,7 +315,7 @@ EOT;
                     'max' => ''
                 )
             ),
-            'location' => $acf_post_types,
+            'location' => $acf_location,
             'menu_order' => 0,
             'position' => 'acf_after_title',
             'style' => 'seamless',
@@ -306,7 +327,6 @@ EOT;
             'active' => 1,
             'description' => ''
         );
-
         acf_add_local_field_group($group);
 
     }

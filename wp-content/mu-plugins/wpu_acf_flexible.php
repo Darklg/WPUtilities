@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU ACF Flexible
 Description: Quickly generate flexible content in ACF
-Version: 0.5.0
+Version: 0.6.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -140,6 +140,18 @@ EOT;
             if ($field['type'] == 'color') {
                 $field['type'] = 'color_picker';
             }
+            if ($field['type'] == 'post' || $field['type'] == 'post_object') {
+                $field['type'] = 'post_object';
+                if (!isset($field['multiple'])) {
+                    $field['multiple'] = 0;
+                }
+                if (!isset($field['return_format'])) {
+                    $field['return_format'] = 'id';
+                }
+                if (!isset($field['ui'])) {
+                    $field['ui'] = 1;
+                }
+            }
         }
 
         foreach ($field as $field_key => $field_value) {
@@ -227,17 +239,44 @@ EOT;
         $post_types = (isset($content['post_types']) && is_array($content['post_types'])) ? $content['post_types'] : array('post');
         $page_ids = (isset($content['page_ids']) && is_array($content['page_ids'])) ? $content['page_ids'] : array();
         $layouts = (isset($content['layouts']) && is_array($content['layouts'])) ? $content['layouts'] : array();
+        $fields = (isset($content['fields']) && is_array($content['fields'])) ? $content['fields'] : array();
 
         /* Build Layouts */
-        $layouts_acf = array();
-        foreach ($layouts as $layout_id => $layout) {
-            $layout_key = md5($content_id . $layout_id);
-            $layouts_acf[$layout_key] = $this->set_field($layout_key, $layout, $layout_id);
-            unset($layouts_acf[$layout_key]['type']);
+        $base_fields = array();
+        if (!empty($fields)) {
+            foreach ($fields as $field_id => $field) {
+                $field_key = md5($content_id . $field_id);
+                $base_fields[$field_key] = $this->set_field($field_key, $field, $field_id);
+            }
+        } else {
+            $base_fields = array(
+                'key' => 'field_' . md5($content_id),
+                'label' => $content_name,
+                'name' => $content_id,
+                'type' => 'flexible_content',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array(
+                    'width' => '',
+                    'class' => '',
+                    'id' => ''
+                ),
+                'layouts' => array(),
+                'button_label' => 'Ajouter un bloc',
+                'min' => '',
+                'max' => ''
+            );
+            foreach ($layouts as $layout_id => $layout) {
+                $layout_key = md5($content_id . $layout_id);
+                $base_fields['layouts'][$layout_key] = $this->set_field($layout_key, $layout, $layout_id);
+                unset($base_fields['layouts'][$layout_key]['type']);
+            }
+            $base_fields = array($base_fields);
         }
 
         /* Init */
-        if (isset($content['init_files']) && $content['init_files']) {
+        if (!empty($layouts) && isset($content['init_files']) && $content['init_files']) {
             foreach ($layouts as $layout_id => $layout) {
 
                 $vars = '';
@@ -295,26 +334,7 @@ EOT;
         $group = array(
             'key' => 'group_' . md5($content_id),
             'title' => $content_name,
-            'fields' => array(
-                array(
-                    'key' => 'field_' . md5($content_id),
-                    'label' => $content_name,
-                    'name' => $content_id,
-                    'type' => 'flexible_content',
-                    'instructions' => '',
-                    'required' => 0,
-                    'conditional_logic' => 0,
-                    'wrapper' => array(
-                        'width' => '',
-                        'class' => '',
-                        'id' => ''
-                    ),
-                    'layouts' => $layouts_acf,
-                    'button_label' => 'Ajouter un bloc',
-                    'min' => '',
-                    'max' => ''
-                )
-            ),
+            'fields' => $base_fields,
             'location' => $acf_location,
             'menu_order' => 0,
             'position' => 'acf_after_title',
@@ -333,6 +353,24 @@ EOT;
 }
 
 $wpu_acf_flexible = new wpu_acf_flexible();
+
+function get_wpu_acf_flexible_content($group) {
+    global $post;
+    if (!have_rows('blocks')) {
+        return '';
+    }
+    ob_start();
+
+    while (have_rows('blocks')):
+        the_row();
+        $layout = get_row_layout();
+        $layout_file = get_stylesheet_directory() . '/tpl/blocks/' . $layout . '.php';
+        if (file_exists($layout_file)) {
+            include $layout_file;
+        }
+    endwhile;
+    return ob_get_clean();
+}
 
 /*
 add_filter('wpu_acf_flexible_content', 'example_wpu_acf_flexible_content', 10, 1);

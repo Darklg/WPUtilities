@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU ACF Flexible
 Description: Quickly generate flexible content in ACF
-Version: 0.6.0
+Version: 0.7.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -170,46 +170,53 @@ EOT;
 
     }
 
-    public function get_var_content_field($id, $sub_field) {
+    public function get_var_content_field($id, $sub_field, $level = 2) {
         if (!isset($sub_field['type'])) {
             $sub_field['type'] = 'text';
         }
         $vars = '';
         switch ($sub_field['type']) {
         case 'image':
-            $vars .= str_replace('##ID##', $id, $this->default_var_image) . "\n";
+            $vars = str_replace('##ID##', $id, $this->default_var_image) . "\n";
             break;
         case 'color':
         case 'color_picker':
         case 'url':
-            $vars .= '$' . $id . ' = get_sub_field(\'' . $id . '\');' . "\n";
+            $vars = '$' . $id . ' = get_sub_field(\'' . $id . '\');' . "\n";
             break;
         default:
 
         }
 
+        if ($level < 2) {
+            $vars = str_replace('get_sub_field', 'get_field', $vars);
+        }
+
         return $vars;
     }
 
-    public function get_value_content_field($id, $sub_field) {
+    public function get_value_content_field($id, $sub_field, $level = 2) {
         if (!isset($sub_field['type'])) {
             $sub_field['type'] = 'text';
         }
         $values = '';
         switch ($sub_field['type']) {
         case 'image':
-            $values .= '<img src="<?php echo $' . $id . '_src ?>" alt="" />' . "\n";
+            $values = '<img src="<?php echo $' . $id . '_src ?>" alt="" />' . "\n";
             break;
         case 'url':
-            $values .= '<?php if(!empty($' . $id . ')): ?><a href="<?php echo $' . $id . '; ?>"><?php echo $' . $id . '; ?></a><?php endif; ?>' . "\n";
+            $values = '<?php if(!empty($' . $id . ')): ?><a href="<?php echo $' . $id . '; ?>"><?php echo $' . $id . '; ?></a><?php endif; ?>' . "\n";
             break;
         case 'color':
         case 'color_picker':
-            $values .= '<?php if(!empty($' . $id . ')): ?><div style="background-color:<?php echo $' . $id . ' ?>;"><?php echo $' . $id . '; ?></a><?php endif; ?>' . "\n";
+            $values = '<?php if(!empty($' . $id . ')): ?><div style="background-color:<?php echo $' . $id . ' ?>;"><?php echo $' . $id . '; ?></a><?php endif; ?>' . "\n";
             break;
 
         case 'relationship':
-            $values .= str_replace('##ID##', $id, $this->default_value_relationship) . "\n";
+            $values = str_replace('##ID##', $id, $this->default_value_relationship) . "\n";
+            if ($level < 2) {
+                $tmp_value = str_replace('get_sub_field', 'get_field', $tmp_value);
+            }
             break;
         case 'repeater':
             $tmp_value_content = '';
@@ -221,14 +228,18 @@ EOT;
                 $tmp_value_content .= $this->get_value_content_field($sub_id, $sub_sub_field);
             }
             $tmp_value = str_replace('##ID##', $id, $this->default_value_repeater) . "\n";
+            if ($level < 2) {
+                $tmp_value = str_replace('get_sub_field', 'get_field', $tmp_value);
+                $tmp_value = str_replace('has_sub_field', 'has_field', $tmp_value);
+            }
             $tmp_value_content = trim($tmp_value_content);
             if (!empty($tmp_value_content)) {
-                $values .= str_replace('##REPEAT##', $tmp_value_content, $tmp_value) . "\n";
+                $values = str_replace('##REPEAT##', $tmp_value_content, $tmp_value) . "\n";
             }
 
             break;
         default:
-            $values .= '<div><?php echo get_sub_field(\'' . $id . '\') ?></div>' . "\n";
+            $values = '<div><?php echo ' . ($level < 2 ? 'get_field' : 'get_sub_field') . '(\'' . $id . '\') ?></div>' . "\n";
         }
 
         return $values;
@@ -276,27 +287,28 @@ EOT;
         }
 
         /* Init */
-        if (!empty($layouts) && isset($content['init_files']) && $content['init_files']) {
-            foreach ($layouts as $layout_id => $layout) {
+        if (isset($content['init_files']) && $content['init_files']) {
+            if (!empty($layouts)) {
+                foreach ($layouts as $layout_id => $layout) {
+                    $vars = '';
+                    $values = '';
+                    foreach ($layout['sub_fields'] as $id => $sub_field) {
+                        $vars .= $this->get_var_content_field($id, $sub_field);
+                        $values .= $this->get_value_content_field($id, $sub_field);
+                    }
 
+                    $this->set_file_content($layout_id, $vars, $values);
+                }
+            }
+
+            if (!empty($fields)) {
                 $vars = '';
                 $values = '';
-                foreach ($layout['sub_fields'] as $id => $sub_field) {
-                    $vars .= $this->get_var_content_field($id, $sub_field);
-                    $values .= $this->get_value_content_field($id, $sub_field);
+                foreach ($fields as $id => $field) {
+                    $vars .= $this->get_var_content_field($id, $field, 1);
+                    $values .= $this->get_value_content_field($id, $field, 1);
                 }
-
-                $content = str_replace('###varsblockid###', $vars, $this->default_content);
-                $content = str_replace('###valuesblockid###', $values, $content);
-                $content = str_replace('###testblockid###', $layout_id, $content);
-                /* Remove empty  */
-                $content = preg_replace('/<\?php(\s\n)\?>/isU', '', $content);
-                $content = preg_replace('/(?:(?:\r\n|\r|\n)){2}/s', "\n", $content);
-
-                $file_id = get_stylesheet_directory() . '/tpl/blocks/' . $layout_id . '.php';
-                if (!file_exists($file_id)) {
-                    file_put_contents($file_id, $content);
-                }
+                $this->set_file_content($content_id, $vars, $values);
             }
         }
 
@@ -349,6 +361,21 @@ EOT;
         );
         acf_add_local_field_group($group);
 
+    }
+
+    public function set_file_content($layout_id, $vars, $values) {
+        $content = str_replace('###varsblockid###', $vars, $this->default_content);
+        $content = str_replace('###valuesblockid###', $values, $content);
+        $content = str_replace('###testblockid###', $layout_id, $content);
+
+        /* Remove empty */
+        $content = preg_replace('/<\?php(\s\n)\?>/isU', '', $content);
+        $content = preg_replace('/(?:(?:\r\n|\r|\n)){2}/s', "\n", $content);
+
+        $file_id = get_stylesheet_directory() . '/tpl/blocks/' . $layout_id . '.php';
+        if (!file_exists($file_id)) {
+            file_put_contents($file_id, $content);
+        }
     }
 }
 

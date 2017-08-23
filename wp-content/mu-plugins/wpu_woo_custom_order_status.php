@@ -3,7 +3,7 @@
 Plugin Name: WPU Woo Custom Order Status
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Get an order summary for the latest user order
-Version: 0.1.2
+Version: 0.2.0
 Author: Darklg
 Author URI: http://darklg.me/
 Thanks to: https://www.sellwithwp.com/woocommerce-custom-order-status-2/
@@ -22,6 +22,9 @@ class WPUWooCustomOrderStatus {
         add_filter('wc_order_statuses', array(&$this,
             'add_awaiting_shipment_to_order_statuses'
         ));
+        add_filter('woocommerce_my_account_my_orders_query', array(&$this,
+            'woocommerce_my_account_my_orders_query'
+        ), 10, 1);
     }
 
     public function plugins_loaded() {
@@ -39,6 +42,9 @@ class WPUWooCustomOrderStatus {
             }
             if (!isset($status['exclude_from_search'])) {
                 $status['exclude_from_search'] = true;
+            }
+            if (!isset($status['wpuwoo_exclude_from_user_account'])) {
+                $status['wpuwoo_exclude_from_user_account'] = false;
             }
             if (!isset($status['show_in_admin_all_list'])) {
                 $status['show_in_admin_all_list'] = true;
@@ -81,12 +87,25 @@ class WPUWooCustomOrderStatus {
 
         /* Insert status after */
         foreach ($this->statuses as $id => $new_status) {
-            if (!isset($new_status['insert_before'],$new_status['insert_after'])) {
+            if (!isset($new_status['insert_before'], $new_status['insert_after'])) {
                 $new_order_statuses[$id] = $new_status['name'];
             }
         }
 
         return $new_order_statuses;
+    }
+
+    public function woocommerce_my_account_my_orders_query($args) {
+        if (!isset($args['status'])) {
+            $statuses = wc_get_order_statuses();
+            foreach ($this->statuses as $key => $status) {
+                if (isset($status['wpuwoo_exclude_from_user_account'], $statuses[$key]) && $status['wpuwoo_exclude_from_user_account']) {
+                    unset($statuses[$key]);
+                }
+            }
+            $args['status'] = array_keys($statuses);
+        }
+        return $args;
     }
 
 }

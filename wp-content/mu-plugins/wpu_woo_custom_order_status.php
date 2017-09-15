@@ -3,7 +3,7 @@
 Plugin Name: WPU Woo Custom Order Status
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Get an order summary for the latest user order
-Version: 0.2.0
+Version: 0.3.0
 Author: Darklg
 Author URI: http://darklg.me/
 Thanks to: https://www.sellwithwp.com/woocommerce-custom-order-status-2/
@@ -17,10 +17,13 @@ class WPUWooCustomOrderStatus {
             'plugins_loaded'
         ));
         add_action('init', array(&$this,
-            'register_awaiting_shipment_order_status'
+            'register_post_statuses'
         ));
         add_filter('wc_order_statuses', array(&$this,
-            'add_awaiting_shipment_to_order_statuses'
+            'wc_order_statuses'
+        ));
+        add_filter('admin_head', array(&$this,
+            'admin_head'
         ));
         add_filter('woocommerce_my_account_my_orders_query', array(&$this,
             'woocommerce_my_account_my_orders_query'
@@ -52,6 +55,13 @@ class WPUWooCustomOrderStatus {
             if (!isset($status['show_in_admin_status_list'])) {
                 $status['show_in_admin_status_list'] = true;
             }
+            $status['parent_order_status'] = 'completed';
+            if (!isset($status['icon_color'])) {
+                $status['icon_color'] = '#73a724';
+            }
+            if (!isset($status['icon_mark'])) {
+                $status['icon_mark'] = '\e015';
+            }
             if (!isset($status['label_count'])) {
                 $status['label_count'] = _n_noop($status['name'] . ' <span class="count">(%s)</span>', $status['name'] . ' <span class="count">(%s)</span>');
             }
@@ -61,14 +71,30 @@ class WPUWooCustomOrderStatus {
         return $new_statuses;
     }
 
-    public function register_awaiting_shipment_order_status() {
+    public function admin_head() {
+        $_main_class = array();
+        foreach ($this->statuses as $id => $status) {
+            $_main_class[] = '.widefat .column-order_status mark.' . str_replace('wc-', '', $id) . '::after';
+        }
+        if (empty($_main_class)) {
+            return;
+        }
+        echo '<style>';
+        echo implode(',', $_main_class) . '{font-family: WooCommerce;speak: none;font-weight: 400;font-variant: normal;text-transform: none;line-height: 1;-webkit-font-smoothing: antialiased;margin: 0;text-indent: 0;position: absolute;top: 0;left: 0;width: 100%;height: 100%;text-align: center}';
+        foreach ($this->statuses as $id => $status) {
+            echo '.widefat .column-order_status mark.' . str_replace('wc-', '', $id) . '::after{content:"' . $status['icon_mark'] . '";color: ' . $status['icon_color'] . ';}';
+        }
+        echo '</style>';
+    }
+
+    public function register_post_statuses() {
         foreach ($this->statuses as $id => $status) {
             register_post_status($id, $status);
         }
     }
 
     // Add to list of WC Order statuses
-    public function add_awaiting_shipment_to_order_statuses($order_statuses) {
+    public function wc_order_statuses($order_statuses) {
         $new_order_statuses = array();
         // add new order status after processing
         foreach ($order_statuses as $key => $status) {

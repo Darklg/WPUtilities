@@ -3,7 +3,7 @@
 Plugin Name: WPU Woo Custom Order Status
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Get an order summary for the latest user order
-Version: 0.3.0
+Version: 0.4.0
 Author: Darklg
 Author URI: http://darklg.me/
 Thanks to: https://www.sellwithwp.com/woocommerce-custom-order-status-2/
@@ -21,6 +21,9 @@ class WPUWooCustomOrderStatus {
         ));
         add_filter('wc_order_statuses', array(&$this,
             'wc_order_statuses'
+        ));
+        add_filter('woocommerce_reports_order_statuses', array(&$this,
+            'woocommerce_reports_order_statuses'
         ));
         add_filter('admin_head', array(&$this,
             'admin_head'
@@ -55,7 +58,9 @@ class WPUWooCustomOrderStatus {
             if (!isset($status['show_in_admin_status_list'])) {
                 $status['show_in_admin_status_list'] = true;
             }
-            $status['parent_order_status'] = 'completed';
+            if (!isset($status['load_in_reports'])) {
+                $status['load_in_reports'] = false;
+            }
             if (!isset($status['icon_color'])) {
                 $status['icon_color'] = '#73a724';
             }
@@ -119,6 +124,22 @@ class WPUWooCustomOrderStatus {
         }
 
         return $new_order_statuses;
+    }
+
+    public function woocommerce_reports_order_statuses($order_status = array()) {
+        if (!is_array($order_status)) {
+            return $order_status;
+        }
+        foreach ($this->statuses as $id_status => $new_status) {
+            if (!$new_status['load_in_reports']) {
+                continue;
+            }
+            if (in_array($id_status, $order_status)) {
+                continue;
+            }
+            $order_status[] = str_replace('wc-', '', $id_status);
+        }
+        return $order_status;
     }
 
     public function woocommerce_my_account_my_orders_query($args) {

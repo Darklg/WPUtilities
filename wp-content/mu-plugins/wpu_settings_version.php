@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU Settings Version
 Description: Keep a custom DB version of your website
-Version: 0.4.0
+Version: 0.5.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -109,6 +109,25 @@ class wpu_settings_version {
         }
         return $att;
 
+    }
+
+    /* ----------------------------------------------------------
+      Plugins
+    ---------------------------------------------------------- */
+
+    public function activate_plugins($plugins = array()) {
+        if (!is_array($plugins)) {
+            return false;
+        }
+        if (!function_exists('activate_plugin')) {
+            require_once ABSPATH . 'wp-admin/includes/plugin.php';
+        }
+
+        foreach ($plugins as $plugin) {
+            if (!is_plugin_active($plugin)) {
+                activate_plugin($plugin);
+            }
+        }
     }
 
     /* ----------------------------------------------------------

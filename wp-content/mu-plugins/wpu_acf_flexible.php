@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU ACF Flexible
 Description: Quickly generate flexible content in ACF
-Version: 0.7.0
+Version: 0.7.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -23,6 +23,8 @@ class wpu_acf_flexible {
             'class' => '',
             'id' => ''
         ),
+        '_name' => '',
+        '_prepare' => 0,
         'ajax' => 0,
         'allow_null' => 0,
         'append' => '',
@@ -43,7 +45,9 @@ class wpu_acf_flexible {
         'min_size' => '',
         'min_width' => '',
         'multiple' => 0,
+        'new_lines' => '',
         'placeholder' => '',
+        'prefix' => '',
         'prepend' => '',
         'preview_size' => 'thumbnail',
         'required' => 0,

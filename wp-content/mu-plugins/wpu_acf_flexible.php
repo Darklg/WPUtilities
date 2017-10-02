@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU ACF Flexible
 Description: Quickly generate flexible content in ACF
-Version: 0.7.1
+Version: 0.7.2
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -133,6 +133,11 @@ EOT;
         }
         $field['name'] = $field_id;
 
+        /* Choices */
+        if (!isset($field['choices'])) {
+            $field['choices'] = array(__('No'), __('Yes'));
+        }
+
         /* Return */
         if (isset($field['type'])) {
             if ($field['type'] == 'select' && !isset($field['return_format'])) {
@@ -243,7 +248,11 @@ EOT;
 
             break;
         default:
-            $values = '<div><?php echo ' . ($level < 2 ? 'get_field' : 'get_sub_field') . '(\'' . $id . '\') ?></div>' . "\n";
+            $tag = 'div';
+            if ($id == 'title') {
+                $tag = 'h2';
+            }
+            $values = '<' . $tag . '><?php echo ' . ($level < 2 ? 'get_field' : 'get_sub_field') . '(\'' . $id . '\') ?></' . $tag . '>' . "\n";
         }
 
         return $values;

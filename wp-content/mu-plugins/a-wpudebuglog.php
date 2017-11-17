@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU Error Log
 Description: Set a custom path for error log
-Version: 0.1.0
+Version: 0.2.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -14,10 +14,14 @@ class WPUErrorLog {
     public function __construct() {
         if (!defined('WPUERRORLOGPATH')) {
             $upload_dir = wp_upload_dir();
-            $log_path = apply_filters('beauxartsgli_log_path', $upload_dir['basedir']);
+            $log_path = apply_filters('beauxartsgli_log_path', $upload_dir['basedir']) . '/debug/';
         } else {
             $log_path = WPUERRORLOGPATH;
         }
+        if (!is_dir($log_path)) {
+            mkdir($log_path);
+        }
+        $log_path = $log_path.'/' . date('Y-m');
         if (!is_dir($log_path)) {
             mkdir($log_path);
         }

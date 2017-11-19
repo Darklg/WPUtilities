@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU Error Log
 Description: Set a custom path for error log
-Version: 0.3.0
+Version: 0.3.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -12,7 +12,8 @@ License URI: http://opensource.org/licenses/MIT
 
 class WPUErrorLog {
     public function __construct() {
-        $chmod = apply_filters('wpuerror_log_dir_chmod', 0644);
+        $chmod = apply_filters('wpuerror_log_dir_chmod', 0755);
+        $chmod = octdec(intval(decoct($chmod)));
         if (!defined('WPUERRORLOGPATH')) {
             $upload_dir = wp_upload_dir();
             $log_path = apply_filters('wpuerror_log_path', $upload_dir['basedir']) . '/debug/';
@@ -20,15 +21,15 @@ class WPUErrorLog {
             $log_path = WPUERRORLOGPATH;
         }
         if (!is_dir($log_path)) {
-            mkdir($log_path, $chmod);
+            @mkdir($log_path, $chmod);
             @chmod($log_path, $chmod);
         }
-        $log_path = $log_path . '/' . date('Y-m');
+        $log_path = $log_path . date('Y-m') . '/';
         if (!is_dir($log_path)) {
-            mkdir($log_path, $chmod);
+            @mkdir($log_path, $chmod);
             @chmod($log_path, $chmod);
         }
-        $log_file = $log_path . '/debug-' . date('Y-m-d') . '.log';
+        $log_file = $log_path . 'debug-' . date('Y-m-d') . '.log';
         if (!file_exists($log_file)) {
             touch($log_file);
         }

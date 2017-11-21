@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU Error Log
 Description: Set a custom path for error log
-Version: 0.3.1
+Version: 0.3.2
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -23,6 +23,9 @@ class WPUErrorLog {
         if (!is_dir($log_path)) {
             @mkdir($log_path, $chmod);
             @chmod($log_path, $chmod);
+        }
+        if (!file_exists($log_path . '.htaccess')) {
+            file_put_contents($log_path . '.htaccess', 'deny from all');
         }
         $log_path = $log_path . date('Y-m') . '/';
         if (!is_dir($log_path)) {

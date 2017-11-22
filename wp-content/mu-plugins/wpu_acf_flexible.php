@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU ACF Flexible
 Description: Quickly generate flexible content in ACF
-Version: 0.7.2
+Version: 0.7.3
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -148,6 +148,15 @@ EOT;
             }
             if ($field['type'] == 'color') {
                 $field['type'] = 'color_picker';
+            }
+            if ($field['type'] == 'editor' || $field['type'] == 'wysiwyg') {
+                $field['type'] = 'wysiwyg';
+                if (!isset($field['media_upload'])) {
+                    $field['media_upload'] = false;
+                }
+                if (!isset($field['toolbar'])) {
+                    $field['toolbar'] = 'basic';
+                }
             }
             if ($field['type'] == 'post' || $field['type'] == 'post_object') {
                 $field['type'] = 'post_object';

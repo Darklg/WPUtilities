@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU Woo Ask Invoice
 Description: Add an invoice by email
-Version: 0.2.0
+Version: 0.2.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -18,6 +18,7 @@ class WPUWooAskInvoice {
     public $text_success_ask = '';
     public $text_email_title = '';
     public $text_email_content = '';
+    public $email_to = '';
     public $switch_meta_key = 'wpuwooaskinvoice_asked';
     public $enable_multiple_ask = true;
     public $authorized_statuses = array(
@@ -42,6 +43,7 @@ class WPUWooAskInvoice {
         $this->authorized_statuses = apply_filters('wpuwooaskinvoice__authorized_statuses', $this->authorized_statuses);
         $this->switch_meta_key = apply_filters('wpuwooaskinvoice__switch_meta_key', $this->switch_meta_key);
         $this->enable_multiple_ask = apply_filters('wpuwooaskinvoice__enable_multiple_ask', $this->enable_multiple_ask);
+        $this->email_to = apply_filters('wpuwooaskinvoice__email_to', get_option('admin_email'));
     }
 
     public function template_redirect() {
@@ -61,7 +63,7 @@ class WPUWooAskInvoice {
 
         $text_email_title = sprintf($this->text_email_title, $order_id);
         $text_email_content = sprintf($this->text_email_content, $order_id);
-        wp_mail(get_option('admin_email'), $text_email_title, $text_email_content);
+        wp_mail($this->email_to, $text_email_title, $text_email_content);
     }
 
     public function woocommerce_order_details_after_order_table($order) {

@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU UX Tweaks
 Description: Adds UX enhancement & tweaks to WordPress
-Version: 0.19.0
+Version: 0.20.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -329,11 +329,11 @@ function wpuux_add_column_thumb_content($column_name, $id) {
 /* Thx http://wordpress.stackexchange.com/a/76213 */
 
 class wpuux_set_media_select_uploaded_init {
-    function __construct() {
+    public function __construct() {
         add_action('init', array(&$this, 'init'));
     }
 
-    function init() {
+    public function init() {
         if (apply_filters('disable__wpuux_set_media_select_uploaded_init', false)) {
             return;
         }
@@ -341,7 +341,7 @@ class wpuux_set_media_select_uploaded_init {
         add_action('admin_footer-post.php', array(&$this, 'set_media_select'));
     }
 
-    function set_media_select() {
+    public function set_media_select() {
         echo <<<EOT
 <script>
     jQuery(function($) {
@@ -484,4 +484,19 @@ function wpuux_change_email($email_details, $user, $userdata) {
     }
 
     return $email_details;
+}
+
+/* ----------------------------------------------------------
+  Disable link on item in order when product is in draft
+---------------------------------------------------------- */
+
+add_filter('woocommerce_order_item_name', 'wpuux_woocommerce_order_item_name', 10, 3);
+function wpuux_woocommerce_order_item_name($item_name, $item, $is_visible) {
+    if (is_object($item)) {
+        $product_id = $item->get_product_id();
+        if (get_post_status($product_id) == 'draft') {
+            return $item->get_name();
+        }
+    }
+    return $item_name;
 }

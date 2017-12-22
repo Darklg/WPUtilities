@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU UX Tweaks
 Description: Adds UX enhancement & tweaks to WordPress
-Version: 0.20.0
+Version: 0.20.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -344,20 +344,20 @@ class wpuux_set_media_select_uploaded_init {
     public function set_media_select() {
         echo <<<EOT
 <script>
-    jQuery(function($) {
-        var called = 0;
-        $('#wpcontent').ajaxStop(function() {
-            $('[value="uploaded"]').each(function(){
-                var uploaded = $(this),
-                    uploadedParent = uploaded.parent();
-                if (!uploadedParent.hasClass('has-set-uploaded')) {
-                    uploaded.attr('selected', true).parent().trigger('change');
-                    uploadedParent.addClass('has-set-uploaded');
-                }
-            });
-        });
-    });
-    </script>
+jQuery(document).on("DOMNodeInserted", function(){
+    var _filter = jQuery('select.attachment-filters');
+    if(_filter.length < 1){
+        return;
+    }
+    // Lock uploads to "Uploaded to this post"
+    if(_filter.hasClass('default-value-uploaded')){
+        return;
+    }
+    _filter.find('[value="uploaded"]').attr( 'selected', true );
+    _filter.trigger('change');
+    _filter.addClass('default-value-uploaded');
+});
+</script>
 EOT;
     }
 }

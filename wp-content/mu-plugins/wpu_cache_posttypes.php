@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU Cache Post Types
 Description: Cache all values of a post type
-Version: 0.1.0
+Version: 0.2.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -23,7 +23,7 @@ class WPUCachePostTypes {
         $this->post_types = apply_filters('wpucacheposttypes__list', $this->post_types);
     }
 
-    public function get_post_type($post_type) {
+    public function get_post_type($post_type, $nocache = false) {
         $cache_id = $this->cache_key . $post_type;
         $items = array();
 
@@ -40,15 +40,15 @@ class WPUCachePostTypes {
         }
 
         $items = wp_cache_get($cache_id);
-
-        if ($items === false) {
-            // COMPUTE RESULT
-            $posts = get_posts(array(
+        if ($items === false || $nocache) {
+            // Load results
+            $args = apply_filters('wpucacheposttypes__pt_args', array(
                 'post_type' => $post_type,
                 'orderby' => 'date',
                 'order' => 'ASC',
                 'posts_per_page' => -1
-            ));
+            ), $post_type);
+            $posts = get_posts($args);
             $items = array();
             foreach ($posts as $item_post) {
                 $item = array();
@@ -72,8 +72,7 @@ class WPUCachePostTypes {
             return;
         }
         /* Reload post type */
-        wp_cache_delete($this->cache_key . $post_type);
-        $this->get_post_type($post_type);
+        $this->get_post_type($post_type, 1);
     }
 }
 

@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU Woo Account Endpoints
 Description: Add a new endpoint on Woocommerce account
-Version: 0.3.0
+Version: 0.3.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -21,7 +21,9 @@ class WPUWooAccountEndpoint {
     }
 
     public function init() {
-
+        if (!class_exists('WooCommerce')) {
+            return;
+        }
         /* Get endpoints */
         $this->endpoints = apply_filters('wpu_woo_account_endpoints__list', $this->endpoints);
 

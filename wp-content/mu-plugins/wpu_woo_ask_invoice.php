@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU Woo Ask Invoice
 Description: Add an invoice by email
-Version: 0.2.1
+Version: 0.2.2
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -27,6 +27,9 @@ class WPUWooAskInvoice {
     );
 
     public function __construct() {
+        if (!function_exists('is_view_order_page')) {
+            return;
+        }
         add_action('plugins_loaded', array(&$this, 'plugins_loaded'));
         add_action('template_redirect', array(&$this, 'template_redirect'));
         add_action('woocommerce_order_details_after_order_table', array(&$this, 'woocommerce_order_details_after_order_table'));

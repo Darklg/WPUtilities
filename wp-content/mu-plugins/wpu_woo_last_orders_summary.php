@@ -3,7 +3,7 @@
 Plugin Name: WPU Woo Last Orders Summary
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Get an order summary for the latest user order
-Version: 0.1.2
+Version: 0.1.3
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -12,6 +12,9 @@ License URI: http://opensource.org/licenses/MIT
 
 class WPUWooLastOrdersSummary {
     public function __construct() {
+        if (!class_exists('WooCommerce')) {
+            return;
+        }
         add_action('woocommerce_account_dashboard', array(&$this, 'woocommerce_account_dashboard'));
     }
 

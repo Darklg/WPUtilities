@@ -121,3 +121,6 @@
 [submodule "wp-content/plugins/wpudisabler"]
 	path = wp-content/plugins/wpudisabler
 	url = https://github.com/WordPressUtilities/wpudisabler.git
+[submodule "wp-content/plugins/wpumembership"]
+	path = wp-content/plugins/wpumembership
+	url = git@github.com:WordPressUtilities/wpumembership.git

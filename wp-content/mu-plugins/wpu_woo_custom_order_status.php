@@ -3,7 +3,7 @@
 Plugin Name: WPU Woo Custom Order Status
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Get an order summary for the latest user order
-Version: 0.4.0
+Version: 0.4.1
 Author: Darklg
 Author URI: http://darklg.me/
 Thanks to: https://www.sellwithwp.com/woocommerce-custom-order-status-2/
@@ -13,6 +13,9 @@ License URI: http://opensource.org/licenses/MIT
 
 class WPUWooCustomOrderStatus {
     public function __construct() {
+        if (!class_exists('WooCommerce')) {
+            return;
+        }
         add_action('plugins_loaded', array(&$this,
             'plugins_loaded'
         ));

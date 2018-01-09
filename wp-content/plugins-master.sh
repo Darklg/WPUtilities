@@ -6,9 +6,13 @@
 
 _path=`pwd`;
 
-for plugin in `ls plugins`
+for _plugin in `ls plugins`
 do
-    cd "$_path/plugins/$plugin";
-    git checkout master;
-    git pull origin master;
+    _path_plugin="${_path}/plugins/${_plugin}";
+    if [ -f "${_path_plugin}/.git" ];then
+        cd "${_path_plugin}";
+        echo "${_path_plugin}";
+        git checkout master;
+        git pull origin master;
+    fi;
 done

@@ -3,7 +3,7 @@
 Plugin Name: WPU disable comments
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Disable all comments
-Version: 1.3.1
+Version: 1.4
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -121,4 +121,23 @@ add_action('pre_ping', 'wputh_disable_comments_disable_ping');
   Disable comments RSS feed
 ---------------------------------------------------------- */
 
-add_filter( 'feed_links_show_comments_feed', '__return_false' );
+add_filter('feed_links_show_comments_feed', '__return_false');
+
+/* ----------------------------------------------------------
+  Disable count
+---------------------------------------------------------- */
+
+add_filter('wp_count_comments', 'wputh_disable_comments_wp_count_comments', 10, 1);
+function wputh_disable_comments_wp_count_comments($content) {
+    $comment_count = array(
+        'approved' => 0,
+        'moderated' => 0,
+        'awaiting_moderation' => 0,
+        'spam' => 0,
+        'trash' => 0,
+        'post-trashed' => 0,
+        'total_comments' => 0,
+        'all' => 0
+    );
+    return (object) $comment_count;
+}

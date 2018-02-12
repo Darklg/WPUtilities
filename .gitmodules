@@ -124,3 +124,6 @@
 [submodule "wp-content/plugins/wpumembership"]
 	path = wp-content/plugins/wpumembership
 	url = git@github.com:WordPressUtilities/wpumembership.git
+[submodule "wp-content/plugins/wpuwebsitepassword"]
+	path = wp-content/plugins/wpuwebsitepassword
+	url = https://github.com/WordPressUtilities/wpuwebsitepassword.git

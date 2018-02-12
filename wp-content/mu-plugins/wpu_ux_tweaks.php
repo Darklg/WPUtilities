@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU UX Tweaks
 Description: Adds UX enhancement & tweaks to WordPress
-Version: 0.20.1
+Version: 0.20.2
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -225,9 +225,8 @@ function wpuux_preventheavy404() {
     if (!is_404()) {
         return;
     }
-    header('HTTP/1.1 404 Not Found');
     $fileExtension = '';
-    $badFileTypes = array(
+    $badFileTypes = apply_filters('wpuux_preventheavy404_filestype',array(
         'bmp',
         'css',
         'doc',
@@ -241,12 +240,16 @@ function wpuux_preventheavy404() {
         'txt',
         'xml',
         'zip'
-    );
+    ));
     if (!empty($_SERVER['REQUEST_URI'])) {
-        $fileExtension = strtolower(pathinfo($_SERVER['REQUEST_URI'], PATHINFO_EXTENSION));
+        $fileExtensionParts = strtolower(pathinfo($_SERVER['REQUEST_URI'], PATHINFO_EXTENSION));
+        $fileExtensionParts = explode('?', $fileExtensionParts);
+        if (isset($fileExtensionParts[0])) {
+            $fileExtension = $fileExtensionParts[0];
+        }
     }
-    $badFileTypes = apply_filters('wpuux_preventheavy404_filestype', $badFileTypes);
     if (in_array($fileExtension, $badFileTypes)) {
+        status_header(404);
         exit('error');
     }
 }

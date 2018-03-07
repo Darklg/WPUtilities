@@ -3,7 +3,7 @@
 /*
 Plugin Name: WP Utilities Admin Protect
 Description: Restrictive options for WordPress admin
-Version: 1.0.0
+Version: 1.1.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -18,10 +18,10 @@ if (!defined('ABSPATH')) {
   Levels
 ---------------------------------------------------------- */
 
-define('WPUTH_ADMIN_PLUGIN_VERSION', '1.0.0');
+define('WPUTH_ADMIN_PLUGIN_VERSION', '1.1.0');
 define('WPUTH_ADMIN_PLUGIN_OPT', 'wputh_admin_protect__has_htaccess');
-define('WPUTH_ADMIN_MAX_LVL', 'manage_options');
 define('WPUTH_ADMIN_MIN_LVL', 'manage_categories');
+define('WPUTH_ADMIN_MAX_LVL', 'manage_options');
 
 /* ----------------------------------------------------------
   Block admin capabilities
@@ -29,8 +29,8 @@ define('WPUTH_ADMIN_MIN_LVL', 'manage_categories');
 
 class WPUTHAdminProtectBlockAdmin {
 
-    private $level_access_min_admin_access = 'manage_categories';
-    private $level_access_can_update = 'manage_options';
+    private $level_access_min_admin_access;
+    private $level_access_can_update;
 
     public function __construct() {
         add_action('init', array(&$this, 'init'));
@@ -38,8 +38,8 @@ class WPUTHAdminProtectBlockAdmin {
 
     public function init() {
 
-        $this->level_access_min_admin_access = apply_filters('wputh_admin_protect_block_admin__level_access_min_admin_access', $this->level_access_min_admin_access);
-        $this->level_access_can_update = apply_filters('wputh_admin_protect_block_admin__level_access_can_update', $this->level_access_can_update);
+        $this->level_access_min_admin_access = apply_filters('wputh_admin_protect_block_admin__level_access_min_admin_access', WPUTH_ADMIN_MIN_LVL);
+        $this->level_access_can_update = apply_filters('wputh_admin_protect_block_admin__level_access_can_update', WPUTH_ADMIN_MAX_LVL);
 
         if (!apply_filters('wputh_admin_protect_block_admin__enabled', false)) {
             add_action('admin_init', array(&$this, 'wputh_block_admin'));
@@ -115,6 +115,7 @@ function wputh_admin_option_default_role($value) {
 add_action('init', 'wputh_admin_protect_remove_versions');
 function wputh_admin_protect_remove_versions() {
     remove_action('wp_head', 'wp_generator');
+    remove_action('wp_head', 'qtranxf_wp_head_meta_generator');
     add_filter('update_footer', '__return_empty_string', 9999);
     add_filter('the_generator', '__return_empty_string', 9999);
     add_filter('update_right_now_text', '__return_empty_string', 9999);
@@ -191,7 +192,7 @@ RewriteRule ^ /? [L,R=301]
 Options All -Indexes
 IndexIgnore *
 # - Protect files
-<FilesMatch (^.git|^.gitignore|^.travis\.yml|^.gitmodules|\\.sql|\\.po$|\\.mo$|\\.phar|^wp-config\.php|^timthumb\.php|^readme\.html|^readme\.md|^README\.md|^license\.html|^license\.txt|^phpunit\.xml|^debug\.log)>
+<FilesMatch (^.git|^.gitignore|^.travis\.yml|^.gitmodules|\\.sql|\\.po$|\\.mo$|\\.phar|^(wp-blog-header|wp-config|wp-config-sample|wp-load|wp-settings)\.php|^timthumb\.php|^readme\.html|^readme\.md|^README\.md|^license\.html|^license\.txt|^phpunit\.xml|^debug\.log)>
 Deny from all
 </FilesMatch>
 # - Disallow PHP Easter Egg

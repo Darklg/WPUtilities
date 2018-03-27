@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU ACF Flexible
 Description: Quickly generate flexible content in ACF
-Version: 0.7.3
+Version: 0.8.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -218,16 +218,17 @@ EOT;
             $sub_field['type'] = 'text';
         }
         $values = '';
+        $classname = 'class="field-' . $id . '"';
         switch ($sub_field['type']) {
         case 'image':
-            $values = '<img src="<?php echo $' . $id . '_src ?>" alt="" />' . "\n";
+            $values = '<img ' . $classname . ' src="<?php echo $' . $id . '_src ?>" alt="" />' . "\n";
             break;
         case 'url':
-            $values = '<?php if(!empty($' . $id . ')): ?><a href="<?php echo $' . $id . '; ?>"><?php echo $' . $id . '; ?></a><?php endif; ?>' . "\n";
+            $values = '<?php if(!empty($' . $id . ')): ?><a ' . $classname . ' href="<?php echo $' . $id . '; ?>"><?php echo $' . $id . '; ?></a><?php endif; ?>' . "\n";
             break;
         case 'color':
         case 'color_picker':
-            $values = '<?php if(!empty($' . $id . ')): ?><div style="background-color:<?php echo $' . $id . ' ?>;"><?php echo $' . $id . '; ?></a><?php endif; ?>' . "\n";
+            $values = '<?php if(!empty($' . $id . ')): ?><div ' . $classname . ' style="background-color:<?php echo $' . $id . ' ?>;"><?php echo $' . $id . '; ?></div><?php endif; ?>' . "\n";
             break;
 
         case 'relationship':
@@ -261,7 +262,7 @@ EOT;
             if ($id == 'title') {
                 $tag = 'h2';
             }
-            $values = '<' . $tag . '><?php echo ' . ($level < 2 ? 'get_field' : 'get_sub_field') . '(\'' . $id . '\') ?></' . $tag . '>' . "\n";
+            $values = '<' . $tag . ' ' . $classname . '><?php echo ' . ($level < 2 ? 'get_field' : 'get_sub_field') . '(\'' . $id . '\') ?></' . $tag . '>' . "\n";
         }
 
         return $values;
@@ -394,7 +395,12 @@ EOT;
         $content = preg_replace('/<\?php(\s\n)\?>/isU', '', $content);
         $content = preg_replace('/(?:(?:\r\n|\r|\n)){2}/s', "\n", $content);
 
-        $file_id = get_stylesheet_directory() . '/tpl/blocks/' . $layout_id . '.php';
+        $file_path = apply_filters('wpu_acf_flexible__path', get_stylesheet_directory() . '/tpl/blocks/');
+        if (!is_dir($file_path)) {
+            @mkdir($file_path, 0755);
+            @chmod($file_path, 0755);
+        }
+        $file_id = $file_path . $layout_id . '.php';
         if (!file_exists($file_id)) {
             file_put_contents($file_id, $content);
         }
@@ -403,17 +409,19 @@ EOT;
 
 $wpu_acf_flexible = new wpu_acf_flexible();
 
-function get_wpu_acf_flexible_content($group) {
+function get_wpu_acf_flexible_content($group = 'blocks') {
     global $post;
-    if (!have_rows('blocks')) {
+    if (!have_rows($group)) {
         return '';
     }
+
+    $file_path = apply_filters('wpu_acf_flexible__path', get_stylesheet_directory() . '/tpl/blocks/');
+
     ob_start();
 
-    while (have_rows('blocks')):
+    while (have_rows($group)):
         the_row();
-        $layout = get_row_layout();
-        $layout_file = get_stylesheet_directory() . '/tpl/blocks/' . $layout . '.php';
+        $layout_file = $file_path . get_row_layout() . '.php';
         if (file_exists($layout_file)) {
             include $layout_file;
         }

@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU UX Tweaks
 Description: Adds UX enhancement & tweaks to WordPress
-Version: 0.20.2
+Version: 0.21.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -226,7 +226,7 @@ function wpuux_preventheavy404() {
         return;
     }
     $fileExtension = '';
-    $badFileTypes = apply_filters('wpuux_preventheavy404_filestype',array(
+    $badFileTypes = apply_filters('wpuux_preventheavy404_filestype', array(
         'bmp',
         'css',
         'doc',
@@ -433,11 +433,38 @@ function wpuux_add_menus__hide_menuhead_full() {
 
 class wpuux_login_logo {
     public function __construct() {
+        add_action('init', array(&$this, 'init'));
+    }
+
+    public function init() {
+        add_filter('theme_mod_header_image', array(&$this, 'override_header_image'), 10, 1);
         if (has_header_image()) {
             add_action('login_enqueue_scripts', array(&$this, 'set_image'));
         }
         add_filter('login_headerurl', array(&$this, 'set_url'));
         add_filter('login_headertitle', array(&$this, 'set_title'));
+    }
+
+    public function override_header_image($image) {
+        if (!$image) {
+            $base_uri = get_stylesheet_directory_uri();
+            $base_dir = get_stylesheet_directory();
+            $images = array(
+                '/assets/images/logo.svg',
+                '/assets/images/logo.png',
+                '/assets/images/logo.jpg',
+                '/images/logo.svg',
+                '/images/logo.png',
+                '/images/logo.jpg'
+            );
+            foreach ($images as $imagetest) {
+                if (file_exists($base_dir . $imagetest)) {
+                    return $base_uri . $imagetest;
+                }
+            }
+        }
+
+        return $image;
     }
 
     public function set_image() {

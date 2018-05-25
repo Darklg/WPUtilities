@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU Cache External
 Description: Cache External URLs
-Version: 0.1.1
+Version: 0.2.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -16,15 +16,30 @@ class WPUCacheExternal {
 
     private $config = array(
         'expires' => 86400,
+        'cache_gravatars' => true,
         'base_cache_url' => '',
         'base_cache_dir' => '',
         'cache_folder' => 'wpucacheexternal'
     );
 
     public function __construct() {
-        add_action('init', array(&$this,
+        add_action('plugins_loaded', array(&$this,
+            'set_config'
+        ));
+        add_action('plugins_loaded', array(&$this,
             'set_cache_dir'
         ));
+    }
+
+    public function set_config() {
+
+        /* Set config */
+        $this->config = apply_filters('wpucacheexternal__config', $this->config);
+
+        /* Filter avatars */
+        if ($this->config['cache_gravatars']) {
+            add_filter('get_avatar_data', array(&$this, 'get_avatar_data'), 10, 2);
+        }
     }
 
     public function set_cache_dir() {
@@ -32,7 +47,7 @@ class WPUCacheExternal {
         $this->config['base_cache_dir'] = $wp_upload_dir['basedir'] . '/' . $this->config['cache_folder'] . '/';
         $this->config['base_cache_url'] = $wp_upload_dir['baseurl'] . '/' . $this->config['cache_folder'] . '/';
         if (!is_dir($this->config['base_cache_dir'])) {
-            mkdir($this->config['base_cache_dir']);
+            @mkdir($this->config['base_cache_dir']);
         }
     }
 
@@ -87,22 +102,27 @@ class WPUCacheExternal {
     }
 
     private function cache_url_in_file($url, $cache_file) {
-        $result = '';
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-        curl_exec($ch);
-        if (!$result = curl_exec($ch)) {
+        require_once( ABSPATH . 'wp-admin/includes/file.php' );
+        $tmp_file = download_url($url, 1);
+        if (!$tmp_file) {
             return false;
         }
-        curl_close($ch);
-        if (!file_put_contents($cache_file, $result)) {
-            return false;
+        return rename($tmp_file, $cache_file);
+    }
+
+    public function get_avatar_data($args, $id_or_email) {
+        /* Already local */
+        if(strpos($args['url'], $this->config['base_cache_url']) !== false){
+            return $args;
         }
-        return true;
+        /* Download url */
+        $args_url = $this->get_url($args['url'], array(
+            'extension' => 'jpg'
+        ));
+        if($args_url){
+            $args['url'] = $args_url;
+        }
+        return $args;
     }
 
 }

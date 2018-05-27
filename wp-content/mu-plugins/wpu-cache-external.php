@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU Cache External
 Description: Cache External URLs
-Version: 0.2.1
+Version: 0.2.2
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -46,7 +46,7 @@ class WPUCacheExternal {
 
     public function clean_cache_dir__action() {
         $clean_cache_dir = get_option('wpucacheexternal__last_clean');
-        if (!is_numeric($clean_cache_dir) || $clean_cache_dir + 86400 < time()) {
+        if (!is_numeric($clean_cache_dir) || $clean_cache_dir + $this->config['expires'] < time()) {
             update_option('wpucacheexternal__last_clean', time());
             $this->clean_cache_dir();
         }
@@ -68,7 +68,7 @@ class WPUCacheExternal {
         $this->config['base_cache_dir'] = $wp_upload_dir['basedir'] . '/' . $this->config['cache_folder'] . '/';
         $this->config['base_cache_url'] = $wp_upload_dir['baseurl'] . '/' . $this->config['cache_folder'] . '/';
         if (!is_dir($this->config['base_cache_dir'])) {
-            @mkdir($this->config['base_cache_dir']);
+            wp_mkdir_p($this->config['base_cache_dir']);
         }
     }
 

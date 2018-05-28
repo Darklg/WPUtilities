@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU Cache External
 Description: Cache External URLs
-Version: 0.2.2
+Version: 0.2.3
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -17,6 +17,7 @@ class WPUCacheExternal {
         'cache_gravatars' => true,
         'base_cache_url' => '',
         'base_cache_dir' => '',
+        'last_clean_option_name' => 'wpucacheexternal__last_clean',
         'cache_folder' => 'wpucacheexternal'
     );
 
@@ -45,9 +46,8 @@ class WPUCacheExternal {
     }
 
     public function clean_cache_dir__action() {
-        $clean_cache_dir = get_option('wpucacheexternal__last_clean');
-        if (!is_numeric($clean_cache_dir) || $clean_cache_dir + $this->config['expires'] < time()) {
-            update_option('wpucacheexternal__last_clean', time());
+        $clean_cache_dir = get_option($this->config['last_clean_option_name']);
+        if (!is_numeric($clean_cache_dir) || $this->is_expired_time($clean_cache_dir)) {
             $this->clean_cache_dir();
         }
     }
@@ -55,12 +55,15 @@ class WPUCacheExternal {
     public function clean_cache_dir() {
         $files = glob($this->config['base_cache_dir'] . '*');
         foreach ($files as $file) {
-            $expired_time = time() - $this->config['expires'];
-            $cache_ok = true;
-            if (filemtime($file) < $expired_time) {
+            if ($this->is_expired_time(filemtime($file))) {
                 @unlink($file);
             }
         }
+        update_option($this->config['last_clean_option_name'], time());
+    }
+
+    public function is_expired_time($time_to_test) {
+        return $time_to_test + $this->config['expires'] < time();
     }
 
     public function set_cache_dir() {

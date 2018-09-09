@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU UX Tweaks
 Description: Adds UX enhancement & tweaks to WordPress
-Version: 0.21.0
+Version: 0.21.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -529,4 +529,17 @@ function wpuux_woocommerce_order_item_name($item_name, $item, $is_visible) {
         }
     }
     return $item_name;
+}
+
+
+/* ----------------------------------------------------------
+  Remove some default widgets
+---------------------------------------------------------- */
+
+add_action('wp_network_dashboard_setup', 'wpuux_remove_widgets', 20);
+add_action('wp_user_dashboard_setup', 'wpuux_remove_widgets', 20);
+add_action('wp_dashboard_setup', 'wpuux_remove_widgets', 20);
+function wpuux_remove_widgets() {
+    /* Remove events & WP news widget */
+    remove_meta_box('dashboard_primary', get_current_screen(), 'side');
 }

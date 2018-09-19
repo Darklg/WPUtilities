@@ -127,3 +127,6 @@
 [submodule "wp-content/plugins/wpuwebsitepassword"]
 	path = wp-content/plugins/wpuwebsitepassword
 	url = https://github.com/WordPressUtilities/wpuwebsitepassword.git
+[submodule "wp-content/plugins/wpufilters"]
+	path = wp-content/plugins/wpufilters
+	url = https://github.com/WordPressUtilities/wpufilters.git

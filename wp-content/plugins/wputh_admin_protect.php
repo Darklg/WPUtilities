@@ -3,7 +3,7 @@
 /*
 Plugin Name: WP Utilities Admin Protect
 Description: Restrictive options for WordPress admin
-Version: 1.1.0
+Version: 1.2.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -18,8 +18,8 @@ if (!defined('ABSPATH')) {
   Levels
 ---------------------------------------------------------- */
 
-define('WPUTH_ADMIN_PLUGIN_VERSION', '1.1.0');
-define('WPUTH_ADMIN_PLUGIN_OPT', 'wputh_admin_protect__has_htaccess');
+define('WPUTH_ADMIN_PLUGIN_VERSION', '1.2.0');
+define('WPUTH_ADMIN_PLUGIN_NAME', 'WP Utilities Admin Protect');
 define('WPUTH_ADMIN_MIN_LVL', 'manage_categories');
 define('WPUTH_ADMIN_MAX_LVL', 'manage_options');
 
@@ -138,56 +138,19 @@ function wputh_admin_protect__remove_ver($src) {
   Htaccess
 ---------------------------------------------------------- */
 
-add_action('init', 'wputh_admin_protect_init_htaccess');
-function wputh_admin_protect_init_htaccess() {
-    wputh_admin_protect__set_htaccess(WPUTH_ADMIN_PLUGIN_VERSION);
-}
+add_filter('rewrite_rules', 'wputh_admin_protect_rewrite_rules', 10, 1);
+function wputh_admin_protect_rewrite_rules($rules) {
 
-add_action('generate_rewrite_rules', 'wputh_admin_protect_generate_rewrite_rules_htaccess');
-function wputh_admin_protect_generate_rewrite_rules_htaccess() {
-    wputh_admin_protect__set_htaccess(WPUTH_ADMIN_PLUGIN_VERSION, true);
-}
-
-function wputh_admin_protect__get_htaccess() {
-    $root_path = ABSPATH;
-    $wpfolders = apply_filters('wputh_admin_protect_subfolders', array(
-        'wp-cms/'
-    ));
-    foreach ($wpfolders as $wpf) {
-        $length = strlen($wpf);
-        if ((substr($root_path, -$length) === $wpf)) {
-            $root_path = substr($root_path, 0, -$length);
-        }
-    }
-    return apply_filters('wputh_admin_protect_htaccess_file', $root_path . '.htaccess');
-}
-
-function wputh_admin_protect__set_htaccess($opt_ver = '0.0', $force_refresh = false) {
-    $ver = get_option(WPUTH_ADMIN_PLUGIN_OPT);
-    if (!$force_refresh && $ver == $opt_ver) {
-        return;
-    }
-
-    $htaccess_file = wputh_admin_protect__get_htaccess();
-    $htaccess_content = '';
-    if (file_exists($htaccess_file)) {
-        $htaccess_content = file_get_contents($htaccess_file);
-    }
-    $htaccess_content = preg_replace("/\#\ STARTWPUADMINPROTECT(.*)\#\ ENDWPUADMINPROTECT/isU", "", $htaccess_content);
-    $htaccess_content = "\n# STARTWPUADMINPROTECT
-# WP Utilities Admin Protect - v ${opt_ver}
-# - Security requirements
-<IfModule mod_rewrite.c>
-<IfModule mod_headers.c>
+    $wpuadminrules = "<IfModule mod_rewrite.c>
 RewriteEngine On
+# - Prevent bad requests
 RewriteCond %{QUERY_STRING} (\<|%3C).*script.*(\>|%3E) [NC,OR]
 RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
 RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
-RewriteRule ^(.*)$ index.php [F,L]
-# BEGIN Stop wordpress username enumeration vulnerability
+RewriteRule ^(.*)$ /index.php [F,L]
+# - Stop WordPress username enumeration vulnerability
 RewriteCond %{QUERY_STRING} author=d
 RewriteRule ^ /? [L,R=301]
-# END Stop wordpress username enumeration vulnerability
 # - Disable directory browsing
 Options All -Indexes
 IndexIgnore *
@@ -198,18 +161,23 @@ Deny from all
 # - Disallow PHP Easter Egg
 RewriteCond %{QUERY_STRING} \=PHP[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} [NC]
 RewriteRule .* - [F,L]
-# Remove Server Signature
+<IfModule mod_headers.c>
+# - Remove Server Signature
 Header unset Server
 ServerSignature Off
-# Disable mime sniffing
+# - Disable mime sniffing
 Header always set X-Content-Type-Options \"nosniff\"
-# Block if XSS detected
+# - Block if XSS detected
 Header always set X-XSS-Protection \"1; mode=block\"
 </IfModule>
-</IfModule>
-# ENDWPUADMINPROTECT\n\n" . trim($htaccess_content);
-    @file_put_contents($htaccess_file, trim($htaccess_content));
-    update_option(WPUTH_ADMIN_PLUGIN_OPT, $opt_ver);
+</IfModule>";
+
+    $new_rules = "# BEGIN " . WPUTH_ADMIN_PLUGIN_NAME . " - v " . WPUTH_ADMIN_PLUGIN_VERSION . "\n" . $wpuadminrules . "\n" . "# END " . $plugin_name . "\n";
+    # Remove on deactivation
+    if (defined('WPUTH_ADMIN_PROTECT_DEACTIVATION')) {
+        $new_rules = '';
+    }
+    return $new_rules . $rules;
 }
 
 /* ----------------------------------------------------------
@@ -298,19 +266,19 @@ function wputh_admin_protect_invalidusername() {
 /* Activation
 -------------------------- */
 
-register_deactivation_hook(__FILE__, 'wputh_admin_protect_generate_rewrite_rules_htaccess');
+register_deactivation_hook(__FILE__, 'wputh_admin_protect_activate');
+register_activation_hook(__FILE__, 'wputh_admin_protect_activate');
+function wputh_admin_protect_activate() {
+    flush_rewrite_rules(true);
+}
 
 /* Deactivation
 -------------------------- */
 
 register_deactivation_hook(__FILE__, 'wputh_admin_protect_deactivate');
 function wputh_admin_protect_deactivate() {
-    $htaccess_file = wputh_admin_protect__get_htaccess();
-    if (file_exists($htaccess_file)) {
-        $htaccess_content = preg_replace("/\#\ STARTWPUADMINPROTECT(.*)\#\ ENDWPUADMINPROTECT/isU", "", file_get_contents($htaccess_file));
-        @file_put_contents($htaccess_file, trim($htaccess_content));
-    }
-    update_option(WPUTH_ADMIN_PLUGIN_OPT, '');
+    define('WPUTH_ADMIN_PROTECT_DEACTIVATION', 1);
+    flush_rewrite_rules(true);
 }
 
 /*

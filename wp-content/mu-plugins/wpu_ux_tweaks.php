@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU UX Tweaks
 Description: Adds UX enhancement & tweaks to WordPress
-Version: 0.21.1
+Version: 0.21.2
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -59,8 +59,14 @@ function wpuux_bad_formed_links($content) {
     $badform[] = 'href="http//';
     $goodform[] = 'href="http://';
 
+    $badform[] = 'href="https//';
+    $goodform[] = 'href="https://';
+
     $badform[] = 'href=" http://';
     $goodform[] = 'href="http://';
+
+    $badform[] = 'href=" https://';
+    $goodform[] = 'href="https://';
 
     $content = str_replace($badform, $goodform, $content);
     return $content;
@@ -337,7 +343,7 @@ class wpuux_set_media_select_uploaded_init {
     }
 
     public function init() {
-        if (apply_filters('disable__wpuux_set_media_select_uploaded_init', false)) {
+        if (apply_filters('disable__wpuux_set_media_select_uploaded_init', true)) {
             return;
         }
         add_action('admin_footer-post-new.php', array(&$this, 'set_media_select'));

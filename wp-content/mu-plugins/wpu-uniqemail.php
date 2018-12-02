@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU Unique Email
 Description: Ensure email address is unique.
-Version: 0.1.1
+Version: 0.1.2
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -15,6 +15,9 @@ class WPUUniqEmail {
     }
 
     public function cleanEmail($email) {
+
+        $email = strtolower($email);
+
         /* Get email parts */
         $email_parts = explode('@', $email);
 

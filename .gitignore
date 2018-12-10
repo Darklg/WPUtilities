@@ -51,3 +51,16 @@ wp-content/plugins/password-protected
 /wp-content/plugins/advanced-custom-fields-pro
 /wp-content/plugins/query-monitor
 /wp-content/db.php
+/wp-activate.php
+/wp-blog-header.php
+/wp-comments-post.php
+/wp-config-sample.php
+/wp-cron.php
+/wp-links-opml.php
+/wp-load.php
+/wp-login.php
+/wp-mail.php
+/wp-settings.php
+/wp-signup.php
+/wp-trackback.php
+/xmlrpc.php

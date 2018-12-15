@@ -3,7 +3,7 @@
 /*
 Plugin Name: WP Utilities Admin Protect
 Description: Restrictive options for WordPress admin
-Version: 1.2.2
+Version: 1.2.3
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
   Levels
 ---------------------------------------------------------- */
 
-define('WPUTH_ADMIN_PLUGIN_VERSION', '1.2.2');
+define('WPUTH_ADMIN_PLUGIN_VERSION', '1.2.3');
 define('WPUTH_ADMIN_PLUGIN_NAME', 'WP Utilities Admin Protect');
 define('WPUTH_ADMIN_PLUGIN_OPT', 'wpu_admin_protect__v');
 define('WPUTH_ADMIN_MIN_LVL', 'manage_categories');
@@ -156,7 +156,7 @@ RewriteRule ^ /? [L,R=301]
 Options All -Indexes
 IndexIgnore *
 # - Protect files
-<FilesMatch (^.git|^.gitignore|^.travis\.yml|^.gitmodules|\\.sql|\\.po$|\\.mo$|\\.phar|^(wp-blog-header|wp-config|wp-config-sample|wp-load|wp-settings)\.php|^timthumb\.php|^readme\.html|^readme\.md|^README\.md|^license\.html|^license\.txt|^phpunit\.xml|^debug\.log)>
+<FilesMatch (^.git|^.gitignore|^.travis\.yml|^.gitmodules|\.sql\$|\.po\$|\.mo\$|\.phar\$|\.log\$|^(wp-blog-header|wp-config|wp-config-sample|wp-load|wp-settings)\.php|^timthumb\.php|^readme\.html|^readme\.md|^README\.md|^license\.html|^license\.txt|^phpunit\.xml|composer\.json\$|composer\.lock\$|^debug\.log)>
 Deny from all
 </FilesMatch>
 # - Disallow PHP Easter Egg
@@ -173,7 +173,7 @@ Header always set X-XSS-Protection \"1; mode=block\"
 </IfModule>
 </IfModule>";
 
-    $new_rules = "# BEGIN " . WPUTH_ADMIN_PLUGIN_NAME . " - v " . WPUTH_ADMIN_PLUGIN_VERSION . "\n" . $wpuadminrules . "\n" . "# END " . $plugin_name . "\n";
+    $new_rules = "# BEGIN " . WPUTH_ADMIN_PLUGIN_NAME . " - v " . WPUTH_ADMIN_PLUGIN_VERSION . "\n" . $wpuadminrules . "\n" . "# END " . WPUTH_ADMIN_PLUGIN_NAME . "\n";
     # Remove on deactivation
     if (defined('WPUTH_ADMIN_PROTECT_DEACTIVATION')) {
         $new_rules = '';

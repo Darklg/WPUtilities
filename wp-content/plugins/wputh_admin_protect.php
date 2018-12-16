@@ -3,7 +3,7 @@
 /*
 Plugin Name: WP Utilities Admin Protect
 Description: Restrictive options for WordPress admin
-Version: 1.2.3
+Version: 1.2.4
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
   Levels
 ---------------------------------------------------------- */
 
-define('WPUTH_ADMIN_PLUGIN_VERSION', '1.2.3');
+define('WPUTH_ADMIN_PLUGIN_VERSION', '1.2.4');
 define('WPUTH_ADMIN_PLUGIN_NAME', 'WP Utilities Admin Protect');
 define('WPUTH_ADMIN_PLUGIN_OPT', 'wpu_admin_protect__v');
 define('WPUTH_ADMIN_MIN_LVL', 'manage_categories');
@@ -142,6 +142,39 @@ function wputh_admin_protect__remove_ver($src) {
 add_filter('rewrite_rules', 'wputh_admin_protect_rewrite_rules', 10, 1);
 function wputh_admin_protect_rewrite_rules($rules) {
 
+    $excluded_files = array(
+        /* Extensions */
+        '\.log$',
+        '\.mo$',
+        '\.phar$',
+        '\.po$',
+        '\.rb$',
+        '\.sh$',
+        '\.sql$',
+        /* git */
+        '^.git',
+        '^.gitignore',
+        '^.gitmodules',
+        /* Project */
+        'composer\.json$',
+        'composer\.lock$',
+        'config\.yml$',
+        'phpunit\.xml$',
+        '\.travis\.yml$',
+        /* Infos */
+        'changelog\.txt$',
+        'license\.html$',
+        'license\.txt$',
+        'readme\.html$',
+        'readme\.md$',
+        'README\.md$',
+        'readme\.txt$',
+        /* WordPress attacks */
+        'timthumb\.php$',
+        /* WordPress files */
+        '^(wp-blog-header|wp-config|wp-config-sample|wp-load|wp-settings)\.php'
+    );
+
     $wpuadminrules = "<IfModule mod_rewrite.c>
 RewriteEngine On
 # - Prevent bad requests
@@ -156,7 +189,7 @@ RewriteRule ^ /? [L,R=301]
 Options All -Indexes
 IndexIgnore *
 # - Protect files
-<FilesMatch (^.git|^.gitignore|^.travis\.yml|^.gitmodules|\.sql\$|\.po\$|\.mo\$|\.phar\$|\.log\$|^(wp-blog-header|wp-config|wp-config-sample|wp-load|wp-settings)\.php|^timthumb\.php|^readme\.html|^readme\.md|^README\.md|^license\.html|^license\.txt|^phpunit\.xml|composer\.json\$|composer\.lock\$|^debug\.log)>
+<FilesMatch (" . implode('|', $excluded_files) . ")>
 Deny from all
 </FilesMatch>
 # - Disallow PHP Easter Egg

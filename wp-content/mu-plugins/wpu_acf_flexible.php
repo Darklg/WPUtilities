@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU ACF Flexible
 Description: Quickly generate flexible content in ACF
-Version: 0.8.0
+Version: 0.9.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -395,36 +395,55 @@ EOT;
         $content = preg_replace('/<\?php(\s\n)\?>/isU', '', $content);
         $content = preg_replace('/(?:(?:\r\n|\r|\n)){2}/s', "\n", $content);
 
-        $file_path = apply_filters('wpu_acf_flexible__path', get_stylesheet_directory() . '/tpl/blocks/');
-        if (!is_dir($file_path)) {
-            @mkdir($file_path, 0755);
-            @chmod($file_path, 0755);
-        }
+        $file_path = $this->get_controller_path();
         $file_id = $file_path . $layout_id . '.php';
         if (!file_exists($file_id)) {
             file_put_contents($file_id, $content);
         }
+    }
+
+    public function get_controller_path() {
+        $controller_path = apply_filters('wpu_acf_flexible__path', get_stylesheet_directory() . '/tpl/blocks/');
+        if (!is_dir($controller_path)) {
+            @mkdir($controller_path, 0755);
+            @chmod($controller_path, 0755);
+        }
+        return $controller_path;
+    }
+
+    public function get_view_path() {
+        return apply_filters('wpu_acf_flexible__path', 'blocks/');
     }
 }
 
 $wpu_acf_flexible = new wpu_acf_flexible();
 
 function get_wpu_acf_flexible_content($group = 'blocks') {
-    global $post;
+    global $post, $wpu_acf_flexible;
     if (!have_rows($group)) {
         return '';
     }
-
-    $file_path = apply_filters('wpu_acf_flexible__path', get_stylesheet_directory() . '/tpl/blocks/');
 
     ob_start();
 
     while (have_rows($group)):
         the_row();
-        $layout_file = $file_path . get_row_layout() . '.php';
+
+        /* Load controller or template file */
+        $controller_path = $wpu_acf_flexible->get_controller_path();
+        $layout_file = $controller_path . get_row_layout() . '.php';
+        $context = array();
         if (file_exists($layout_file)) {
             include $layout_file;
         }
+
+        /* Load view file if Timber is installed */
+        if (class_exists('TimberPost') && !empty($context)) {
+            $view_path = $wpu_acf_flexible->get_view_path();
+            $layout_file = $view_path . get_row_layout() . '.twig';
+            Timber::render($layout_file, $context);
+        }
+
     endwhile;
     return ob_get_clean();
 }

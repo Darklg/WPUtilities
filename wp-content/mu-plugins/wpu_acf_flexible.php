@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU ACF Flexible
 Description: Quickly generate flexible content in ACF
-Version: 0.9.0
+Version: 0.9.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -279,7 +279,7 @@ EOT;
         $base_fields = array();
         if (!empty($fields)) {
             foreach ($fields as $field_id => $field) {
-                $field_key = md5($content_id . $field_id);
+                $field_key = isset($field['key']) ? $field['key'] : md5($content_id . $field_id);
                 $base_fields[$field_key] = $this->set_field($field_key, $field, $field_id);
             }
         } else {
@@ -297,12 +297,12 @@ EOT;
                     'id' => ''
                 ),
                 'layouts' => array(),
-                'button_label' => 'Ajouter un bloc',
+                'button_label' => __('Add block'),
                 'min' => '',
                 'max' => ''
             );
             foreach ($layouts as $layout_id => $layout) {
-                $layout_key = md5($content_id . $layout_id);
+                $layout_key = isset($layout['key']) ? $layout['key'] : md5($content_id . $layout_id);
                 $base_fields['layouts'][$layout_key] = $this->set_field($layout_key, $layout, $layout_id);
                 unset($base_fields['layouts'][$layout_key]['type']);
             }

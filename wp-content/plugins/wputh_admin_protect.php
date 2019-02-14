@@ -3,7 +3,7 @@
 /*
 Plugin Name: WP Utilities Admin Protect
 Description: Restrictive options for WordPress admin
-Version: 1.2.4
+Version: 1.3.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
   Levels
 ---------------------------------------------------------- */
 
-define('WPUTH_ADMIN_PLUGIN_VERSION', '1.2.4');
+define('WPUTH_ADMIN_PLUGIN_VERSION', '1.3.0');
 define('WPUTH_ADMIN_PLUGIN_NAME', 'WP Utilities Admin Protect');
 define('WPUTH_ADMIN_PLUGIN_OPT', 'wpu_admin_protect__v');
 define('WPUTH_ADMIN_MIN_LVL', 'manage_categories');
@@ -81,7 +81,7 @@ class WPUTHAdminProtectBlockAdmin {
 $WPUTHAdminProtectBlockAdmin = new WPUTHAdminProtectBlockAdmin();
 
 /* ----------------------------------------------------------
-  Constants
+  Disable file modifications
 ---------------------------------------------------------- */
 
 if (!defined('DISALLOW_FILE_EDIT')) {
@@ -89,6 +89,37 @@ if (!defined('DISALLOW_FILE_EDIT')) {
 }
 if (!defined('DISALLOW_FILE_MODS')) {
     define('DISALLOW_FILE_MODS', true);
+}
+
+/* ----------------------------------------------------------
+  Disable auto-update
+---------------------------------------------------------- */
+
+$wputh_admin_protect_disable_update = apply_filters('wputh_admin_protect_disable_update', true);
+
+if ($wputh_admin_protect_disable_update) {
+
+    /* CORE UPDATE */
+    add_filter('pre_site_transient_update_core', '__return_null');
+    remove_action('admin_init', '_maybe_update_core');
+    remove_action('wp_version_check', 'wp_version_check');
+
+    /* PLUGINS UPDATE */
+    remove_action('load-plugins.php', 'wp_update_plugins');
+    remove_action('load-update.php', 'wp_update_plugins');
+    remove_action('load-update-core.php', 'wp_update_plugins');
+    remove_action('admin_init', '_maybe_update_plugins');
+    remove_action('wp_update_plugins', 'wp_update_plugins');
+    add_filter('pre_site_transient_update_plugins', '__return_null');
+
+    /* THEME UPDATE */
+    remove_action('load-themes.php', 'wp_update_themes');
+    remove_action('load-update.php', 'wp_update_themes');
+    remove_action('load-update-core.php', 'wp_update_themes');
+    remove_action('admin_init', '_maybe_update_themes');
+    remove_action('wp_update_themes', 'wp_update_themes');
+    add_filter('pre_site_transient_update_themes', '__return_null');
+
 }
 
 /* ----------------------------------------------------------

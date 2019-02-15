@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU Custom Avatar
 Description: Override gravatar with a custom image.
-Version: 0.3.1
+Version: 0.4.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -18,17 +18,16 @@ class wpuCustomAvatar {
 
         $this->meta_id = apply_filters('wpucustomavatar_metaname', 'user_custom_avatar');
 
-        // Hide user profile picture description
-        add_filter('user_profile_picture_description', '__return_empty_string');
-
         // Retrieve custom avatar
         add_filter('get_avatar', array(&$this,
             'get_avatar'
         ), 1, 5);
+
         // Hide default avatar field
-        add_filter('admin_head', array(&$this,
+        add_filter('admin_notices', array(&$this,
             'hide_default_avatar_field'
         ));
+
         // Add user metas fields
         add_filter('wpu_usermetas_sections', array(&$this,
             'set_usermetas_sections'
@@ -38,8 +37,7 @@ class wpuCustomAvatar {
         ), 10, 3);
     }
 
-    /* Avatar */
-
+    /* Getter */
     public function get_avatar($avatar, $id_or_email, $size, $default, $alt) {
         $user = false;
         /* Get user details */
@@ -58,7 +56,11 @@ class wpuCustomAvatar {
         if ($user && is_object($user)) {
             $user_img = get_user_meta($user->data->ID, $this->meta_id, 1);
             if (is_numeric($user_img)) {
-                $avatar_arr = wp_get_attachment_image_src($user_img, $size);
+                $thumbsize = $size;
+                if (is_numeric($thumbsize)) {
+                    $thumbsize = array($size, $size);
+                }
+                $avatar_arr = wp_get_attachment_image_src($user_img, $thumbsize);
                 if (is_array($avatar_arr)) {
                     $avatar = "<img alt='{$alt}' src='{$avatar_arr[0]}' class='avatar avatar-{$size} photo' height='{$size}' width='{$size}' />";
                 }
@@ -68,9 +70,9 @@ class wpuCustomAvatar {
     }
 
     /* Admin */
-
     public function hide_default_avatar_field() {
         $screen = get_current_screen();
+
         // Not profile
         if (!is_object($screen) || ($screen->base != 'profile' && $screen->base != 'user-edit')) {
             return false;
@@ -79,31 +81,30 @@ class wpuCustomAvatar {
         if (!is_numeric($user_id)) {
             return false;
         }
+
         // Get user custom avatar
         $user_img = get_user_meta($user_id, $this->meta_id, 1);
         if (!is_numeric($user_img)) {
             return false;
         }
 
-        // Hide avatar
-        echo '<style>table.form-table tr.user-profile-picture{display:none;}</style>';
-
+        // Disable avatar preview in content
+        add_filter('option_show_avatars', '__return_false');
     }
 
     /* Fields */
-
     public function set_usermetas_sections($sections) {
-        $sections['avatar'] = array(
-            'name' => 'Avatar'
+        $sections['wpu_custom_avatar'] = array(
+            'name' => __('Profile Picture')
         );
         return $sections;
     }
 
     public function set_usermetas_fields($fields) {
         $fields[$this->meta_id] = array(
-            'name' => 'Custom avatar',
+            'name' => __('Profile Picture'),
             'type' => 'image',
-            'section' => 'avatar'
+            'section' => 'wpu_custom_avatar'
         );
         return $fields;
     }

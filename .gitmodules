@@ -130,3 +130,6 @@
 [submodule "wp-content/plugins/wpufilters"]
 	path = wp-content/plugins/wpufilters
 	url = https://github.com/WordPressUtilities/wpufilters.git
+[submodule "shell/wpuwooimportexport"]
+	path = shell/wpuwooimportexport
+	url = https://github.com/WordPressUtilities/wpuwooimportexport.git

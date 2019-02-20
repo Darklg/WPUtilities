@@ -64,3 +64,10 @@ wp-content/plugins/password-protected
 /wp-signup.php
 /wp-trackback.php
 /xmlrpc.php
+/wp-content/plugins/health-check
+/wp-content/plugins/my-wp-health-check
+/wp-content/plugins/woo-gutenberg-products-block
+/wp-content/plugins/woocommerce-gateway-stripe
+/wp-content/plugins/redis-cache
+/wp-content/plugins/limit-login-attempts
+/wp-content/object-cache.php

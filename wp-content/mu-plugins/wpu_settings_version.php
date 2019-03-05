@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU Settings Version
 Description: Keep a custom DB version of your website
-Version: 0.5.0
+Version: 0.6.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -39,6 +39,9 @@ class wpu_settings_version {
         if ($new_version > $current_version) {
             update_option('wpusettingsversion_version', $new_version);
         }
+
+        /* Set favicon */
+        $this->set_site_icon();
 
     }
 
@@ -205,6 +208,34 @@ class wpu_settings_version {
 
         update_option($opt_id, $theme_mods);
 
+    }
+
+    /* ----------------------------------------------------------
+      Favicon
+    ---------------------------------------------------------- */
+
+    public function set_site_icon() {
+        $icon = get_option('site_icon');
+
+        /* Stop if icon exists */
+        if($icon){
+            return false;
+        }
+
+        /* Stop if no favicon */
+        $img_favicon = get_stylesheet_directory() . '/favicon.ico';
+        if (!file_exists($img_favicon)) {
+            return false;
+        }
+
+        /* Stop if invalid upload */
+        $att = $this->upload_asset_by_path($img_favicon);
+        if (!is_numeric($att)) {
+            return false;
+        }
+
+        /* Update site value */
+        update_option('site_icon', $att);
     }
 
 }

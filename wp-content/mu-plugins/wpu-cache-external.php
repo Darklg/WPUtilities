@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU Cache External
 Description: Cache External URLs
-Version: 0.2.3
+Version: 0.2.4
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -122,7 +122,7 @@ class WPUCacheExternal {
     private function cache_url_in_file($url, $cache_file) {
         require_once ABSPATH . 'wp-admin/includes/file.php';
         $tmp_file = download_url($url, 1);
-        if (!$tmp_file) {
+        if (!$tmp_file || is_wp_error($tmp_file)) {
             return false;
         }
         return rename($tmp_file, $cache_file);

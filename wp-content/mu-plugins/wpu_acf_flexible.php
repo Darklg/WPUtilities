@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU ACF Flexible
 Description: Quickly generate flexible content in ACF
-Version: 0.9.1
+Version: 0.10.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -321,6 +321,9 @@ EOT;
                     }
 
                     $this->set_file_content($layout_id, $vars, $values);
+                    if (class_exists('TimberPost')) {
+                        $this->set_view_content($layout_id, '', '');
+                    }
                 }
             }
 
@@ -402,6 +405,15 @@ EOT;
         }
     }
 
+    public function set_view_content($layout_id, $vars, $values) {
+        $content = '';
+        $file_path = $this->get_view_path();
+        $file_id = $file_path . $layout_id . '.twig';
+        if (!file_exists($file_id)) {
+            file_put_contents($file_id, $content);
+        }
+    }
+
     public function get_controller_path() {
         $controller_path = apply_filters('wpu_acf_flexible__path', get_stylesheet_directory() . '/tpl/blocks/');
         if (!is_dir($controller_path)) {
@@ -412,7 +424,63 @@ EOT;
     }
 
     public function get_view_path() {
-        return apply_filters('wpu_acf_flexible__path', 'blocks/');
+        $view_path = apply_filters('wpu_acf_flexible__viewpath', get_stylesheet_directory() . '/tpl/views/');
+        if (!is_dir($view_path)) {
+            @mkdir($view_path, 0755);
+            @chmod($view_path, 0755);
+        }
+        return $view_path;
+    }
+
+    public function get_block_context($value, $field) {
+        /* Repeaters */
+        if (isset($field['type'], $field['sub_fields']) && $field['type'] == 'repeater' && is_array($value)) {
+            /* Get all values in repeater */
+            foreach ($value as $value_id => $item) {
+                /* Get all values for repeated item */
+                foreach ($item as $item_id => $item_value) {
+                    if (isset($field['sub_fields'][$item_id])) {
+                        /* Check is value is ok */
+                        $value[$value_id][$item_id] = $this->get_block_context($item_value, $field['sub_fields'][$item_id]);
+                    }
+                }
+            }
+        }
+
+        /* Images */
+        $image_display_format = isset($field['image_display_format']) ? $field['image_display_format'] : 'thumbnail';
+        if (isset($field['type']) && $field['type'] == 'image' && is_numeric($value)) {
+            $image = wp_get_attachment_image_src($value, $image_display_format);
+            if (is_array($image)) {
+                $value = $image[0];
+            }
+        }
+        return $value;
+    }
+
+    /* Context for block */
+
+    public function get_row_context($group, $layout) {
+        $context = array();
+
+        $acf_contents = apply_filters('wpu_acf_flexible_content', array());
+
+        if (!isset($acf_contents[$group])) {
+            return array();
+        }
+
+        if (!isset($acf_contents[$group]['layouts'][$layout])) {
+            return array();
+        }
+
+        /* Build context */
+        $group_details = $acf_contents[$group]['layouts'][$layout];
+        foreach ($group_details['sub_fields'] as $id => $field) {
+            $context[$id] = $this->get_block_context(get_sub_field($id), $field);
+        }
+
+        return $context;
+
     }
 }
 
@@ -424,6 +492,8 @@ function get_wpu_acf_flexible_content($group = 'blocks') {
         return '';
     }
 
+    $has_timber = class_exists('TimberPost');
+
     ob_start();
 
     while (have_rows($group)):
@@ -432,13 +502,15 @@ function get_wpu_acf_flexible_content($group = 'blocks') {
         /* Load controller or template file */
         $controller_path = $wpu_acf_flexible->get_controller_path();
         $layout_file = $controller_path . get_row_layout() . '.php';
-        $context = array();
+        $context = $wpu_acf_flexible->get_row_context($group, get_row_layout());
+
+        /* Include src file */
         if (file_exists($layout_file)) {
             include $layout_file;
         }
 
-        /* Load view file if Timber is installed */
-        if (class_exists('TimberPost') && !empty($context)) {
+        /* Load view file if Timber is installed and context is available */
+        if ($has_timber && !empty($context)) {
             $view_path = $wpu_acf_flexible->get_view_path();
             $layout_file = $view_path . get_row_layout() . '.twig';
             Timber::render($layout_file, $context);

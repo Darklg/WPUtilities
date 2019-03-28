@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU Custom Avatar
 Description: Override gravatar with a custom image.
-Version: 0.4.0
+Version: 0.5.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -19,9 +19,9 @@ class wpuCustomAvatar {
         $this->meta_id = apply_filters('wpucustomavatar_metaname', 'user_custom_avatar');
 
         // Retrieve custom avatar
-        add_filter('get_avatar', array(&$this,
-            'get_avatar'
-        ), 1, 5);
+        add_filter('get_avatar_data', array(&$this,
+            'get_avatar_data'
+        ), 1, 2);
 
         // Hide default avatar field
         add_filter('admin_notices', array(&$this,
@@ -38,8 +38,9 @@ class wpuCustomAvatar {
     }
 
     /* Getter */
-    public function get_avatar($avatar, $id_or_email, $size, $default, $alt) {
+    public function get_avatar_data($args, $id_or_email) {
         $user = false;
+
         /* Get user details */
         if (is_numeric($id_or_email)) {
             $id = (int) $id_or_email;
@@ -52,21 +53,20 @@ class wpuCustomAvatar {
         } else {
             $user = get_user_by('email', $id_or_email);
         }
+
         /* Get user avatar */
         if ($user && is_object($user)) {
             $user_img = get_user_meta($user->data->ID, $this->meta_id, 1);
             if (is_numeric($user_img)) {
-                $thumbsize = $size;
-                if (is_numeric($thumbsize)) {
-                    $thumbsize = array($size, $size);
-                }
-                $avatar_arr = wp_get_attachment_image_src($user_img, $thumbsize);
+                $avatar_arr = wp_get_attachment_image_src($user_img, array($args['width'], $args['height']));
                 if (is_array($avatar_arr)) {
-                    $avatar = "<img alt='{$alt}' src='{$avatar_arr[0]}' class='avatar avatar-{$size} photo' height='{$size}' width='{$size}' />";
+                    $args['url'] = $avatar_arr[0];
+                    $args['width'] = $avatar_arr[1];
+                    $args['height'] = $avatar_arr[2];
                 }
             }
         }
-        return $avatar;
+        return $args;
     }
 
     /* Admin */

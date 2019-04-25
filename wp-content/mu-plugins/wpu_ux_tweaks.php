@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU UX Tweaks
 Description: Adds UX enhancement & tweaks to WordPress
-Version: 0.21.2
+Version: 0.22.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -194,6 +194,37 @@ function wpuux_redirect_avoid_404_pagination() {
         // Redirect to first page
         wp_redirect(preg_replace("#/$wp_rewrite->pagination_base/$paged(/+)?$#", '', esc_html($_SERVER['REQUEST_URI'])), 301);
         die();
+    }
+}
+
+/* ----------------------------------------------------------
+  Prevent 404 when changed URL format from date to postname
+---------------------------------------------------------- */
+
+add_action('template_redirect', 'wpuux_redirect_avoid_404_change_url');
+function wpuux_redirect_avoid_404_change_url() {
+    if (!is_404()) {
+        return;
+    }
+
+    if (get_option('permalink_structure') != '/%postname%/') {
+        return;
+    }
+
+    $_url = $_SERVER['REQUEST_URI'];
+    $_old_format = '/\/20([0-9]{2})\/([0-9]{2})\/([^\/]*)/';
+
+    if (!preg_match($_old_format, $_url, $_match) || !isset($_match[3]) || empty($_match[3])) {
+        return;
+    }
+
+    $_post_test = get_posts(array(
+        'name' => $_match[3]
+    ));
+
+    if (!empty($_post_test)) {
+        wp_redirect(get_permalink($_post_test[0]->ID));
+        die;
     }
 }
 

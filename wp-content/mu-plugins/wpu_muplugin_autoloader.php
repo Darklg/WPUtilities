@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU MU Plugins Autoloader
 Description: Load MU-Plugins in subfolders
-Version: 0.2
+Version: 0.3
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -18,6 +18,16 @@ License URI: http://opensource.org/licenses/MIT
 /* Thx to https://stackoverflow.com/a/17161106 */
 function wpu_muplugin_autoloader_rglob($pattern, $flags = 0) {
     $files = glob($pattern, $flags);
+
+    /* If a folder contains a file with the same name, ignore other files */
+    foreach ($files as $_file) {
+        $_f = str_replace('.php', '', basename($_file));
+        $_dir = basename(dirname($_file));
+        if ($_f == $_dir) {
+            return array($_file);
+        }
+    }
+
     foreach (glob(dirname($pattern) . '/*', GLOB_ONLYDIR | GLOB_NOSORT) as $dir) {
         $files = array_merge($files, wpu_muplugin_autoloader_rglob($dir . '/' . basename($pattern), $flags));
     }

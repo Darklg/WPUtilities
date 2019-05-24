@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU UX Tweaks
 Description: Adds UX enhancement & tweaks to WordPress
-Version: 0.22.0
+Version: 0.22.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -286,6 +286,7 @@ function wpuux_preventheavy404() {
         }
     }
     if (in_array($fileExtension, $badFileTypes)) {
+        do_action('wpuux_preventheavy404_before_headers', $fileExtension);
         status_header(404);
         exit('error');
     }

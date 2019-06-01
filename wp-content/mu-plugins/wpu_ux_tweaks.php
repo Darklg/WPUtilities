@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU UX Tweaks
 Description: Adds UX enhancement & tweaks to WordPress
-Version: 0.22.1
+Version: 0.23.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -475,12 +475,37 @@ class wpuux_login_logo {
     }
 
     public function init() {
+        add_filter('get_site_icon_url', array(&$this, 'override_favicon_image'), 10, 3);
         add_filter('theme_mod_header_image', array(&$this, 'override_header_image'), 10, 1);
         if (has_header_image()) {
             add_action('login_enqueue_scripts', array(&$this, 'set_image'));
         }
         add_filter('login_headerurl', array(&$this, 'set_url'));
-        add_filter('login_headertitle', array(&$this, 'set_title'));
+        add_filter('login_headertext', array(&$this, 'set_title'));
+    }
+
+    public function override_favicon_image($url, $size, $blog_id) {
+        if (!$url) {
+            $base_uri = get_stylesheet_directory_uri();
+            $base_dir = get_stylesheet_directory();
+            $images = array(
+                '/assets/favicon.ico',
+                '/assets/favicon.svg',
+                '/assets/favicon.png',
+                '/assets/favicon.jpg',
+                '/favicon.ico',
+                '/favicon.svg',
+                '/favicon.png',
+                '/favicon.jpg'
+            );
+            foreach ($images as $imagetest) {
+                if (file_exists($base_dir . $imagetest)) {
+                    return $base_uri . $imagetest;
+                }
+            }
+        }
+
+        return $url;
     }
 
     public function override_header_image($image) {
@@ -568,7 +593,6 @@ function wpuux_woocommerce_order_item_name($item_name, $item, $is_visible) {
     }
     return $item_name;
 }
-
 
 /* ----------------------------------------------------------
   Remove some default widgets

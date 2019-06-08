@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU UX Tweaks
 Description: Adds UX enhancement & tweaks to WordPress
-Version: 0.23.0
+Version: 0.23.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -274,6 +274,7 @@ function wpuux_preventheavy404() {
         'png',
         'rar',
         'tar',
+        'log',
         'txt',
         'xml',
         'zip'
@@ -341,6 +342,9 @@ function wpuux_default_link_type() {
 add_filter('manage_posts_columns', 'wpuux_add_column_thumb', 5);
 function wpuux_add_column_thumb($defaults) {
     global $post;
+    if (apply_filters('disable__wpuux_thumbnail_post_column', false)) {
+        return;
+    }
     /* Disable for woocommerce posts */
     if (is_object($post) && function_exists('woocommerce_content') && $post->post_type == 'product') {
         return $defaults;
@@ -352,6 +356,9 @@ function wpuux_add_column_thumb($defaults) {
 add_action('manage_posts_custom_column', 'wpuux_add_column_thumb_content', 5, 2);
 function wpuux_add_column_thumb_content($column_name, $id) {
     global $post;
+    if (apply_filters('disable__wpuux_thumbnail_post_column', false)) {
+        return;
+    }
     if ($column_name === 'wpuux_column_thumb' && isset($post->ID)) {
         $thumb_id = get_post_thumbnail_id($post->ID);
         if (!$thumb_id) {
@@ -359,7 +366,8 @@ function wpuux_add_column_thumb_content($column_name, $id) {
         }
         $image = wp_get_attachment_image_src($thumb_id, 'thumbnail');
         if (isset($image[0])) {
-            echo '<img style="height:70px;width:70px;" src="' . $image[0] . '" alt="" />';
+            $w = apply_filters('wpuux_thumbnail_post_column_thumbnail_width', 70);
+            echo '<img style="height:' . $w . 'px;width:' . $w . 'px;" src="' . $image[0] . '" alt="" />';
         }
     }
 }
@@ -489,14 +497,18 @@ class wpuux_login_logo {
             $base_uri = get_stylesheet_directory_uri();
             $base_dir = get_stylesheet_directory();
             $images = array(
+                '/favicon.ico',
+                '/favicon.svg',
+                '/favicon.png',
+                '/favicon.jpg',
                 '/assets/favicon.ico',
                 '/assets/favicon.svg',
                 '/assets/favicon.png',
                 '/assets/favicon.jpg',
-                '/favicon.ico',
-                '/favicon.svg',
-                '/favicon.png',
-                '/favicon.jpg'
+                '/assets/images/favicon.ico',
+                '/assets/images/favicon.svg',
+                '/assets/images/favicon.png',
+                '/assets/images/favicon.jpg'
             );
             foreach ($images as $imagetest) {
                 if (file_exists($base_dir . $imagetest)) {

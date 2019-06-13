@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU ACF Flexible
 Description: Quickly generate flexible content in ACF
-Version: 0.11.0
+Version: 0.11.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -342,6 +342,8 @@ EOT;
         $page_ids = (isset($content['page_ids']) && is_array($content['page_ids'])) ? $content['page_ids'] : array();
         $layouts = (isset($content['layouts']) && is_array($content['layouts'])) ? $content['layouts'] : array();
         $fields = (isset($content['fields']) && is_array($content['fields'])) ? $content['fields'] : array();
+        $hide_on_screen = (isset($content['hide_on_screen']) && is_array($content['hide_on_screen'])) ? $content['hide_on_screen'] : array('the_content');
+        $position = isset($content['position']) ? $content['position'] : 'acf_after_title';
 
         /* Build Layouts */
         $base_fields = array();
@@ -445,13 +447,11 @@ EOT;
             'fields' => $base_fields,
             'location' => $acf_location,
             'menu_order' => 0,
-            'position' => 'acf_after_title',
+            'position' => $position,
             'style' => 'seamless',
             'label_placement' => 'top',
             'instruction_placement' => 'label',
-            'hide_on_screen' => array(
-                0 => 'the_content'
-            ),
+            'hide_on_screen' => $hide_on_screen,
             'active' => 1,
             'description' => ''
         );

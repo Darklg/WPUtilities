@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU ACF Flexible
 Description: Quickly generate flexible content in ACF
-Version: 0.11.1
+Version: 0.12.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -391,7 +391,7 @@ EOT;
                         $values .= $this->get_value_content_field($id, $sub_field);
                         $valuesTwig .= $this->get_value_content_field_twig($id, $sub_field);
                     }
-                    $this->set_file_content($layout_id, $vars, $values);
+                    $this->set_file_content($layout_id, $vars, $values, $content);
 
                     if (class_exists('TimberPost')) {
                         $this->set_view_content($layout_id, $valuesTwig);
@@ -406,7 +406,7 @@ EOT;
                     $vars .= $this->get_var_content_field($id, $field, 1);
                     $values .= $this->get_value_content_field($id, $field, 1);
                 }
-                $this->set_file_content($content_id, $vars, $values);
+                $this->set_file_content($content_id, $vars, $values, $content);
             }
         }
 
@@ -459,7 +459,7 @@ EOT;
 
     }
 
-    public function set_file_content($layout_id, $vars, $values) {
+    public function set_file_content($layout_id, $vars, $values, $group) {
         $content = str_replace('###varsblockid###', $vars, $this->default_content);
         $content = str_replace('###valuesblockid###', $values, $content);
         $content = str_replace('###testblockid###', $layout_id, $content);
@@ -468,7 +468,7 @@ EOT;
         $content = preg_replace('/<\?php(\s\n)\?>/isU', '', $content);
         $content = preg_replace('/(?:(?:\r\n|\r|\n)){2}/s', "\n", $content);
 
-        $file_path = $this->get_controller_path();
+        $file_path = $this->get_controller_path($group);
         $file_id = $file_path . $layout_id . '.php';
         if (!file_exists($file_id)) {
             file_put_contents($file_id, $content);
@@ -486,8 +486,14 @@ EOT;
         }
     }
 
-    public function get_controller_path() {
-        $controller_path = apply_filters('wpu_acf_flexible__path', get_stylesheet_directory() . '/tpl/blocks/');
+    public function get_controller_path($group = false) {
+
+        $folder_name = 'blocks';
+        if (is_array($group) && isset($group['folder_name'])) {
+            $folder_name = $group['folder_name'];
+        }
+
+        $controller_path = apply_filters('wpu_acf_flexible__path', get_stylesheet_directory() . '/tpl/' . $folder_name . '/', $group);
         if (!is_dir($controller_path)) {
             @mkdir($controller_path, 0755);
             @chmod($controller_path, 0755);
@@ -568,11 +574,17 @@ function get_wpu_acf_flexible_content($group = 'blocks') {
 
     ob_start();
 
+    $group_item = $group;
+    $groups = apply_filters('wpu_acf_flexible_content', array());
+    if (isset($groups[$group])) {
+        $group_item = $groups[$group];
+    }
+
     while (have_rows($group)):
         the_row();
 
         /* Load controller or template file */
-        $controller_path = $wpu_acf_flexible->get_controller_path();
+        $controller_path = $wpu_acf_flexible->get_controller_path($group_item);
         $layout_file = $controller_path . get_row_layout() . '.php';
         $context = $wpu_acf_flexible->get_row_context($group, get_row_layout());
 

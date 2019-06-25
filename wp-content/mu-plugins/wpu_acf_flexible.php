@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU ACF Flexible
 Description: Quickly generate flexible content in ACF
-Version: 0.12.0
+Version: 0.12.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -163,7 +163,7 @@ EOT;
             if ($field['type'] == 'select' && !isset($field['return_format'])) {
                 $field['return_format'] = 'value';
             }
-            if ($field['type'] == 'image' && !isset($field['return_format'])) {
+            if (($field['type'] == 'image' || $field['type'] == 'file') && !isset($field['return_format'])) {
                 $field['return_format'] = 'id';
             }
             if ($field['type'] == 'color') {
@@ -344,6 +344,7 @@ EOT;
         $fields = (isset($content['fields']) && is_array($content['fields'])) ? $content['fields'] : array();
         $hide_on_screen = (isset($content['hide_on_screen']) && is_array($content['hide_on_screen'])) ? $content['hide_on_screen'] : array('the_content');
         $position = isset($content['position']) ? $content['position'] : 'acf_after_title';
+        $custom_acf_location = isset($content['location']) ? $content['location'] : array();
 
         /* Build Layouts */
         $base_fields = array();
@@ -414,22 +415,15 @@ EOT;
 
         /* Build post types */
         if (!empty($page_ids)) {
-            $acf_location_tmp = array(
-                array(
-                    'param' => 'post_type',
-                    'operator' => '==',
-                    'value' => 'page'
-                )
-            );
-
             foreach ($page_ids as $page_id) {
-                $acf_location_tmp[] = array(
-                    'param' => 'page',
-                    'operator' => '==',
-                    'value' => $page_id
+                $acf_location[] = array(
+                    array(
+                        'param' => 'post',
+                        'operator' => '==',
+                        'value' => $page_id
+                    )
                 );
             }
-            $acf_location[] = $acf_location_tmp;
         } else {
             foreach ($post_types as $post_type) {
                 $acf_location[] = array(array(
@@ -438,6 +432,10 @@ EOT;
                     'value' => $post_type
                 ));
             }
+        }
+
+        if (!empty($custom_acf_location)) {
+            $acf_location = $custom_acf_location;
         }
 
         /* Base content */

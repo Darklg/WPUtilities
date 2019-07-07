@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU UX Tweaks
 Description: Adds UX enhancement & tweaks to WordPress
-Version: 0.23.1
+Version: 0.24.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -616,4 +616,24 @@ add_action('wp_dashboard_setup', 'wpuux_remove_widgets', 20);
 function wpuux_remove_widgets() {
     /* Remove events & WP news widget */
     remove_meta_box('dashboard_primary', get_current_screen(), 'side');
+}
+
+/* ----------------------------------------------------------
+  Remove novalidate attribute on comments form
+---------------------------------------------------------- */
+
+add_action('wp_footer', 'wpuux_remove_novalidate_wp_footer');
+function wpuux_remove_novalidate_wp_footer() {
+    if (!is_singular() || !comments_open()) {
+        return;
+    }
+
+    echo '<script type="text/javascript">';
+    echo '(function(){';
+    echo 'var $f = document.getElementById("commentform");';
+    echo 'if($f){';
+    echo '$f.removeAttribute("novalidate")';
+    echo '}';
+    echo '}())';
+    echo '</script>';
 }

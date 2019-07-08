@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU UX Tweaks
 Description: Adds UX enhancement & tweaks to WordPress
-Version: 0.24.0
+Version: 0.24.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -426,6 +426,7 @@ function wpuux_disable_newemojis() {
     remove_action('admin_print_scripts', 'print_emoji_detection_script');
     remove_action('wp_print_styles', 'print_emoji_styles');
     remove_action('admin_print_styles', 'print_emoji_styles');
+    add_filter('emoji_svg_url', '__return_empty');
 }
 
 /* ----------------------------------------------------------

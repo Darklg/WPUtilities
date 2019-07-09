@@ -133,3 +133,6 @@
 [submodule "shell/wpuwooimportexport"]
 	path = shell/wpuwooimportexport
 	url = https://github.com/WordPressUtilities/wpuwooimportexport.git
+[submodule "wp-content/mu-plugins/wpu_ux_tweaks"]
+	path = wp-content/mu-plugins/wpu_ux_tweaks
+	url = https://github.com/WordPressUtilities/wpu_ux_tweaks

@@ -133,6 +133,9 @@
 [submodule "shell/wpuwooimportexport"]
 	path = shell/wpuwooimportexport
 	url = https://github.com/WordPressUtilities/wpuwooimportexport.git
+[submodule "wp-content/plugins/wpucommentmetas"]
+	path = wp-content/plugins/wpucommentmetas
+	url = https://github.com/WordPressUtilities/wpucommentmetas
 [submodule "wp-content/mu-plugins/wpu_ux_tweaks"]
 	path = wp-content/mu-plugins/wpu_ux_tweaks
 	url = https://github.com/WordPressUtilities/wpu_ux_tweaks

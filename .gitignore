@@ -71,3 +71,5 @@ wp-content/plugins/password-protected
 /wp-content/plugins/redis-cache
 /wp-content/plugins/limit-login-attempts
 /wp-content/object-cache.php
+/wp-content/plugins/classic-editor
+/wp-content/mu-plugins/health-check-troubleshooting-mode.php

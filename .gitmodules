@@ -139,3 +139,6 @@
 [submodule "wp-content/mu-plugins/wpu_ux_tweaks"]
 	path = wp-content/mu-plugins/wpu_ux_tweaks
 	url = https://github.com/WordPressUtilities/wpu_ux_tweaks
+[submodule "wp-content/mu-plugins/wpu_acf_flexible"]
+	path = wp-content/mu-plugins/wpu_acf_flexible
+	url = https://github.com/WordPressUtilities/wpu_acf_flexible.git

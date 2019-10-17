@@ -3,7 +3,7 @@
 /*
 Plugin Name: WP Utilities Admin Protect
 Description: Restrictive options for WordPress admin
-Version: 1.3.0
+Version: 1.4.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
   Levels
 ---------------------------------------------------------- */
 
-define('WPUTH_ADMIN_PLUGIN_VERSION', '1.3.0');
+define('WPUTH_ADMIN_PLUGIN_VERSION', '1.4.0');
 define('WPUTH_ADMIN_PLUGIN_NAME', 'WP Utilities Admin Protect');
 define('WPUTH_ADMIN_PLUGIN_OPT', 'wpu_admin_protect__v');
 define('WPUTH_ADMIN_MIN_LVL', 'manage_categories');
@@ -175,6 +175,7 @@ function wputh_admin_protect_rewrite_rules($rules) {
 
     $excluded_files = array(
         /* Extensions */
+        '\.conf$',
         '\.log$',
         '\.mo$',
         '\.phar$',
@@ -206,6 +207,8 @@ function wputh_admin_protect_rewrite_rules($rules) {
         '^(wp-blog-header|wp-config|wp-config-sample|wp-load|wp-settings)\.php'
     );
 
+    $excluded_files = apply_filters('wputh_admin_protect_rewrite_rules__excluded_files', $excluded_files);
+
     $wpuadminrules = "<IfModule mod_rewrite.c>
 RewriteEngine On
 # - Prevent bad requests
@@ -236,6 +239,8 @@ Header always set X-Content-Type-Options \"nosniff\"
 Header always set X-XSS-Protection \"1; mode=block\"
 </IfModule>
 </IfModule>";
+
+    $wpuadminrules = apply_filters('wputh_admin_protect_rewrite_rules__wpuadminrules', $wpuadminrules);
 
     $new_rules = "# BEGIN " . WPUTH_ADMIN_PLUGIN_NAME . " - v " . WPUTH_ADMIN_PLUGIN_VERSION . "\n" . $wpuadminrules . "\n" . "# END " . WPUTH_ADMIN_PLUGIN_NAME . "\n";
     # Remove on deactivation

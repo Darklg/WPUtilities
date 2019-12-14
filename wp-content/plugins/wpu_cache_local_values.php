@@ -3,14 +3,12 @@
 /*
 Plugin Name: WPU Cache Local Values
 Description: Add Cache to some local values
-Version: 0.1.0
+Version: 0.1.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
 License URI: http://opensource.org/licenses/MIT
 */
-
-/* @TODO : longer cache & clear at hook save_post */
 
 /* ----------------------------------------------------------
   Cache url_to_postid
@@ -31,7 +29,7 @@ function wputhcacheurltopostid($url) {
     }
 
     // GET NON PERSISTENT CACHED VALUE
-    if (array_key_exists($url_key, $global_cache_wputhcacheurltopostid)) {
+    if (is_array($global_cache_wputhcacheurltopostid) && array_key_exists($url_key, $global_cache_wputhcacheurltopostid)) {
         return $global_cache_wputhcacheurltopostid[$url_key];
     }
 

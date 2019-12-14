@@ -142,3 +142,9 @@
 [submodule "wp-content/mu-plugins/wpu_acf_flexible"]
 	path = wp-content/mu-plugins/wpu_acf_flexible
 	url = https://github.com/WordPressUtilities/wpu_acf_flexible.git
+[submodule "wp-content/plugins/wpumediafinder"]
+	path = wp-content/plugins/wpumediafinder
+	url = https://github.com/WordPressUtilities/wpumediafinder.git
+[submodule "wp-content/mu-plugins/wpu_file_cache"]
+	path = wp-content/mu-plugins/wpu_file_cache
+	url = https://github.com/WordPressUtilities/wpu_file_cache.git

@@ -3,7 +3,7 @@ wp-config.php
 wp-admin/
 wp-includes/
 wp-content/languages/
-wp-content/themes/twentyten/
+wp-content/themes/twenty*
 wp-content/themes/twentyeleven/
 wp-content/themes/twentytwelve/
 wp-content/uploads/

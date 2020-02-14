@@ -148,3 +148,6 @@
 [submodule "wp-content/mu-plugins/wpu_file_cache"]
 	path = wp-content/mu-plugins/wpu_file_cache
 	url = https://github.com/WordPressUtilities/wpu_file_cache.git
+[submodule "wp-content/plugins/wpupagetransitions"]
+	path = wp-content/plugins/wpupagetransitions
+	url = https://github.com/WordPressUtilities/wpupagetransitions.git

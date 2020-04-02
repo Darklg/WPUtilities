@@ -3,7 +3,7 @@
 Plugin Name: WPU disable posts
 Plugin URI: http://github.com/Darklg/WPUtilities
 Description: Disable all posts
-Version: 0.6
+Version: 0.7.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -43,6 +43,31 @@ function wputh_disable_posts_check_single() {
 }
 
 /* ----------------------------------------------------------
+  Disable link in admin bar
+---------------------------------------------------------- */
+
+add_action('admin_bar_menu', function ($wp_admin_bar) {
+    $wp_admin_bar->remove_node('new-post');
+}, 999);
+
+/* ----------------------------------------------------------
+  Disable features
+---------------------------------------------------------- */
+
+add_action('init', function () {
+    remove_post_type_support('post', 'title');
+    remove_post_type_support('post', 'editor');
+    remove_post_type_support('post', 'author');
+    remove_post_type_support('post', 'thumbnail');
+    remove_post_type_support('post', 'trackbacks');
+    remove_post_type_support('post', 'custom-fields');
+    remove_post_type_support('post', 'comments');
+    remove_post_type_support('post', 'excerpt');
+    remove_post_type_support('post', 'revisions');
+    remove_post_type_support('post', 'post-formats');
+});
+
+/* ----------------------------------------------------------
   Disable RSS feed for posts
 ---------------------------------------------------------- */
 
@@ -63,14 +88,10 @@ function wputh_disable_posts_disable_feed() {
   Remove dashboard widget
 ---------------------------------------------------------- */
 
-function wputh_disable_posts_remove_dashboard_widgets() {
-    global $wp_meta_boxes;
-    if (isset($wp_meta_boxes['dashboard']['side']['core']['dashboard_quick_press'])) {
-        unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_quick_press']);
-    }
-}
-
 add_action('wp_dashboard_setup', 'wputh_disable_posts_remove_dashboard_widgets');
+function wputh_disable_posts_remove_dashboard_widgets() {
+    remove_meta_box('dashboard_quick_press', 'dashboard', 'side');
+}
 
 /* ----------------------------------------------------------
   Remove count

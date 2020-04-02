@@ -151,3 +151,6 @@
 [submodule "wp-content/plugins/wpupagetransitions"]
 	path = wp-content/plugins/wpupagetransitions
 	url = https://github.com/WordPressUtilities/wpupagetransitions.git
+[submodule "wp-content/plugins/wpuincontentrelated"]
+	path = wp-content/plugins/wpuincontentrelated
+	url = https://github.com/WordPressUtilities/wpuincontentrelated.git

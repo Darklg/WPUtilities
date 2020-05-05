@@ -154,3 +154,12 @@
 [submodule "wp-content/plugins/wpuincontentrelated"]
 	path = wp-content/plugins/wpuincontentrelated
 	url = https://github.com/WordPressUtilities/wpuincontentrelated.git
+[submodule "wp-content/plugins/wpudisablesearch"]
+	path = wp-content/plugins/wpudisablesearch
+	url = https://github.com/WordPressUtilities/wpudisablesearch.git
+[submodule "wp-content/plugins/wpudisablecomments"]
+	path = wp-content/plugins/wpudisablecomments
+	url = https://github.com/WordPressUtilities/wpudisablecomments.git
+[submodule "wp-content/plugins/wpudisableposts"]
+	path = wp-content/plugins/wpudisableposts
+	url = https://github.com/WordPressUtilities/wpudisableposts.git

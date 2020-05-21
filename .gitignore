@@ -1,6 +1,7 @@
 *.log
 .DS_Store
 /.htaccess
+/index.php
 /license.txt
 /readme.html
 composer.lock

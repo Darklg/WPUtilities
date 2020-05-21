@@ -94,9 +94,6 @@
 [submodule "wp-content/plugins/wpuimportyoutube"]
 	path = wp-content/plugins/wpuimportyoutube
 	url = https://github.com/WordPressUtilities/wpuimportyoutube.git
-[submodule "wp-cms"]
-	path = wp-cms
-	url = https://github.com/wordpress/wordpress
 [submodule "wp-content/plugins/wpuattachmetas"]
 	path = wp-content/plugins/wpuattachmetas
 	url = https://github.com/WordPressUtilities/wpuattachmetas.git

@@ -3,7 +3,7 @@
 /*
 Plugin Name: WP Utilities Admin Protect
 Description: Restrictive options for WordPress admin
-Version: 1.4.1
+Version: 1.4.2
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
   Levels
 ---------------------------------------------------------- */
 
-define('WPUTH_ADMIN_PLUGIN_VERSION', '1.4.1');
+define('WPUTH_ADMIN_PLUGIN_VERSION', '1.4.2');
 define('WPUTH_ADMIN_PLUGIN_NAME', 'WP Utilities Admin Protect');
 define('WPUTH_ADMIN_PLUGIN_OPT', 'wpu_admin_protect__v');
 define('WPUTH_ADMIN_MIN_LVL', 'manage_categories');
@@ -240,6 +240,16 @@ Header always set X-XSS-Protection \"1; mode=block\"
 </IfModule>
 </IfModule>";
 
+if (!apply_filters('wputh_admin_protect_disallow_xframe_options', false)) {
+    $wpuadminrules .= "
+# Prevent external iframe embedding
+<IfModule mod_headers.c>
+Header always set X-FRAME-OPTIONS \"SAMEORIGIN\"
+</IfModule>
+# End Prevent\n
+";
+}
+
     $wpuadminrules = apply_filters('wputh_admin_protect_rewrite_rules__wpuadminrules', $wpuadminrules);
 
     $new_rules = "# BEGIN " . WPUTH_ADMIN_PLUGIN_NAME . " - v " . WPUTH_ADMIN_PLUGIN_VERSION . "\n" . $wpuadminrules . "\n" . "# END " . WPUTH_ADMIN_PLUGIN_NAME . "\n";
@@ -285,10 +295,6 @@ function wputh_admin_protect_bad_requests() {
         if (stripos($request_uri, $string)) {
             wputh_admin_protect_die_bad_request();
         }
-    }
-
-    if (!apply_filters('wputh_admin_protect_disallow_xframe_options', false)) {
-        header('X-Frame-Options: SAMEORIGIN');
     }
 
     /* Empty author in comments */

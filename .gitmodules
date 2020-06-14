@@ -163,3 +163,6 @@
 [submodule "wp-content/mu-plugins/wpu_settings_version"]
 	path = wp-content/mu-plugins/wpu_settings_version
 	url = https://github.com/WordPressUtilities/wpu_settings_version.git
+[submodule "wp-content/plugins/wpusimplepwa"]
+	path = wp-content/plugins/wpusimplepwa
+	url = https://github.com/WordPressUtilities/wpusimplepwa.git

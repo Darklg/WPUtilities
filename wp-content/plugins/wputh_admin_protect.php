@@ -3,7 +3,7 @@
 /*
 Plugin Name: WP Utilities Admin Protect
 Description: Restrictive options for WordPress admin
-Version: 1.4.2
+Version: 1.5.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
   Levels
 ---------------------------------------------------------- */
 
-define('WPUTH_ADMIN_PLUGIN_VERSION', '1.4.2');
+define('WPUTH_ADMIN_PLUGIN_VERSION', '1.5.0');
 define('WPUTH_ADMIN_PLUGIN_NAME', 'WP Utilities Admin Protect');
 define('WPUTH_ADMIN_PLUGIN_OPT', 'wpu_admin_protect__v');
 define('WPUTH_ADMIN_MIN_LVL', 'manage_categories');
@@ -98,6 +98,18 @@ if (!defined('DISALLOW_FILE_MODS')) {
 $wputh_admin_protect_disable_update = apply_filters('wputh_admin_protect_disable_update', true);
 
 if ($wputh_admin_protect_disable_update) {
+
+    /* Auto updates */
+    add_filter('automatic_updater_disabled', '__return_true');
+    add_filter('plugins_auto_update_enabled', '__return_false');
+    add_filter('themes_auto_update_enabled', '__return_false');
+    add_filter('auto_update_core', '__return_false');
+    add_filter('auto_update_plugin', '__return_false');
+    add_filter('auto_update_theme', '__return_false');
+    add_filter('auto_update_translation', '__return_false');
+    add_filter('allow_dev_auto_core_updates', '__return_false');
+    add_filter('allow_minor_auto_core_updates', '__return_false');
+    add_filter('allow_major_auto_core_updates', '__return_false');
 
     /* CORE UPDATE */
     add_filter('pre_site_transient_update_core', '__return_null');

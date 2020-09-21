@@ -166,3 +166,6 @@
 [submodule "wp-content/plugins/wpusimplepwa"]
 	path = wp-content/plugins/wpusimplepwa
 	url = https://github.com/WordPressUtilities/wpusimplepwa.git
+[submodule "wp-content/plugins/wpu_pll_utilities"]
+	path = wp-content/plugins/wpu_pll_utilities
+	url = https://github.com/WordPressUtilities/wpu_pll_utilities.git

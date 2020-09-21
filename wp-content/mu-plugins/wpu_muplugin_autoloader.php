@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU MU Plugins Autoloader
 Description: Load MU-Plugins in subfolders
-Version: 0.3
+Version: 0.3.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -38,7 +38,7 @@ function wpu_muplugin_autoloader_rglob($pattern, $flags = 0) {
 function wpu_muplugin_autoloader_list() {
     $wpu_muplugin_autoloader_list = wpu_muplugin_autoloader_rglob(dirname(__FILE__) . '/*/*.php');
     /* Sorting alphanumerically */
-    asort($wpu_muplugin_autoloader_list);
+    natsort($wpu_muplugin_autoloader_list);
     return $wpu_muplugin_autoloader_list;
 }
 

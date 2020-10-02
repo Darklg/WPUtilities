@@ -75,3 +75,4 @@ wp-trackback.php
 wpu-test.php
 wputools-local.sh
 xmlrpc.php
+/wp-content/plugins/acf-extended

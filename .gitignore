@@ -76,3 +76,4 @@ wpu-test.php
 wputools-local.sh
 xmlrpc.php
 /wp-content/plugins/acf-extended
+wpu_local_overrides.php

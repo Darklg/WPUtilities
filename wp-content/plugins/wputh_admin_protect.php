@@ -3,7 +3,7 @@
 /*
 Plugin Name: WP Utilities Admin Protect
 Description: Restrictive options for WordPress admin
-Version: 1.5.0
+Version: 1.5.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
   Levels
 ---------------------------------------------------------- */
 
-define('WPUTH_ADMIN_PLUGIN_VERSION', '1.5.0');
+define('WPUTH_ADMIN_PLUGIN_VERSION', '1.5.1');
 define('WPUTH_ADMIN_PLUGIN_NAME', 'WP Utilities Admin Protect');
 define('WPUTH_ADMIN_PLUGIN_OPT', 'wpu_admin_protect__v');
 define('WPUTH_ADMIN_MIN_LVL', 'manage_categories');
@@ -200,6 +200,7 @@ function wputh_admin_protect_rewrite_rules($rules) {
         '^.gitignore',
         '^.gitmodules',
         /* Project */
+        'cypress\.json$',
         'composer\.json$',
         'composer\.lock$',
         'config\.yml$',

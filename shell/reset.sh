@@ -10,6 +10,8 @@ _HTDOCS="${_SOURCEDIR}../"
 cd "${_HTDOCS}";
 wputools wp plugin deactivate --all;
 rm wp-content/object-cache.php;
+rm wp-content/db.php;
+wputools cache;
 
 ###################################
 ## Reset DB

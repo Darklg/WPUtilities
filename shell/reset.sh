@@ -21,6 +21,12 @@ wputools cache;
 wputools wp db reset --yes;
 
 ###################################
+## Purge uploads
+###################################
+
+rm -rf wp-content/uploads/*;
+
+###################################
 ## Reinstall
 ###################################
 
@@ -46,6 +52,13 @@ redis-cli FLUSHALL;
 
 # Enable redis cache
 wputools wp redis enable;
+
+###################################
+## User Settings
+###################################
+
+wputools wp user meta update 1 show_welcome_panel "0";
+wputools wp user meta update 1 roc_dismissed_pro_release_notice "1";
 
 ###################################
 ## Login

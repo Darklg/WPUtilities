@@ -8,6 +8,7 @@ _HTDOCS="${_SOURCEDIR}../"
 ###################################
 
 cd "${_HTDOCS}";
+wputools wp cache flush;
 wputools wp plugin deactivate --all;
 rm wp-content/object-cache.php;
 rm wp-content/db.php;
@@ -31,3 +32,23 @@ wputools wp theme activate WPUTheme;
 ###################################
 
 wputools sample post 20;
+
+###################################
+## Cache & Stats
+###################################
+
+wputools wp plugin activate query-monitor
+wputools wp plugin activate redis-cache
+
+# Plugin fixes
+rm wp-content/db.php;
+redis-cli FLUSHALL;
+
+# Enable redis cache
+wputools wp redis enable;
+
+###################################
+## Login
+###################################
+
+wputools login;

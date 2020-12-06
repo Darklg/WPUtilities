@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU MU Plugins Autoloader
 Description: Load MU-Plugins in subfolders
-Version: 0.3.1
+Version: 0.4.0
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -14,29 +14,39 @@ License URI: http://opensource.org/licenses/MIT
   Utilities
 ---------------------------------------------------------- */
 
-/* Recursive GLOB */
-/* Thx to https://stackoverflow.com/a/17161106 */
-function wpu_muplugin_autoloader_rglob($pattern, $flags = 0) {
-    $files = glob($pattern, $flags);
+function wpu_muplugin_get_all_files($dir) {
+    $results = array();
+    $files = scandir($dir);
 
-    /* If a folder contains a file with the same name, ignore other files */
-    foreach ($files as $_file) {
-        $_f = str_replace('.php', '', basename($_file));
-        $_dir = basename(dirname($_file));
-        if ($_f == $_dir) {
-            return array($_file);
+    /* Parse all files */
+    foreach ($files as $file) {
+        $path = realpath($dir . DIRECTORY_SEPARATOR . $file);
+        if (!is_dir($path)) {
+            $extension = substr(strrchr($file, "."), 1);
+            if ($extension == 'php') {
+                $results[] = $path;
+            }
+        } else if ($file != "." && $file != "..") {
+
+            /* Check if it's a plugin folder */
+            $pluginfile = $path . '/' . basename($path) . '.php';
+            if (file_exists($pluginfile)) {
+                /* Include only plugin file */
+                $results[] = $pluginfile;
+            } else {
+                /* Parse folder */
+                $results = array_merge($results, wpu_muplugin_get_all_files($path));
+            }
         }
     }
 
-    foreach (glob(dirname($pattern) . '/*', GLOB_ONLYDIR | GLOB_NOSORT) as $dir) {
-        $files = array_merge($files, wpu_muplugin_autoloader_rglob($dir . '/' . basename($pattern), $flags));
-    }
-    return $files;
+    return $results;
 }
 
 /* Searching for PHP files in all subfolders */
 function wpu_muplugin_autoloader_list() {
-    $wpu_muplugin_autoloader_list = wpu_muplugin_autoloader_rglob(dirname(__FILE__) . '/*/*.php');
+    $wpu_muplugin_autoloader_list = wpu_muplugin_get_all_files(dirname(__FILE__));
+
     /* Sorting alphanumerically */
     natsort($wpu_muplugin_autoloader_list);
     return $wpu_muplugin_autoloader_list;

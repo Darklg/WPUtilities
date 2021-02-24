@@ -172,3 +172,6 @@
 [submodule "wp-content/mu-plugins/wpu_temp_user"]
 	path = wp-content/mu-plugins/wpu_temp_user
 	url = git@github.com:WordPressUtilities/wpu_temp_user.git
+[submodule "wp-content/plugins/wpu_admin_protect"]
+	path = wp-content/plugins/wpu_admin_protect
+	url = https://github.com/WordPressUtilities/wpu_admin_protect.git

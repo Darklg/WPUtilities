@@ -1,13 +1,13 @@
 <?php
 
 /*
-Plugin Name: WP Utilities Admin Protect
+Plugin Name: WPU Admin Protect
 Description: Restrictive options for WordPress admin
-Version: 1.5.2
+Version: 1.6.0
 Author: Darklg
-Author URI: http://darklg.me/
+Author URI: https://darklg.me/
 License: MIT License
-License URI: http://opensource.org/licenses/MIT
+License URI: https://opensource.org/licenses/MIT
 */
 
 if (!defined('ABSPATH')) {
@@ -18,8 +18,8 @@ if (!defined('ABSPATH')) {
   Levels
 ---------------------------------------------------------- */
 
-define('WPUTH_ADMIN_PLUGIN_VERSION', '1.5.2');
-define('WPUTH_ADMIN_PLUGIN_NAME', 'WP Utilities Admin Protect');
+define('WPUTH_ADMIN_PLUGIN_VERSION', '1.6.0');
+define('WPUTH_ADMIN_PLUGIN_NAME', 'WPU Admin Protect');
 define('WPUTH_ADMIN_PLUGIN_OPT', 'wpu_admin_protect__v');
 define('WPUTH_ADMIN_MIN_LVL', 'manage_categories');
 define('WPUTH_ADMIN_MAX_LVL', 'manage_options');
@@ -243,6 +243,22 @@ IndexIgnore *
 <FilesMatch (" . implode('|', $excluded_files) . ")>
 Deny from all
 </FilesMatch>
+# - Block the include-only files ( cf WP.org )
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteRule ^wp-admin/includes/ - [F,L]
+RewriteRule !^wp-includes/ - [S=3]
+RewriteRule ^wp-includes/[^/]+\.php$ - [F,L]
+RewriteRule ^wp-includes/js/tinymce/langs/.+\.php - [F,L]
+RewriteRule ^wp-includes/theme-compat/ - [F,L]
+</IfModule>
+# - Avoid access to PHP files in plugins
+<IfModule mod_rewrite.c>
+RewriteRule wp-content/themes/(.*\.php)$ - [R=404,L]
+RewriteRule wp-content/plugins/(.*\.php)$ - [R=404,L]
+RewriteRule wp-content/mu-plugins/(.*\.php)$ - [R=404,L]
+</IfModule>
 # - Disallow PHP Easter Egg
 RewriteCond %{QUERY_STRING} \=PHP[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} [NC]
 RewriteRule .* - [F,L]

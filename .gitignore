@@ -30,6 +30,7 @@ wp-content/languages/
 wp-content/mu-plugins/health-check-troubleshooting-mode.php
 wp-content/mu-plugins/wp-performance-profiler
 wp-content/object-cache.php
+wp-content/plugins/akismet
 wp-content/plugins/advanced-custom-fields-pro
 wp-content/plugins/classic-editor
 wp-content/plugins/debug-bar

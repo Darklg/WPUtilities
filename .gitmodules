@@ -175,3 +175,6 @@
 [submodule "wp-content/plugins/wpu_admin_protect"]
 	path = wp-content/plugins/wpu_admin_protect
 	url = https://github.com/WordPressUtilities/wpu_admin_protect.git
+[submodule "wp-content/mu-plugins/wpucustomavatar"]
+	path = wp-content/mu-plugins/wpucustomavatar
+	url = https://github.com/WordPressUtilities/wpucustomavatar.git

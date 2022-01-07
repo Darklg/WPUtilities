@@ -1,6 +1,6 @@
 #!/bin/bash
 
-_PLUGIN='wpu_acf_flexible';
+_PLUGIN='wpu-custom-avatar';
 _FILES="wp-content/mu-plugins/${_PLUGIN}.php";
 
 git clone 'https://github.com/darklg/wputilities' "${_PLUGIN}";

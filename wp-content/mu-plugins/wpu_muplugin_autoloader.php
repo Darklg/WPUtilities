@@ -3,7 +3,7 @@
 /*
 Plugin Name: WPU MU Plugins Autoloader
 Description: Load MU-Plugins in subfolders
-Version: 0.4.0
+Version: 0.4.1
 Author: Darklg
 Author URI: http://darklg.me/
 License: MIT License
@@ -88,7 +88,7 @@ function wpu_muplugin_autoloader__show_advanced_plugins($show, $type) {
     foreach ($wpu_muplugin_autoloader_list as $plugin) {
         $plugin_id = str_replace(WPMU_PLUGIN_DIR . '/', '', $plugin);
         $plugin_id = str_replace('/', '___dir___', $plugin_id);
-        $mu_plugins[$plugin_id] = get_plugin_data($plugin, 0, 0);
+        $mu_plugins[$plugin_id] = get_plugin_data($plugin, 0, true);
         if (!$mu_plugins[$plugin_id]['Name']) {
             $mu_plugins[$plugin_id]['Name'] = basename($plugin);
         }
